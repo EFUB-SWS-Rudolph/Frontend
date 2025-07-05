@@ -1,6 +1,10 @@
-name: <!--이 템플릿이 어떤 종류의 이슈를 작성하기 위한 것인지 명확하게 설명하는 짧은 문구.-->
-about: 새로운 기능 요청, 버그 보고, 개선 제안 등 프로젝트 관련 이슈를 기록
-title: ''
+---
+name: feature
+about: 새로운 기능이나 디자인 추가가
+title: "[Feature] "
+labels: "feat"
+assignees: ""
+---
 
 ---
 
