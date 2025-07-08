@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default function nextButton({ isFilled }) {
+export default function NextButton({ isFilled }) {
   return (
     <NextButton isFilled={isFilled}>다음</NextButton>
   );
