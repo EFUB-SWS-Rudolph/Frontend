@@ -40,7 +40,7 @@ export default function UnivInfo() {
   return(
     <SignUpPageWrapper>
       <HeaderContainer>
-        <SignUpHeader />
+        <SignUpHeader backRoute={'/certification'} />
         <ProgressBar step='2' totalSteps='4' />
       </HeaderContainer>
 
@@ -73,7 +73,7 @@ export default function UnivInfo() {
           <InputWindow 
             inputPlaceholder={PLACEHOLDER_MESSAGE.STUDENTID} 
             value={studentId} 
-            onChange={(e) => (e.target.value)}
+            onChange={(e) => setStudentId(e.target.value)}
           />
         </InfoEnterContainer>
 

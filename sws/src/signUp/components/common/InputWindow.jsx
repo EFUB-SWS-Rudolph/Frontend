@@ -14,7 +14,12 @@ const InputPlace = styled.input`
   background-color: #fff;
   font-size: 16px;
   padding: 12px;
+  outline: none;
   ::placeholder {
     color: #999999;
+  }
+  &:focus {
+    border: 1px solid #d9d9d9;
+    box-shadow: none;
   }
 `;

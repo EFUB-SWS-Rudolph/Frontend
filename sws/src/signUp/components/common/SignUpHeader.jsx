@@ -1,10 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoIosArrowBack } from "react-icons/io";
 
-export default function SignUpHeader() {
+export default function SignUpHeader({ backRoute }) {
+  const navigate = useNavigate();
+
+  const handleMoveBack = () => {
+    navigate(backRoute);
+  };
+
   return (
     <HeaderWrapper>
-      <LeftArea>
+      <LeftArea onClick={handleMoveBack}>
         <IoIosArrowBack size={20} />
       </LeftArea>
       <CenterArea>

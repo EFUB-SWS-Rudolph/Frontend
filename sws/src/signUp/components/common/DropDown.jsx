@@ -77,8 +77,25 @@ const OptionContainer = styled.ul`
   z-index: 100;
   padding: 5px 0;
   list-style: none;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #00664f;
+    border-radius: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+    height: 0;
+    width: 0;
+    background: transparent;
+  }
   scrollbar-width: thin;
-  scrollbar-color: #00664f;
+  scrollbar-color: #00664f transparent;
 `;
 
 const Option = styled.li`
