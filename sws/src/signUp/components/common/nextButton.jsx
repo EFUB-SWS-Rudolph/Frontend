@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
-export default function NextButton({ isFilled }) {
+export default function NextButton({ disabled }) {
   return (
-    <NextButton isFilled={isFilled}>다음</NextButton>
+    <NextBtn disabled={disabled}>다음</NextBtn>
   );
 }
 
-const NextButton = styled.button`
-  color: white;
+const NextBtn = styled.button`
+  color: #fff;
   text-align: center;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
   height: 48px;
   width: 100%;
@@ -18,7 +18,10 @@ const NextButton = styled.button`
   justify-content: center;
   border-radius: 12px;
   border: none;
+  margin-top: 24px;
   cursor: pointer;
   background-color: ${(props) =>
-    props.isFilled ? '#00664f' : '#d9d9d9'};
+    props.disabled ? '#00664f' : '#d9d9d9'};
+  cursor: ${(props) => props.disabled ? 'default' : 'pointer'};
+  opacity: ${(props) => props.disabled ? 0.6 : 1};
 `;
