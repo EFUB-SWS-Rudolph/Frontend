@@ -68,7 +68,6 @@ const SignUpPageWrapper = styled.div`
   align-items: center;
   padding-bottom: 20px;
   height: 100vh;
-  margin-bottom: 20px;
 `;
 
 const HeaderContainer = styled.div`
