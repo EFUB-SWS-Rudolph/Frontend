@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export default function InputWindow({ inputPlaceholder }) {
+export default function InputWindow({ inputPlaceholder, value, onChange }) {
   return (
-    <InputPlace placeholder={inputPlaceholder} maxLength={4} />
+    <InputPlace type="text" placeholder={inputPlaceholder} value={value} onChange={onChange} />
   );
 }
 

@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoMdHelpCircleOutline } from "react-icons/io";
 import SignUpHeader from '../components/common/SignUpHeader';
@@ -7,30 +9,44 @@ import NextButton from '../components/common/NextButton';
 import PLACEHOLDER_MESSAGE from '../constants/PlaceHolderMessage';
 
 export default function Certification() {
+  const [certCode, setCertCode] = useState('');
+  const isNextEnabled = certCode.length === 4;
+  const navigate = useNavigate();
+
+  const handleNextClick = () => {
+    if (isNextEnabled) {
+      navigate('경로입력');
+    }
+  }
+
   return(
-    <CertificationPageWrapper>
+    <SignUpPageWrapper>
       <HeaderContainer>
         <SignUpHeader />
         <ProgressBar step='1' totalSteps='4' />
       </HeaderContainer>
 
-      <CertificationContents>
-        <CertificationInfoContainer>
-          <CertificationInfo>
+      <SignUpContents>
+        <EnteringInfoContainer>
+          <EnteringInfo>
             <span>Weevo</span> 이용을 위해서는<br/>
             이화인 인증이 필요해요
-          </CertificationInfo>
-          <CertificationDescription>
+          </EnteringInfo>
+          <EnteringDescription>
             <span>Weevo</span>는 오직 이화인을 위한 재능 공유 서비스입니다.<br/>
             안전하고 신뢰할 수 있는 서비스 환경을 만들기 위해<br/>
             회원가입 시 이화인 인증 절차를 거치고 있어요.
-          </CertificationDescription>
-        </CertificationInfoContainer>
+          </EnteringDescription>
+        </EnteringInfoContainer>
 
-        <CertificationEnterContainer>
+        <InfoEnterContainer>
           <InfoToEnter>인증단어 입력</InfoToEnter>
-          <InputWindow inputPlaceholder={PLACEHOLDER_MESSAGE.CERTIFICATION} />
-        </CertificationEnterContainer>
+          <InputWindow 
+            inputPlaceholder={PLACEHOLDER_MESSAGE.CERTIFICATION}
+            value={certCode}
+            onChange={(e) => setCertCode(e.target.value)} 
+          />
+        </InfoEnterContainer>
 
         <CertificationNotice>
           <NoticeContainer>
@@ -39,17 +55,20 @@ export default function Certification() {
           </NoticeContainer>
           유레카 포털 {'>'} 로그인 {'>'} 자유게시판 {'>'} 'Weevo' 검색
         </CertificationNotice>
-        <NextButton />
-      </CertificationContents>
-    </CertificationPageWrapper>
+        <Spacer />
+        <NextButton disabled={!isNextEnabled} onClick={handleNextClick} />
+      </SignUpContents>
+    </SignUpPageWrapper>
   );
 }
 
-const CertificationPageWrapper = styled.div`
+const SignUpPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 20px;
+  height: 100vh;
+  margin-bottom: 20px;
 `;
 
 const HeaderContainer = styled.div`
@@ -58,17 +77,21 @@ const HeaderContainer = styled.div`
   width: 100%;
 `;
 
-const CertificationContents = styled.div`
-  padding: 40px 15px 10px;
+const SignUpContents = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 40px 25px 10px;
+  width: 100%;
 `;
 
-const CertificationInfoContainer = styled.div`
+const EnteringInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
-const CertificationInfo = styled.h2`
+const EnteringInfo = styled.h2`
   font-size: 24px;
   font-weight: 700;
   line-height: 1.4;
@@ -78,7 +101,7 @@ const CertificationInfo = styled.h2`
   }
 `;
 
-const CertificationDescription = styled.p`
+const EnteringDescription = styled.p`
   font-size: 14px;
   font-weight: 500;
   line-height: 1.6;
@@ -88,7 +111,7 @@ const CertificationDescription = styled.p`
   }
 `;
 
-const CertificationEnterContainer = styled.div`
+const InfoEnterContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -97,8 +120,8 @@ const CertificationEnterContainer = styled.div`
 `;
 
 const InfoToEnter = styled.div`
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
   margin-bottom: 5px;
 `;
 
@@ -106,7 +129,6 @@ const CertificationNotice = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 250px;
   font-size: 12px;
   color: #999;
 `;
@@ -125,6 +147,6 @@ const Notice = styled.span`
   line-height: 1;
 `;
 
-const Space = styled.div`
+const Spacer = styled.div`
   flex: 1;
-`
+`;

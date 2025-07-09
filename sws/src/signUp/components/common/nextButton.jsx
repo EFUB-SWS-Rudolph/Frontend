@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export default function NextButton({ disabled }) {
+export default function NextButton({ disabled, onClick }) {
   return (
-    <NextBtn disabled={disabled}>다음</NextBtn>
+    <NextBtn disabled={disabled} onClick={onClick}>다음</NextBtn>
   );
 }
 
@@ -21,7 +21,7 @@ const NextBtn = styled.button`
   margin-top: 24px;
   cursor: pointer;
   background-color: ${(props) =>
-    props.disabled ? '#00664f' : '#d9d9d9'};
+    props.disabled ? '#d9d9d9' : '#00664f'};
   cursor: ${(props) => props.disabled ? 'default' : 'pointer'};
   opacity: ${(props) => props.disabled ? 0.6 : 1};
 `;
