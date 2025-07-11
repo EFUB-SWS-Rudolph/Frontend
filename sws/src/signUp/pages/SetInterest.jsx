@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import SignUpHeader from '../components/common/SignUpHeader';
 import ProgressBar from '../components/common/ProgressBar';
 import FieldItems from '../components/FieldItems';
-import NextButton from '../components/common/NextButton';
+import NextBtn from '../components/common/NextBtn';
 import FIELDLIST from '../constants/FieldList';
+import theme from '../../styles/theme';
 
 export default function SetProfile() {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export default function SetProfile() {
 
         <Spacer />
         <LaterButton>나중에 할래요</LaterButton>
-        <NextButton disabled={false} onClick={handleNextClick} />
+        <NextBtn disabled={false} onClick={handleNextClick} />
       </SignUpContents>
     </SignUpPageWrapper>
   );
@@ -68,13 +69,12 @@ const EnteringInfoContainer = styled.div`
 `;
 
 const EnteringInfo = styled.h2`
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.4;
-  color: black;
-  span {
-    color: #13997b;
-  }
+  color: ${({ theme }) => theme.colors.black};
+  font-family: ${({ theme }) => theme.fonts.display.large.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.large.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.large.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.large.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.large.lineHeight};
 `;
 
 const Spacer = styled.div`
@@ -82,7 +82,10 @@ const Spacer = styled.div`
 `;
 
 const LaterButton = styled.button`
-  font-size: 15px;
-  font-weight: 500;
-  color: #999;
+  color: ${({ theme }) => theme.colors.gray500};
+  font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
 `;

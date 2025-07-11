@@ -5,9 +5,10 @@ import SignUpHeader from '../components/common/SignUpHeader';
 import ProgressBar from '../components/common/ProgressBar';
 import InputWindow from '../components/common/InputWindow';
 import DropDown from '../components/common/DropDown';
-import NextButton from '../components/common/NextButton';
+import NextBtn from '../components/common/NextBtn';
 import PLACEHOLDER_MESSAGE from '../constants/PlaceHolderMessage';
 import DEPARTMENT_MAJOR from '../constants/University';
+import theme from '../../styles/theme';
 
 const COLLEGES = Object.keys(DEPARTMENT_MAJOR);
 
@@ -78,7 +79,7 @@ export default function UnivInfo() {
         </InfoEnterContainer>
 
         <Spacer />
-        <NextButton disabled={!isNextEnabled} onClick={handleNextClick} />
+        <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
       </SignUpContents>
     </SignUpPageWrapper>
   );
@@ -114,12 +115,14 @@ const EnteringInfoContainer = styled.div`
 `;
 
 const EnteringInfo = styled.h2`
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.4;
-  color: black;
+  color: ${({ theme }) => theme.colors.black};
+  font-family: ${({ theme }) => theme.fonts.display.large.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.large.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.large.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.large.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.large.lineHeight};
   span {
-    color: #13997b;
+    color: ${({ theme }) => theme.colors.secondary};
   }
 `;
 
@@ -131,11 +134,15 @@ const InfoEnterContainer = styled.div`
 `;
 
 const InfoToEnter = styled.div`
-  font-size: 15px;
-  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
+  font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
   margin-bottom: 5px;
   span {
-    color: #ff4d4d;
+    color: ${({ theme }) => theme.colors.warning};
   }
 `;
 

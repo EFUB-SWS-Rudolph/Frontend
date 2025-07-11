@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import theme from '../../styles/theme';
 
 export default function FieldItems({ fields }) {
   const [selectedFields, setSelectedFields] = useState([]);
@@ -25,13 +26,14 @@ export default function FieldItems({ fields }) {
   return (
     <FieldItemWrapper>
       {rows.map((row, index) => (
-        <Row key={index} align={index % 2 === 0 ? 'flex-start' : 'flex-end'}>
+        <Row key={index} $align={index % 2 === 0 ? 'flex-start' : 'flex-end'}>
           {row.map((item) => (
             <FieldItemContainer
               key={item}
               onClick={() => handleSelectedField(item)}
               selected={selectedFields.includes(item)}
-              >
+              theme={theme}
+            >
                 {item}
             </FieldItemContainer>
           ))}
@@ -42,7 +44,8 @@ export default function FieldItems({ fields }) {
 }
 
 const FieldItemWrapper = styled.div`
-  width: 100%;
+  width: 364px;
+  height: 328px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -52,22 +55,27 @@ const FieldItemWrapper = styled.div`
 const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  justify-content: ${(props) => props.align};
+  gap: 8px;
+  justify-content: ${({$align}) => $align};
 `;
 
 const FieldItemContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 40px;
-  border: 1px solid #d9d9d9;
+  padding: 15px 0px;
+  width: 112px;
+  height: 48px;
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
   border-radius: 20px;
-  font-size: 15px;
+  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
   color: #000;
-  background-color: ${(props) =>
-    props.selected ? '#baedd4' : '#fff'
+  background-color: ${({selected, theme}) =>
+    selected ? theme.colors.third : theme.colors.white
   };
   cursor: pointer;
 `;

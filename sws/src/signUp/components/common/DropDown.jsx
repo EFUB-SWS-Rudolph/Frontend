@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { IoIosArrowDown } from "react-icons/io";
+import { RiArrowDownSFill } from "react-icons/ri";
+import theme from '../../../styles/theme';
 
 export default function DropDown({ options, value, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,8 +25,8 @@ export default function DropDown({ options, value, onChange }) {
   return (
     <Wrapper ref={dropdownRef}>
       <SelectBox onClick={() => setIsOpen(!isOpen)}>
-        <SelectedValue>{value || '선택해 주세요'}</SelectedValue>
-        <IoIosArrowDown size={16} />
+        <SelectedValue theme={theme}>{value || '선택해 주세요'}</SelectedValue>
+        <RiArrowDownSFill size={24} color={theme.colors.gray500} />
       </SelectBox>
 
       {isOpen && (
@@ -49,11 +50,16 @@ const Wrapper = styled.div`
 
 const SelectBox = styled.div`
   padding: 10px 17px;
-  height: 46px;
-  font-size: 12px;
-  border: 1px solid #d9d9d9;
+  width: 342px;
+  height: 48px;
+  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
   border-radius: 12px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.white};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -61,17 +67,22 @@ const SelectBox = styled.div`
 `;
 
 const SelectedValue = styled.span`
-  color: ${({ children }) => (children === '선택해 주세요' ? '#aaa' : '#000')};
+  color: ${({ children, theme }) => (children === '선택해 주세요' ? theme.colors.gray500 : theme.colors.black)};
+  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
 `;
 
 const OptionContainer = styled.ul`
   position: absolute;
-  width: 100%;
+  width: 342px;
+  height: 280px;
   margin-top: 5px;
-  background-color: #fff;
-  border: 1px solid #d9d9d9;
+  background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.gray100};
   border-radius: 12px;
-  max-height: 210px;
   overflow-y: auto;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 100;
@@ -82,7 +93,7 @@ const OptionContainer = styled.ul`
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: #00664f;
+    background-color: ${({ theme }) => theme.colors.primary};
     border-radius: 8px;
   }
   &::-webkit-scrollbar-track {
@@ -95,14 +106,21 @@ const OptionContainer = styled.ul`
     background: transparent;
   }
   scrollbar-width: thin;
-  scrollbar-color: #00664f transparent;
+  scrollbar-color: ${({ theme }) => theme.colors.primary} transparent;
 `;
 
 const Option = styled.li`
+  width: 300px;
+  height: 56px;
   padding: 12px 17px;
-  font-size: 12px;
+  color: ${({ theme }) => theme.colors.black};
+  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
   cursor: pointer;
   &:hover {
-    background-color: #f5f5f5;
+    background-color: ${({ theme }) => theme.colors.white};
   }
 `

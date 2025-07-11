@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { IoIosArrowBack } from "react-icons/io";
+import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import theme from '../../../styles/theme';
 
 export default function SignUpHeader({ backRoute }) {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function SignUpHeader({ backRoute }) {
   return (
     <HeaderWrapper>
       <LeftArea onClick={handleMoveBack}>
-        <IoIosArrowBack size={20} />
+        <MdOutlineArrowBackIosNew size={20} />
       </LeftArea>
       <CenterArea>
         <HeaderTitle>회원가입</HeaderTitle>
@@ -47,8 +48,11 @@ const CenterArea = styled.div`
 `;
 
 const HeaderTitle = styled.h1`
-  font-size: 20px;
-  font-weight: 600;
+  font-family: ${({ theme }) => theme.fonts.display.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.medium.lineHeight};
   margin: 0;
 `;
 
