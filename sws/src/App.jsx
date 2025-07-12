@@ -1,17 +1,9 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Layout from './layout/Layout';
-import Main from './main/page/Main';
+import React from 'react';
+import AppRouter from './common/router'; // router.jsx에서 AppRouter 임포트
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          {/* <Route path="/" element={<Signup />} /> */}
-          <Route path="/" element={<Main />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AppRouter /> // 모든 라우팅 로직은 AppRouter가 담당
   );
 }
 
