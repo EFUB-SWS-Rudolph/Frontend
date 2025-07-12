@@ -25,10 +25,9 @@ const FilterIconBase = styled.div`
 const SortListIcon = styled(FilterIconBase)``;
 const SortKeywordIcon = styled(FilterIconBase)``;
 const SortFilterIcon = styled(FilterIconBase)`width: 67px;`;
-const SortTypeIcon = styled(FilterIconBase)`width: 84px;`;
-const SortRegionIcon = styled(FilterIconBase)`width: 63px;`;
-const SortFormatIcon = styled(FilterIconBase)`width: 78px;`;
-
+const SortConditionIcon = styled(FilterIconBase)`
+  width: 84px;
+`; 
 const LectureFilterBar = styled.div`
   width: 100%;
   height: 36px;
@@ -48,6 +47,31 @@ const FilterBarItem = styled.div`
   justify-content: center; background-color: #FFFFFF; border-radius: 8px;
   cursor: pointer; flex-shrink: 0; font-size: 14px; color: #555;
 `;
+// 검색창 관련 styled-components 
+const SearchFilterSection = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 0 8px;
+`;
+
+const SearchBar = styled.input`
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+`;
+
+const FilterButton = styled.button`
+  padding: 10px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+`;
 
 // 강의 카드 그리드 (갤러리 정렬) 관련 styled-components (LectureListPage.jsx에서 복사)
 const LectureCardsGrid = styled.div`
@@ -57,90 +81,7 @@ const LectureCardsGrid = styled.div`
   padding: 0 8px;
   justify-content: center;
 `;
-
-const LectureCard = ({ lecture }) => {
-  return (
-    <StyledLectureCard>
-      <LectureImage src={lecture.image} alt={lecture.title} />
-      <LectureCardInfo>
-        <LectureTitleText>{lecture.title}</LectureTitleText>
-        <LectureNicknameText>{lecture.nickname}</LectureNicknameText>
-        <LectureDateText>{lecture.date}</LectureDateText>
-      </LectureCardInfo>
-    </StyledLectureCard>
-  );
-};
-
-const StyledLectureCard = styled.div`
-  width: 172px;
-  height: 240px;
-  border-radius: 16px;
-  border: 1px solid #D9D9D9;
-  background: #FFFFFF;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
-
-const LectureImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const LectureCardInfo = styled.div`
-  width: 148px;
-  height: 56px;
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  gap: 4px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-`;
-
-const LectureTitleText = styled.span`
-  width: 100%;
-  font-family: 'Pretendard Variable', sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 100%;
-  letter-spacing: 0px;
-  color: #222222;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const LectureNicknameText = styled.span`
-  width: 100%;
-  font-family: 'Pretendard Variable', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 150%;
-  letter-spacing: 0px;
-  color: #969696;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const LectureDateText = styled.span`
-  width: 100%;
-  font-family: 'Pretendard Variable', sans-serif;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 150%;
-  letter-spacing: 0px;
-  vertical-align: middle;
-  color: #808080;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
+import LectureCard from '../../common/components/LectureCard';
 
 const LectureListDisplayArea = styled.div`
   width: 100%;
@@ -169,19 +110,40 @@ const recommendedLectureData = [
 // 3. LectureRecommendPage 함수 컴포넌트 정의
 // -----------------------------------------------------------
 export default function LectureRecommendPage() {
-  const [showSearchBar, setShowSearchBar] = useState(false); // 검색창 표시 여부 (재활용)
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(''); // 검색어 상태
+  const [filteredLectures, setFilteredLectures] = useState(recommendedLectureData); // 필터링된 강의 목록
+
+  // 검색어 변경 시 강의 목록 필터링
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setFilteredLectures(recommendedLectureData); // 검색어가 없으면 전체 목록
+    } else {
+      const lowercasedQuery = searchQuery.toLowerCase();
+      const results = recommendedLectureData.filter(lecture =>
+        lecture.title.toLowerCase().includes(lowercasedQuery) ||
+        lecture.nickname.toLowerCase().includes(lowercasedQuery)
+      );
+      setFilteredLectures(results);
+    }
+  }, [searchQuery]); // searchQuery가 변경될 때마다 실행
 
   const handleToggleSearchBar = () => {
     setShowSearchBar(prev => !prev);
+    setSearchQuery(''); // 검색창 닫을 때 검색어 초기화
+  };
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value); // 검색어 업데이트
   };
 
   return (
     <RecommendPageContainer>
       {/* 강의 필터 바 [강의 필터 바] */}
       <LectureFilterBar>
-        {/* 추천 페이지는 정렬 방식 토글 버튼이 필요 없을 수 있음 (기본 갤러리) */}
+       
         <FilterBarItem>
-          <SortListIcon /> {/* 아이콘은 그대로 두되 기능은 비활성화 또는 변경 */}
+          <SortListIcon /> 
         </FilterBarItem>
         <FilterBarItem onClick={handleToggleSearchBar}>
           <SortKeywordIcon /> {/* 검색 버튼 */}
@@ -190,25 +152,43 @@ export default function LectureRecommendPage() {
           <SortFilterIcon /> {/* 필터 버튼 */}
         </FilterBarItem>
         <FilterBarItem>
-          <SortTypeIcon /> {/* 수강 여부 버튼 */}
+          <SortConditionIcon /> {/* 정렬기준 버튼 */}
         </FilterBarItem>
       </LectureFilterBar>
 
       {showSearchBar && (
         <SearchFilterSection>
-          <SearchBar placeholder="강의를 검색해보세요..." />
-          <FilterButton>필터</FilterButton>
+          <SearchBar
+            placeholder="강의명 또는 진행자 닉네임을 검색해보세요..."
+            value={searchQuery} // 검색어 상태와 연결
+            onChange={handleSearchInputChange} // 검색어 변경 핸들러
+          />
+          <FilterButton>검색</FilterButton> {/* 필터 버튼을 검색 실행 버튼으로 변경 */}
         </SearchFilterSection>
       )}
 
       {/* 추천 강의 목록 영역 (갤러리 정렬 고정) */}
       <LectureListDisplayArea>
-        <LectureCardsGrid $displayMode="grid"> {/* 갤러리 정렬 고정 */}
-          {recommendedLectureData.map(lecture => (
-            <LectureCard key={lecture.id} lecture={lecture} />
-          ))}
+        <LectureCardsGrid $displayMode="grid">
+          {filteredLectures.length > 0 ? (
+            filteredLectures.map(lecture => (
+              <LectureCard key={lecture.id} lecture={lecture} />
+            ))
+          ) : (
+            <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
+          )}
         </LectureCardsGrid>
       </LectureListDisplayArea>
     </RecommendPageContainer>
   );
 }
+// -----------------------------------------------------------
+// 검색 결과 없음 메시지 스타일 추가
+// -----------------------------------------------------------
+const NoResultsMessage = styled.div`
+  width: 100%;
+  text-align: center;
+  padding: 50px 0;
+  color: #888;
+  font-size: 16px;
+`;
