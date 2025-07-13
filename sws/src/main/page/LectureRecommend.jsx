@@ -2,11 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
-// -----------------------------------------------------------
-// 1. 모든 styled-components 정의를 가장 먼저 배치합니다.
-//    (LectureListPage.jsx에서 사용된 것들을 재활용)
-// -----------------------------------------------------------
+import LectureCard from '../../common/components/LectureCard';
 
 const RecommendPageContainer = styled.div`
   width: 100%;
@@ -75,13 +71,13 @@ const FilterButton = styled.button`
 
 // 강의 카드 그리드 (갤러리 정렬) 관련 styled-components (LectureListPage.jsx에서 복사)
 const LectureCardsGrid = styled.div`
-  display: grid; /* 갤러리 정렬 고정 */
-  grid-template-columns: repeat(2, 1fr); /* 2열 고정 */
-  gap: 14px; /* 상하좌우 14px 간격 */
+  display: ${props => props.$displayMode === 'grid' ? 'grid' : 'flex'};
+  grid-template-columns: ${props => props.$displayMode === 'grid' ? 'repeat(2, 1fr)' : 'none'}; 
+  gap: 14px; 
   padding: 0 8px;
-  justify-content: center;
+  justify-content: ${props => props.$displayMode === 'grid' ? 'center' : 'flex-start'};
+  flex-direction: ${props => props.$displayMode === 'list' ? 'column' : 'none'}; 
 `;
-import LectureCard from '../../common/components/LectureCard';
 
 const LectureListDisplayArea = styled.div`
   width: 100%;
@@ -89,8 +85,92 @@ const LectureListDisplayArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 0 20px;
 `;
+
+const NoResultsMessage = styled.div`
+  width: 100%; text-align: center; padding: 50px 0; color: #888; font-size: 16px;
+`;
+
+// 강의 목록 아이템 (리스트 정렬) 관련 styled-components 
+const LectureListItem = ({ lecture }) => {
+  return (
+    <StyledLectureListItem>
+      <LectureListItemImage src={lecture.image} alt={lecture.title} />
+      <LectureListItemInfo>
+        <LectureListItemInstructor>{lecture.nickname}</LectureListItemInstructor>
+        <LectureListItemTitle>{lecture.title}</LectureListItemTitle>
+        <LectureListItemDate>{lecture.date}</LectureListItemDate>
+      </LectureListItemInfo>
+    </StyledLectureListItem>
+  );
+};
+
+const StyledLectureListItem = styled.div`
+ width: 100%;
+  height: 80px;
+  border-radius: 16px;
+  border: 1px solid #D9D9D9;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  box-sizing: border-box;
+  gap: 12px;
+`;
+
+const LectureListItemImage = styled.img`
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+`;
+
+const LectureListItemInfo = styled.div`
+  width: 193px;
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+`;
+
+const LectureListItemInstructor = styled.span`
+  font-family: 'Pretendard Variable', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0px;
+  color: #969696;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const LectureListItemTitle = styled.span`
+  font-family: 'Pretendard Variable', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0px;
+  color: #222222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const LectureListItemDate = styled.span`
+  font-family: 'Pretendard Variable', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  letter-spacing: 0px;
+  vertical-align: middle;
+  color: #808080;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 
 // -----------------------------------------------------------
 // 2. 추천 강의 데이터 예시 (임시)
@@ -113,7 +193,7 @@ export default function LectureRecommendPage() {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [searchQuery, setSearchQuery] = useState(''); // 검색어 상태
   const [filteredLectures, setFilteredLectures] = useState(recommendedLectureData); // 필터링된 강의 목록
-
+  const [displayMode, setDisplayMode] = useState('grid');
   // 검색어 변경 시 강의 목록 필터링
   useEffect(() => {
     if (searchQuery.trim() === '') {
@@ -126,7 +206,7 @@ export default function LectureRecommendPage() {
       );
       setFilteredLectures(results);
     }
-  }, [searchQuery]); // searchQuery가 변경될 때마다 실행
+  }, [searchQuery]); 
 
   const handleToggleSearchBar = () => {
     setShowSearchBar(prev => !prev);
@@ -137,12 +217,15 @@ export default function LectureRecommendPage() {
     setSearchQuery(event.target.value); // 검색어 업데이트
   };
 
+  const handleToggleDisplayMode = () => {
+    setDisplayMode(prev => prev === 'grid' ? 'list' : 'grid');
+  };
+
   return (
     <RecommendPageContainer>
       {/* 강의 필터 바 [강의 필터 바] */}
       <LectureFilterBar>
-       
-        <FilterBarItem>
+        <FilterBarItem onClick={handleToggleDisplayMode}>
           <SortListIcon /> 
         </FilterBarItem>
         <FilterBarItem onClick={handleToggleSearchBar}>
@@ -169,10 +252,14 @@ export default function LectureRecommendPage() {
 
       {/* 추천 강의 목록 영역 (갤러리 정렬 고정) */}
       <LectureListDisplayArea>
-        <LectureCardsGrid $displayMode="grid">
+        <LectureCardsGrid $displayMode={displayMode}> {/* 핵심! displayMode prop 전달 */}
           {filteredLectures.length > 0 ? (
             filteredLectures.map(lecture => (
-              <LectureCard key={lecture.id} lecture={lecture} />
+              displayMode === 'grid' ? ( /* 핵심! displayMode에 따라 LectureCard 또는 LectureListItem 렌더링 */
+                <LectureCard key={lecture.id} lecture={lecture} />
+              ) : (
+                <LectureListItem key={lecture.id} lecture={lecture} />
+              )
             ))
           ) : (
             <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
@@ -182,13 +269,3 @@ export default function LectureRecommendPage() {
     </RecommendPageContainer>
   );
 }
-// -----------------------------------------------------------
-// 검색 결과 없음 메시지 스타일 추가
-// -----------------------------------------------------------
-const NoResultsMessage = styled.div`
-  width: 100%;
-  text-align: center;
-  padding: 50px 0;
-  color: #888;
-  font-size: 16px;
-`;

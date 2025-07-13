@@ -6,10 +6,6 @@ import LectureCard from '../../common/components/LectureCard';
 // useLectureTab 훅 임포트 (Layout.jsx에 정의되어 있음)
 import { useLectureTab } from '../../common/styles/Layout'; 
 
-// -----------------------------------------------------------
-// 1. 모든 styled-components 정의를 가장 먼저 배치합니다.
-// -----------------------------------------------------------
-
 const LectureListContainer = styled.div`
   width: 100%;
   height: auto;
