@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import LoginBtn from '../components/LoginButton';
+import { ReactComponent as WeevoLogo } from '../icon/logo_weevo';
 import theme from '../../styles/theme';
 
 const fontWeevoLink = document.createElement('link');
@@ -12,7 +13,7 @@ export default function SignIn() {
     <Wrapper>
       <Spacer />
       <LoginPhraseContainer>
-        <LoginTitle>Weevo</LoginTitle>
+        <WeevoLogo />
         <LoginPhrase>로그인</LoginPhrase>
       </LoginPhraseContainer>
       <LoginBtnContainer>
