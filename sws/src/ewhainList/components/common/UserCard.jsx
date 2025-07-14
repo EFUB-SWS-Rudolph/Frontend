@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { LuHandHeart } from "react-icons/lu";
-import { MdOutlineChangeCircle } from "react-icons/md";
-import { MdCoffee } from "react-icons/md";
+import Exchange from "../../icons/icon_exchange.svg?react";
+import Give from "../../icons/icon_give.svg?react";
+import Coffeechat from "../../icons/icon_coffeechat.svg?react";
 import theme from '../../../styles/theme';
 
 export default function UserCard({ isgallery, user }) {
@@ -11,9 +11,9 @@ export default function UserCard({ isgallery, user }) {
   function available() {
     return (
       <>
-        {user.재능기부 && <LuHandHeart size={15} />}
-        {user.재능교환 && <MdOutlineChangeCircle size={15} />}
-        {user.커피챗 && <MdCoffee size={15} />}
+        {user.재능기부 && <Give width="16px" height="16px" />}
+        {user.재능교환 && <Exchange width="16px" height="16px" />}
+        {user.커피챗 && <Coffeechat width="16px" height="16px" />}
       </>
     );
   }
