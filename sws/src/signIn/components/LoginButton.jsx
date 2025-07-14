@@ -6,15 +6,16 @@ import theme from '../../styles/theme';
 export default function LoginButton( {method, color} ) {
   return (
     <LoginBtnContainer color={color} theme={theme}>
-      <IconWrapper>
-        {(method==="카카오") ? <FaComment size={20} /> : <FcGoogle size={20} />}
-      </IconWrapper>
-      <MethodText>{method} 로그인</MethodText>
+        <IconWrapper>
+          {(method==="카카오") ? <FaComment size={20} /> : <FcGoogle size={20} />}
+        </IconWrapper>
+          <MethodText>{method} 로그인</MethodText>
     </LoginBtnContainer>
   );
 }
 
 const LoginBtnContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -40,6 +41,11 @@ const LoginBtnContainer = styled.div`
 const IconWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 `;
 
 const MethodText = styled.div`
@@ -48,5 +54,8 @@ const MethodText = styled.div`
   font-style: ${({ theme }) => theme.fonts.display.title.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.title.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.title.medium.lineHeight};
-  color: ${({ theme }) => theme.colors.black};
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
