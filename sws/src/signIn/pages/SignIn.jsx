@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import LoginBtn from '../components/LoginButton';
-import WeevoLogo from '../icon/logo_weevo.svg?react';
+import WeevoLogo from '../icons/logo_weevo.svg?react';
 import theme from '../../styles/theme';
 
 export default function SignIn() {
