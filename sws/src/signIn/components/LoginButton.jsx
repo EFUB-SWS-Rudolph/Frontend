@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import { FaComment } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
+import KakaoIcon from '../icons/icon_kakao.svg?react';
 import theme from '../../styles/theme';
 
 export default function LoginButton( {method, color} ) {
   return (
     <LoginBtnContainer color={color} theme={theme}>
         <IconWrapper>
-          {(method==="카카오") ? <FaComment size={20} /> : <FcGoogle size={20} />}
+          {(method==="카카오") ? <KakaoIcon width="32px" heihgt="32px" /> : <FcGoogle size={23} />}
         </IconWrapper>
           <MethodText>{method} 로그인</MethodText>
     </LoginBtnContainer>
