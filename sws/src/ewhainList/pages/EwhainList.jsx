@@ -7,40 +7,16 @@ import UserCard from '../components/common/UserCard';
 import USERS from '../constants/users';
 
 export default function EwhainList() {
-  const [sortBtn, setSortBtn] = useState(false);
-  const [selectedExchange, setSelectedExchange] = useState("");
-  const [selectedPeriod, setSelectedPeriod] = useState("");
-
-  const handleSortBtn = () => {
-    setSortBtn(!sortBtn);
-  };
-
-  const handleExchangeFilter = (e) => {
-    setSelectedExchange(e.target.value);
-  };
-
-  const handlePeriodFilter = (e) => {
-    setSelectedPeriod(e.target.value);
-  };
-
   return (
     <EwhainListWrapper>
       <HeaderContainer>
-        <EwhainListHeader />
-        <HeaderFilter
-          sortBtn={sortBtn}
-          selectedExchange={selectedExchange}
-          selectedPeriod={selectedPeriod}
-          handleSortBtn={handleSortBtn}
-          handleExchangeFilter={handleExchangeFilter}
-          handlePeriodFilter={handlePeriodFilter}
-        />
+        <EwhainListHeader header="ewhainlist" />
+        <HeaderFilter/>
       </HeaderContainer>
       
       <EwhainContainer>
         {USERS.map((user) => (
-          <UserCard 
-            isgallery={!sortBtn} 
+          <UserCard
             user={user}
             key={user.id}
           />

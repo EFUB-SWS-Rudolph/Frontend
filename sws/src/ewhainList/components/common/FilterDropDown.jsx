@@ -1,14 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import styled from 'styled-components';
-import { IoIosArrowDown } from "react-icons/io";
 import theme from '../../../styles/theme';
+import { IoIosArrowDown } from "react-icons/io";
 
 export default function FilterDropDown({ options, value, onChange, placeholder }) {
   const [isOpen, setIsOpen] = useState(false);
   const filterDropdownRef = useRef(null);
+  const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
 
   const handleSelect = (item) => {
-    onChange({ target: { value: item } });
+    console.log("선택한 항목", item);
+    onChange(item);
     setIsOpen(false);
   };
 
@@ -18,36 +21,45 @@ export default function FilterDropDown({ options, value, onChange, placeholder }
         setIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  return (
-    <Wrapper ref={filterDropdownRef}>
-      <SelectBox onClick={() => setIsOpen(!isOpen)}>
-        <SelectedValue>{value || placeholder}</SelectedValue> 
-        <IoIosArrowDown size={15} />
-      </SelectBox>
+  useEffect(() => {
+    if (isOpen && filterDropdownRef.current) {
+      const rect = filterDropdownRef.current.getBoundingClientRect();
+      setPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+      });
+    }
+  }, [isOpen]);
 
-      {isOpen && (
-        <OptionContainer>
-          {options.map((item) => (
-            <Option key={item} onClick={() => handleSelect(item)}>
-              {item}
-            </Option>
-          ))}
-        </OptionContainer>
-      )}
-    </Wrapper>
+  return (
+    <>
+      <Wrapper ref={filterDropdownRef} onClick={() => setIsOpen(!isOpen)} $value={value}>
+        <SelectedValue $value={value} theme={theme}>{value === "전체" ? placeholder : value}</SelectedValue>
+        <IoIosArrowDown size={15} />
+      </Wrapper>
+      {isOpen &&
+        createPortal(
+          <OptionContainer style={{ top: position.top, left: position.left, width: position.width }}>
+            {options.map((item) => (
+              <Option key={item} onClick={() => handleSelect(item)}>
+                {item}
+              </Option>
+            ))}
+          </OptionContainer>,
+          document.body
+        )
+      }
+    </>
   );
 }
 
 const Wrapper = styled.div`
   position: relative;
-  width: auto;
-`;
-
-const SelectBox = styled.div`
   padding: 10px 12px;
   height: 30px;
   border-radius: 8px;
@@ -57,6 +69,8 @@ const SelectBox = styled.div`
   align-items: center;
   gap: 3px;
   cursor: pointer;
+  color: ${({ $value, theme }) => $value==="전체" ? theme.colors.black : theme.colors.primary };
+  background-color: ${({ $value, theme }) => $value==="전체" ? theme.colors.gray100 : theme.colors.fourth };
   font-family: ${({ theme }) => theme.fonts.display.caption.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.caption.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.caption.medium.fontStyle};
@@ -65,13 +79,12 @@ const SelectBox = styled.div`
 `;
 
 const SelectedValue = styled.span`
-  color: ${({ children }) => (children === '선택해 주세요' ? '#aaa' : '#000')};
+  color: ${({ $value, theme }) => $value==="전체" ? theme.colors.black : theme.colors.primary };
+  
 `;
 
 const OptionContainer = styled.ul`
   position: absolute;
-  width: 100%;
-  margin-top: 5px;
   background-color: ${({ theme }) => theme.colors.gray100};
   border: 1px solid ${({ theme }) => theme.colors.gray300};
   border-radius: 12px;
@@ -81,25 +94,7 @@ const OptionContainer = styled.ul`
   z-index: 100;
   padding: 5px 0;
   list-style: none;
-
-  &::-webkit-scrollbar {
-    width: 3px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.primary};
-    border-radius: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  &::-webkit-scrollbar-button {
-    display: none;
-    height: 0;
-    width: 0;
-    background: transparent;
-  }
-  scrollbar-width: thin;
-  scrollbar-color: ${({ theme }) => theme.colors.primary} transparent;
+  position: absolute;
 `;
 
 const Option = styled.li`

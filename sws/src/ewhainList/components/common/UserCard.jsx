@@ -4,9 +4,11 @@ import Exchange from "../../icons/icon_exchange.svg?react";
 import Give from "../../icons/icon_give.svg?react";
 import Coffeechat from "../../icons/icon_coffeechat.svg?react";
 import theme from '../../../styles/theme';
+import { useFilterStore } from '../../stores/FilterStore';
 
-export default function UserCard({ isgallery, user }) {
+export default function UserCard({ user }) {
   // const [users, setUsers] = useState([]);
+  const { isgallery } = useFilterStore();
 
   function available() {
     return (
@@ -57,7 +59,9 @@ const UserCardWrapper = styled.div`
   height: ${({$isgallery}) => 
     $isgallery ? "184px" : "70px"
   };
-  padding: 10px;
+  padding: ${({$isgallery}) => 
+    $isgallery ? "13px 10px 10px" : "10px"
+  };
   margin: 10px;
 `;
 
@@ -72,7 +76,7 @@ const ProfileImage = styled.img`
 const UserContent = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 7px;
+  margin: 5px;
   margin-bottom: 0;
 `;
 
@@ -81,7 +85,14 @@ const UserInfoContent = styled.div`
   flex-direction: ${({$isgallery}) => 
     $isgallery ? "column" : "row"
   };
-  margin-left: ${({$isgallery}) => $isgallery ? "0px" : "5px"};
+  align-items: ${({$isgallery}) => 
+    $isgallery ? "default" : "center"
+  };
+  justify-content: ${({$isgallery}) => 
+    $isgallery ? "default" : "center"
+  };
+  gap: 3px;
+  margin-left: ${({$isgallery}) => $isgallery ? "0px" : "2px"};
   margin-top: ${({$isgallery}) => $isgallery ? "5px" : "0px"};
   margin-bottom: 0px;
   font-family: ${({ theme }) => theme.fonts.display.caption.medium.fontFamily};
@@ -137,6 +148,6 @@ const AvailableSection = styled.div`
   display: flex;
   gap: 5px;
   align-items: center;
-  top: ${({$isgallery}) => $isgallery ? "10px" : "17px"};
-  right: ${({$isgallery}) => $isgallery ? "10px" : "12px"};
+  top: ${({$isgallery}) => $isgallery ? "10px" : "15px"};
+  right: ${({$isgallery}) => $isgallery ? "10px" : "10px"};
 `;

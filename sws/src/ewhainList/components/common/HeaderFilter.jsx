@@ -1,47 +1,64 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import FILTER from '../../constants/Filter';
 import SearchBar from './SearchBar';
 import HeaderButton from './HeaderButton';
 import FilterDropDown from './FilterDropDown';
+import { useFilterStore } from '../../stores/FilterStore';
 
 export default function HeaderFilter({ sortBtn, selectedExchange, selectedPeriod, handleSortBtn, handleExchangeFilter, handlePeriodFilter }) {
   const [searchBtn, setSearchBtn] = useState(false);
-  const [filterBtn, setFilterBtn] = useState(false);
+  const { isgallery, setIsGallery, isfilter, setIsFilter, exchange, setExchange, period, setPeriod } = useFilterStore();
+  const navigate = useNavigate();
 
+  const handleIsGallery = () => {
+    setIsGallery(!isgallery);
+  };
   const handleSearchBtn = () => {
     setSearchBtn(!searchBtn);
   };
-  const handleFilterBtn = () => {
-    setFilterBtn(!filterBtn);
+  const handleIsFilter = () => {
+    navigate("/ewhainfilter");
+  };
+  const handleMoveMajor = () => {
+    navigate("/ewhainfilter/dept");
+  }
+  const handleExchange = (value) => {
+    setExchange(value);
+  };
+  const handlePeriod = (value) => {
+    setPeriod(value);
   };
 
   return (
     <Filter>
       <FilterWrapper>
-        <HeaderButton buttontype="sorting" isclicked={sortBtn} onClick={handleSortBtn} />
+        <HeaderButton buttontype="sorting" onClick={handleIsGallery} />
         <HeaderButton buttontype="search" isclicked={searchBtn} onClick={handleSearchBtn} />
-        <HeaderButton buttontype="filter" isclicked={filterBtn} onClick={handleFilterBtn} />
+        <HeaderButton buttontype="filter" onClick={handleIsFilter} />
+        <HeaderButton buttontype="major" onClick={handleMoveMajor} />
         
         <FilterDropDown 
           options={FILTER.EXCHANGE}
-          value={selectedExchange}
-          onChange={handleExchangeFilter}
-          placeholder="교환방식"
+          value={exchange}
+          onChange={handleExchange}
+          placeholder="교류방식"
         />
         <FilterDropDown 
           options={FILTER.PERIOD}
-          value={selectedPeriod}
-          onChange={handlePeriodFilter}
+          value={period}
+          onChange={handlePeriod}
           placeholder="최신순"
         />
       </FilterWrapper>
       {searchBtn && <SearchBar />}
     </Filter>
-  );
+  ); 
 }
 
 const Filter = styled.div`
+  width: 390px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,10 +66,19 @@ const Filter = styled.div`
 `;
 
 const FilterWrapper = styled.div`
+  position: relative;
+  width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
   align-items: center;
+  flex: 1;
   gap: 8px;
   padding: 0;
   margin-top: 5px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
