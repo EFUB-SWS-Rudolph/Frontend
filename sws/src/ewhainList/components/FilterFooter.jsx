@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import { useFilterStore } from '../stores/FilterStore';
-import { BsArrowCounterclockwise } from "react-icons/bs";
+import Reset from '../icons/icon_reset.svg?react';
 
 export default function FilterFooter() {
   const { setExchange, setMajor, setPeriod, setIsGallery } = useFilterStore();
@@ -22,7 +22,7 @@ export default function FilterFooter() {
   return(
     <FooterWrapper>
       <ResetBtnContainer onClick={handleInitiate}>
-        <BsArrowCounterclockwise size={20} color={theme.colors.black} /> 
+        <Reset /> 
         초기화
       </ResetBtnContainer>
       <FinishFilterBtnContainer onClick={handleMoveEwhainPage}>
@@ -44,6 +44,7 @@ const FooterWrapper = styled.div`
 const ResetBtnContainer = styled.button`
   width: 54px;
   height: 48px;
+  gap: 7px;
   background-color: ${({ theme }) => theme.colors.gray100};
   display: flex;
   flex-direction: column;
