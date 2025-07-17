@@ -9,40 +9,42 @@ import NextBtn from '../components/common/NextBtn';
 import PLACEHOLDER_MESSAGE from '../constants/PlaceHolderMessage';
 import DEPARTMENT_MAJOR from '../constants/University';
 import theme from '../../styles/theme';
+import { useUserStore } from '../stores/useUserStore';
 
 const COLLEGES = Object.keys(DEPARTMENT_MAJOR);
 
 export default function UnivInfo() {
-  const [selectedCollege, setSelectedCollege] = useState('');
-  const [selectedMajor, setSelectedMajor] = useState('');
-  const [studentId, setStudentId] = useState('');
-  
-  const isNextEnabled = (selectedCollege !== '') && (selectedMajor !== '');
+  const { college, setCollege, major, setMajor, studentId, setStudentId } = useUserStore();
+  const isNextEnabled = (college !== '') && (major !== '');
   const navigate = useNavigate(); 
 
-  const handleCollegeChange = (e) => {
+  const handleCollege = (e) => {
     const newCollege = e.target.value;
-    setSelectedCollege(newCollege);
-    setSelectedMajor('');
+    setCollege(newCollege);
+    setMajor('');
   };
 
-  const handleMajorChange = (e) => {
-    setSelectedMajor(e.target.value);
+  const handleMajor = (e) => {
+    setMajor(e.target.value);
+  };
+
+  const handleStudentId = (e) => {
+    setStudentId(e.target.value);
   };
 
   const handleNextClick = () => {
     if (isNextEnabled) {
-      navigate('/signup/next');  // 경로 수정
+      navigate('/signup/profile');
     }
-  }
+  };
 
-  const majorOptions = selectedCollege ? DEPARTMENT_MAJOR[selectedCollege] : [];
+  const majorOptions = college ? DEPARTMENT_MAJOR[college] : [];
 
   return(
     <SignUpPageWrapper>
       <HeaderContainer>
-        <SignUpHeader backRoute={'/certification'} />
-        <ProgressBar step='2' totalSteps='4' />
+        <SignUpHeader backRoute={'/signup/certification'} />
+        <ProgressBar step='2' totalSteps='5' />
       </HeaderContainer>
 
       <SignUpContents>
@@ -57,16 +59,16 @@ export default function UnivInfo() {
           <InfoToEnter>대학 <span>*</span></InfoToEnter>
           <DropDown 
             options={COLLEGES}
-            value={selectedCollege}
-            onChange={handleCollegeChange}
+            value={college}
+            onChange={handleCollege}
           />
         </InfoEnterContainer>
         <InfoEnterContainer>
           <InfoToEnter>학과 <span>*</span></InfoToEnter>
           <DropDown 
             options={majorOptions}
-            value={selectedMajor}
-            onChange={handleMajorChange}
+            value={major}
+            onChange={handleMajor}
           />
         </InfoEnterContainer>
         <InfoEnterContainer>
@@ -74,7 +76,7 @@ export default function UnivInfo() {
           <InputWindow 
             inputPlaceholder={PLACEHOLDER_MESSAGE.STUDENTID} 
             value={studentId} 
-            onChange={(e) => setStudentId(e.target.value)}
+            onChange={handleStudentId}
           />
         </InfoEnterContainer>
 

@@ -7,29 +7,29 @@ import NextBtn from '../components/common/NextBtn';
 import FIELDLIST from '../constants/FieldList';
 import theme from '../../styles/theme';
 
-export default function SetProfile() {
+export default function SetTalent() {
   const navigate = useNavigate();
 
   const handleNextClick = () => {
-    navigate('/signup/talent');
+    navigate('/main');
   };
 
   return (
     <SignUpPageWrapper>
       <HeaderContainer>
-        <SignUpHeader backRoute={'/signup/profile'} />
-        <ProgressBar step='4' totalSteps='5' />
+        <SignUpHeader backRoute={'/signup/interest'} />
+        <ProgressBar step='5' totalSteps='5' />
       </HeaderContainer>
 
       <SignUpContents>
         <EnteringInfoContainer>
           <EnteringInfo>
-            관심있는 분야<br/>
+            본인의 재능<br/>
             3가지를 설정해 주세요
           </EnteringInfo>
         </EnteringInfoContainer>
 
-        <FieldItems fields={FIELDLIST} type="interest" />
+        <FieldItems fields={FIELDLIST} type="talent" />
 
         <Spacer />
         <LaterButton onClick={handleNextClick}>나중에 할래요</LaterButton>

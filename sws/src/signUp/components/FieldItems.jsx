@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
+import { useUserStore } from '../stores/useUserStore';
 
-export default function FieldItems({ fields }) {
-  const [selectedFields, setSelectedFields] = useState([]);
+export default function FieldItems({ fields, type }) {
+  const { interests, addInterests, deleteInterests, talents, addTalents, deleteTalents } = useUserStore();
 
   const handleSelectedField = (item) => {
-    if (selectedFields.includes(item)) {
-      setSelectedFields(selectedFields.filter(field => field !== item));
+    if (type === "interest") {
+      interests.includes(item) ? deleteInterests(item) : addInterests(item);
     } else {
-      setSelectedFields([...selectedFields, item]);
+      talents.includes(item) ? deleteTalents(item) : addTalents(item);
     }
   };
 
@@ -31,7 +32,7 @@ export default function FieldItems({ fields }) {
             <FieldItemContainer
               key={item}
               onClick={() => handleSelectedField(item)}
-              selected={selectedFields.includes(item)}
+              selected={type==="interest" ? interests.includes(item) : talents.includes(item)}
               theme={theme}
             >
                 {item}

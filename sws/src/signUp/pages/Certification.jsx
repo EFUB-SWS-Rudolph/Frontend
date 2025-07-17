@@ -9,15 +9,16 @@ import NextBtn from '../components/common/NextBtn';
 import PLACEHOLDER_MESSAGE from '../constants/PlaceHolderMessage';
 import ERROR_MESSAGE from '../constants/ErrorMessage';
 import theme from '../../styles/theme';
+import { useUserStore } from '../stores/useUserStore';
 
 export default function Certification() {
-  const [certCode, setCertCode] = useState('');
-  const isNextEnabled = certCode.length === 4;
+  const { certification, setCertification } = useUserStore();
+  const isNextEnabled = certification.length === 4;
   const navigate = useNavigate();
 
   const handleNextClick = () => {
     if (isNextEnabled) {
-      navigate('경로입력');
+      navigate('/signup/univ');
     }
   }
 
@@ -25,7 +26,7 @@ export default function Certification() {
     <SignUpPageWrapper>
       <HeaderContainer>
         <SignUpHeader backRoute={'/'} />
-        <ProgressBar step='1' totalSteps='4' />
+        <ProgressBar step='1' totalSteps='5' />
       </HeaderContainer>
 
       <SignUpContents>
@@ -45,8 +46,8 @@ export default function Certification() {
           <InfoToEnter>인증단어 입력</InfoToEnter>
           <InputWindow 
             inputPlaceholder={PLACEHOLDER_MESSAGE.CERTIFICATION}
-            value={certCode}
-            onChange={(e) => setCertCode(e.target.value)} 
+            value={certification}
+            onChange={(e) => setCertification(e.target.value)} 
           />
           <ErrorNotice>{ERROR_MESSAGE.CERTIFICATION}</ErrorNotice>
         </InfoEnterContainer>

@@ -10,28 +10,32 @@ import PLACEHOLDER_MESSAGE from '../constants/PlaceHolderMessage';
 import ERROR_MESSAGE from '../constants/ErrorMessage';
 import LOCATION from '../constants/Location';
 import theme from '../../styles/theme';
+import { useUserStore } from '../stores/useUserStore';
 
 export default function SetProfile() {
-  const [nickname, setNickname] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const { nickname, setNickname, location, setLocation } = useUserStore();
   const isNextEnabled = (nickname !== '') && (nickname.length > 2);
   const navigate = useNavigate();
 
-  const handleLocationChange = (e) => {
-    setSelectedLocation(e.target.value);
+  const handleNickname = (e) => {
+    setNickname(e.target.value);
+  };
+
+  const handleLocation = (e) => {
+    setLocation(e.target.value);
   };
 
   const handleNextClick = () => {
     if (isNextEnabled) {
-      navigate('경로 작성');
+      navigate('/signup/interest');
     }
   };
 
   return (
     <SignUpPageWrapper>
       <HeaderContainer>
-        <SignUpHeader backRoute={'/univ'} />
-        <ProgressBar step='3' totalSteps='4' />
+        <SignUpHeader backRoute={'/signup/univ'} />
+        <ProgressBar step='3' totalSteps='5' />
       </HeaderContainer>
 
       <SignUpContents>
@@ -47,7 +51,7 @@ export default function SetProfile() {
           <InputWindow 
             inputPlaceholder={PLACEHOLDER_MESSAGE.NICKNAME} 
             value={nickname} 
-            onChange={(e) => setNickname(e.target.value)}
+            onChange={handleNickname}
           />
           <ErrorNotice>{ERROR_MESSAGE.NICKNAME}</ErrorNotice>
         </InfoEnterContainer>
@@ -55,8 +59,8 @@ export default function SetProfile() {
           <InfoToEnter>지역</InfoToEnter>
           <DropDown 
             options={LOCATION}
-            value={selectedLocation}
-            onChange={handleLocationChange}
+            value={location}
+            onChange={handleLocation}
           />
         </InfoEnterContainer>
 
