@@ -1,9 +1,6 @@
 import { create } from 'zustand';
 
 export const useUserStore = create((set) => ({
-  login: '',
-  setLogin: (newLogin) => set({ login: newLogin }),
-
   certification: '',
   setCertification: (code) => set({ certification: code }),
 
