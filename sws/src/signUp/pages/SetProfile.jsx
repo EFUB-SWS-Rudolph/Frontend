@@ -53,7 +53,7 @@ export default function SetProfile() {
             value={nickname} 
             onChange={handleNickname}
           />
-          <ErrorNotice>{ERROR_MESSAGE.NICKNAME}</ErrorNotice>
+          { !isNextEnabled && <ErrorNotice>{ERROR_MESSAGE.NICKNAME}</ErrorNotice> }
         </InfoEnterContainer>
         <InfoEnterContainer>
           <InfoToEnter>지역</InfoToEnter>
