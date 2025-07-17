@@ -31,36 +31,38 @@ export default function Certification() {
       </HeaderContainer>
 
       <SignUpContents>
-        <EnteringInfoContainer>
-          <EnteringInfo>
-            <span>Weevo</span> 이용을 위해서는<br/>
-            이화인 인증이 필요해요
-          </EnteringInfo>
-          <EnteringDescription>
-            <span>Weevo</span>는 오직 이화인을 위한 재능 공유 서비스입니다.<br/>
-            안전하고 신뢰할 수 있는 서비스 환경을 만들기 위해<br/>
-            회원가입 시 이화인 인증 절차를 거치고 있어요.
-          </EnteringDescription>
-        </EnteringInfoContainer>
+        <SignUpContentContainer>
+          <EnteringInfoContainer>
+            <EnteringInfo>
+              <span>Weevo</span> 이용을 위해서는<br/>
+              이화인 인증이 필요해요
+            </EnteringInfo>
+            <EnteringDescription>
+              <span>Weevo</span>는 오직 이화인을 위한 재능 공유 서비스입니다.<br/>
+              안전하고 신뢰할 수 있는 서비스 환경을 만들기 위해<br/>
+              회원가입 시 이화인 인증 절차를 거치고 있어요.
+            </EnteringDescription>
+          </EnteringInfoContainer>
 
-        <InfoEnterContainer>
-          <InfoToEnter>인증단어 입력</InfoToEnter>
-          <InputWindow 
-            inputPlaceholder={PLACEHOLDER_MESSAGE.CERTIFICATION}
-            value={certification}
-            onChange={(e) => setCertification(e.target.value)} 
-          />
-          { !isCodeCorrect && <ErrorNotice>{ERROR_MESSAGE.CERTIFICATION}</ErrorNotice> }
-        </InfoEnterContainer>
+          <InfoEnterContainer>
+            <InfoToEnter>인증단어 입력</InfoToEnter>
+            <InputWindow 
+              inputPlaceholder={PLACEHOLDER_MESSAGE.CERTIFICATION}
+              value={certification}
+              onChange={(e) => setCertification(e.target.value)} 
+            />
+            { !isCodeCorrect && <ErrorNotice>{ERROR_MESSAGE.CERTIFICATION}</ErrorNotice> }
+          </InfoEnterContainer>
 
-        <CertificationNotice>
-          <NoticeContainer>
-            <IoMdHelpCircleOutline size={15} color={theme.colors.primary} />
-            <Notice>인증단어 안내</Notice>
-          </NoticeContainer>
-          유레카 포털 {'>'} 로그인 {'>'} 자유게시판 {'>'} 'Weevo' 검색
-        </CertificationNotice>
-        <Spacer />
+          <CertificationNotice>
+            <NoticeContainer>
+              <IoMdHelpCircleOutline size={15} color={theme.colors.primary} />
+              <Notice>인증단어 안내</Notice>
+            </NoticeContainer>
+            유레카 포털 {'>'} 로그인 {'>'} 자유게시판 {'>'} 'Weevo' 검색
+          </CertificationNotice>
+          <Spacer />
+        </SignUpContentContainer>
         <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
       </SignUpContents>
     </SignUpPageWrapper>
@@ -85,7 +87,15 @@ const SignUpContents = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 40px 25px 10px;
+  padding: 40px 0 10px;
+  width: 100%;
+`;
+
+const SignUpContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0 25px;
   width: 100%;
 `;
 

@@ -90,23 +90,28 @@ const OptionContainer = styled.ul`
   list-style: none;
 
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 0px;
+    height: 0px;
+    display: none;
   }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.primary};
-    border-radius: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
+
   &::-webkit-scrollbar-button {
     display: none;
     height: 0;
     width: 0;
-    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    display: none;
   }
   scrollbar-width: thin;
-  scrollbar-color: ${({ theme }) => theme.colors.primary} transparent;
+  scrollbar-color: ${({ theme }) => theme.colors.secondary} transparent;
 `;
 
 const Option = styled.li`

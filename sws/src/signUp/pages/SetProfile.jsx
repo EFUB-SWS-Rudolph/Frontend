@@ -39,32 +39,34 @@ export default function SetProfile() {
       </HeaderContainer>
 
       <SignUpContents>
-        <EnteringInfoContainer>
-          <EnteringInfo>
-            프로필을<br/>
-            설정해 주세요
-          </EnteringInfo>
-        </EnteringInfoContainer>
+        <SignUpContentContainer>
+          <EnteringInfoContainer>
+            <EnteringInfo>
+              프로필을<br/>
+              설정해 주세요
+            </EnteringInfo>
+          </EnteringInfoContainer>
 
-        <InfoEnterContainer>
-          <InfoToEnter>닉네임 <span>*</span></InfoToEnter>
-          <InputWindow 
-            inputPlaceholder={PLACEHOLDER_MESSAGE.NICKNAME} 
-            value={nickname} 
-            onChange={handleNickname}
-          />
-          { !isNextEnabled && <ErrorNotice>{ERROR_MESSAGE.NICKNAME}</ErrorNotice> }
-        </InfoEnterContainer>
-        <InfoEnterContainer>
-          <InfoToEnter>지역</InfoToEnter>
-          <DropDown 
-            options={LOCATION}
-            value={location}
-            onChange={handleLocation}
-          />
-        </InfoEnterContainer>
+          <InfoEnterContainer>
+            <InfoToEnter>닉네임 <span>*</span></InfoToEnter>
+            <InputWindow 
+              inputPlaceholder={PLACEHOLDER_MESSAGE.NICKNAME} 
+              value={nickname} 
+              onChange={handleNickname}
+            />
+            { !isNextEnabled && <ErrorNotice>{ERROR_MESSAGE.NICKNAME}</ErrorNotice> }
+          </InfoEnterContainer>
+          <InfoEnterContainer>
+            <InfoToEnter>지역</InfoToEnter>
+            <DropDown 
+              options={LOCATION}
+              value={location}
+              onChange={handleLocation}
+            />
+          </InfoEnterContainer>
 
-        <Spacer />
+          <Spacer />
+        </SignUpContentContainer>
         <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
       </SignUpContents>
     </SignUpPageWrapper>
@@ -83,7 +85,15 @@ const SignUpContents = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 40px 25px 10px;
+  padding: 40px 0 10px;
+  width: 100%;
+`;
+
+const SignUpContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0 25px;
   width: 100%;
 `;
 

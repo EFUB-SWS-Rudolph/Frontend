@@ -51,7 +51,7 @@ const SignUpContents = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 40px 25px 10px;
+  padding: 40px 0 10px;
   width: 100%;
 `;
 
@@ -66,6 +66,7 @@ const EnteringInfoContainer = styled.div`
   flex-direction: column;
   gap: 10px;
   margin-bottom: 30px;
+  padding: 0 25px;
 `;
 
 const EnteringInfo = styled.h2`
@@ -82,6 +83,8 @@ const Spacer = styled.div`
 `;
 
 const LaterButton = styled.button`
+  width: 100%;
+  height: 36px;
   color: ${({ theme }) => theme.colors.gray500};
   font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};

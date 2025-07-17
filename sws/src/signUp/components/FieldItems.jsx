@@ -50,7 +50,7 @@ const FieldItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 10px;
+  margin: 10px 13px 0;
 `;
 
 const Row = styled.div`

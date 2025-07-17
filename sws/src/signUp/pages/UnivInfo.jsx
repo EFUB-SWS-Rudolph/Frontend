@@ -48,39 +48,41 @@ export default function UnivInfo() {
       </HeaderContainer>
 
       <SignUpContents>
-        <EnteringInfoContainer>
-          <EnteringInfo>
-            <span>대학 및 학과 정보</span>를<br/>
-            입력해 주세요
-          </EnteringInfo>
-        </EnteringInfoContainer>
+        <SignUpContentContainer>
+          <EnteringInfoContainer>
+            <EnteringInfo>
+              <span>대학 및 학과 정보</span>를<br/>
+              입력해 주세요
+            </EnteringInfo>
+          </EnteringInfoContainer>
 
-        <InfoEnterContainer>
-          <InfoToEnter>대학 <span>*</span></InfoToEnter>
-          <DropDown 
-            options={COLLEGES}
-            value={college}
-            onChange={handleCollege}
-          />
-        </InfoEnterContainer>
-        <InfoEnterContainer>
-          <InfoToEnter>학과 <span>*</span></InfoToEnter>
-          <DropDown 
-            options={majorOptions}
-            value={major}
-            onChange={handleMajor}
-          />
-        </InfoEnterContainer>
-        <InfoEnterContainer>
-          <InfoToEnter>학번</InfoToEnter>
-          <InputWindow 
-            inputPlaceholder={PLACEHOLDER_MESSAGE.STUDENTID} 
-            value={studentId} 
-            onChange={handleStudentId}
-          />
-        </InfoEnterContainer>
+          <InfoEnterContainer>
+            <InfoToEnter>대학 <span>*</span></InfoToEnter>
+            <DropDown 
+              options={COLLEGES}
+              value={college}
+              onChange={handleCollege}
+            />
+          </InfoEnterContainer>
+          <InfoEnterContainer>
+            <InfoToEnter>학과 <span>*</span></InfoToEnter>
+            <DropDown 
+              options={majorOptions}
+              value={major}
+              onChange={handleMajor}
+            />
+          </InfoEnterContainer>
+          <InfoEnterContainer>
+            <InfoToEnter>학번</InfoToEnter>
+            <InputWindow 
+              inputPlaceholder={PLACEHOLDER_MESSAGE.STUDENTID} 
+              value={studentId} 
+              onChange={handleStudentId}
+            />
+          </InfoEnterContainer>
 
-        <Spacer />
+          <Spacer />
+        </SignUpContentContainer>
         <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
       </SignUpContents>
     </SignUpPageWrapper>
@@ -99,7 +101,15 @@ const SignUpContents = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 40px 25px 10px;
+  padding: 40px 0 10px;
+  width: 100%;
+`;
+
+const SignUpContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0 25px;
   width: 100%;
 `;
 
