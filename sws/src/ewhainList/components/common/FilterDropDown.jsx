@@ -61,7 +61,7 @@ export default function FilterDropDown({ options, value, onChange, placeholder }
 const Wrapper = styled.div`
   position: relative;
   padding: 10px 12px;
-  height: 30px;
+  height: 36px;
   border-radius: 8px;
   background-color: #f8f8f8;
   display: flex;

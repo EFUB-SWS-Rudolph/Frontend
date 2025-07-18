@@ -52,22 +52,32 @@ export default function HeaderFilter() {
           placeholder="최신순"
         />
       </FilterWrapper>
-      {searchBtn && <SearchBar />}
+      <SearchBarSpace>
+        {searchBtn && <SearchBar />}
+      </SearchBarSpace>
     </Filter>
   ); 
 }
 
 const Filter = styled.div`
-  width: 390px;
+  width: 365px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding-left: 5px;
   gap: 5px;
+`;
+
+const SearchBarSpace = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const FilterWrapper = styled.div`
   position: relative;
-  width: 100%;
+  width: 390px;
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -77,6 +87,7 @@ const FilterWrapper = styled.div`
   flex: 1;
   gap: 8px;
   padding: 0;
+  padding-left: 20px;
   margin-top: 5px;
   &::-webkit-scrollbar {
     display: none;

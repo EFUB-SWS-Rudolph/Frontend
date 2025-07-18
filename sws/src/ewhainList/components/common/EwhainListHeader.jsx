@@ -51,7 +51,7 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 390px;
   height: 56px;
   margin: 0;
   font-family: ${({ theme }) => theme.fonts.display.medium.fontFamily};

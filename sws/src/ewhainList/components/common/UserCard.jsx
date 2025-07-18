@@ -22,7 +22,9 @@ export default function UserCard({ user }) {
 
   return (
     <UserCardWrapper $isgallery={isgallery}>
-      <ProfileImage src={user.profileimageurl} alt="profileimg" />
+      <ProfileImageContainer $isgallery={isgallery}>
+        <ProfileImage src={user.profileimageurl} alt="profileimg" />
+      </ProfileImageContainer>
       <UserContent $isgallery={isgallery}>
         <UserInfoContent $isgallery={isgallery}>
           <Nickname>{user.nickname}</Nickname>
@@ -57,20 +59,34 @@ const UserCardWrapper = styled.div`
     $isgallery ? "168px" : "100%"
   };
   height: ${({$isgallery}) => 
-    $isgallery ? "184px" : "70px"
+    $isgallery ? "184px" : "80px"
   };
   padding: ${({$isgallery}) => 
-    $isgallery ? "13px 10px 10px" : "10px"
+    $isgallery ? "13px 10px 10px" : "12px"
   };
-  margin: 10px;
+  margin: 0;
 `;
 
 const ProfileImage = styled.img`
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+`;
+
+const ProfileImageContainer = styled.div`
+  padding: ${({$isgallery}) => 
+    $isgallery ? "0" : "0"
+  };
+  margin-right: ${({$isgallery}) => 
+    $isgallery ? "0px" : "0"
+  };
+  width: 58px;
+  height: 58px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const UserContent = styled.div`
@@ -78,6 +94,12 @@ const UserContent = styled.div`
   flex-direction: column;
   margin: 5px;
   margin-bottom: 0;
+  padding: ${({$isgallery}) => 
+    $isgallery ? "auto" : "0"
+  };
+  gap: ${({$isgallery}) => 
+    $isgallery ? "0" : "3px"
+  };
 `;
 
 const UserInfoContent = styled.div`
@@ -91,8 +113,10 @@ const UserInfoContent = styled.div`
   justify-content: ${({$isgallery}) => 
     $isgallery ? "default" : "center"
   };
-  gap: 3px;
-  margin-left: ${({$isgallery}) => $isgallery ? "0px" : "2px"};
+  gap: ${({$isgallery}) => 
+    $isgallery ? "3px" : "7px"
+  };
+  margin-left: ${({$isgallery}) => $isgallery ? "0px" : "5px"};
   margin-top: ${({$isgallery}) => $isgallery ? "5px" : "0px"};
   margin-bottom: 0px;
   font-family: ${({ theme }) => theme.fonts.display.caption.medium.fontFamily};
@@ -104,20 +128,24 @@ const UserInfoContent = styled.div`
 
 const Nickname = styled.div`
   color: #000;
+  font-family: ${({ theme }) => theme.fonts.display.title.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.title.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.title.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.title.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.title.medium.lineHeight};
+`;
+
+const UnivInfoContent = styled.div`
+  color: #5d5d5d;
   font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
-`;
-
-const UnivInfoContent = styled.div`
-  color: #5d5d5d;
-  font-family: ${({ theme }) => theme.fonts.display.body.small.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.small.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.small.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.small.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.small.lineHeight};
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 150px;
   span {
     color: #e0e0e0;
   }
@@ -125,22 +153,26 @@ const UnivInfoContent = styled.div`
 
 const UserTalent = styled.div`
   margin-left: ${({$isgallery}) => $isgallery ? "0px" : "5px"};
-  font-family: ${({ theme }) => theme.fonts.display.body.small.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.small.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.small.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.small.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.small.lineHeight};
+  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
   color: #5d5d5d;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 150px;
 `;
 
 const UserLocation = styled.div`
   color: #5d5d5d;
   margin-top: 3px;
-  font-family: ${({ theme }) => theme.fonts.display.body.small.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.small.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.small.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.small.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.small.lineHeight};
+  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
 `;
 
 const AvailableSection = styled.div`
@@ -148,6 +180,6 @@ const AvailableSection = styled.div`
   display: flex;
   gap: 5px;
   align-items: center;
-  top: ${({$isgallery}) => $isgallery ? "10px" : "15px"};
+  top: ${({$isgallery}) => $isgallery ? "15px" : "18px"};
   right: ${({$isgallery}) => $isgallery ? "10px" : "10px"};
 `;

@@ -38,7 +38,8 @@ export default function HeaderButton({ buttontype, isclicked, onClick }) {
 }
 
 const HeaderButtonContainer = styled.button`
-  height: 30px;
+  height: 36px;
+  width: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "36px" : "auto"};
   padding: ${({$buttontype}) => $buttontype === "filter" ? "10px 12px" : "10px"};
   border: none;
   border-radius: 8px;
