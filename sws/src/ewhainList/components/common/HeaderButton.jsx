@@ -55,6 +55,6 @@ const HeaderButtonContainer = styled.button`
   font-weight: ${({ theme }) => theme.fonts.display.caption.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.caption.medium.lineHeight};
   background-color: ${({$buttontype, $isclicked, $major, theme}) => (
-    (($buttontype === "search") && $isclicked) || (($major !== '전체') && ($buttontype === "major")) ? theme.colors.fourth : theme.colors.gray100
+    (($buttontype === "search") && $isclicked) || (($major !== '전체') && ($buttontype === "major")) ? "#e1fff1": theme.colors.gray100
   )};
 `;

@@ -69,8 +69,8 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 3px;
   cursor: pointer;
-  color: ${({ $value, theme }) => $value==="전체" ? theme.colors.black : theme.colors.primary };
-  background-color: ${({ $value, theme }) => $value==="전체" ? theme.colors.gray100 : theme.colors.fourth };
+  color: ${({ $value, theme }) => $value==="전체" || $value==="최신순" ? theme.colors.black : theme.colors.primary };
+  background-color: ${({ $value, theme }) => $value==="전체" || $value==="최신순" ? theme.colors.gray100 : "#e1fff1" };
   font-family: ${({ theme }) => theme.fonts.display.caption.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.caption.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.caption.medium.fontStyle};
@@ -79,7 +79,7 @@ const Wrapper = styled.div`
 `;
 
 const SelectedValue = styled.span`
-  color: ${({ $value, theme }) => $value==="전체" ? theme.colors.black : theme.colors.primary };
+  color: ${({ $value, theme }) => $value==="전체" || $value==="최신순" ? theme.colors.black : theme.colors.primary };
   
 `;
 
