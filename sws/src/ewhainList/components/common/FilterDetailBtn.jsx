@@ -8,11 +8,15 @@ import { useFilterStore } from '../../stores/FilterStore';
 // value: 선택된 값, 처음에는 전체
 
 
-export default function FilterDetailBtn({ select, value, detailroute, onChange }) {
+export default function FilterDetailBtn({ select, value, detailroute, fromheader, onChange }) {
   const navigate = useNavigate();
 
   const handleMoveFilterDetail = () => {
-    navigate(detailroute);
+    if (fromheader) {
+      navigate(detailroute, { state: { fromHeader: true } });
+    } else {
+      navigate(detailroute);
+    }
   };
 
   const handleClick = () => {

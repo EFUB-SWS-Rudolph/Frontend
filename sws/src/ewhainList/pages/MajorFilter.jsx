@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
@@ -9,6 +9,8 @@ import DEPARTMENT_MAJOR from '../constants/Univ';
 export default function MajorFilter() {
   const { major, dept, setMajor } = useFilterStore();
   const navigate = useNavigate();
+  const location = useLocation();
+  const cameFromHeader = location.state?.fromHeader;
   const MAJOR = DEPARTMENT_MAJOR[dept];
 
   const handleMajor = (item) => {
@@ -16,7 +18,11 @@ export default function MajorFilter() {
   };
   
   const handleMoveDeptFilter = () => {
-    navigate('/ewhainfilter/dept');
+    if (cameFromHeader) {
+      navigate('/ewhainfilter/dept', { state: { fromHeader: true } });
+    } else {
+      navigate('/ewhainfilter/dept');
+    }
   };
   
   return(

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
@@ -11,9 +11,15 @@ const COLLEAGE = Object.keys(DEPARTMENT_MAJOR);
 export default function DeptFilter() {
   const { setDept } = useFilterStore();
   const navigate = useNavigate();
+  const location = useLocation();
+  const cameFromHeader = location.state?.fromHeader;
 
   const handleMoveInitialFilter = () => {
-    navigate('/ewhainfilter');
+    if (cameFromHeader) {
+      navigate('/ewhainlist', { replace: true });
+    } else {
+      navigate('/ewhainfilter');
+    }
   };
 
   const handleDept = (item) => {
@@ -31,6 +37,7 @@ export default function DeptFilter() {
             select={item} 
             value="" 
             detailroute="/ewhainfilter/dept/major" 
+            fromheader={cameFromHeader}
             onChange={handleDept} 
             key={item}
           />

@@ -9,7 +9,7 @@ import { useFilterStore } from '../../stores/FilterStore';
 
 export default function HeaderFilter() {
   const [searchBtn, setSearchBtn] = useState(false);
-  const { isgallery, setIsGallery, isfilter, setIsFilter, exchange, setExchange, period, setPeriod } = useFilterStore();
+  const { isgallery, setIsGallery, exchange, setExchange, period, setPeriod } = useFilterStore();
   const navigate = useNavigate();
 
   const handleIsGallery = () => {
@@ -22,7 +22,7 @@ export default function HeaderFilter() {
     navigate("/ewhainfilter");
   };
   const handleMoveMajor = () => {
-    navigate("/ewhainfilter/dept");
+    navigate("/ewhainfilter/dept", { replace: true, state: { fromHeader: true } });
   }
   const handleExchange = (value) => {
     setExchange(value);
