@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { CiSearch } from "react-icons/ci";
-import theme from '../../../styles/theme';
+import theme from '../../styles/theme';
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
