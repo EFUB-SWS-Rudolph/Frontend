@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoMdHelpCircleOutline } from "react-icons/io";
@@ -13,14 +13,22 @@ import { useUserStore } from '../stores/useUserStore';
 
 export default function Certification() {
   const { certification, setCertification } = useUserStore();
+  const [isCodeCorrect, setIsCodeCorrect] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const isNextEnabled = certification.length === 4;
-  const isCodeCorrect = true;  // API 연결하면서 return 받는 값으로 대체
+  const  CERTIFICATION_CODE = '1986';
   const navigate = useNavigate();
 
-  const handleNextClick = () => {
-    if (isNextEnabled) {
+  useEffect(() => {
+    if (isCodeCorrect) {
       navigate('/signup/univ');
     }
+  }, [isCodeCorrect]);
+
+  const handleNextClick = () => {
+    setHasSubmitted(true);
+    const isCorrect = CERTIFICATION_CODE === certification;
+    setIsCodeCorrect(isCorrect);
   };
 
   return(
@@ -51,7 +59,7 @@ export default function Certification() {
               value={certification}
               onChange={(e) => setCertification(e.target.value)} 
             />
-            { !isCodeCorrect && <ErrorNotice>{ERROR_MESSAGE.CERTIFICATION}</ErrorNotice> }
+            { (hasSubmitted && !isCodeCorrect) && <ErrorNotice>{ERROR_MESSAGE.CERTIFICATION}</ErrorNotice> }
           </InfoEnterContainer>
 
           <CertificationNotice>
