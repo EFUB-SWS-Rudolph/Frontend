@@ -15,7 +15,7 @@ export default function EwhainFilter() {
     navigate('/ewhainlist');
     setExchange('전체');
     setMajor('전체');
-    setPeriod('전체');
+    setPeriod('최신순');
     setIsGallery(true);
   };
 

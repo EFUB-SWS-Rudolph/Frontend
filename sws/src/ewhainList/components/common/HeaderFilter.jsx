@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import FILTER from '../../constants/Filter';
 import SearchBar from '../SearchBar';
 import HeaderButton from './HeaderButton';
-import FilterDropDown from './FilterDropDown';
 import { useFilterStore } from '../../stores/FilterStore';
 
 export default function HeaderFilter() {
