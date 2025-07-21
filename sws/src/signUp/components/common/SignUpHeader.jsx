@@ -1,15 +1,34 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import theme from '../../../styles/theme';
 
 export default function SignUpHeader({ backRoute }) {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  
   const handleMoveBack = () => {
     navigate(backRoute);
   };
+  
+  useEffect(() => {
+    const blockBackRoute = ['/signup/certification'];
 
+    if (blockBackRoute.includes(location.pathname)) {
+      const handlePopState = () => {
+        window.history.pushState(null, '', window.location.href);
+      };
+
+      window.history.pushState(null, '', window.location.href);
+      window.addEventListener('popstate', handlePopState);
+
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+      };
+    }
+  }, [location.pathname]);
+  
   return (
     <HeaderWrapper>
       <LeftArea onClick={handleMoveBack}>

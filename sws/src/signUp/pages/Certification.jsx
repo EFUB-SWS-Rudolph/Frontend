@@ -34,7 +34,7 @@ export default function Certification() {
   return(
     <SignUpPageWrapper>
       <HeaderContainer>
-        <SignUpHeader backRoute={'/'} />
+        <SignUpHeader backRoute={'/signup/certification'} />
         <ProgressBar step='1' totalSteps='5' />
       </HeaderContainer>
 
