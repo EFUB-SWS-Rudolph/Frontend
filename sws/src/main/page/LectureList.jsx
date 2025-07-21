@@ -1,11 +1,17 @@
 // src/main/pages/LectureList.jsx
-
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import LectureCard from '../../common/components/LectureCard';
-// useLectureTab 훅 임포트 (Layout.jsx에 정의되어 있음)
 import { useLectureTab } from '../../common/styles/Layout'; 
+import { useNavigate } from 'react-router-dom';
 
+import SortGridIconURL from '../../common/assets/icons/FilterIcon_SortGrid.svg';
+import SortListIconURL from '../../common/assets/icons/FilterIcon_SortList.svg';
+import SortKeywordIconURL from '../../common/assets/icons/FilterIcon_SortKeyword.svg';
+import SortFilterIconURL from '../../common/assets/icons/FilterIcon_SortFilter.svg';
+import IconDownURL from '../../common/assets/icons/icon_down.svg';
+//강의 이미지 예시 (임시)
+import LectureImageExample from '../../common/assets/images/weave_img_ex1.svg';
 const LectureListContainer = styled.div`
   width: 100%;
   height: auto;
@@ -15,57 +21,99 @@ const LectureListContainer = styled.div`
 `;
 
 const SearchFilterSection = styled.div`
-  display: flex;
-  gap: 10px;
+  width: 100%; 
+  height: 40px;
+  border-radius: 12px;
+  background: #F5F5F5;
+  display: flex; 
   align-items: center;
-  padding: 0 8px;
+  gap: 8px; 
+  padding: 0 10px; 
+  box-sizing: border-box; 
 `;
 
 const SearchBar = styled.input`
-  flex-grow: 1;
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 14px;
+  flex-grow: 1; 
+  height: 100%; 
+  padding: 0; 
+  border: none; 
+  background: transparent; 
+  font-size: 13px;
+  outline: none; 
+   &::placeholder {
+    color: #AAAAAA; 
+  }
 `;
 
 const FilterButton = styled.button`
-  padding: 10px 15px;
-  background-color: #4CAF50;
-  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: transparent; 
   border: none;
-  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; 
+`;
+const FilterButtonIcon=styled.div`
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+  }
 `;
 
-// 필터 바 아이콘 관련 styled-components
 const FilterIconBase = styled.div`
+  font-family: Pretendard Variable;
   width: 36px;
   height: 36px;
-  background-color: #D3D3D3;
+  background: #F5F5F5;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
-  color: #555;
+  font-size: 13px;
+  color: #222222;
   flex-shrink: 0;
+  font-weight: 500;
 `;
 
-const SortListIcon = styled(FilterIconBase)``;
-const SortKeywordIcon = styled(FilterIconBase)``;
-const SortFilterIcon = styled(FilterIconBase)`width: 67px;`;
-const SortTypeIcon = styled(FilterIconBase)`width: 84px;`;
-const SortRegionIcon = styled(FilterIconBase)`width: 63px;`;
-const SortFormatIcon = styled(FilterIconBase)`width: 78px;`;
+const SortListIcon = styled(FilterIconBase)`
+  & > img { width: 100%; height: 100%; }
+`;
+const SortKeywordIcon = styled(FilterIconBase)`
+  background: ${props => props.$isActive ? '#E0FCEF' : '#F5F5F5'}; 
+  color: ${props => props.$isActive ? '#00664F' : '#222222'};
+  & > img { width: 100%; height: 100%; }
+`;
+const SortFilterIcon = styled(FilterIconBase)`
+  width: 67px; display: flex; gap: 4px; 
+`;
+const SortTypeIcon = styled(FilterIconBase)`
+  width: 90px; display: flex; gap: 4px;  
+`;
+const SortRegionIcon = styled(FilterIconBase)`
+  width: 63px; display: flex; gap: 4px; 
+`;
+const SortDateIcon = styled(FilterIconBase)`
+  width: 63px; display: flex; gap: 4px;  
+`;
+const SortRecentIcon = styled(FilterIconBase)`
+  width: 75px; display: flex; gap: 4px;
+`;
 
 const LectureFilterBar = styled.div`
   width: 100%;
   height: 36px;
   display: flex;
-  gap: 8px; /* 간격 8px */
-  
+  gap: 8px; 
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   &::-webkit-scrollbar { display: none; }
@@ -94,17 +142,12 @@ const FilterBarItem = styled.div`
 // 강의 카드 그리드 (갤러리 정렬) 관련 styled-components
 const LectureCardsGrid = styled.div`
   display: ${props => props.$displayMode === 'grid' ? 'grid' : 'flex'};
-  /* 핵심! 2열 그리드와 14px 간격 */
   grid-template-columns: ${props => props.$displayMode === 'grid' ? 'repeat(2, 1fr)' : 'none'}; /* 2열 고정 */
-  gap: 14px; /* 상하좌우 14px 간격 */
-  padding: 0 8px; /* 기존 패딩 유지 */
+  gap: 14px;
+  padding: 0 8px; 
   justify-content: center;
-  /* 목록 정렬 시 */
   flex-direction: ${props => props.$displayMode === 'list' ? 'column' : 'none'};
 `;
-
-
-
 
 // 강의 목록 아이템 (리스트 정렬) 관련 styled-components
 const LectureListItem = ({ lecture }) => {
@@ -194,7 +237,9 @@ const LectureListDisplayArea = styled.div`
   gap: 16px;
  
 `;
-
+const NoResultsMessage = styled.div`
+  width: 100%; text-align: center; padding: 50px 0; color: #888; font-size: 16px;
+`;
 const ContentPlaceholder = styled.div`
   
   text-align: center;
@@ -209,101 +254,139 @@ const ContentPlaceholder = styled.div`
   margin: 0 8px;
 `;
 
-
-// -----------------------------------------------------------
-// 2. 강의 데이터 예시
-// -----------------------------------------------------------
+//강의 데이터 예시
 const allLectureData = [
-  { id: 1, image: "https://via.placeholder.com/172x240/FF5733/FFFFFF?text=React", title: "React 완전 정복", nickname: "김코딩", type: "재능기부", date: "2024.08.01" },
-  { id: 2, image: "https://via.placeholder.com/172x240/33FF57/FFFFFF?text=Design", title: "UI/UX 디자인 실전", nickname: "이디자인", type: "재능교환", date: "2024.08.15" },
-  { id: 3, image: "https://via.placeholder.com/172x240/3357FF/FFFFFF?text=3", title: "SQL 고급 활용", nickname: "박데이터", type: "과외", date: "2024.09.01" },
-  { id: 4, image: "https://via.placeholder.com/172x240/FF33A1/FFFFFF?text=4", title: "Python 데이터 분석", nickname: "최파이", type: "재능기부", date: "2024.09.10" },
-  { id: 5, image: "https://via.placeholder.com/172x240/A133FF/FFFFFF?text=5", title: "Java 백엔드", nickname: "정자바", type: "재능교환", date: "2024.09.25" },
-  { id: 6, image: "https://via.placeholder.com/172x240/FF5733/FFFFFF?text=6", title: "React 기초", nickname: "김코딩", type: "과외", date: "2024.08.01" },
-  { id: 7, image: "https://via.placeholder.com/172x240/33FF57/FFFFFF?text=7", title: "UX 리서치", nickname: "이디자인", type: "재능기부", date: "2024.08.15" },
-  { id: 8, image: "https://via.placeholder.com/172x240/3357FF/FFFFFF?text=8", title: "데이터 모델링", nickname: "박데이터", type: "재능교환", date: "2024.09.01" },
+  { id: 1, image: LectureImageExample, title: "React 완전 정복", nickname: "김코딩", type: "재능기부", date: "2024.08.01" },
+  { id: 2, image: LectureImageExample, title: "UI/UX 디자인 실전", nickname: "이디자인", type: "재능교환", date: "2024.08.15" },
+  { id: 3, image: LectureImageExample, title: "SQL 고급 활용", nickname: "박데이터", type: "과외", date: "2024.09.01" },
+  { id: 4, image: LectureImageExample, title: "Python 데이터 분석", nickname: "최파이", type: "재능기부", date: "2024.09.10" },
+  { id: 5, image: LectureImageExample, title: "Java 백엔드", nickname: "정자바", type: "재능교환", date: "2024.09.25" },
+  { id: 6, image: LectureImageExample, title: "React 기초", nickname: "김코딩", type: "과외", date: "2024.08.01" },
+  { id: 7, image: LectureImageExample, title: "UX 리서치", nickname: "이디자인", type: "재능기부", date: "2024.08.15" },
+  { id: 8, image: LectureImageExample, title: "데이터 모델링", nickname: "박데이터", type: "재능교환", date: "2024.09.01" },
 ];
 
-
-// -----------------------------------------------------------
-// 3. LectureListPage 함수 컴포넌트 정의
-// -----------------------------------------------------------
+//LectureListPage 함수 컴포넌트 정의
 export default function LectureListPage() {
-  const { mainActiveTab, setMainActiveTab } = useLectureTab(); // Context에서 상태 가져오기
-
+  const { mainActiveTab, setMainActiveTab } = useLectureTab(); 
+  const navigate = useNavigate();
   const [subFilter, setSubFilter] = useState('전체');
   const [filteredLectures, setFilteredLectures] = useState([]);
   const [displayMode, setDisplayMode] = useState('grid');
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    // mainActiveTab에 따라 데이터 필터링/로딩 로직
     if (mainActiveTab === '강의 조회') {
       let currentLectures = allLectureData;
       if (subFilter !== '전체') {
-        currentLectures = allLectureData.filter(lecture => lecture.type === subFilter);
+        currentLectures = currentLectures.filter(lecture => lecture.type === subFilter);
+      }
+      if (searchQuery.trim() !== '') {
+        const lowercasedQuery = searchQuery.toLowerCase();
+        currentLectures = currentLectures.filter(lecture =>
+          lecture.title.toLowerCase().includes(lowercasedQuery) ||
+          lecture.nickname.toLowerCase().includes(lowercasedQuery)
+        );
       }
       setFilteredLectures(currentLectures);
     } else if (mainActiveTab === '강의 추천') {
-      setFilteredLectures([]); // TODO: 추천 강의 데이터 로직
+      setFilteredLectures([]); 
     } else if (mainActiveTab === '내 강의') {
-      setFilteredLectures([]); // TODO: 내 강의 데이터 로직
+      setFilteredLectures([]); 
     }
-  }, [mainActiveTab, subFilter]);
-
+  }, [mainActiveTab, subFilter, searchQuery]);
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
   const handleToggleDisplayMode = () => {
     setDisplayMode(prev => prev === 'grid' ? 'list' : 'grid');
   };
-
   const handleToggleSearchBar = () => {
     setShowSearchBar(prev => !prev);
+     setSearchQuery('');
+  };
+  const handleFilterClick = () => {
+    navigate('/lectures/search/filter'); // 핵심! 필터 설정 페이지로 이동
   };
 
   return (
     <LectureListContainer>
-      {/* 2. 각 탭에 따른 콘텐츠 렌더링 */}
       {mainActiveTab === '강의 조회' && (
         <>
           {/* 강의 필터 바 [강의 필터 바] */}
           <LectureFilterBar>
             <FilterBarItem onClick={handleToggleDisplayMode}>
-              <SortListIcon />
+                <SortListIcon>
+                <img 
+                  src={displayMode === 'grid' ? SortListIconURL : SortGridIconURL} 
+                  alt={displayMode === 'grid' ? "목록 정렬" : "갤러리 정렬"} 
+                  style={{ width: '50%', height: '50%' }}
+                />
+              </SortListIcon>
             </FilterBarItem>
             <FilterBarItem onClick={handleToggleSearchBar}>
-              <SortKeywordIcon />
+              <SortKeywordIcon $isActive={showSearchBar}>
+                <img src={SortKeywordIconURL}style={{ width: '40%', height: '40%' }}/>
+              </SortKeywordIcon>
+            </FilterBarItem>
+            <FilterBarItem onClick={handleFilterClick}>
+              <SortFilterIcon>
+                필터
+                <img src={SortFilterIconURL}style={{ width: '30%', height: '30%' }}/>
+              </SortFilterIcon>
             </FilterBarItem>
             <FilterBarItem>
-              <SortFilterIcon />
+              <SortTypeIcon>
+                강의 형태
+                <img src={IconDownURL} style={{margin:'3px'}}/>
+              </SortTypeIcon>
             </FilterBarItem>
             <FilterBarItem>
-              <SortTypeIcon />
+              <SortRegionIcon>
+                지역
+                <img src={IconDownURL} style={{margin:'3px'}}/>
+              </SortRegionIcon>
             </FilterBarItem>
             <FilterBarItem>
-              <SortRegionIcon />
+              <SortDateIcon>
+                기간
+                <img src={IconDownURL} style={{margin:'3px'}}/>
+              </SortDateIcon>
             </FilterBarItem>
-            <FilterBarItem>
-              <SortFormatIcon />
+             <FilterBarItem>
+              <SortRecentIcon>
+                최신 순
+                <img src={IconDownURL} style={{margin:'3px'}}/>
+              </SortRecentIcon>
             </FilterBarItem>
           </LectureFilterBar>
 
           {showSearchBar && (
             <SearchFilterSection>
-              <SearchBar placeholder="강의를 검색해보세요..." />
-              <FilterButton>필터</FilterButton>
+              <SearchBar placeholder="강의명 또는 키워드 입력" value={searchQuery} onChange={handleSearchInputChange} /> 
+              <FilterButton>
+                <FilterButtonIcon>
+                 <img src={SortKeywordIconURL}/>
+                </FilterButtonIcon>
+              </FilterButton>
             </SearchFilterSection>
           )}
-
-          <LectureListDisplayArea>
-            <LectureCardsGrid $displayMode={displayMode}>
-              {filteredLectures.map(lecture => (
-                displayMode === 'grid' ? (
-                  <LectureCard key={lecture.id} lecture={lecture} />
-                ) : (
-                  <LectureListItem key={lecture.id} lecture={lecture} />
-                )
-              ))}
-            </LectureCardsGrid>
-          </LectureListDisplayArea>
+      <LectureListDisplayArea>
+        <LectureCardsGrid $displayMode={displayMode}>
+          {filteredLectures.length > 0 ? (
+            filteredLectures.map(lecture => (
+              displayMode === 'grid' ? (
+                <LectureCard key={lecture.id} lecture={lecture} />
+              ) : (
+                <LectureListItem key={lecture.id} lecture={lecture} />
+              )
+            ))
+          ) : (
+            <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
+          )}
+        </LectureCardsGrid>
+      </LectureListDisplayArea>
         </>
       )}
 

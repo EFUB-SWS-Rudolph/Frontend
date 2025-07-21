@@ -1,7 +1,17 @@
 import Layout from '../../common/styles/Layout'; 
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
+import LectureCard from '../../common/components/LectureCard'; 
+
+import IconGiveURL from '../../common/assets/icons/icon_give.svg';
+import IconExchangeURL from '../../common/assets/icons/icon_exchange.svg';
+import IconCoffeeChatURL from '../../common/assets/icons/icon_coffeechat.svg';
+import IconRightURL from '../../common/assets/icons/icon_right.svg';
+import ProfileExampleImage from '../../common/assets/images/profile_ex1.jpg'; 
+//강의 이미지 예시 (임시)
+import LectureImageExample from '../../common/assets/images/weave_img_ex1.svg';
   // 내강의 데이터 예시 
   const myLectures = [
     { id: 1, name: "React 기초 다지기", progress: "75%" },
@@ -10,11 +20,11 @@ import styled from 'styled-components';
   ];
   // 강의 카드 데이터 예시 
   const classCardData = [
-    { id: 1, image: "https://via.placeholder.com/172x229/FF5733/FFFFFF?text=React", nickname: "김퍼비", title: "React 심화", date: "2024.08.01~" },
-    { id: 2, image: "https://via.placeholder.com/172x229/33FF57/FFFFFF?text=Design", nickname: "이디자인", title: "UI/UX 원리", date: "2024.08.15~" },
-    { id: 3, image: "https://via.placeholder.com/172x229/3357FF/FFFFFF?text=SQL", nickname: "박데이터", title: "SQL 최적화", date: "2024.09.01~" },
-    { id: 4, image: "https://via.placeholder.com/172x229/FF33A1/FFFFFF?text=Algorithm", nickname: "최알고", title: "알고리즘 분석", date: "2024.09.10~" },
-    { id: 5, image: "https://via.placeholder.com/172x229/A133FF/FFFFFF?text=Java", nickname: "정개발", title: "Java 웹 개발", date: "2024.09.25~" },
+    { id: 1, image: LectureImageExample, nickname: "김퍼비", title: "React 심화", date: "2024.08.01~" },
+    { id: 2, image: LectureImageExample, nickname: "이디자인", title: "UI/UX 원리", date: "2024.08.15~" },
+    { id: 3, image: LectureImageExample, nickname: "박데이터", title: "SQL 최적화", date: "2024.09.01~" },
+    { id: 4, image: LectureImageExample, nickname: "최알고", title: "알고리즘 분석", date: "2024.09.10~" },
+    { id: 5, image: LectureImageExample, nickname: "정개발", title: "Java 웹 개발", date: "2024.09.25~" },
   ];
   // 선배 데이터 예시 
   const seniorData = [
@@ -28,27 +38,22 @@ import styled from 'styled-components';
     { id: 2, name: "박이화", major: "수학과", talent: "데이터 분석", interest: "머신러닝" },
     { id: 3, name: "최이화", major: "경제학과", talent: "전략 수립", interest: "투자" },
   ];
-
-  
 // MyInfoFrame 관련
 const MyInfoFrame = styled.div`
   width: 358px;
   height: auto;
   border: 1px solid transparent; 
   border-radius: 20px;
-  background-color: #F7F6F3;
-  
+  background-color: #FFFFFF;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   box-sizing: border-box;
-  gap: 16px; 
-
+  gap: 15px; 
   /* 그라데이션 테두리 구현*/
   background-image:
     linear-gradient(#f9f9f9, #FFFFFF), /* 콘텐츠 영역의 배경색 */
     linear-gradient(267.62deg, #BAEDD4 0%, #13997B 43.57%, #166E36 100%);
-  
   background-origin: border-box;
   background-clip: content-box, border-box;
 `;
@@ -60,9 +65,7 @@ const MyInfoInnerContent = styled.div`
   gap: 16px; 
   padding: 16px; /* 원하는 패딩을 이 내부 컨테이너에 적용 */
   box-sizing: border-box; 
-  
 `;
-
 // <main_frame_profile>
 const ProfileSection = styled.div`
   width: 100%;
@@ -76,9 +79,8 @@ const ProfileInfo = styled.div`
   align-items: center;
   gap: 16px;
 `;
-
 // <image_main_profile>
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -86,35 +88,36 @@ const ProfileImage = styled.div`
   flex-shrink: 0;
 `;
 const ProfileName = styled.span`
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
+  font-family: 'Pretendard Variable', sans-serif;
+  font-size: 20px;
+  font-weight:600;
+  color: #222222;
+  line-height: 140%;
+  letter-spacing: 0px;
 `;
-
 const ProLecFrame = styled.div`
-  width: 92px;
+  width: flex;
   height: 21px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 4px;
-  
   color: #666;
   flex-shrink: 0;
 `;
-
 const ProLecLabel = styled.span`
-  font-size: 12px;
+  font-size: 14px;
+  font-weight:500;
   display: flex;
   color: #222222; 
 `;
-
-const ProLecCount = styled.span`
+const ProLecCount = styled.button`
   font-weight: bold;
-  font-size: 12px;
+  font-size: 14px;
   color: #00664F;
+  text-decoration: underline;
+  cursor: pointer;
 `;
-
 // <frame_mylec> - 내 수강/과외 프레임 
 const MyLecFrame = styled.div`
   width: 100%; 
@@ -122,24 +125,19 @@ const MyLecFrame = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const MyLectureListContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   padding: 0; 
 `;
-
 const MyLectureItem = ({ lecture }) => {
   return (
     <MyLectureItemWrapper> 
       <LectureName>{lecture.name}</LectureName>
-      <LectureProgress>{lecture.progress}</LectureProgress>
     </MyLectureItemWrapper>
   );
 };
-;
-
 const MyLectureItemWrapper = styled.div`
   width: 100%;
   height: 44px;
@@ -151,9 +149,7 @@ const MyLectureItemWrapper = styled.div`
   padding: 0 8px;
   box-sizing: border-box;
   flex-shrink: 0;
-  
 `;
-
 //강의 이름과 진도율 텍스트 스타일
 const LectureName = styled.span`
   font-weight: bold;
@@ -162,21 +158,11 @@ const LectureName = styled.span`
   padding: 0;
 `;
 
-
-const LectureProgress = styled.span`
-  color: #222222; 
-  margin: 0;
-  padding: 0;
-  font-weight: bold;
-`;
-
 const HorizontalDivider = styled.div`
   width: 100%;
   height: 0px;
   border-bottom: 1px solid #D9D9D9;
 `;
-
-
 // RCMFrame 관련
 const RCMFrame = styled.div`
   width: 358px; 
@@ -200,18 +186,24 @@ const RCMHeader = styled.div`
 `;
 // 추천 강의 목록 타이틀
 const RCMTitle = styled.h3`
+  font-family: 'Pretendard Variable', sans-serif;
   margin: 0; 
   font-size: 20px; 
   color: #222222;
+  font-weight: 600; 
+   line-height: 140%;
+  letter-spacing: 0px;
 `;
 // <frame_more> - 더보기 버튼
-const MoreButton = styled.button`
-  width: 54px;
+const MoreRecommendButton = styled.button`
+font-family: 'Pretendard Variable', sans-serif;
+  width: 60px;
   height: 24px;
   border: none;
   border-radius: 12px; 
+  font-weight: 600; 
   font-size: 12px;
-  color: #666;
+  color: #808080;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -226,10 +218,9 @@ const MainCardRCMContainer = styled.div`
   display: flex; 
   flex-direction: row;
   gap: 8px; 
-  overflow-x: auto; /*  가로 스크롤 활성화 */
+  overflow-x: auto; 
   overflow-y: hidden;
-  -webkit-overflow-scrolling: touch; /* iOS Safari 부드러운 스크롤 */
-  /* 스크롤바 숨기기  */
+  -webkit-overflow-scrolling: touch; 
   &::-webkit-scrollbar {
     display: none; 
   }
@@ -260,8 +251,6 @@ const StyledClassCard = styled.div`
   position: relative; 
   overflow: hidden; /* 이미지와 그라데이션이 카드를 벗어나지 않도록 */
 `;
-
-
 // <main_card_image>
 const MainCardImage = styled.img`
   width: 100%; 
@@ -269,7 +258,6 @@ const MainCardImage = styled.img`
   object-fit: cover; 
   border-radius: 6px;
 `;
-
 // <main_card_grad>
 const MainCardGrad = styled.div`
   width: 100%; 
@@ -348,12 +336,30 @@ const SNRTitleContainer = styled.div`
   justify-content: space-between; 
   align-items: center;
   h3 {
-    margin: 0; 
-    font-size: 20px; 
-    color: #333;
+    font-family: 'Pretendard Variable', sans-serif;
+  margin: 0; 
+  font-size: 20px; 
+  color: #222222;
+  font-weight: 600; 
+   line-height: 140%;
+  letter-spacing: 0px;
   }
 `;
-
+const MoreSNRButton = styled.button`
+font-family: 'Pretendard Variable', sans-serif;
+  width: 60px;
+  height: 24px;
+  border: none;
+  border-radius: 12px; 
+   font-weight: 600; 
+  font-size: 12px;
+  color: #808080;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; 
+`;
 const MainListSNRContainer = styled.div`
   width: 100%;
   height: 228px; 
@@ -371,7 +377,7 @@ const MainSNR = ({ senior }) => {
   return (
     <StyledMainSNR>
       <MainSNRProfile>
-        <ProfileImageSmall />
+        <ProfileImageSmall src={ProfileExampleImage} alt="프로필 이미지"/>
         <MainSNRInfo>
           <MainSNRFrameTop>
             <SNRNickname>{senior.name}</SNRNickname> 
@@ -384,7 +390,9 @@ const MainSNR = ({ senior }) => {
           </MainSNRFrameBottom>
         </MainSNRInfo>
       </MainSNRProfile>
-      <IconCoffeeChat></IconCoffeeChat>
+      <IconCoffeeChat >
+        <img src={IconCoffeeChatURL} alt="커피챗" style={{ width: '100%', height: '100%' }} />
+      </IconCoffeeChat>
     </StyledMainSNR>
   );
 };
@@ -396,9 +404,8 @@ const StyledMainSNR = styled.div`
   align-items: center;
   box-sizing: border-box;
   flex-shrink: 0;
-  padding: 0 8px; /* 좌우 패딩 */
+  padding: 0 8px; 
 `;
-
 // (main_snr_profile)
 const MainSNRProfile = styled.div`
   width: 289px; 
@@ -408,11 +415,11 @@ const MainSNRProfile = styled.div`
   gap: 16px; 
 `;
 // 작은 프로필 이미지
-const ProfileImageSmall = styled.div`
+const ProfileImageSmall = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #ddd; /* 플레이스홀더 색상 */
+  background-color: #ddd; 
   flex-shrink: 0;
 `;
 // 선배 이름과 학과, 상태를 담는 정보 컨테이너
@@ -420,7 +427,7 @@ const MainSNRInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex-grow: 1; /* 남은 공간을 채우도록 */
+  flex-grow: 1;
 `;
 // (main_snr_frame_top)
 const MainSNRFrameTop = styled.div`
@@ -482,7 +489,6 @@ const SNRInterest = styled.span`
   letter-spacing: 0px;
   color: #222222; 
 `;
-
 // 구분선
 const Divider = styled.div`
   width: 100%;
@@ -490,7 +496,6 @@ const Divider = styled.div`
   border-bottom: 1px solid #D9D9D9;
   margin: 0 auto;
 `;
-
 // EwhainFrame 관련
 const EwhainFrame = styled.div`
   width: 358px; 
@@ -511,10 +516,29 @@ const EwhainTitleContainer = styled.div`
   justify-content: space-between; 
   align-items: center;
   h3 {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
+    font-family: 'Pretendard Variable', sans-serif;
+    margin: 0; 
+    font-size: 20px; 
+    color: #222222;
+    font-weight: 600; 
+    line-height: 140%;
+    letter-spacing: 0px;
   }
+`;
+const MoreEwhainButton = styled.button`
+  font-family: 'Pretendard Variable', sans-serif;
+  width: 60px;
+  height: 24px;
+  border: none;
+  border-radius: 12px; 
+  font-weight: 600; 
+  font-size: 12px;
+  color: #808080;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; 
 `;
 // <main_list_ewhain> 
 const MainListEwhainContainer = styled.div`
@@ -529,13 +553,11 @@ const MainListEwhainContainer = styled.div`
   overflow-y: hidden; 
   overflow-x: hidden; 
 `;
-
-
 const MainEwhain = ({ ewhain }) => {
   return (
     <StyledMainEwhain>
       <MainEwhainProfile>
-        <ProfileImageSmall />
+        <ProfileImageSmall src={ProfileExampleImage} alt="프로필 이미지"/>
         <MainEwhainInfo>
           <MainEwhainFrameTop>
             <EwhainNickname>{ewhain.name}</EwhainNickname>
@@ -552,7 +574,6 @@ const MainEwhain = ({ ewhain }) => {
     </StyledMainEwhain>
   );
 };
-
 const StyledMainEwhain = styled.div`
   width: 100%; 
   height: 44px; 
@@ -564,7 +585,6 @@ const StyledMainEwhain = styled.div`
   padding: 0 8px; 
   box-sizing: border-box;
 `;
-
 const MainEwhainProfile = styled.div`
   width: 100%;
   height: 44px;
@@ -572,14 +592,12 @@ const MainEwhainProfile = styled.div`
   align-items: center;
   gap: 16px;
 `;
-
 const MainEwhainInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex-grow: 1;
 `;
-
 const MainEwhainFrameTop = styled.div`
   width: 100%;
   height: 19px;
@@ -590,7 +608,6 @@ const MainEwhainFrameTop = styled.div`
   color: #333;
   font-weight: bold;
 `;
-
 const MainEwhainFrameBottom = styled.div`
   width: 100%;
   height: 21px;
@@ -600,7 +617,6 @@ const MainEwhainFrameBottom = styled.div`
   font-size: 12px;
   color: #666;
 `;
-
 const EwhainNickname = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 600;
@@ -609,7 +625,6 @@ const EwhainNickname = styled.span`
   letter-spacing: 0px;
   color: #222222;
 `;
-
 const EwhainMajor = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 600;
@@ -618,7 +633,6 @@ const EwhainMajor = styled.span`
   letter-spacing: 0px;
   color: #222222;
 `;
-
 const EwhainTalent = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 500;
@@ -627,7 +641,6 @@ const EwhainTalent = styled.span`
   letter-spacing: 0px;
   color: #222222;
 `;
-
 const EwhainInterest = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 500;
@@ -636,17 +649,21 @@ const EwhainInterest = styled.span`
   letter-spacing: 0px;
   color: #222222;
 `;
-
 const MainListIconFrame = () => {
   return (
     <StyledMainListIconFrame>
-      <IconGive />
-      <IconExchange />
-      <IconCoffeeChat />
+      <IconGive>
+        <img src={IconGiveURL} alt="재능기부" style={{ width: '100%', height: '100%' }} />
+      </IconGive>
+      <IconExchange>
+        <img src={IconExchangeURL} alt="재능교환" style={{ width: '100%', height: '100%' }} />
+      </IconExchange >
+      <IconCoffeeChat >
+        <img src={IconCoffeeChatURL} alt="커피챗" style={{ width: '100%', height: '100%' }} />
+      </IconCoffeeChat>
     </StyledMainListIconFrame>
   );
 };
-
 const StyledMainListIconFrame = styled.div`
   width: 72px;
   height: 16px;
@@ -656,47 +673,55 @@ const StyledMainListIconFrame = styled.div`
   align-items: center;
   flex-shrink: 0;
 `;
-
 const IconGive = styled.div`
   width: 16px;
   height: 16px;
-  background-color: #ffcc00;
-  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   flex-shrink: 0;
 `;
-
 const IconExchange = styled.div`
   width: 16px;
   height: 16px;
-  background-color: #66ccff;
-  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   flex-shrink: 0;
 `;
-
 const IconCoffeeChat = styled.div`
-  width: 16px;
+   width: 16px;
   height: 16px;
-  background-color: #a0d911;
-  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   flex-shrink: 0;
 `;
-
 export default function Main() {
+  const navigate = useNavigate(); 
+  const handleMoreRecommendClick = () => {
+    navigate('/lectures/recommend'); 
+  };
+  const handleProLecCountClick = () => {
+    navigate('/lectures/my'); 
+  };
   return (
     <> 
       <MyInfoFrame> 
         <MyInfoInnerContent>
           <ProfileSection> 
             <ProfileInfo>
-              <ProfileImage />
-              <ProfileName>퍼비 님</ProfileName>
+              <ProfileImage src={ProfileExampleImage} alt="프로필 이미지"/>
+              <ProfileName>퍼비</ProfileName>
             </ProfileInfo>
             <ProLecFrame> 
               <ProLecLabel>진행 중인 강의</ProLecLabel>
-              <ProLecCount>3</ProLecCount>
+              <ProLecCount onClick={handleProLecCountClick}>3</ProLecCount>
             </ProLecFrame>
           </ProfileSection>
-
           <MyLecFrame>
             <MyLectureListContainer>
               {myLectures.map((lecture, index) => (
@@ -709,28 +734,26 @@ export default function Main() {
           </MyLecFrame>
         </MyInfoInnerContent>
       </MyInfoFrame>
-
       <RCMFrame>
         <RCMHeader>
           <RCMTitle>퍼비 님을 위한 추천 강의</RCMTitle>
-          <MoreButton>더 보기</MoreButton>
+          <MoreRecommendButton onClick={handleMoreRecommendClick}>더 보기
+            <img src={IconRightURL} style={{margin:'3px'}}/>
+          </MoreRecommendButton>
         </RCMHeader>
-
         <MainCardRCMContainer>
-          {classCardData.map(card => (
-            <ClassCard key={card.id} card={card} />
+          {classCardData.map(lecture => ( 
+            <LectureCard key={lecture.id} lecture={lecture} /> 
           ))}
         </MainCardRCMContainer>
-
       </RCMFrame>
-
       <SNRFrame>
         <SNRTitleContainer>
           <h3>퍼비 님의 학과 선배</h3>
-          <MoreButton>더 보기</MoreButton>
+          <MoreSNRButton>더 보기
+            <img src={IconRightURL} style={{margin:'3px'}}/>
+          </MoreSNRButton>
         </SNRTitleContainer>
-
-        {/* MainListFrameSNR은 MainListSNRContainer의 스타일을 통합했으므로 제거 */}
         <MainListSNRContainer>
           {seniorData.slice(0, 3).map((senior, index) => (
             <React.Fragment key={senior.id}>
@@ -740,13 +763,13 @@ export default function Main() {
           ))}
         </MainListSNRContainer>
       </SNRFrame>
-
       <EwhainFrame>
         <EwhainTitleContainer>
           <h3>이화인 목록</h3>
-          <MoreButton>더 보기</MoreButton>
+          <MoreEwhainButton>더 보기
+            <img src={IconRightURL} style={{margin:'3px'}}/>
+          </MoreEwhainButton>
         </EwhainTitleContainer>
-
         <MainListEwhainContainer>
           {ewhainData.slice(0, 3).map((ewhain, index) => (
             <React.Fragment key={ewhain.id}>

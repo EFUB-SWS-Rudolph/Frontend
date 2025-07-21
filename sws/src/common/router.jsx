@@ -1,23 +1,57 @@
 // src/common/router.jsx
-
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Layout from './styles/Layout';
 import MainPage from '../main/page/Main';
 import LectureListPage from '../main/page/LectureList';
 import LectureRecommendPage from '../main/page/LectureRecommend';
+import MyLecturePage from '../main/page/LectureMy'; 
+import GlobalSearchPage from '../main/page/GlobalSearchPage'; 
+import GlobalSearchHeaderContent from '../main/components/GlobalSearchHeaderContent';
+import AlarmPage from '../main/page/AlarmPage';
+import LectureDetailPage from '../main/page/LectureDetailPage';
+import LectureSearchFilterPage from '../main/page/LectureSearchFilterPage';
+import LectureSearchHeaderContent from '../main/components/LectureSearchFilterPageHeader';
+import LectureRecommendFilterPage from '../main/page/LectureRecommendFilterPage';
+import MyLectureFilterPage from '../main/page/MyLectureFilterPage';
 
-// -----------------------------------------------------------
-// 1. Header 내부 요소에 사용될 styled-components 정의 (router.jsx에서 사용되는 모든 styled-components)
-//    (모든 JSX 컴포넌트 정의보다 위에 배치되어야 합니다.)
-// -----------------------------------------------------------
+import AddIconURL from '../common/assets/icons/btn_add.svg'; 
+import WeevoLogoURL from '../common/assets/icons/logo_weevo.svg'; 
+import SearchIconURL from '../common/assets/icons/icon_search.svg';
+import AlarmIconURL from '../common/assets/icons/icon_alarm.svg';
 
 // 메인 페이지 헤더 로고 및 아이콘
-const WeevoLogo = styled.div` width: 103.86px; height: 21.73px; background-color: #4CAF50; flex-shrink: 0; `;
-const IconGroup = styled.div` display: flex; align-items: center; gap: 16.5px; flex-shrink: 0; `;
-const SearchIcon = styled.div` width: 20px; height: 20px; background-color: #9E9E9E; flex-shrink: 0; cursor: pointer; `;
-const AlarmIcon = styled.div` width: 20px; height: 20px; background-color: #9E9E9E; flex-shrink: 0; cursor: pointer; `;
-
+const WeevoLogo = styled.div` 
+  width: 103.87px;
+  height: 21.73px;
+  flex-shrink: 0;
+  display: flex; 
+  align-items: center;
+  position: absolute; 
+  top: 63px;
+  left: 24px;
+`;
+const IconGroup = styled.div` display: flex;
+  align-items: center;
+  gap: 16.5px;
+  flex-shrink: 0;
+  position: absolute;
+  top: 63px;
+  right: 24px;  `;
+const SearchIcon = styled.div` width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;`;
+const AlarmIcon = styled.div` width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex; 
+  align-items: center;
+  justify-content: center; `;
 // 강의 목록 페이지 헤더 관련 요소들
 const LectureTitle = styled.h2`
   font-family: 'Pretendard Variable', sans-serif;
@@ -27,26 +61,35 @@ const LectureTitle = styled.h2`
   letter-spacing: 0px;
   color: #222222;
   margin: 0;
+  position: absolute;
+  top:61px;
+  left:178px;
 `;
 const AddButton = styled.div`
   width: 24px;
   height: 24px;
-  background-color: #4CAF50;
-  border-radius: 50%;
   cursor: pointer;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top:61px;
+  left:346px;
 `;
-
 // [강의네비게이션바] (MainLectureTabsContainer)
 const MainLectureTabsContainer = styled.div`
-  width: 100%;
+  width: 357px;
   height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   gap: 1px;
-  background-color: #FFFFFF; /* 탭바 배경색 */
+  background-color: #FFFFFF; 
+  position: absolute;
+  top:102px;
+  left:16px;
 `;
 const MainLectureTab = styled(Link)`
   flex: 1;
@@ -65,71 +108,69 @@ const MainLectureTab = styled(Link)`
   justify-content: center;
   align-items: center;
 `;
-
-// 각 페이지 헤더의 최상위 컨테이너 (Layout의 Header에 전달될 내용)
+// 각 페이지 헤더의 최상위 컨테이너 
 const MainHeaderContainer = styled.div`
-  width: 100%;
+ width: 100%;
   height: 101px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
   padding: 0 24px;
   box-sizing: border-box;
+  position: relative; 
 `;
-
 const LecturePageHeaderContainer = styled.div`
-  width: 100%;
-  height: 152px; /* 강의 페이지 헤더의 고정 높이 */
-  background: #FFFFFF; /* 배경색 */
-  box-sizing: border-box; /* 패딩이 width/height에 포함되도록 */
-
-  /* 핵심! 내부 flex 컨테이너로 변경 */
+   width: 100%;
+  height: 152px;
+  background: #FFFFFF; 
+  box-sizing: border-box; 
   display: flex;
-  flex-direction: column; /* 세로로 정렬 */
-  justify-content: space-between; /* 타이틀 섹션과 탭 바를 위아래로 분리 */
-  
-  /* 패딩은 내부 컨테이너에서 관리 */
-  padding: 0; 
+  flex-direction: column; 
+  justify-content: flex-end;
+  padding: 0 24px;
+  padding-bottom: 0; 
+  position: relative;
 `;
-
-// 강의 페이지 헤더의 타이틀 및 추가 버튼 섹션 (새롭게 추가)
+// 강의 페이지 헤더의 타이틀 및 추가 버튼 섹션 
 const LecturePageTitleArea = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between; /* 타이틀과 버튼을 양 끝으로 정렬 */
+  justify-content: space-between; 
   align-items: center;
-  padding: 0 24px; /* 좌우 패딩 */
-  height: 102px; /* top: 61px + height: 24px + padding-bottom = 102px */
+  padding: 0 24px;
+  height: 102px; 
   box-sizing: border-box;
 `;
 
-// -----------------------------------------------------------
-// 2. 각 페이지별 헤더 내용을 정의하는 컴포넌트
-// -----------------------------------------------------------
-
-const MainHeaderContent = (
-  <MainHeaderContainer>
-    <WeevoLogo />
+//헤더 컴포넌트
+const MainHeaderContent = () => { 
+  const navigate = useNavigate();
+   return (
+   <MainHeaderContainer>
+    <WeevoLogo>
+      <img src={WeevoLogoURL} alt="Weevo Logo" style={{ width: '103.86', height: '21.73' }} />
+    </WeevoLogo>
     <IconGroup>
-      <SearchIcon />
-      <AlarmIcon />
+      <SearchIcon onClick={() => navigate('/global-search')}>
+          <img src={SearchIconURL} alt="검색" style={{ width: '100%', height: '100%' }} />
+        </SearchIcon>
+      <AlarmIcon onClick={() => navigate('/alarm')}>
+        <img src={AlarmIconURL} alt="알림" style={{ width: '20', height: '20' }} />
+      </AlarmIcon>
     </IconGroup>
   </MainHeaderContainer>
-);
-
+);};
 const LectureListHeaderContent = () => {
-  const location = useLocation(); // 현재 URL 경로를 가져옴
-
+  const location = useLocation(); 
   return (
     <LecturePageHeaderContainer>
-      {/* 타이틀 및 추가 버튼 영역 */}
-      <LecturePageTitleArea>
-        <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}> {/* 강의 타이틀 중앙 정렬을 위한 래퍼 */}
+       <LecturePageTitleArea>
+        <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}> 
           <LectureTitle>강의</LectureTitle>
         </div>
-        <AddButton />
+        <AddButton>
+          <img src={AddIconURL} alt="추가" style={{ width: '24px', height: '24px' }} />
+        </AddButton>
       </LecturePageTitleArea>
-
       {/* 탭 바 (MainLectureTabsContainer) */}
       <MainLectureTabsContainer>
         <MainLectureTab to="/lectures/search" $active={location.pathname === '/lectures' || location.pathname === '/lectures/search'}>
@@ -145,10 +186,7 @@ const LectureListHeaderContent = () => {
     </LecturePageHeaderContainer>
   );
 };
-
-// -----------------------------------------------------------
-// 3. AppRouter 함수 정의 (최종 라우팅 설정)
-// -----------------------------------------------------------
+// AppRouter 함수 정의
 function AppRouter() {
   return (
     <Router>
@@ -156,35 +194,103 @@ function AppRouter() {
         <Route 
           path="/" 
           element={<Layout 
-            headerContent={MainHeaderContent} 
+            headerContent={<MainHeaderContent />} 
             backgroundColor="#F7F6F3" 
             headerBackgroundColor="#F7F6F3" 
             showLectureTabs={false}
-            contentBackgroundColor="#F7F6F3" /* 핵심! 콘텐츠 배경색 #F7F6F3 전달 */
+            contentBackgroundColor="#F7F6F3" 
           />}
         >
           <Route index element={<MainPage />} />
         </Route>
-        
         <Route 
           path="/lectures" 
           element={<Layout 
             headerContent={<LectureListHeaderContent />} 
             backgroundColor="#FFFFFF" 
             headerBackgroundColor="#FFFFFF" 
-            showLectureTabs={true}
-            contentBackgroundColor="#FFFFFF" /* 핵심! 콘텐츠 배경색 #FFFFFF 전달 */
+            contentBackgroundColor="#FFFFFF" 
           />}
         >
-          <Route index element={<LectureListPage />} /> {/* /lectures 또는 /lectures/search 시 강의 조회 페이지 */}
-          <Route path="search" element={<LectureListPage />} /> {/* 명시적으로 /lectures/search */}
+          <Route index element={<LectureListPage />} />
+          <Route path="search" element={<LectureListPage />} />
           <Route path="recommend" element={<LectureRecommendPage />} />
+          <Route path="my" element={<MyLecturePage />} />
         </Route>
-
-        {/* 다른 페이지들도 여기에 자식 라우트로 추가 */}
+        <Route 
+          path="/lectures/search/filter" 
+          element={<Layout 
+            headerContent={<LectureSearchHeaderContent />} 
+            backgroundColor="#FFFFFF" 
+            headerBackgroundColor="#FFFFFF" 
+            contentBackgroundColor="#FFFFFF" 
+            showFooter={false} // 푸터 바 숨김
+          />}
+        >
+          <Route index element={<LectureSearchFilterPage />} />
+        </Route>
+        <Route 
+            path="/lectures/recommend/filter" 
+            element={<Layout 
+              headerContent={<LectureSearchHeaderContent />} 
+              backgroundColor="#FFFFFF" 
+              headerBackgroundColor="#FFFFFF" 
+              contentBackgroundColor="#FFFFFF" 
+              showFooter={false} 
+            />}
+          >
+            <Route index element={<LectureRecommendFilterPage />} />
+          </Route>
+        <Route 
+            path="/lectures/my/filter" 
+            element={<Layout 
+              headerContent={<LectureSearchHeaderContent />} 
+              backgroundColor="#FFFFFF" 
+              headerBackgroundColor="#FFFFFF" 
+              contentBackgroundColor="#FFFFFF" 
+              showFooter={false} 
+            />}
+          >
+            <Route index element={<MyLectureFilterPage />} />
+          </Route>
+        <Route 
+          path="/global-search" 
+          element={<Layout 
+            headerContent={<GlobalSearchHeaderContent />} 
+            backgroundColor="#FFFFFF" 
+            headerBackgroundColor="#FFFFFF" 
+            contentBackgroundColor="#FFFFFF" 
+            showFooter={false}
+          />}
+        >
+          <Route index element={<GlobalSearchPage />} />
+        </Route>
+      <Route 
+          path="/alarm" 
+          element={<Layout 
+            headerContent={<GlobalSearchHeaderContent title="알림" />} 
+            backgroundColor="#FFFFFF" 
+            headerBackgroundColor="#FFFFFF" 
+            contentBackgroundColor="#FFFFFF" 
+            showFooter={false} 
+          />}
+        >
+          <Route index element={<AlarmPage />} />
+        </Route>
+        <Route 
+          path="/lectures/detail/:lectureId"
+          element={<Layout
+            headerContent={null}
+            backgroundColor="#FFFFFF"
+            headerBackgroundColor="#FFFFFF"
+            contentBackgroundColor="#FFFFFF"
+            showFooter={false}
+          />}
+        >
+          <Route index element={<LectureDetailPage />} />
+      </Route>
       </Routes>
     </Router>
   );
 }
-
 export default AppRouter;

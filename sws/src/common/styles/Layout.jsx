@@ -1,15 +1,21 @@
 // src/common/styles/layout.jsx
-
 import React, { useState, createContext, useContext } from 'react'; 
 import styled from 'styled-components';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation  } from 'react-router-dom';
 
 const LectureTabContext = createContext();
 
+import IconHomeActiveURL from '../assets/icons/icon_home.svg';
+import IconHomeInactiveURL from '../assets/icons/icon_home-inactive.svg';
+import IconLectureActiveURL from '../assets/icons/icon_lecture.svg';
+import IconLectureInactiveURL from '../assets/icons/icon_lecture-inactive.svg';
+import IconEwhalistInactiveURL from '../assets/icons/icon_ewhalist-inactive.svg';
+import IconchatInactiveURL from '../assets/icons/icon_chat-inactive.svg';
+import IconMypageInactiveURL from '../assets/icons/icon_mypage-inactive.svg';
 // 전체 앱 화면 컨테이너 (AppContainer)
 const AppContainer = styled.div`
   width: 390px;
-  height: 844px;
+  height:  844px;
   margin: 0 auto; 
   border: 1px solid #ddd; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -18,7 +24,6 @@ const AppContainer = styled.div`
   overflow: hidden; 
   background-color: ${props => props.$backgroundColor || '#F7F6F3'}; 
 `;
-
 // 상단바 스타일 (Header)
 const Header = styled.header`
   width: 100%;
@@ -30,7 +35,6 @@ const Header = styled.header`
   box-sizing: border-box;
   flex-shrink: 0;
 `;
-
 // 콘텐츠 영역 스타일 (ContentArea)
 const ContentArea = styled.main`
   width: 100%;
@@ -46,7 +50,6 @@ const ContentArea = styled.main`
   -ms-overflow-style: none;
   scrollbar-width: none;
 `;
-
 // 하단바 스타일 (Footer)
 const Footer = styled.footer`
   width: 100%;
@@ -59,7 +62,6 @@ const Footer = styled.footer`
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
   flex-shrink: 0;
 `;
-
 // [btm_navi]
 const BottomNavigationBar = styled.div`
   width: 389.2px; 
@@ -70,7 +72,6 @@ const BottomNavigationBar = styled.div`
   align-items: center;
   flex-shrink: 0;
 `;
-
 // [frame] - 각 내비게이션 아이템
 const NavItem = styled.div`
   width: 77.8px;
@@ -84,17 +85,23 @@ const NavItem = styled.div`
   box-sizing: border-box; 
   cursor: pointer;
 `;
-
 // 아이콘 스타일 (공통)
 const NavIcon = styled.div`
-  width: 20px;
-  height: 20px;
-  background-color: #ccc; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   cursor: pointer;
+  width: 25px; 
+  height: 25px; 
 `;
-
-// 텍스트 스타일 (공통)
+// 개별 아이콘 (NavIcon을 상속받아 사용)
+const HomeIcon = styled(NavIcon)``;
+const LectureIcon = styled(NavIcon)``;
+const EwhaListIcon = styled(NavIcon)``;
+const ChatIcon = styled(NavIcon)``;
+const MypageIcon = styled(NavIcon)``;
+// 텍스트 스타일 (활성화 여부에 따라 색상 변경)
 const NavText = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 600;
@@ -103,61 +110,76 @@ const NavText = styled.span`
   letter-spacing: 0px;
   text-align: center;
   vertical-align: middle; 
-  color: #222222;
+  color: ${props => props.$active ? '#00664F' : '#999999'}; 
 `;
-
-// 개별 아이콘 (NavIcon을 상속받아 필요시 오버라이드)
-const HomeIcon = styled(NavIcon)``;
-const LectureIcon = styled(NavIcon)`
-  width: 25px;
-  height: 25px;
-`;
-const EwhaListIcon = styled(NavIcon)``;
-const ChatIcon = styled(NavIcon)``;
-const MypageIcon = styled(NavIcon)``;
-
-
-export default function Layout({ headerContent, backgroundColor, headerBackgroundColor, contentBackgroundColor }) {
-   const navigate = useNavigate(); // useNavigate 훅 사용
+// Layout 컴포넌트 정의
+export default function Layout({ headerContent, backgroundColor, headerBackgroundColor, contentBackgroundColor, showFooter = true , customFooterContent = null }) {
+  const navigate = useNavigate(); 
+  const location = useLocation();
   const [mainActiveTab, setMainActiveTab] = useState('강의 조회');
-
+  const isHomePage = location.pathname === '/';
+  const isLecturePage = location.pathname.startsWith('/lectures');
+  //이화인 목록, 채팅, 마이페이지 활성화 여부 변수
+  const isEwhaListPage = location.pathname.startsWith('/ewhalist'); 
+  const isChatPage = location.pathname.startsWith('/chat');       
+  const isMypage = location.pathname.startsWith('/mypage'); 
   const LectureTabProvider = ({ children }) => (
     <LectureTabContext.Provider value={{ mainActiveTab, setMainActiveTab }}>
       {children}
     </LectureTabContext.Provider>
   );
   const handleNavigateToLectures = () => {
-    navigate('/lectures'); // 강의 목록 페이지 경로로 이동
-    setMainActiveTab('강의 조회'); // 강의 탭으로 이동 시 '강의 조회' 탭 활성화
+    navigate('/lectures'); 
+    setMainActiveTab('강의 조회'); 
   };
-
   return (
     <AppContainer $backgroundColor={backgroundColor}>
       <Header $headerBackgroundColor={headerBackgroundColor}>
         {headerContent}
       </Header>
-
-
-      {/* 핵심! ContentArea에 $contentBackgroundColor prop 전달 */}
+      {/*ContentArea에 $contentBackgroundColor prop 전달 */}
       <ContentArea $contentBackgroundColor={contentBackgroundColor}>
         <LectureTabProvider>
           <Outlet /> 
         </LectureTabProvider>
       </ContentArea>
-
+      {customFooterContent ? (
+        customFooterContent 
+      ) : (
+      showFooter && (
       <Footer>
-        <BottomNavigationBar>
-          <NavItem onClick={() => navigate('/')}><HomeIcon /><NavText>홈</NavText></NavItem>
-          <NavItem onClick={handleNavigateToLectures}><LectureIcon /><NavText>강의</NavText></NavItem>
-          <NavItem><EwhaListIcon /><NavText>이화인 목록</NavText></NavItem>
-          <NavItem><ChatIcon /><NavText>채팅</NavText></NavItem>
-          <NavItem><MypageIcon /><NavText>마이페이지</NavText></NavItem>
-        </BottomNavigationBar>
-      </Footer>
+            <BottomNavigationBar>
+              <NavItem onClick={() => navigate('/')}>
+                <HomeIcon><img src={isHomePage ? IconHomeActiveURL : IconHomeInactiveURL} alt="홈" style={{ width: '100%', height: '100%' }} /></HomeIcon>
+                <NavText $active={isHomePage}>홈</NavText>
+              </NavItem>
+
+              <NavItem onClick={handleNavigateToLectures}>
+                <LectureIcon><img src={isLecturePage ? IconLectureActiveURL : IconLectureInactiveURL} alt="강의" style={{ width: '100%', height: '100%' }} /></LectureIcon>
+                <NavText $active={isLecturePage}>강의</NavText>
+              </NavItem>
+
+              <NavItem onClick={() => navigate('/ewhalist')}>
+                <EwhaListIcon><img src={isEwhaListPage ? IconEwhalistInactiveURL : IconEwhalistInactiveURL} alt="이화인 목록" style={{ width: '100%', height: '100%' }} /></EwhaListIcon>
+                <NavText $active={isEwhaListPage}>이화인 목록</NavText>
+              </NavItem>
+
+              <NavItem onClick={() => navigate('/chat')}>
+                <ChatIcon><img src={isChatPage ? IconchatInactiveURL : IconchatInactiveURL} alt="채팅" style={{ width: '100%', height: '100%' }} /></ChatIcon>
+                <NavText $active={isChatPage}>채팅</NavText>
+              </NavItem>
+
+              <NavItem onClick={() => navigate('/mypage')}>
+                <MypageIcon><img src={isMypage ? IconMypageInactiveURL : IconMypageInactiveURL} alt="마이페이지" style={{ width: '100%', height: '100%' }} /></MypageIcon>
+                <NavText $active={isMypage}>마이페이지</NavText>
+              </NavItem>
+            </BottomNavigationBar>
+          </Footer>
+      )
+      )}
     </AppContainer>
   );
 }
-
 // useLectureTab 훅
 export const useLectureTab = () => {
   const context = useContext(LectureTabContext);
