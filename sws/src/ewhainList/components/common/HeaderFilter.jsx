@@ -24,11 +24,13 @@ export default function HeaderFilter() {
   const handleMoveMajor = () => {
     navigate("/ewhainfilter/dept", { replace: true, state: { fromHeader: true } });
   }
-  const handleExchange = (value) => {
-    setExchange(value);
+  const handleMoveExchange = () => {
+    navigate("/ewhainfilter/exchange", { replace: true, state: { fromHeader: true } });
+    //setExchange(value);
   };
-  const handlePeriod = (value) => {
-    setPeriod(value);
+  const handleMovePeriod = () => {
+    navigate("/ewhainfilter/period", { replace: true, state: { fromHeader: true } });
+    //setPeriod(value);
   };
 
   return (
@@ -38,19 +40,8 @@ export default function HeaderFilter() {
         <HeaderButton buttontype="search" isclicked={searchBtn} onClick={handleSearchBtn} />
         <HeaderButton buttontype="filter" onClick={handleIsFilter} />
         <HeaderButton buttontype="major" onClick={handleMoveMajor} />
-        
-        <FilterDropDown 
-          options={FILTER.EXCHANGE}
-          value={exchange}
-          onChange={handleExchange}
-          placeholder="교류방식"
-        />
-        <FilterDropDown 
-          options={FILTER.PERIOD}
-          value={period}
-          onChange={handlePeriod}
-          placeholder="최신순"
-        />
+        <HeaderButton buttontype="exchange" onClick={handleMoveExchange} />
+        <HeaderButton buttontype="period" onClick={handleMovePeriod} />
       </FilterWrapper>
       <SearchBarSpace>
         {searchBtn && <SearchBar />}

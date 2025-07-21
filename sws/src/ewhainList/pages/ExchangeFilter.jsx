@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
@@ -10,14 +10,16 @@ import Coffeechat from "../icons/icon_coffeechat.svg?react";
 
 export default function ExchangeFilter() {
   const { exchange, setExchange } = useFilterStore();
+  const location = useLocation();
   const navigate = useNavigate();
+  const cameFromHeader = location.state?.fromHeader;
 
   const handleExchange = (item) => {
     setExchange(item);
   };
   
   const handleMoveInitialFilter = () => {
-    navigate('/ewhainfilter');
+    cameFromHeader ? navigate('/ewhainlist') : navigate('/ewhainfilter');
   };
   
   return(

@@ -31,6 +31,6 @@ const HeaderButtonContainer = styled.button`
   font-weight: ${({ theme }) => theme.fonts.display.caption.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.caption.medium.lineHeight};
   background-color: ${({$buttontype, $isgallery, theme}) => (
-    ($isgallery && ($buttontype==="gallery")) || (!$isgallery && ($buttontype==="index")) ? theme.colors.fourth : theme.colors.gray100
+    ($isgallery && ($buttontype==="gallery")) || (!$isgallery && ($buttontype==="index")) ? "#e1fff1" : theme.colors.gray100
   )};
 `;

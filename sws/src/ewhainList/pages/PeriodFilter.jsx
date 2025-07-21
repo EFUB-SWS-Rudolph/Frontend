@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
@@ -8,13 +8,15 @@ import { useFilterStore } from '../stores/FilterStore';
 export default function PeriodFilter() {
   const { period, setPeriod } = useFilterStore();
   const navigate = useNavigate();
+  const location = useLocation();
+  const cameFromHeader = location.state?.fromHeader;
 
   const handlePeriod = (item) => {
     setPeriod(item);
   };
   
   const handleMoveInitialFilter = () => {
-    navigate('/ewhainfilter');
+    cameFromHeader ? navigate('/ewhainlist') : navigate('/ewhainfilter');
   };
   
   return(

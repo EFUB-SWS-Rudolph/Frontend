@@ -8,32 +8,44 @@ import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
 
 export default function HeaderButton({ buttontype, isclicked, onClick }) {
-  const { isgallery, major } = useFilterStore();
+  const { isgallery, major, exchange, period } = useFilterStore();
 
+  const buttonRenderMap = {
+    sorting: () => isgallery ? <HiViewGrid size={15} /> : <HiMiniListBullet size={15} />,
+    search: () => <CiSearch size={15} color={isclicked ? theme.colors.primary : theme.colors.black} />,
+    filter: () => (
+      <>
+        <span>필터</span>
+        <TbAdjustmentsHorizontal size={15} />
+      </>
+    ),
+    major: () => (
+      <>
+        <span>{ major==='전체' ? "학과" : major }</span>
+        <IoIosArrowDown size={15} />
+      </>
+    ),
+    exchange: () => (
+      <>
+        <span>{ exchange==='전체' ? "교류방식" : exchange }</span>
+        <IoIosArrowDown size={15} />
+      </>
+    ),
+    period: () => (
+      <>
+        <span>{ period==='전체' ? "최신순" : period }</span>
+        <IoIosArrowDown size={15} />
+      </>
+    ),
+  };
+  
+  
   function renderContent() {
-    if (buttontype === "sorting") {
-      return isgallery ? <HiViewGrid size={15} /> : <HiMiniListBullet size={15} />;
-    } else if (buttontype === "search") {
-      return <CiSearch size={15} color={isclicked ? theme.colors.primary : theme.colors.black} />;
-    } else if (buttontype === "filter") {
-      return (
-        <>
-          <span>필터</span>
-          <TbAdjustmentsHorizontal size={15} />
-        </>
-      );
-    } else if (buttontype === "major") {
-      return (
-        <>
-          <span>{ major==='전체' ? "학과" : major }</span>
-          <IoIosArrowDown size={15} />
-        </>
-      );
-    }
+    return buttonRenderMap[buttontype]?.() || null;
   }
 
   return (
-    <HeaderButtonContainer $buttontype={buttontype} $isclicked={isclicked} $major={major} theme={theme} onClick={onClick}>{renderContent()}</HeaderButtonContainer>
+    <HeaderButtonContainer $buttontype={buttontype} $major={major} $exchange={exchange} $period={period} $isclicked={isclicked} onClick={onClick} theme={theme}>{renderContent()}</HeaderButtonContainer>
   );
 }
 
@@ -47,15 +59,22 @@ const HeaderButtonContainer = styled.button`
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  color: ${({ $buttontype, $major, theme }) => 
-    ($major !== '전체') && ($buttontype === "major") ? theme.colors.primary : theme.colors.black
+  color: ${({ $buttontype, $major, $exchange, $period, theme }) => 
+    (($major !== '전체') && ($buttontype === "major")) ||
+    (($exchange !== '전체') && ($buttontype === "exchange")) ||
+    (($period !== '최신순') && ($buttontype === "period")) ?
+    theme.colors.primary : theme.colors.black
   };
   font-family: ${({ theme }) => theme.fonts.display.caption.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.caption.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.caption.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.caption.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.caption.medium.lineHeight};
-  background-color: ${({$buttontype, $isclicked, $major, theme}) => (
-    (($buttontype === "search") && $isclicked) || (($major !== '전체') && ($buttontype === "major")) ? "#e1fff1": theme.colors.gray100
+  background-color: ${({$buttontype, $isclicked, $major, $exchange, $period, theme}) => (
+    (($buttontype === "search") && $isclicked) || 
+    (($major !== '전체') && ($buttontype === "major")) ||
+    (($exchange !== '전체') && ($buttontype === "exchange")) ||
+    (($period !== '최신순') && ($buttontype === "period")) ?
+    "#e1fff1": theme.colors.gray100
   )};
 `;
