@@ -95,7 +95,7 @@ const SignUpContents = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 40px 0 10px;
+  padding: 30px 0 10px;
   width: 100%;
 `;
 

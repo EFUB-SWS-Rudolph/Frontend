@@ -12,7 +12,7 @@ export default function ProgressBar({ step, totalSteps }) {
 
 const ProgressWrapper = styled.div`
   width: 390px;
-  height: 2px;
+  height: 4px;
   background-color: ${({ theme }) => theme.colors.gray300};
   border-radius: 2px;
 `;

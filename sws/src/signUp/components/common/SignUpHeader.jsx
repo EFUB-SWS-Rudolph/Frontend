@@ -33,7 +33,7 @@ export default function SignUpHeader({ backRoute }) {
   return (
     <HeaderWrapper>
       <LeftArea onClick={handleMoveBack}>
-        <MdOutlineArrowBackIosNew size={20} />
+        <BACK_ARROW />
       </LeftArea>
       <CenterArea>
         <HeaderTitle>회원가입</HeaderTitle>

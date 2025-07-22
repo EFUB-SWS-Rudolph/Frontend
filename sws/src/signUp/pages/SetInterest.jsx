@@ -52,7 +52,7 @@ const SignUpContents = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 40px 0 10px;
+  padding: 30px 0 10px;
   width: 100%;
 `;
 
@@ -66,7 +66,7 @@ const EnteringInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   padding: 0 25px;
 `;
 

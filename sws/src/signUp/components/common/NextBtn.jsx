@@ -22,7 +22,7 @@ const NextButton = styled.button`
   justify-content: center;
   border-radius: 12px;
   border: none;
-  margin: 17px auto 0;
+  margin: 10px auto 0;
   cursor: pointer;
   background-color: ${({ disabled, theme }) =>
     disabled ? theme.colors.gray300 : theme.colors.primary};

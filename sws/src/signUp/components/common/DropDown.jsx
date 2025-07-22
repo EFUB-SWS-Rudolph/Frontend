@@ -88,28 +88,13 @@ const OptionContainer = styled.ul`
   z-index: 100;
   padding: 5px 0;
   list-style: none;
+  
+&::-webkit-scrollbar-button {
+  display: none !important;
+  height: 0 !important;
+  width: 0 !important;
+}
 
-  &::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
-    display: none;
-  }
-
-  &::-webkit-scrollbar-button {
-    display: none;
-    height: 0;
-    width: 0;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: transparent;
-    display: none;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-    display: none;
-  }
   scrollbar-width: thin;
   scrollbar-color: ${({ theme }) => theme.colors.secondary} transparent;
 `;
