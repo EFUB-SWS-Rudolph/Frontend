@@ -4,7 +4,6 @@ import INDEX from '../../icons/icon_index.svg?react';
 import SEARCH from '../../icons/icon_search.svg?react';
 import FILTER from '../../icons/icon_filter.svg?react';
 import DOWNARROW from '../../icons/icon_downarrow.svg?react';
-import { IoIosArrowDown } from "react-icons/io";
 import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
 
