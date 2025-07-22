@@ -45,11 +45,11 @@ export default function SignUpHeader({ backRoute }) {
 
 const HeaderWrapper = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  height: 102px;
+  height: 56px;
   width: 100%;
-  padding: 0 16px 20px;
+  padding: 0 16px;
 `;
 
 const LeftArea = styled.button`
