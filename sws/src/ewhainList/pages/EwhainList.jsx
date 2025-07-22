@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
 import HeaderFilter from '../components/common/HeaderFilter';
 import UserCard from '../components/common/UserCard';
 import USERS from '../constants/users';
-import { FaFaceMeh } from "react-icons/fa6";
+import EMPTY from '../icons/icon_empty.svg?react';
 
 export default function EwhainList() {
   const searchExist = true;  // api 연결 후 검색 결과 여부 표시
@@ -30,7 +29,7 @@ export default function EwhainList() {
       </> :
       <>
         <NoResult>
-          <FaFaceMeh size={50} styled={{ color: theme.colors.gray500 }} />
+          <EMPTY styled={{ color: theme.colors.gray500 }} />
           검색 결과가 없어요 :{'('}
         </NoResult>
       </>
