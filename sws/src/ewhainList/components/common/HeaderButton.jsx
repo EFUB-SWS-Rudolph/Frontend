@@ -3,6 +3,7 @@ import GALLERY from '../../icons/icon_gallery.svg?react';
 import INDEX from '../../icons/icon_index.svg?react';
 import SEARCH from '../../icons/icon_search.svg?react';
 import FILTER from '../../icons/icon_filter.svg?react';
+import DOWNARROW from '../../icons/icon_downarrow.svg?react';
 import { IoIosArrowDown } from "react-icons/io";
 import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
@@ -22,19 +23,19 @@ export default function HeaderButton({ buttontype, isclicked, onClick }) {
     major: () => (
       <>
         <span>{ major==='전체' ? "학과" : major }</span>
-        <IoIosArrowDown size={15} />
+        <DOWNARROW />
       </>
     ),
     exchange: () => (
       <>
         <span>{ exchange==='전체' ? "교류방식" : exchange }</span>
-        <IoIosArrowDown size={15} />
+        <DOWNARROW />
       </>
     ),
     period: () => (
       <>
         <span>{ period==='전체' ? "최신순" : period }</span>
-        <IoIosArrowDown size={15} />
+        <DOWNARROW />
       </>
     ),
   };
