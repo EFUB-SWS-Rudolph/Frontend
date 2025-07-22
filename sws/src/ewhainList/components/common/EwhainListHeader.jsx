@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import { IoIosClose } from "react-icons/io";
-import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import X from '../../icons/icon_x.svg?react';
+import BACK_ARROW from '../../icons/icon_backarrow.svg?react';
 
 export default function EwhainListHeader({ header, onClick }) {
   if (header === "ewhainlist") {
@@ -14,12 +14,11 @@ export default function EwhainListHeader({ header, onClick }) {
     return (
       <HeaderWrapper>
         <HeaderContainer>필터 설정</HeaderContainer>
-        <IoIosClose 
-          size={35}                
+        <X              
           style={{
             position: "absolute",
-            top: "50%",
-            right: "10px",
+            bottom: "15px",
+            right: "20px",
             transform: "translateY(-50%)",
             color: theme.colors.black, 
           }}
@@ -30,18 +29,19 @@ export default function EwhainListHeader({ header, onClick }) {
   } else {
     return(
       <HeaderWrapper>
-        <MdOutlineArrowBackIosNew 
-          size={20}              
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "10px",
-            transform: "translateY(-50%)",
-            color: theme.colors.black, 
-          }}
-          onClick={onClick}
-        />
-        <HeaderContainer>{header}</HeaderContainer>
+        <HeaderContents>
+          <BACK_ARROW             
+            style={{
+              position: "absolute",
+              bottom: "13px",
+              left: "30px",
+              transform: "translateY(-50%)",
+              color: theme.colors.black, 
+            }}
+            onClick={onClick}
+          />
+          <HeaderContainer>{header}</HeaderContainer>
+        </HeaderContents>
       </HeaderWrapper>
     );
   }
@@ -50,9 +50,9 @@ export default function EwhainListHeader({ header, onClick }) {
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   width: 390px;
-  height: 56px;
+  height: 102px;
   margin: 0;
   font-family: ${({ theme }) => theme.fonts.display.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.medium.fontSize};
@@ -64,14 +64,20 @@ const HeaderContainer = styled.div`
 const HeaderWrapper = styled.div`
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   width: 390px;
-  height: 56px;
+  height: 102px;
   margin: 0;
+  padding: 20px;
   font-family: ${({ theme }) => theme.fonts.display.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.medium.lineHeight};
 `;
+
+const HeaderContents = styled.div`
+  display: flex;
+
+`

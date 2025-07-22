@@ -57,6 +57,7 @@ const ResetBtnContainer = styled.button`
   font-style: ${({ theme }) => theme.fonts.display.title.extraSmall.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.title.extraSmall.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.title.extraSmall.lineHeight};
+  cursor: pointer;
 `;
 
 const FinishFilterBtnContainer = styled.div`
@@ -73,4 +74,5 @@ const FinishFilterBtnContainer = styled.div`
   font-style: ${({ theme }) => theme.fonts.display.title.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.title.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.title.medium.lineHeight};
+  cursor: pointer;
 `;

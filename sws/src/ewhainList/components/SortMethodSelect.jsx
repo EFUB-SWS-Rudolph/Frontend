@@ -33,7 +33,7 @@ const DetailBtnWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px;
+  padding: 20px;
 `;
 
 const DetailType = styled.div`

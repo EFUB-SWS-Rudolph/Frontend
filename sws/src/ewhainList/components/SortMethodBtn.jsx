@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { HiViewGrid } from "react-icons/hi";
 import { HiMiniListBullet } from "react-icons/hi2";
+import GALLERY from '../icons/icon_gallery.svg?react';
+import INDEX from '../icons/icon_index.svg?react';
 import theme from '../../styles/theme';
 import { useFilterStore } from '../stores/FilterStore';
 
@@ -9,7 +11,7 @@ export default function SortMethodBtn({ buttontype, onClick }) {
 
   return (
     <HeaderButtonContainer $buttontype={buttontype} $isgallery={isgallery} theme={theme} onClick={onClick}>
-      {buttontype==="gallery" ? <HiViewGrid size={15} /> : <HiMiniListBullet size={15} />}
+      {buttontype==="gallery" ? <GALLERY width="12px" height="12px" /> : <INDEX width="16px" height="10px" />}
     </HeaderButtonContainer>
   );
 }

@@ -4,6 +4,7 @@ import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
+import CHECK from '../../icons/icon_check.svg?react';
 
 // icon: 교환 방식에서 앞에 svg 컴포넌트
 // item: 재능 기부, 재능 교환, 학과, 최신순, 오래된 순
@@ -23,7 +24,7 @@ export default function FilterDetailChoice({ icon: Icon, item, type, onChange })
           {Icon && <Icon style={{color: isSelected ? theme.colors.secondary : theme.colors.black}} />}
           <Option>{item}</Option>
         </ChoiceContent>
-        {isSelected && <FaCheck size={15} style={{color: theme.colors.secondary}} />}
+        {isSelected && <CHECK style={{color: theme.colors.secondary}} />}
       </FilterOption>
     </DetailChoiceWrapper>
   );

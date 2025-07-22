@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { LiaAngleRightSolid } from "react-icons/lia";
+import SLIGHT_RIGHT_ARROW from '../../icons/icon_rightarrow.svg?react';
 import { useFilterStore } from '../../stores/FilterStore';
 
 // select: 교환 방식, 학과, 최신순, 각 대학
@@ -30,7 +31,7 @@ export default function FilterDetailBtn({ select, value, detailroute, fromheader
       <DetailType>{select}</DetailType>
       <SelectDetailContainer>
         <SelectedValue $value={value} theme={theme}>{value}</SelectedValue>
-        <LiaAngleRightSolid size={20} color="#808080" onClick={handleMoveFilterDetail} cursor="pointer" />
+        <SLIGHT_RIGHT_ARROW width="5px" height="10px" color="#808080" onClick={handleMoveFilterDetail} cursor="pointer" />
       </SelectDetailContainer>
     </DetailBtnWrapper>
   );
@@ -58,7 +59,7 @@ const SelectDetailContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 7px;
+  gap: 10px;
 `;
 
 const SelectedValue = styled.div`
