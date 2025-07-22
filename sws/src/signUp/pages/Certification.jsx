@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoMdHelpCircleOutline } from "react-icons/io";
+import UNION from '../icons/icon_union.svg?react';
 import SignUpHeader from '../components/common/SignUpHeader';
 import ProgressBar from '../components/common/ProgressBar';
 import InputWindow from '../components/common/InputWindow';
@@ -64,7 +65,7 @@ export default function Certification() {
 
           <CertificationNotice>
             <NoticeContainer>
-              <IoMdHelpCircleOutline size={15} color={theme.colors.primary} />
+              <UNION />
               <Notice>인증단어 안내</Notice>
             </NoticeContainer>
             유레카 포털 {'>'} 로그인 {'>'} 자유게시판 {'>'} 'Weevo' 검색
