@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
 import HeaderFilter from '../components/common/HeaderFilter';
-import UserCard from '../components/common/UserCard';
+import UserCard from '../components/UserCard';
 import USERS from '../constants/users';
 import EMPTY from '../icons/icon_empty.svg?react';
 

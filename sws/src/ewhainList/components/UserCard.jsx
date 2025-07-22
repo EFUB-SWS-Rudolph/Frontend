@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Exchange from "../../icons/icon_exchange.svg?react";
-import Give from "../../icons/icon_give.svg?react";
-import Coffeechat from "../../icons/icon_coffeechat.svg?react";
-import theme from '../../../styles/theme';
-import { useFilterStore } from '../../stores/FilterStore';
+import Exchange from "../icons/icon_exchange.svg?react";
+import Give from "../icons/icon_give.svg?react";
+import Coffeechat from "../icons/icon_coffeechat.svg?react";
+import theme from '../../styles/theme';
+import { useFilterStore } from '../stores/FilterStore';
 
 export default function UserCard({ user }) {
   // const [users, setUsers] = useState([]);
