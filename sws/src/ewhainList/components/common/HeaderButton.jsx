@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { HiViewGrid } from "react-icons/hi";
-import { HiMiniListBullet } from "react-icons/hi2";
-import { CiSearch } from "react-icons/ci";
-import { TbAdjustmentsHorizontal } from "react-icons/tb";
+import GALLERY from '../../icons/icon_gallery.svg?react';
+import INDEX from '../../icons/icon_index.svg?react';
+import SEARCH from '../../icons/icon_search.svg?react';
+import FILTER from '../../icons/icon_filter.svg?react';
 import { IoIosArrowDown } from "react-icons/io";
 import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
@@ -11,12 +11,12 @@ export default function HeaderButton({ buttontype, isclicked, onClick }) {
   const { isgallery, major, exchange, period } = useFilterStore();
 
   const buttonRenderMap = {
-    sorting: () => isgallery ? <HiViewGrid size={15} /> : <HiMiniListBullet size={15} />,
-    search: () => <CiSearch size={15} color={isclicked ? theme.colors.primary : theme.colors.black} />,
+    sorting: () => isgallery ? <GALLERY width="14px" height="14px" /> : <INDEX width="14px" height="14px" />,
+    search: () => <SEARCH width="30px" height="30px" color={isclicked ? theme.colors.primary : theme.colors.black} />,
     filter: () => (
       <>
         <span>필터</span>
-        <TbAdjustmentsHorizontal size={15} />
+        <FILTER width="13px" height="13px" />
       </>
     ),
     major: () => (
@@ -52,7 +52,7 @@ export default function HeaderButton({ buttontype, isclicked, onClick }) {
 const HeaderButtonContainer = styled.button`
   height: 36px;
   width: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "36px" : "auto"};
-  padding: ${({$buttontype}) => $buttontype === "filter" ? "10px 12px" : "10px"};
+  padding: ${({$buttontype}) => $buttontype === "filter" ? "10px 12px" : "11px"};
   border: none;
   border-radius: 8px;
   display: flex;
