@@ -17,7 +17,7 @@ export default function EwhainListHeader({ header, onClick }) {
         <X              
           style={{
             position: "absolute",
-            bottom: "15px",
+            top: "50%",
             right: "20px",
             transform: "translateY(-50%)",
             color: theme.colors.black, 
@@ -33,7 +33,7 @@ export default function EwhainListHeader({ header, onClick }) {
           <BACK_ARROW             
             style={{
               position: "absolute",
-              bottom: "13px",
+              top: "50%",
               left: "30px",
               transform: "translateY(-50%)",
               color: theme.colors.black, 
@@ -50,9 +50,9 @@ export default function EwhainListHeader({ header, onClick }) {
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   width: 390px;
-  height: 102px;
+  height: 56px;
   margin: 0;
   font-family: ${({ theme }) => theme.fonts.display.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.medium.fontSize};
@@ -64,10 +64,10 @@ const HeaderContainer = styled.div`
 const HeaderWrapper = styled.div`
   position: relative;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   width: 390px;
-  height: 102px;
+  height: 56px;
   margin: 0;
   padding: 20px;
   font-family: ${({ theme }) => theme.fonts.display.medium.fontFamily};
