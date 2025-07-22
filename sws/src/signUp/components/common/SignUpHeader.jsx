@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import BACK_ARROW from '../../icons/icon_backarrow.svg?react';
 import theme from '../../../styles/theme';
 
 export default function SignUpHeader({ backRoute }) {
