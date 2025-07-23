@@ -4,10 +4,11 @@ import EXCHANGE from "../icons/icon_exchange.svg?react";
 import GIVE from "../icons/icon_give.svg?react";
 import COFFEECHAT from "../icons/icon_coffeechat.svg?react";
 
-export default function UserProfileCard() {
+export default function UserProfileCard({ id }) {
   const userGive = true;
   const userExchange = true;
   const userCoffeechat = true;
+  const userStudentId = true;
 
   return (
     <UserProfileWrapper>
@@ -47,6 +48,7 @@ const ProfileImage = styled.img`
   width: 104px;
   height: 104px;
   box-shadow: rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
 `;
 
 const UserNickname = styled.div`
@@ -66,11 +68,11 @@ const UserAvailable = styled.div`
 `;
 
 const UserUnivInfo = styled.div`
-  font-family: ${({ theme }) => theme.fonts.body.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.body.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.body.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.body.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.body.medium.lineHeight};
+  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
   color: ${({ theme }) => theme.colors.black}; 
   span {
     color: ${({ theme }) => theme.colors.gray300};
@@ -78,11 +80,11 @@ const UserUnivInfo = styled.div`
 `;
 
 const UserLocation = styled.div`
-  font-family: ${({ theme }) => theme.fonts.body.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.body.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.body.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.body.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.body.medium.lineHeight};
+  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
   color: ${({ theme }) => theme.colors.black}; 
 `;
 

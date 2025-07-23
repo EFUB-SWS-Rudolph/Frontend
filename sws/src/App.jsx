@@ -7,6 +7,7 @@ import ExchangeFilter from './ewhainList/pages/ExchangeFilter';
 import MajorFilter from './ewhainList/pages/MajorFilter';
 import PeriodFilter from './ewhainList/pages/PeriodFilter';
 import DeptFilter from './ewhainList/pages/DeptFilter';
+import IndividualInquiry from './ewhainList/pages/IndividualInquiry';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/ewhainfilter/dept" element={<DeptFilter />} />
           <Route path="/ewhainfilter/dept/major" element={<MajorFilter />} />
           <Route path="/ewhainfilter/period" element={<PeriodFilter />} />
+          <Route path="/ewhain" element={<IndividualInquiry />} />
         </Route>
       </Routes>
     </BrowserRouter>

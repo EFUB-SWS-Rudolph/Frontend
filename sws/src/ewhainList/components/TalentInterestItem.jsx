@@ -21,11 +21,11 @@ const ItemContainer = styled.div`
   `};
 
   border: 1px solid transparent;
-  border-radius: 12px;
-  font-family: ${({ theme }) => theme.fonts.body.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.body.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.body.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.body.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.body.medium.lineHeight};
+  border-radius: 90px;
+  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
   color: ${({ theme }) => theme.colors.black};
 `;

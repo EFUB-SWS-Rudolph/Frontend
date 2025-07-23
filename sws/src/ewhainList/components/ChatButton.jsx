@@ -29,6 +29,7 @@ const ChatBtnContainer = styled.button`
   height: 56px;
   display: flex;
   align-items: center;
+  justify-content: center;
   border-radius:  15px;
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.white}; 
@@ -37,14 +38,15 @@ const ChatBtnContainer = styled.button`
 const ChatBtnContents = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 84px;
   height: 24px;
 `;
 
 const ChatText = styled.div`
-  font-family: ${({ theme }) => theme.fonts.body.large.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.body.large.fontSize};
-  font-style: ${({ theme }) => theme.fonts.body.large.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.body.large.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.body.large.lineHeight};
+  font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
 `;
