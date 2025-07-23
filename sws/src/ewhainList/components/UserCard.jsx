@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import Exchange from "../icons/icon_exchange.svg?react";
-import Give from "../icons/icon_give.svg?react";
-import Coffeechat from "../icons/icon_coffeechat.svg?react";
+import EXCHANGE from "../icons/icon_exchange.svg?react";
+import GIVE from "../icons/icon_give.svg?react";
+import COFFEECHAT from "../icons/icon_coffeechat.svg?react";
 import theme from '../../styles/theme';
 import { useFilterStore } from '../stores/FilterStore';
 
@@ -12,9 +12,9 @@ export default function UserCard({ user }) {
   function available() {
     return (
       <>
-        {user.재능기부 && <Give width="16px" height="16px" />}
-        {user.재능교환 && <Exchange width="16px" height="16px" />}
-        {user.커피챗 && <Coffeechat width="16px" height="16px" />}
+        {user.재능기부 && <GIVE width="16px" height="16px" />}
+        {user.재능교환 && <EXCHANGE width="16px" height="16px" />}
+        {user.커피챗 && <COFFEECHAT width="16px" height="16px" />}
       </>
     );
   }
