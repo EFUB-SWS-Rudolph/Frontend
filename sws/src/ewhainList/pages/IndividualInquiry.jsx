@@ -9,7 +9,7 @@ import ChatButton from '../components/ChatButton';
 // id를 전달받아 해당 user의 정보 조회
 export default function IndividualInquiry({ id }) {
   const navigate = useNavigate();
-  const isItemEmpty = true;
+  const isItemEmpty = false;
 
   const handleMoveList = () => {
     navigate('/ewhainlist');
@@ -35,6 +35,8 @@ export default function IndividualInquiry({ id }) {
                 </NoticeContainer> :
                 <>
                   <TalentInterestItem item="음악" />
+                  <TalentInterestItem item="독일어" />
+                  <TalentInterestItem item="프로그래밍" />
                   <TalentInterestItem item="독일어" />
                   <TalentInterestItem item="프로그래밍" />
                 </>
@@ -108,7 +110,12 @@ const Title = styled.h3`
 const ItemContainer = styled.div`
   display: flex;
   width: 317px;
-  gap: 8px;
+  gap: 7px;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const NoticeContainer = styled.div`

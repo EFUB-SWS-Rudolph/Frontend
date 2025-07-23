@@ -17,9 +17,8 @@ const ItemContainer = styled.div`
   height: 36px;
   background: ${({ theme }) => `
     linear-gradient(${theme.colors.white}, ${theme.colors.white}) padding-box,
-    linear-gradient(to right, ${theme.colors.primary}, ${theme.colors.forth}) border-box
+    linear-gradient(to right, ${theme.colors.primary}, ${theme.colors.third}) border-box
   `};
-
   border: 1px solid transparent;
   border-radius: 90px;
   font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
