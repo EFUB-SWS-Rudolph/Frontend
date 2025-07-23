@@ -4,9 +4,9 @@ import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
 import FilterDetailChoice from '../components/common/FilterDetailChoice';
 import { useFilterStore } from '../stores/FilterStore';
-import Exchange from "../icons/icon_exchange.svg?react";
-import Give from "../icons/icon_give.svg?react";
-import Coffeechat from "../icons/icon_coffeechat.svg?react";
+import EXCHANGE from "../icons/icon_exchange.svg?react";
+import GIVE from "../icons/icon_give.svg?react";
+import COFFEECHAT from "../icons/icon_coffeechat.svg?react";
 
 export default function ExchangeFilter() {
   const { exchange, setExchange } = useFilterStore();
@@ -27,9 +27,9 @@ export default function ExchangeFilter() {
       <EwhainListHeader header="교류 방식" onClick={handleMoveInitialFilter} />
       <FilterContents>
         <FilterDetailChoice item="전체" type={exchange} onChange={handleExchange} />
-        <FilterDetailChoice icon={Exchange} item="재능 교환" type={exchange} onChange={handleExchange} />
-        <FilterDetailChoice icon={Give} item="재능 기부" type={exchange} onChange={handleExchange} />
-        <FilterDetailChoice icon={Coffeechat} item="커피챗" type={exchange} onChange={handleExchange} />
+        <FilterDetailChoice icon={EXCHANGE} item="재능 교환" type={exchange} onChange={handleExchange} />
+        <FilterDetailChoice icon={GIVE} item="재능 기부" type={exchange} onChange={handleExchange} />
+        <FilterDetailChoice icon={COFFEECHAT} item="커피챗" type={exchange} onChange={handleExchange} />
       </FilterContents>
     </FilterPageWrapper>
   );

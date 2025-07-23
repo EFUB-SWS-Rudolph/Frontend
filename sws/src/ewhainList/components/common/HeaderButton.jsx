@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import GALLERY from '../../icons/icon_gallery.svg?react';
 import INDEX from '../../icons/icon_index.svg?react';
 import SEARCH from '../../icons/icon_search.svg?react';
+import SEARCH_GREEN from '../../icons/icon_searchgreen.svg?react';
 import FILTER from '../../icons/icon_filter.svg?react';
 import DOWNARROW from '../../icons/icon_downarrow.svg?react';
 import theme from '../../../styles/theme';
@@ -12,7 +13,7 @@ export default function HeaderButton({ buttontype, isclicked, onClick }) {
 
   const buttonRenderMap = {
     sorting: () => isgallery ? <GALLERY width="14px" height="14px" /> : <INDEX width="14px" height="14px" />,
-    search: () => <SEARCH width="30px" height="30px" color={isclicked ? theme.colors.primary : theme.colors.black} />,
+    search: () => isclicked ? <SEARCH_GREEN /> : <SEARCH />,
     filter: () => (
       <>
         <span>필터</span>
@@ -27,7 +28,7 @@ export default function HeaderButton({ buttontype, isclicked, onClick }) {
     ),
     exchange: () => (
       <>
-        <span>{ exchange==='전체' ? "교류방식" : exchange }</span>
+        <span>{ exchange==='전체' ? "교류 방식" : exchange }</span>
         <DOWNARROW />
       </>
     ),

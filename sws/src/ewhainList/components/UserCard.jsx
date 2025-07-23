@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import Exchange from "../icons/icon_exchange.svg?react";
 import Give from "../icons/icon_give.svg?react";

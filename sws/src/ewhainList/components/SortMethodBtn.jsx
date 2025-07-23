@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { HiViewGrid } from "react-icons/hi";
-import { HiMiniListBullet } from "react-icons/hi2";
 import GALLERY from '../icons/icon_gallery.svg?react';
 import INDEX from '../icons/icon_index.svg?react';
 import theme from '../../styles/theme';

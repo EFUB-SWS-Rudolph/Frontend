@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import FILTER from '../../constants/Filter';
 import SearchBar from '../SearchBar';
 import HeaderButton from './HeaderButton';
 import { useFilterStore } from '../../stores/FilterStore';
 
 export default function HeaderFilter() {
   const [searchBtn, setSearchBtn] = useState(false);
-  const { isgallery, setIsGallery, exchange, setExchange, period, setPeriod } = useFilterStore();
+  const { isgallery, setIsGallery } = useFilterStore();
   const navigate = useNavigate();
 
   const handleIsGallery = () => {

@@ -1,9 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import { useFilterStore } from '../../stores/FilterStore';
-import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import { FaCheck } from "react-icons/fa6";
 import CHECK from '../../icons/icon_check.svg?react';
 
 // icon: 교환 방식에서 앞에 svg 컴포넌트

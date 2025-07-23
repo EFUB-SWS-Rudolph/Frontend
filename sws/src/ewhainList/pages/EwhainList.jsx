@@ -35,7 +35,7 @@ export default function EwhainList() {
       </>
       }
       
-      <NavigationBar>내비게이션바위치</NavigationBar>
+      <NavigationBar />
     </EwhainListWrapper>
   );
 }

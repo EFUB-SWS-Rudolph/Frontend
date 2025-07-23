@@ -1,9 +1,7 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import SortMethodBtn from './SortMethodBtn';
 import { useFilterStore } from '../stores/FilterStore';
-import { MdOutlineArrowBackIosNew } from "react-icons/md";
 
 export default function SortMethodSelect() {
   const { isgallery, setIsGallery } = useFilterStore();

@@ -6,7 +6,7 @@ import BACK_ARROW from '../../icons/icon_backarrow.svg?react';
 export default function EwhainListHeader({ header, onClick }) {
   if (header === "ewhainlist") {
     return (
-      <HeaderWrapper>
+      <HeaderWrapper $header={header}>
         <HeaderContainer>이화인 목록</HeaderContainer> 
       </HeaderWrapper>
     );
@@ -66,7 +66,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 390px;
+  width: 100%;
   height: 56px;
   margin: 0;
   padding: 20px;

@@ -1,9 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import { LiaAngleRightSolid } from "react-icons/lia";
 import SLIGHT_RIGHT_ARROW from '../../icons/icon_rightarrow.svg?react';
-import { useFilterStore } from '../../stores/FilterStore';
 
 // select: 교환 방식, 학과, 최신순, 각 대학
 // value: 선택된 값, 처음에는 전체

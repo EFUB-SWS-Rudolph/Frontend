@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { CiSearch } from "react-icons/ci";
+import SEARCH from '../icons/icon_search.svg?react';
 import theme from '../../styles/theme';
 
 export default function SearchBar() {
@@ -12,7 +12,7 @@ export default function SearchBar() {
   return (
     <SearchBarContainer>
       <SearchInput placeholder="학과 또는 닉네임 입력" value={searchTerm} onChange={handleSearchTerm} />
-      <CiSearch size={20} color="#aaa"/>
+      <SEARCH />
     </SearchBarContainer>
   );
 }
