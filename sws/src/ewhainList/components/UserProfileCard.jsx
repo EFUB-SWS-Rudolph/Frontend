@@ -47,7 +47,7 @@ const UserProfileWrapper = styled.div`
 const ProfileImage = styled.img`
   width: 104px;
   height: 104px;
-  box-shadow: rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 50px;
 `;
 

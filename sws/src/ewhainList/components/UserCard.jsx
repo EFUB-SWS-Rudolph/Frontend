@@ -71,7 +71,7 @@ const ProfileImage = styled.img`
   height: 56px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const ProfileImageContainer = styled.div`

@@ -20,7 +20,7 @@ export default function IndividualInquiry({ id }) {
       <EwhainListHeader header="프로필" onClick={handleMoveList} />
       <PageContents>
         <UserInfoContainer>
-          <UserProfileCard /> {/* user id 전달 */}
+          <UserProfileCard id={id}/> {/* user id 전달 */}
           <ChatButton />
         </UserInfoContainer>
 
