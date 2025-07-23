@@ -4,9 +4,15 @@ import theme from '../../styles/theme';
 import CHAT from '../icons/icon_chat.svg?react';
 
 export default function ChatButton() {
+  const navigate = useNavigate();
+
+  const handleMoveChat = () => {
+    navigate('/chat/id');
+  };
+
   return (
     <ChatBtnWrapper>
-      <ChatBtnContainer>
+      <ChatBtnContainer onClick={handleMoveChat}>
         <ChatBtnContents>
           <CHAT />
           <ChatText>채팅하기</ChatText>
@@ -33,6 +39,7 @@ const ChatBtnContainer = styled.button`
   border-radius:  15px;
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.white}; 
+  cursor: pointer;
 `;
 
 const ChatBtnContents = styled.div`
