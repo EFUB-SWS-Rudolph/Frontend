@@ -34,8 +34,6 @@ export default function EwhainList() {
         </NoResult>
       </>
       }
-      
-      <NavigationBar />
     </EwhainListWrapper>
   );
 }
@@ -94,17 +92,4 @@ const NoResult = styled.div`
   font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
-`;
-
-const NavigationBar = styled.div`
-  position: static;
-  bottom: 0;
-  height: 50px;
-  width: 100%;
-  font-size: 20px;
-  font-weight: 600;
-  border-top: 1px solid ${({ theme }) => theme.colors.gray300};
-  display: flex;
-  align-items: center;
-  text-align: center;
 `;
