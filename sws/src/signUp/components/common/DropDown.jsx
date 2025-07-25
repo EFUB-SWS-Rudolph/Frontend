@@ -26,7 +26,7 @@ export default function DropDown({ options, value, onChange }) {
     <Wrapper ref={dropdownRef}>
       <SelectBox onClick={() => setIsOpen(!isOpen)}>
         <SelectedValue theme={theme}>{value || '선택해 주세요'}</SelectedValue>
-        <SCROLL />
+        <ScrollIcon />
       </SelectBox>
 
       {isOpen && (
@@ -75,6 +75,15 @@ const SelectedValue = styled.span`
   line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
 `;
 
+const ScrollIcon = styled(SCROLL)`
+  width: 3.875rem;
+  height: 0;
+  transform: rotate(90deg);
+  flex-shrink: 0;
+  stroke-width: 4px;
+  stroke: var(--Secondary, #13997B);
+`;
+
 const OptionContainer = styled.ul`
   height: 17.5rem;
   flex-shrink: 0;
@@ -85,15 +94,6 @@ const OptionContainer = styled.ul`
   background: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.gray100};
   list-style: none;
-  
-&::-webkit-scrollbar-button {
-  display: none !important;
-  height: 0 !important;
-  width: 0 !important;
-}
-
-  scrollbar-width: thin;
-  scrollbar-color: ${({ theme }) => theme.colors.secondary} transparent;
 `;
 
 const Option = styled.li`
