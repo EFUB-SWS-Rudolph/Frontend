@@ -9,7 +9,8 @@ export default function InputContainer({ title, inputPlaceholder, value, onChang
       <InputTitle title={title} />
       <InputContents>
         <InputWindow inputPlaceholder={inputPlaceholder} value={value} onChange={onChange} />
-        {(hasSubmitted && !isValid) && <Wraning>{ERROR_MESSAGE.CERTIFICATION}</Wraning>}
+        {(hasSubmitted && !isValid) && <Warning>{ERROR_MESSAGE.CERTIFICATION}</Warning>}
+        {(!isValid && title==="닉네임" && value!=='') && <Warning>{ERROR_MESSAGE.NICKNAME}</Warning>} 
       </InputContents>
     </InputWrapper>
   );
@@ -34,7 +35,7 @@ const InputContents = styled.div`
   gap: 0.25rem;
 `;
 
-const Wraning = styled.div`
+const Warning = styled.div`
   color: ${({ theme }) => theme.colors.warning};
   font-family: ${({ theme }) => theme.fonts.display.body.small.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.small.fontSize};

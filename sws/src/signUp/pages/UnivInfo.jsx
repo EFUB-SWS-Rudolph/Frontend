@@ -52,6 +52,7 @@ export default function UnivInfo() {
             <span>대학 및 학과 정보</span>를<br/>
             입력해 주세요
           </EnteringInfo>
+          
           <UserEnterSection>
             <DropDown
               title="대학"
@@ -73,6 +74,7 @@ export default function UnivInfo() {
               onChange={handleStudentId}
             />
           </UserEnterSection>
+          
         </SignUpContents>
 
         <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
