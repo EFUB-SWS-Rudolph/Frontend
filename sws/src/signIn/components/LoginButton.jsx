@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
-import KakaoIcon from '../icons/icon_kakao.svg?react';
+import KAKAO from '../icons/icon_kakao.svg?react';
+import GOOGLE from '../icons/logo_google.svg?react';
 import theme from '../../styles/theme';
 
 export default function LoginButton( {method, color} ) {
   return (
     <LoginBtnContainer color={color} theme={theme}>
         <IconWrapper>
-          {(method==="카카오") ? <KakaoIcon width="32px" heihgt="32px" /> : <FcGoogle size={23} />}
+          {(method==="카카오") ? <KAKAO width="1.25rem" height="1.25rem" flex-shrink="0" /> : 
+          <FcGoogle width="2.4375rem" height="2.4375rem" flex-shrink="0" aspect-ratio="1/1" />}
         </IconWrapper>
           <MethodText>{method} 로그인</MethodText>
     </LoginBtnContainer>
@@ -49,13 +51,12 @@ const IconWrapper = styled.div`
 `;
 
 const MethodText = styled.div`
+  flex: 1 0 0;
+  color: ${({ theme }) => theme.colors.black};
+  text-align: center;
   font-family: ${({ theme }) => theme.fonts.display.title.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.title.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.title.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.title.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.title.medium.lineHeight};
-  color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
