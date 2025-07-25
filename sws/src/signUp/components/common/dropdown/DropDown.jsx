@@ -5,7 +5,7 @@ import DropdownTrigger from './DropdownTrigger';
 import DropdownList from './DropdownList';
 import InputTitle from '../InputTitle';
 
-export default function DropDown({ options, value, onChange }) {
+export default function DropDown({ title, options, value, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -27,7 +27,7 @@ export default function DropDown({ options, value, onChange }) {
 
   return (
     <Wrapper ref={dropdownRef} isopen={isOpen}>
-      <InputTitle title="대학" />
+      <InputTitle title={title} />
       <DropdownTrigger
         selectedValue={value}
         onClick={() => setIsOpen(!isOpen)}
