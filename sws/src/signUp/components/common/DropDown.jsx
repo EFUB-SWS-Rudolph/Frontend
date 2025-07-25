@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import SCROLL from '../../icons/icon_scrollbar.svg?react';
+import DROPDOWN from '../../icons/icon_dropdown.svg?react';
 import theme from '../../../styles/theme';
 
 export default function DropDown({ options, value, onChange }) {
@@ -25,7 +26,10 @@ export default function DropDown({ options, value, onChange }) {
   return (
     <Wrapper ref={dropdownRef}>
       <SelectBox onClick={() => setIsOpen(!isOpen)}>
-        <SelectedValue theme={theme}>{value || '선택해 주세요'}</SelectedValue>
+        <SelectedValue theme={theme}>
+          <SelectedText>{value || '선택해 주세요'}</SelectedText>
+          <DROPDOWN width="1.5rem" height="1.5rem" aspect-ratio="1/1" />
+        </SelectedValue>
         <ScrollIcon />
       </SelectBox>
 
@@ -49,25 +53,27 @@ const Wrapper = styled.div`
 `;
 
 const SelectBox = styled.div`
-  padding: 10px 17px;
-  width: 342px;
-  height: 48px;
-  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.colors.white};
   display: flex;
-  justify-content: space-between;
+  padding: 0.75rem 1.125rem 0.75rem 1.3125rem;
+  justify-content: center;
   align-items: center;
-  cursor: pointer;
+  align-self: stretch;
+  border-radius: 1rem;
+  border: 1px solid var(--Gray-300, #D9D9D9);
+  width: 21.375rem;
+  height: 3rem;
 `;
 
 const SelectedValue = styled.span`
-  color: ${({ children, theme }) => (children === '선택해 주세요' ? theme.colors.gray500 : theme.colors.black)};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 18.9375rem;
+  height: 1.5rem;
+`;
+
+const SelectedText = styled.div`
+  color: var(--Gray-500, #999);
   font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};

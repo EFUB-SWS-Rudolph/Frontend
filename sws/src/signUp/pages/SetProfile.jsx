@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import SignUpHeader from '../components/common/SignUpHeader';
 import ProgressBar from '../components/common/ProgressBar';
 import InputWindow from '../components/common/InputWindow';
-import DropDown from '../components/common/DropDown';
+import DropDown from '../components/common/dropdown';
 import NextBtn from '../components/common/NextBtn';
 import PLACEHOLDER_MESSAGE from '../constants/PlaceHolderMessage';
 import ERROR_MESSAGE from '../constants/ErrorMessage';
