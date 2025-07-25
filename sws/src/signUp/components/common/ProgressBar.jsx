@@ -17,7 +17,7 @@ const ProgressWrapper = styled.div`
 `;
 
 const Progress = styled.div`
-  height: 0;
+  height: 0.25rem;
   width: ${(props) => props.value}%;
   background-color: ${({ theme }) => theme.colors.secondary};
   transition: width 0.3s ease;

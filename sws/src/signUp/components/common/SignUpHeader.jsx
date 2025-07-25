@@ -34,7 +34,9 @@ export default function SignUpHeader({ backRoute }) {
     <HeaderWrapper>
       <StatusBar />
       <HeaderContents>
-        <GoBack onClick={handleMoveBack}/>
+        <BackBtn>
+          <GoBack onClick={handleMoveBack}/>
+        </BackBtn>
         <HeaderTitle>회원가입</HeaderTitle> 
       </HeaderContents>
     </HeaderWrapper>
@@ -45,9 +47,10 @@ const HeaderWrapper = styled.div`
   display: flex;
   width: 24.375rem;
   flex-direction: column;
-  align-items: center;
-  gap: 1.125rem;
+  
+  
   background: ${({ theme }) => theme.colors.white};
+  height: 6.8rem;
 `;
 
 const StatusBar = styled.div`
@@ -64,13 +67,22 @@ const HeaderContents = styled.div`
   display: flex;
   align-items: center;
   gap: 6.75rem;
-  padding: 1.5rem 10rem 1rem 0.5rem;
+  padding: 1.5rem 10rem 0.6rem 0.5rem;
+`;
+
+const BackBtn = styled.div`
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const GoBack = styled(BACK_ARROW)`
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 0.625rem;
+  height: 1.125rem;
   flex-shrink: 0;
+  fill: ${({ theme }) => theme.colors.black};
 `;
 
 const HeaderTitle = styled.h1`
