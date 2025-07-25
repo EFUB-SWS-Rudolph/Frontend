@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SignUpHeader from '../components/common/SignUpHeader';
 import ProgressBar from '../components/common/ProgressBar';
-import InputWindow from '../components/common/InputWindow';
-import DropDown from '../components/common/dropdown';
+import InputContainer from '../components/common/inputSection/InputContainer';
+import DropDown from '../components/common/dropdown/DropDown';
 import NextBtn from '../components/common/NextBtn';
 import PLACEHOLDER_MESSAGE from '../constants/PlaceHolderMessage';
 import DEPARTMENT_MAJOR from '../constants/University';
@@ -48,43 +48,34 @@ export default function UnivInfo() {
       </HeaderContainer>
 
       <SignUpContents>
-        <SignUpContentContainer>
-          <EnteringInfoContainer>
-            <EnteringInfo>
-              <span>대학 및 학과 정보</span>를<br/>
-              입력해 주세요
-            </EnteringInfo>
-          </EnteringInfoContainer>
-
-          <InfoEnterContainer>
-            <InfoToEnter>대학 <span>*</span></InfoToEnter>
-            <DropDown 
+          <EnteringInfo>
+            <span>대학 및 학과 정보</span>를<br/>
+            입력해 주세요
+          </EnteringInfo>
+          <UserEnterSection>
+            <DropDown
+              title="대학"
               options={COLLEGES}
               value={college}
               onChange={handleCollege}
             />
-          </InfoEnterContainer>
-          <InfoEnterContainer>
-            <InfoToEnter>학과 <span>*</span></InfoToEnter>
-            <DropDown 
+            <DropDown
+              title="학과"
               options={majorOptions}
               value={major}
               onChange={handleMajor}
             />
-          </InfoEnterContainer>
-          <InfoEnterContainer>
-            <InfoToEnter>학번</InfoToEnter>
-            <InputWindow 
+              
+            <InputContainer 
+              title="학번"
               inputPlaceholder={PLACEHOLDER_MESSAGE.STUDENTID} 
               value={studentId} 
               onChange={handleStudentId}
             />
-          </InfoEnterContainer>
+          </UserEnterSection>
+        </SignUpContents>
 
-          <Spacer />
-        </SignUpContentContainer>
         <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
-      </SignUpContents>
     </SignUpPageWrapper>
   );
 }
@@ -93,37 +84,22 @@ const SignUpPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 20px;
   height: 100vh;
+  padding-bottom: 2.125rem;
 `;
 
 const SignUpContents = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  margin-top: 2.5rem;
+  width: 21.375rem;
   flex: 1;
-  padding: 30px 0 10px;
-  width: 100%;
-`;
-
-const SignUpContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 0 25px;
-  width: 100%;
 `;
 
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-`;
-
-const EnteringInfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 30px;
 `;
 
 const EnteringInfo = styled.h2`
@@ -138,26 +114,10 @@ const EnteringInfo = styled.h2`
   }
 `;
 
-const InfoEnterContainer = styled.div`
+const UserEnterSection = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  
-`;
-
-const InfoToEnter = styled.div`
-  color: ${({ theme }) => theme.colors.black};
-  font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
-  margin-bottom: 5px;
-  span {
-    color: ${({ theme }) => theme.colors.warning};
-  }
-`;
-
-const Spacer = styled.div`
-  flex: 1;
+  gap: 1.5rem;
+  margin-top: 2.87rem;
+  width: 21.375rem;
 `;

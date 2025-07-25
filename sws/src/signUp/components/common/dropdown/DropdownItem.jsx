@@ -12,7 +12,7 @@ export default function DropDown({ item, onClick }) {
 
 const Option = styled.li`
   display: flex;
-  padding: 1.1875rem 12.875rem 1rem 1.3125rem;
+  padding: 1.1875rem 12rem 1rem 1.3125rem;
   align-items: center;
   align-self: stretch;
   border-radius: 1rem;
@@ -27,4 +27,5 @@ const OptionText = styled.div`
   font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
+  width: 18.75rem;
 `;

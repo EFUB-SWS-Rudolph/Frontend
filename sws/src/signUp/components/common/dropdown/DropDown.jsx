@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import theme from '../../../../styles/theme';
 import DropdownTrigger from './DropdownTrigger';
 import DropdownList from './DropdownList';
 import InputTitle from '../InputTitle';
@@ -10,7 +9,7 @@ export default function DropDown({ title, options, value, onChange }) {
   const dropdownRef = useRef(null);
 
   const handleOptionClick = (item) => {
-    onChange(item);
+    onChange({ target: { value: item } });
     setIsOpen(false);
   };
 
@@ -26,7 +25,7 @@ export default function DropDown({ title, options, value, onChange }) {
   }, []);
 
   return (
-    <Wrapper ref={dropdownRef} isopen={isOpen}>
+    <Wrapper ref={dropdownRef} $isopen={isOpen}>
       <InputTitle title={title} />
       <DropdownTrigger
         selectedValue={value}
@@ -45,9 +44,9 @@ export default function DropDown({ title, options, value, onChange }) {
 const Wrapper = styled.div`
   display: flex;
   width: 21.375rem;
-  height: ${({ isopen }) => isopen ? "22.876rem" : "0"};
+  max-height: 22.876rem;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
-  flex-shrink: ${({ isopen }) => isopen ? "0" : "default"};
+  flex-shrink: ${({ $isopen }) => $isopen ? "0" : "default"};
 `;

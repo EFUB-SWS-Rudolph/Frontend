@@ -7,7 +7,7 @@ export default function DropdownTrigger({ selectedValue, onClick }) {
   return (
       <SelectBox onClick={onClick}>
         <SelectedValue theme={theme}>
-          <SelectedText>{selectedValue || '선택해 주세요'}</SelectedText>
+          <SelectedText $selected={selectedValue}>{selectedValue || '선택해 주세요'}</SelectedText>
           <DROPDOWN width="1.5rem" height="1.5rem" aspect-ratio="1/1" />
         </SelectedValue>
       </SelectBox>
@@ -35,7 +35,8 @@ const SelectedValue = styled.span`
 `;
 
 const SelectedText = styled.div`
-  color: var(--Gray-500, #999);
+  color: ${({ $selected, theme }) => 
+    $selected ? theme.colors.black : theme.colors.gray500};
   font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
