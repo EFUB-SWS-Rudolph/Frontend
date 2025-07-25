@@ -32,39 +32,45 @@ export default function SignUpHeader({ backRoute }) {
   
   return (
     <HeaderWrapper>
-      <LeftArea onClick={handleMoveBack}>
-        <BACK_ARROW />
-      </LeftArea>
-      <CenterArea>
-        <HeaderTitle>회원가입</HeaderTitle>
-      </CenterArea>
-      <RightArea />
+      <StatusBar />
+      <HeaderContents>
+        <GoBack onClick={handleMoveBack}/>
+        <HeaderTitle>회원가입</HeaderTitle> 
+      </HeaderContents>
     </HeaderWrapper>
   );
 }
 
 const HeaderWrapper = styled.div`
   display: flex;
+  width: 24.375rem;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  height: 56px;
-  width: 100%;
-  padding: 0 16px;
+  gap: 1.125rem;
+  background: ${({ theme }) => theme.colors.white};
 `;
 
-const LeftArea = styled.button`
-  width: 40px;
+const StatusBar = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  cursor: pointer;
+  width: 22.625rem;
+  height: 2.625rem;
+  padding: 0.75rem 0.875rem 0.75rem 1.25rem;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 12.875rem;
 `;
 
-const CenterArea = styled.div`
-  flex: 1;
+const HeaderContents = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 6.75rem;
+  padding: 1.5rem 10rem 1rem 0.5rem;
+`;
+
+const GoBack = styled(BACK_ARROW)`
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
 `;
 
 const HeaderTitle = styled.h1`
@@ -73,9 +79,5 @@ const HeaderTitle = styled.h1`
   font-style: ${({ theme }) => theme.fonts.display.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.medium.lineHeight};
-  margin: 0;
-`;
-
-const RightArea = styled.div`
-  width: 40px;
+  color: ${({ theme }) => theme.colors.black};
 `;

@@ -11,16 +11,16 @@ export default function ProgressBar({ step, totalSteps }) {
 }
 
 const ProgressWrapper = styled.div`
-  width: 390px;
-  height: 4px;
+  width: 24.375rem;
+  height: 0.25rem;
   background-color: ${({ theme }) => theme.colors.gray300};
-  border-radius: 2px;
 `;
 
 const Progress = styled.div`
-  height: 100%;
+  height: 0;
   width: ${(props) => props.value}%;
   background-color: ${({ theme }) => theme.colors.secondary};
-  border-radius: 2px;
   transition: width 0.3s ease;
+  stroke-width: 4px;
+  stroke: var(--Secondary, #13997B);
 `;
