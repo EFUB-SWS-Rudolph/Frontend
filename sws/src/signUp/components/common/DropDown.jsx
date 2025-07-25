@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { RiArrowDownSFill } from "react-icons/ri";
+import SCROLL from '../../icons/icon_scrollbar.svg?react';
 import theme from '../../../styles/theme';
 
 export default function DropDown({ options, value, onChange }) {
@@ -26,14 +26,14 @@ export default function DropDown({ options, value, onChange }) {
     <Wrapper ref={dropdownRef}>
       <SelectBox onClick={() => setIsOpen(!isOpen)}>
         <SelectedValue theme={theme}>{value || '선택해 주세요'}</SelectedValue>
-        <RiArrowDownSFill size={24} color={theme.colors.gray500} />
+        <SCROLL />
       </SelectBox>
 
       {isOpen && (
         <OptionContainer>
           {options.map((item) => (
             <Option key={item} onClick={() => handleSelect(item)}>
-              {item}
+              <OptionText>{item}</OptionText>
             </Option>
           ))}
         </OptionContainer>
@@ -76,17 +76,14 @@ const SelectedValue = styled.span`
 `;
 
 const OptionContainer = styled.ul`
-  position: absolute;
-  width: 342px;
-  height: 280px;
-  margin-top: 5px;
-  background-color: ${({ theme }) => theme.colors.white};
+  height: 17.5rem;
+  flex-shrink: 0;
+  align-self: stretch;
+  border-radius: 1rem;
+  border: 1px solid var(--Gray-300, #D9D9D9);
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.10);
+  background: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.gray100};
-  border-radius: 12px;
-  overflow-y: auto;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  padding: 5px 0;
   list-style: none;
   
 &::-webkit-scrollbar-button {
@@ -100,17 +97,18 @@ const OptionContainer = styled.ul`
 `;
 
 const Option = styled.li`
-  width: 300px;
-  height: 56px;
-  padding: 12px 17px;
+  display: flex;
+  padding: 1.1875rem 12.875rem 1rem 1.3125rem;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 1rem;
+`;
+
+const OptionText = styled.div`
   color: ${({ theme }) => theme.colors.black};
   font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
-  cursor: pointer;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.white};
-  }
-`
+`;
