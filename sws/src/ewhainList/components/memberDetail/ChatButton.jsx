@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import theme from '../../styles/theme';
+import theme from '../../../styles/theme';
 import CHAT from '../icons/icon_chat.svg?react';
 
 export default function ChatButton() {

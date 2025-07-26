@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import GALLERY from '../icons/icon_gallery.svg?react';
 import INDEX from '../icons/icon_index.svg?react';
-import theme from '../../styles/theme';
-import { useFilterStore } from '../stores/FilterStore';
+import theme from '../../../styles/theme';
+import { useFilterStore } from '../../stores/FilterStore';
 
 export default function SortMethodBtn({ buttontype, onClick }) {
   const { isgallery } = useFilterStore();

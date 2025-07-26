@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import theme from '../../styles/theme';
-import { useFilterStore } from '../stores/FilterStore';
+import theme from '../../../styles/theme';
+import { useFilterStore } from '../../stores/FilterStore';
 import Reset from '../icons/icon_reset.svg?react';
 
 export default function FilterFooter() {

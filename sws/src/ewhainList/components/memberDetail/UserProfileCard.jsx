@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import theme from '../../styles/theme';
+import theme from '../../../styles/theme';
 import EXCHANGE from "../icons/icon_exchange.svg?react";
 import GIVE from "../icons/icon_give.svg?react";
 import COFFEECHAT from "../icons/icon_coffeechat.svg?react";

@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import EXCHANGE from "../icons/icon_exchange.svg?react";
 import GIVE from "../icons/icon_give.svg?react";
 import COFFEECHAT from "../icons/icon_coffeechat.svg?react";
-import theme from '../../styles/theme';
-import { useFilterStore } from '../stores/FilterStore';
+import theme from '../../../styles/theme';
+import { useFilterStore } from '../../stores/FilterStore';
 
 export default function UserCard({ user }) {
   // const [users, setUsers] = useState([]);
@@ -12,18 +12,17 @@ export default function UserCard({ user }) {
   function available() {
     return (
       <>
-        {user.재능기부 && <GIVE width="16px" height="16px" />}
-        {user.재능교환 && <EXCHANGE width="16px" height="16px" />}
-        {user.커피챗 && <COFFEECHAT width="16px" height="16px" />}
+        {user.재능기부 && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.재능교환 && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.커피챗 && <COFFEECHAT width="1rem" height="1rem" aspect-ratio="1/1" />}
       </>
     );
   }
 
   return (
     <UserCardWrapper $isgallery={isgallery}>
-      <ProfileImageContainer $isgallery={isgallery}>
-        <ProfileImage src={user.profileimageurl} alt="profileimg" />
-      </ProfileImageContainer>
+      <ProfileImage src={user.profileimageurl} alt="profileimg" />
+
       <UserContent $isgallery={isgallery}>
         <UserInfoContent $isgallery={isgallery}>
           <Nickname>{user.nickname}</Nickname>
@@ -47,58 +46,45 @@ export default function UserCard({ user }) {
 }
 
 const UserCardWrapper = styled.div`
+  flex-shrink: 0;
+  border-radius: 1rem;
+  border: 1px solid var(--Gray-300, #D9D9D9);
+  background: var(--White, #FFF);
+  align-self: ${({ $isgallery }) => 
+    $isgallery ? "default" : "stretch"
+  };
   position: relative;
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
-  border-radius: 12px;
   display: flex;
   flex-direction: ${({$isgallery}) => 
     $isgallery ? "column" : "row"
   };
   width: ${({$isgallery}) => 
-    $isgallery ? "168px" : "100%"
+    $isgallery ? "10.5rem" : "21.87rem"
   };
   height: ${({$isgallery}) => 
-    $isgallery ? "184px" : "80px"
+    $isgallery ? "11.5rem" : "5rem"
   };
   padding: ${({$isgallery}) => 
-    $isgallery ? "13px 10px 10px" : "12px"
+    $isgallery ? "0.75rem" : "0.75rem 1rem 0.75rem 0.75rem"
   };
-  margin: 0;
 `;
 
 const ProfileImage = styled.img`
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
-const ProfileImageContainer = styled.div`
-  padding: ${({$isgallery}) => 
-    $isgallery ? "0" : "0"
-  };
-  margin-right: ${({$isgallery}) => 
-    $isgallery ? "0px" : "0"
-  };
-  width: 58px;
-  height: 58px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
+  border-radius: 3.5rem;
+  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  box-shadow: 1px 1px 7px 0 rgba(0, 0, 0, 0.25);
 `;
 
 const UserContent = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 5px;
-  margin-bottom: 0;
-  padding: ${({$isgallery}) => 
-    $isgallery ? "auto" : "0"
+  width: ${({ $isgallery }) => 
+    $isgallery ? "9rem" : "12rem"
   };
-  gap: ${({$isgallery}) => 
-    $isgallery ? "0" : "3px"
-  };
+  gap: 0.5rem;
 `;
 
 const UserInfoContent = styled.div`
@@ -113,34 +99,28 @@ const UserInfoContent = styled.div`
     $isgallery ? "default" : "center"
   };
   gap: ${({$isgallery}) => 
-    $isgallery ? "3px" : "7px"
+    $isgallery ? "0.5" : "0.69rem"
   };
-  margin-left: ${({$isgallery}) => $isgallery ? "0px" : "5px"};
-  margin-top: ${({$isgallery}) => $isgallery ? "5px" : "0px"};
-  margin-bottom: 0px;
-  font-family: ${({ theme }) => theme.fonts.display.caption.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.small.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.caption.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.caption.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.caption.medium.lineHeight};
 `;
 
 const Nickname = styled.div`
   color: #000;
-  font-family: ${({ theme }) => theme.fonts.display.title.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.title.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.title.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.title.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.title.medium.lineHeight};
+  font-family: "Pretendard Variable";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 `;
 
 const UnivInfoContent = styled.div`
-  color: #5d5d5d;
-  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
+  color: #5D5D5D;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -151,34 +131,35 @@ const UnivInfoContent = styled.div`
 `;
 
 const UserTalent = styled.div`
-  margin-left: ${({$isgallery}) => $isgallery ? "0px" : "5px"};
-  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
-  color: #5d5d5d;
+  color: #5D5D5D;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: 150px;
+  max-width: 10.5rem;
 `;
 
 const UserLocation = styled.div`
-  color: #5d5d5d;
-  margin-top: 3px;
-  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
+  width: 7.6875rem;
+  color: #5D5D5D;
+  font-family: "Pretendard Variable";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 `;
 
 const AvailableSection = styled.div`
-  position: absolute;
-  display: flex;
-  gap: 5px;
+  display: inline-flex;
   align-items: center;
+  gap: 0.3125rem;
+  position: absolute;
   top: ${({$isgallery}) => $isgallery ? "15px" : "18px"};
   right: ${({$isgallery}) => $isgallery ? "10px" : "10px"};
 `;

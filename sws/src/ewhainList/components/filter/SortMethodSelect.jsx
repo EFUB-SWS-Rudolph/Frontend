@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import theme from '../../styles/theme';
+import theme from '../../../styles/theme';
 import SortMethodBtn from './SortMethodBtn';
-import { useFilterStore } from '../stores/FilterStore';
+import { useFilterStore } from '../../stores/FilterStore';
 
 export default function SortMethodSelect() {
   const { isgallery, setIsGallery } = useFilterStore();

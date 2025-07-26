@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import SearchBar from '../SearchBar';
-import HeaderButton from './HeaderButton';
-import { useFilterStore } from '../../stores/FilterStore';
+import SearchBar from '../../SearchBar';
+import HeaderButton from '../../common/HeaderButton';
+import { useFilterStore } from '../../../stores/FilterStore';
 
 export default function HeaderFilter() {
   const [searchBtn, setSearchBtn] = useState(false);
