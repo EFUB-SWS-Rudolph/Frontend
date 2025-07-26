@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import SearchBar from '../../SearchBar';
-import HeaderButton from '../../common/HeaderButton';
+import SearchBar from './SearchBar';
+import HeaderButton from './HeaderButton';
 import { useFilterStore } from '../../../stores/FilterStore';
 
 export default function HeaderFilter() {
@@ -49,12 +49,12 @@ export default function HeaderFilter() {
 }
 
 const Filter = styled.div`
-  width: 365px;
+  width: 23.57rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-left: 5px;
+  padding-left: 0.87rem;
   gap: 0px;
 `;
 
@@ -66,7 +66,7 @@ const SearchBarSpace = styled.div`
 
 const FilterWrapper = styled.div`
   position: relative;
-  width: 390px;
+  width: 23.57rem;
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -74,10 +74,8 @@ const FilterWrapper = styled.div`
   white-space: nowrap;
   align-items: center;
   flex: 1;
-  gap: 8px;
+  gap: 0.5rem;
   padding: 0;
-  padding-left: 20px;
-  margin-top: 5px;
   &::-webkit-scrollbar {
     display: none;
   }

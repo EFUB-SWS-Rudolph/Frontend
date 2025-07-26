@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import SEARCH from '../icons/icon_search.svg?react';
+import SEARCH from '../../../icons/icon_search.svg?react';
 import theme from '../../styles/theme';
 
 export default function SearchBar() {
