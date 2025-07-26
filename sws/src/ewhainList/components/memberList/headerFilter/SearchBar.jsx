@@ -11,24 +11,31 @@ export default function SearchBar() {
   }
   return (
     <SearchBarContainer>
-      <SearchInput placeholder="학과 또는 닉네임 입력" value={searchTerm} onChange={handleSearchTerm} />
-      <SEARCH />
+      <SearchBarContext>
+        <SearchInput placeholder="학과 또는 닉네임 입력" value={searchTerm} onChange={handleSearchTerm} />
+        <SEARCH />
+      </SearchBarContext>
     </SearchBarContainer>
   );
 }
 
 const SearchBarContainer = styled.div`
-  width: 354px;
-  height: 40px;
+  display: inline-flex;
+  padding-left: 0.9375rem;
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 0.75rem;
+  background: var(--Gray-100, #F5F5F5);
+  width: 21.1875rem;
+  height: 2.5rem;
+  border: none;
+`;
+
+const SearchBarContext = styled.iv`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: none;
-  border-radius: 12px;
-  height: 40px;
-  padding: 0 12px;
-  margin-top: 10px;
-  background-color: ${({ theme }) => theme.colors.gray100};
+  padding: 0.75 0.75 0.75 0;
 `;
 
 const SearchInput = styled.input`
@@ -36,13 +43,15 @@ const SearchInput = styled.input`
   border: none;
   background: transparent;
   outline: none;
-  font-family: ${({ theme }) => theme.fonts.display.body.small.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.small.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.small.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.small.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.small.lineHeight};
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 0.8125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
   color: ${({ theme }) => theme.colors.black};
   &:placeholder {
     color: #aaa;
+    letter-spacing: -0.01031rem;
   }
-`
+`;
