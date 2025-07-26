@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import GALLERY from '../../icons/icon_gallery.svg?react';
-import INDEX from '../../icons/icon_index.svg?react';
-import SEARCH from '../../icons/icon_search.svg?react';
-import SEARCH_GREEN from '../../icons/icon_searchgreen.svg?react';
-import FILTER from '../../icons/icon_filter.svg?react';
-import DOWNARROW from '../../icons/icon_downarrow.svg?react';
-import theme from '../../../styles/theme';
-import { useFilterStore } from '../../stores/FilterStore';
+import GALLERY from '../../../icons/icon_gallery.svg?react';
+import INDEX from '../../../icons/icon_index.svg?react';
+import SEARCH from '../../../icons/icon_search.svg?react';
+import SEARCH_GREEN from '../../../icons/icon_searchgreen.svg?react';
+import FILTER from '../../../icons/icon_filter.svg?react';
+import DOWNARROW from '../../../icons/icon_downarrow.svg?react';
+import theme from '../../../../styles/theme';
+import { useFilterStore } from '../../../stores/FilterStore';
 
 export default function HeaderButton({ buttontype, isclicked, onClick }) {
   const { isgallery, major, exchange, period } = useFilterStore();
@@ -18,7 +18,7 @@ export default function HeaderButton({ buttontype, isclicked, onClick }) {
     filter: () => (
       <FilterWrapper>
         <span>필터</span>
-        <FILTER width="0.75rem" height="0.6875arem" />
+        <FILTER width="0.75rem" height="0.6875rem" />
       </FilterWrapper>
     ),
     major: () => (
@@ -30,7 +30,7 @@ export default function HeaderButton({ buttontype, isclicked, onClick }) {
     exchange: () => (
       <ExchangeWrapper>
         <span>{ exchange==='전체' ? "교류 방식" : exchange }</span>
-        <DOWNARROW width="0.25rem" height="0.5rem" transform="rotate(90deg)" />
+        <DOWNARROW />
       </ExchangeWrapper>
     ),
     period: () => (
@@ -111,6 +111,7 @@ const PeriodWrapper = styled.div`
 `;
 
 const HeaderButtonContainer = styled.button`
+  flex-shrink: 0;
   height: 2.25rem;
   width: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "2.25rem" : "auto"};
   padding: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "0.715rem" : "0.625rem 0.75rem"};

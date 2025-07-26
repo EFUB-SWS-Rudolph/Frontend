@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import SEARCH from '../../../icons/icon_search.svg?react';
-import theme from '../../styles/theme';
+import theme from '../../../../styles/theme';
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,20 +22,21 @@ export default function SearchBar() {
 const SearchBarContainer = styled.div`
   display: inline-flex;
   padding-left: 0.9375rem;
-  justify-content: flex-end;
+  justify-content: start;
   align-items: center;
   border-radius: 0.75rem;
   background: var(--Gray-100, #F5F5F5);
-  width: 21.1875rem;
+  width: 22.125rem;
   height: 2.5rem;
   border: none;
 `;
 
-const SearchBarContext = styled.iv`
+const SearchBarContext = styled.div`
+  width: 21.1875rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75 0.75 0.75 0;
+  padding: 0.75rem 0.75rem 0.75rem 0;
 `;
 
 const SearchInput = styled.input`
@@ -43,7 +44,6 @@ const SearchInput = styled.input`
   border: none;
   background: transparent;
   outline: none;
-  text-align: center;
   font-family: "Pretendard Variable";
   font-size: 0.8125rem;
   font-style: normal;

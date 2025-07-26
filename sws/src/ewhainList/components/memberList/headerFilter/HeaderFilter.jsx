@@ -49,16 +49,17 @@ export default function HeaderFilter() {
 }
 
 const Filter = styled.div`
-  width: 23.57rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-left: 0.87rem;
-  gap: 0px;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-top: 0.5rem;
 `;
 
 const SearchBarSpace = styled.div`
+  width: 22.125rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,7 +76,7 @@ const FilterWrapper = styled.div`
   align-items: center;
   flex: 1;
   gap: 0.5rem;
-  padding: 0;
+  padding-left: 0.88rem;
   &::-webkit-scrollbar {
     display: none;
   }

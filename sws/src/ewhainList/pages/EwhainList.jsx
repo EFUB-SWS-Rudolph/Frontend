@@ -1,24 +1,22 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
-import HeaderFilter from '../components/common/HeaderFilter';
-import UserCard from '../components/UserCard';
+import HeaderFilter from '../components/memberList/headerFilter/HeaderFilter';
+import UserCard from '../components/memberList/UserCard';
 import USERS from '../constants/users';
 import EMPTY from '../icons/icon_empty.svg?react';
+import { useFilterStore } from '../stores/FilterStore';
 
 export default function EwhainList() {
   const searchExist = true;  // api 연결 후 검색 결과 여부 표시
+  const { isgallery } = useFilterStore();
 
   return (
     <EwhainListWrapper>
-      <HeaderContainer>
-        <EwhainListHeader header="ewhainlist" />
-        <HeaderFilter/>
-      </HeaderContainer>
-      
+      <HeaderFilter />
       { searchExist ? 
       <>
-        <EwhainContainer>
+        <EwhainContainer $isgallery={isgallery}>
           {USERS.map((user) => (
             <UserCard
               user={user}
@@ -51,24 +49,16 @@ const EwhainListWrapper = styled.div`
   align-items: center;
 `;
 
-const HeaderContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  margin-bottom: 15px;
-  padding: 0;
-`;
-
 const EwhainContainer = styled.div`
-  width: 356px;
-  margin-top: 10px;
-  margin-right: 0;
-  padding: 0;
   display: flex;
+  width: ${({$isgallery}) => 
+    $isgallery ? "22.25rem" : "21.875rem"
+  };
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 1.25rem;
   flex-wrap: wrap;
   overflow-y: auto;
-  gap: 20px;
   flex: 1;
   &::-webkit-scrollbar {
     display: none;
