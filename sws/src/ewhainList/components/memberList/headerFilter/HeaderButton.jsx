@@ -12,31 +12,32 @@ export default function HeaderButton({ buttontype, isclicked, onClick }) {
   const { isgallery, major, exchange, period } = useFilterStore();
 
   const buttonRenderMap = {
-    sorting: () => isgallery ? <GALLERY width="14px" height="14px" /> : <INDEX width="14px" height="14px" />,
+    sorting: () => isgallery ? <GALLERY width="0.84375rem" height="0.84375rem" flex-shrink="0" /> 
+      : <INDEX width="1.5rem" height="1.5rem" flex-shrink="0" aspect-ratio="1/1" />,
     search: () => isclicked ? <SEARCH_GREEN /> : <SEARCH />,
     filter: () => (
-      <>
+      <FilterWrapper>
         <span>필터</span>
-        <FILTER width="13px" height="13px" />
-      </>
+        <FILTER width="0.75rem" height="0.6875arem" />
+      </FilterWrapper>
     ),
     major: () => (
-      <>
+      <MajorWrapper>
         <span>{ major==='전체' ? "학과" : major }</span>
         <DOWNARROW />
-      </>
+      </MajorWrapper>
     ),
     exchange: () => (
-      <>
+      <ExchangeWrapper>
         <span>{ exchange==='전체' ? "교류 방식" : exchange }</span>
-        <DOWNARROW />
-      </>
+        <DOWNARROW width="0.25rem" height="0.5rem" transform="rotate(90deg)" />
+      </ExchangeWrapper>
     ),
     period: () => (
-      <>
+      <PeriodWrapper>
         <span>{ period==='전체' ? "최신순" : period }</span>
         <DOWNARROW />
-      </>
+      </PeriodWrapper>
     ),
   };
   
@@ -50,27 +51,80 @@ export default function HeaderButton({ buttontype, isclicked, onClick }) {
   );
 }
 
-const HeaderButtonContainer = styled.button`
-  height: 36px;
-  width: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "36px" : "auto"};
-  padding: ${({$buttontype}) => $buttontype === "filter" ? "10px 12px" : "11px"};
-  border: none;
-  border-radius: 8px;
+const FilterWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 6px;
-  cursor: pointer;
+  gap: 0.4375rem;
+  span {
+    text-align: center;
+    font-family: "Pretendard Variable";
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+`;
+
+const ExchangeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  span {
+    text-align: center;
+    font-family: "Pretendard Variable";
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+`;
+
+const MajorWrapper = styled.div`
+  display: flex;
+  width: 2.5625rem;
+  align-items: center;
+  gap: 0.5rem;
+  span {
+    text-align: center;
+    font-family: "Pretendard Variable";
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+`;
+
+const PeriodWrapper = styled.div`
+  display: flex;
+  width: 3.375rem;
+  height: 1rem;
+  align-items: center;
+  gap: 0.5rem;
+  span {
+    text-align: center;
+    font-family: "Pretendard Variable";
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+`;
+
+const HeaderButtonContainer = styled.button`
+  height: 2.25rem;
+  width: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "2.25rem" : "auto"};
+  padding: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "0.715rem" : "0.625rem 0.75rem"};
+  border-radius: 0.5rem;
+  background: var(--Gray-100, #F5F5F5);
+  display: flex;
+  align-items: center;
+  justify-content: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "center" : "default"};
   color: ${({ $buttontype, $major, $exchange, $period, theme }) => 
     (($major !== '전체') && ($buttontype === "major")) ||
     (($exchange !== '전체') && ($buttontype === "exchange")) ||
     (($period !== '최신순') && ($buttontype === "period")) ?
     theme.colors.primary : theme.colors.black
   };
-  font-family: ${({ theme }) => theme.fonts.display.caption.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.caption.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.caption.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.caption.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.caption.medium.lineHeight};
   background-color: ${({$buttontype, $isclicked, $major, $exchange, $period, theme}) => (
     (($buttontype === "search") && $isclicked) || 
     (($major !== '전체') && ($buttontype === "major")) ||
