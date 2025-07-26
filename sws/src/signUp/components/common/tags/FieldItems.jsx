@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import theme from '../../styles/theme';
-import { useUserStore } from '../stores/useUserStore';
+import theme from '../../../../styles/theme';
+import { useUserStore } from '../../../stores/useUserStore';
 
 export default function FieldItems({ fields, type }) {
   const { interests, addInterests, deleteInterests, talents, addTalents, deleteTalents } = useUserStore();
@@ -33,9 +33,10 @@ export default function FieldItems({ fields, type }) {
               key={item}
               onClick={() => handleSelectedField(item)}
               selected={type==="interest" ? interests.includes(item) : talents.includes(item)}
+              $ismiddle={row.length === 3 && row[1] === item}
               theme={theme}
             >
-                {item}
+              <FieldItemText>{item}</FieldItemText>
             </FieldItemContainer>
           ))}
         </Row>
@@ -45,38 +46,43 @@ export default function FieldItems({ fields, type }) {
 }
 
 const FieldItemWrapper = styled.div`
-  width: 364px;
-  height: 328px;
+  width: 22.75rem;
+  height: 20.5rem;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 10px 13px 0;
+  gap: 0.5rem;
 `;
 
 const Row = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: ${({$align}) => $align};
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  justify-content: ${({ $align }) => $align};
 `;
 
 const FieldItemContainer = styled.div`
   display: flex;
-  align-items: center;
+  height: 3rem;
+  width: ${({ $ismiddle }) => 
+    $ismiddle ? "6.9375rem" : "7rem"
+  };
+  padding: 0.9375rem;
   justify-content: center;
-  padding: 15px 0px;
-  width: 112px;
-  height: 48px;
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
-  border-radius: 20px;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--Gray-300, #D9D9D9);
+  background-color: ${({selected, theme}) =>
+    selected ? theme.colors.third : theme.colors.white
+  };
+`;
+
+const FieldItemText = styled.div`
   font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
   color: #000;
-  background-color: ${({selected, theme}) =>
-    selected ? theme.colors.third : theme.colors.white
-  };
-  cursor: pointer;
 `;

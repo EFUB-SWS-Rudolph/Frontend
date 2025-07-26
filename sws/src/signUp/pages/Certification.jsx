@@ -35,12 +35,8 @@ export default function Certification() {
   };
 
   return(
-    <SignUpPageWrapper>
-      <HeaderContainer>
-        <SignUpHeader backRoute={'/signup/certification'} />
-        <ProgressBar step='1' totalSteps='5' />
-      </HeaderContainer>
-
+    <>
+      <ProgressBar step='1' totalSteps='5' />
       <SignUpContents>
         <EnteringInfoContainer>
           <EnteringInfo>
@@ -71,31 +67,20 @@ export default function Certification() {
           유레카 포털 {'>'} 로그인 {'>'} 자유게시판 {'>'} 'Weevo' 검색
         </CertificationNotice>
       </SignUpContents>
-      <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
-    </SignUpPageWrapper>
+      <ButtonContainer>
+        <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
+      </ButtonContainer>
+    </>
   );
 }
-
-const SignUpPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  padding-bottom: 2.125rem;
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 
 const SignUpContents = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 2.5rem;
   width: 21.375rem;
   flex: 1;
+  margin: 2.5rem 1.5rem 17.31rem;
 `;
 
 const EnteringInfoContainer = styled.div`
@@ -144,6 +129,7 @@ const NoticeContainer = styled.div`
   align-items: center;
   gap: 0.2rem;
   margin-top: 0.5rem;
+  margin-bottom: 0.31rem;
 `;
 
 const Notice = styled.span`
@@ -155,6 +141,9 @@ const Notice = styled.span`
   line-height: ${({ theme }) => theme.fonts.display.body.small.lineHeight};
 `;
 
-const Spacer = styled.div`
-  flex: 1;
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;

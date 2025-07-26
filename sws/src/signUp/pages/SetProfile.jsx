@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SignUpHeader from '../components/common/SignUpHeader';
@@ -31,12 +30,8 @@ export default function SetProfile() {
   };
 
   return (
-    <SignUpPageWrapper>
-      <HeaderContainer>
-        <SignUpHeader backRoute={'/signup/univ'} />
-        <ProgressBar step='3' totalSteps='5' />
-      </HeaderContainer>
-
+    <>
+      <ProgressBar step='3' totalSteps='5' />
       <SignUpContents>
         <EnteringInfo>
           프로필을<br/>
@@ -58,33 +53,22 @@ export default function SetProfile() {
             onChange={handleLocation}
           />  
         </UserEnterSection>
-
-        </SignUpContents>
+      </SignUpContents>
+      <ButtonContainer>
         <NextBtn disabled={!isValid} onClick={handleNextClick} />
-    </SignUpPageWrapper>
+      </ButtonContainer>
+    </>
   );
 }
-
-const SignUpPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  padding-bottom: 2.125rem;
-`;
 
 const SignUpContents = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 2.5rem;
   width: 21.375rem;
   flex: 1;
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  gap: 2.87rem;
+  margin: 2.62rem 1.5rem 18.94rem;
 `;
 
 const EnteringInfo = styled.h2`
@@ -102,6 +86,12 @@ const EnteringInfo = styled.h2`
 const UserEnterSection = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 2.87rem;
   width: 21.375rem;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;

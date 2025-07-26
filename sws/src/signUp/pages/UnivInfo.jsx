@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SignUpHeader from '../components/common/SignUpHeader';
@@ -41,12 +40,8 @@ export default function UnivInfo() {
   const majorOptions = college ? DEPARTMENT_MAJOR[college] : [];
 
   return(
-    <SignUpPageWrapper>
-      <HeaderContainer>
-        <SignUpHeader backRoute={'/signup/certification'} />
-        <ProgressBar step='2' totalSteps='5' />
-      </HeaderContainer>
-
+    <>
+      <ProgressBar step='2' totalSteps='5' />
       <SignUpContents>
           <EnteringInfo>
             <span>대학 및 학과 정보</span>를<br/>
@@ -74,34 +69,22 @@ export default function UnivInfo() {
               onChange={handleStudentId}
             />
           </UserEnterSection>
-          
         </SignUpContents>
-
-        <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
-    </SignUpPageWrapper>
+        <ButtonContainer>
+          <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
+        </ButtonContainer>
+    </>
   );
 }
-
-const SignUpPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  padding-bottom: 2.125rem;
-`;
 
 const SignUpContents = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 2.5rem;
   width: 21.375rem;
   flex: 1;
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  gap: 2.87rem;
+  margin: 2.62rem 1.5rem 12.56rem;
 `;
 
 const EnteringInfo = styled.h2`
@@ -120,6 +103,12 @@ const UserEnterSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  margin-top: 2.87rem;
   width: 21.375rem;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
