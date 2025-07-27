@@ -52,6 +52,7 @@ const FilterPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  padding-bottom: 1rem;
 `;
 
 const HeaderSpace = styled.div`
