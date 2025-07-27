@@ -4,113 +4,99 @@ import styled from 'styled-components';
 import UNION from '../icons/icon_union.svg?react';
 import SignUpHeader from '../components/common/SignUpHeader';
 import ProgressBar from '../components/common/ProgressBar';
-import InputWindow from '../components/common/InputWindow';
+import InputContainer from '../components/common/inputSection/InputContainer';
 import NextBtn from '../components/common/NextBtn';
 import PLACEHOLDER_MESSAGE from '../constants/PlaceHolderMessage';
-import ERROR_MESSAGE from '../constants/ErrorMessage';
 import theme from '../../styles/theme';
 import { useUserStore } from '../stores/useUserStore';
 
 export default function Certification() {
   const { certification, setCertification } = useUserStore();
-  const [isCodeCorrect, setIsCodeCorrect] = useState(false);
+  const [isValid, setIsValid] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const isNextEnabled = certification.length === 4;
   const  CERTIFICATION_CODE = '1986';
   const navigate = useNavigate();
 
+  const handleCertificationCode = (e) => {
+    setCertification(e.target.value);
+  };
+
   useEffect(() => {
-    if (isCodeCorrect) {
+    if (isValid) {
       navigate('/signup/univ');
     }
-  }, [isCodeCorrect]);
+  }, [isValid]);
 
   const handleNextClick = () => {
     setHasSubmitted(true);
     const isCorrect = CERTIFICATION_CODE === certification;
-    setIsCodeCorrect(isCorrect);
+    setIsValid(isCorrect);
   };
 
   return(
-    <SignUpPageWrapper>
-      <HeaderContainer>
-        <SignUpHeader backRoute={'/signup/certification'} />
-        <ProgressBar step='1' totalSteps='5' />
-      </HeaderContainer>
-
+    <Wrapper>
+      <SignUpHeader />
+      <ProgressBar step='1' totalSteps='5' />
       <SignUpContents>
-        <SignUpContentContainer>
-          <EnteringInfoContainer>
-            <EnteringInfo>
-              <span>Weevo</span> 이용을 위해서는<br/>
-              이화인 인증이 필요해요
-            </EnteringInfo>
-            <EnteringDescription>
-              <span>Weevo</span>는 오직 이화인을 위한 재능 공유 서비스입니다.<br/>
-              안전하고 신뢰할 수 있는 서비스 환경을 만들기 위해<br/>
-              회원가입 시 이화인 인증 절차를 거치고 있어요.
-            </EnteringDescription>
-          </EnteringInfoContainer>
+        <EnteringInfoContainer>
+          <EnteringInfo>
+            <span>Weevo</span> 이용을 위해서는<br/>
+            이화인 인증이 필요해요
+          </EnteringInfo>
+          <EnteringDescription>
+            <span>Weevo</span>는 오직 이화인을 위한 재능 공유 서비스입니다.<br/>
+            안전하고 신뢰할 수 있는 서비스 환경을 만들기 위해<br/>
+            회원가입 시 이화인 인증 절차를 거치고 있어요.
+          </EnteringDescription>
+        </EnteringInfoContainer>
 
-          <InfoEnterContainer>
-            <InfoToEnter>인증단어 입력</InfoToEnter>
-            <InputWindow 
-              inputPlaceholder={PLACEHOLDER_MESSAGE.CERTIFICATION}
-              value={certification}
-              onChange={(e) => setCertification(e.target.value)} 
-            />
-            { (hasSubmitted && !isCodeCorrect) && <ErrorNotice>{ERROR_MESSAGE.CERTIFICATION}</ErrorNotice> }
-          </InfoEnterContainer>
+        <InputContainer 
+          title="인증단어 입력"
+          inputPlaceholder={PLACEHOLDER_MESSAGE.CERTIFICATION}
+          value={certification}
+          onChange={handleCertificationCode}
+          hasSubmitted={hasSubmitted}
+          isValid={isValid}
+        />
 
-          <CertificationNotice>
-            <NoticeContainer>
-              <UNION />
-              <Notice>인증단어 안내</Notice>
-            </NoticeContainer>
-            유레카 포털 {'>'} 로그인 {'>'} 자유게시판 {'>'} 'Weevo' 검색
-          </CertificationNotice>
-          <Spacer />
-        </SignUpContentContainer>
-        <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
+        <NoticeContainer>
+          <UNION />
+          <Notice>인증단어 안내</Notice>
+        </NoticeContainer>
+        <CertificationNotice>
+          유레카 포털 {'>'} 로그인 {'>'} 자유게시판 {'>'} 'Weevo' 검색
+        </CertificationNotice>
       </SignUpContents>
-    </SignUpPageWrapper>
+      <ButtonContainer>
+        <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
+      </ButtonContainer>
+    </Wrapper>
   );
 }
 
-const SignUpPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 20px;
-  height: 100vh;
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+const Wrapper = styled.div`
+  width: 24.375rem;
+  height: 52.8125rem; 
+  background: var(--White, #FFF);
 `;
 
 const SignUpContents = styled.div`
+  height: 39.81rem;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  width: 21.375rem;
   flex: 1;
-  padding: 30px 0 10px;
-  width: 100%;
-`;
-
-const SignUpContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 0 25px;
-  width: 100%;
+  padding: 2.5rem 1.5rem 17.31rem;
 `;
 
 const EnteringInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
+  width: 21.375rem;
+  margin-bottom: 1.5rem;
 `;
 
 const EnteringInfo = styled.h2`
@@ -137,30 +123,7 @@ const EnteringDescription = styled.p`
   }
 `;
 
-const InfoEnterContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 342px;
-  height: 100px;
-  margin-top: 15px;
-  margin-bottom: 10px;
-`;
-
-const InfoToEnter = styled.div`
-  color: ${({ theme }) => theme.colors.black};
-  font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
-  margin-bottom: 5px;
-`;
-
 const CertificationNotice = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   color: ${({ theme }) => theme.colors.gray500};
   font-family: ${({ theme }) => theme.fonts.display.body.small.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.small.fontSize};
@@ -172,8 +135,12 @@ const CertificationNotice = styled.div`
 const NoticeContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 4px;
-  gap: 4px;
+  gap: 0.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.31rem;
+`;
+
+const Notice = styled.span`
   color: ${({ theme }) => theme.colors.primary};
   font-family: ${({ theme }) => theme.fonts.display.body.small.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.small.fontSize};
@@ -182,20 +149,9 @@ const NoticeContainer = styled.div`
   line-height: ${({ theme }) => theme.fonts.display.body.small.lineHeight};
 `;
 
-const ErrorNotice = styled.div`
-  margin-top: 5px;
-  color: ${({ theme }) => theme.colors.warning};
-  font-family: ${({ theme }) => theme.fonts.display.body.small.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.small.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.small.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.small.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.small.lineHeight};
-`;
-
-const Notice = styled.span`
-  line-height: 1;
-`;
-
-const Spacer = styled.div`
-  flex: 1;
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;

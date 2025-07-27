@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import BACK_ARROW from '../../icons/icon_backarrow.svg?react';
+import BACK_ARROW from '../../icons/icon_back.svg?react';
 import theme from '../../../styles/theme';
 
 export default function SignUpHeader({ backRoute }) {
@@ -14,7 +14,7 @@ export default function SignUpHeader({ backRoute }) {
   };
   
   useEffect(() => {
-    const blockBackRoute = ['/signup/certification'];
+    const blockBackRoute = ['/signup/certification', '/signup/univ'];
 
     if (blockBackRoute.includes(location.pathname)) {
       const handlePopState = () => {
@@ -32,39 +32,32 @@ export default function SignUpHeader({ backRoute }) {
   
   return (
     <HeaderWrapper>
-      <LeftArea onClick={handleMoveBack}>
-        <BACK_ARROW />
-      </LeftArea>
-      <CenterArea>
-        <HeaderTitle>회원가입</HeaderTitle>
-      </CenterArea>
-      <RightArea />
+      <GoBack onClick={handleMoveBack}/>
+      <HeaderTitle>회원가입</HeaderTitle> 
     </HeaderWrapper>
   );
 }
 
 const HeaderWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 56px;
-  width: 100%;
-  padding: 0 16px;
-`;
-
-const LeftArea = styled.button`
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  cursor: pointer;
-`;
-
-const CenterArea = styled.div`
-  flex: 1;
+  width: 24.375rem;
+  height: 3.75rem;
+  padding-top: 1.12rem;
+  padding-bottom: 1.06rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  background: ${({ theme }) => theme.colors.white};
+`;
+
+const GoBack = styled(BACK_ARROW)`
+  position: absolute;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  top: 50%;
+  left: 0.5rem;
+  transform: translateY(-50%);
 `;
 
 const HeaderTitle = styled.h1`
@@ -73,9 +66,5 @@ const HeaderTitle = styled.h1`
   font-style: ${({ theme }) => theme.fonts.display.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.medium.lineHeight};
-  margin: 0;
-`;
-
-const RightArea = styled.div`
-  width: 40px;
+  color: ${({ theme }) => theme.colors.black};
 `;
