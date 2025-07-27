@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import EXCHANGE from "../../icons/icon_exchange.svg?react";
 import GIVE from "../../icons/icon_give.svg?react";
@@ -8,6 +9,7 @@ import { useFilterStore } from '../../stores/FilterStore';
 export default function UserCard({ user }) {
   // const [users, setUsers] = useState([]);
   const { isgallery } = useFilterStore();
+  const navigate = useNavigate();
 
   function available() {
     return (
@@ -19,8 +21,12 @@ export default function UserCard({ user }) {
     );
   }
 
+  const handleMoveDetail = () => {
+    navigate('/ewhain/${user.id}')
+  }
+
   return (
-    <UserCardWrapper $isgallery={isgallery}>
+    <UserCardWrapper $isgallery={isgallery} onClick={handleMoveDetail}>
       <ProfileImage src={user.profileimageurl} alt="profileimg" />
 
       <UserContent $isgallery={isgallery}>

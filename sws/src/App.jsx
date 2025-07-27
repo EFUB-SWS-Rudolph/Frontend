@@ -24,7 +24,7 @@ function App() {
           <Route path="/ewhainfilter/dept" element={<DeptFilter />} />
           <Route path="/ewhainfilter/dept/major" element={<MajorFilter />} />
           <Route path="/ewhainfilter/period" element={<PeriodFilter />} />
-          <Route path="/ewhainfilter/ewhain" element={<IndividualInquiry />} />
+          <Route path="/ewhain/:id" element={<IndividualInquiry />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
@@ -7,7 +7,8 @@ import ChatButton from '../components/memberDetail/ChatButton';
 import TalentInterestContainer from '../components/memberDetail/TalentInterestContainer';
 
 // id를 전달받아 해당 user의 정보 조회
-export default function IndividualInquiry({ id }) {
+export default function IndividualInquiry() {
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const handleMoveList = () => {
