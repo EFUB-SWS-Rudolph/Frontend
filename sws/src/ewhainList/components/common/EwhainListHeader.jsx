@@ -6,7 +6,7 @@ import BACK_ARROW from '../../icons/icon_back.svg?react';
 export default function EwhainListHeader({ header, onClick }) {
   if (header === "ewhainlist") {
     return (
-      <HeaderWrapper $header={header}>
+      <HeaderWrapper>
         <HeaderContainer>이화인 목록</HeaderContainer> 
       </HeaderWrapper>
     );
@@ -65,8 +65,3 @@ const HeaderContainer = styled.div`
   font-weight: ${({ theme }) => theme.fonts.display.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.medium.lineHeight};
 `;
-
-const HeaderContents = styled.div`
-  display: flex;
-
-`

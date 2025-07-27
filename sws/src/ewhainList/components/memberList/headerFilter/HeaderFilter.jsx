@@ -56,7 +56,6 @@ const Filter = styled.div`
   justify-content: center;
   gap: 0.75rem;
   margin-bottom: 1.5rem;
-  padding-top: 0.5rem;
 `;
 
 const SearchBarSpace = styled.div`

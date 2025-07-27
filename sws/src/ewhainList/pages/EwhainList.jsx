@@ -13,6 +13,7 @@ export default function EwhainList() {
 
   return (
     <EwhainListWrapper>
+      <EwhainListHeader header="ewhainlist" />
       <HeaderFilter />
       { searchExist ? 
       <>
