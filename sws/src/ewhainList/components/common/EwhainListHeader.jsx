@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import X from '../../icons/icon_x.svg?react';
-import BACK_ARROW from '../../icons/icon_backarrow.svg?react';
+import BACK_ARROW from '../../icons/icon_back.svg?react';
 
 export default function EwhainListHeader({ header, onClick }) {
   if (header === "ewhainlist") {
@@ -18,7 +18,7 @@ export default function EwhainListHeader({ header, onClick }) {
           style={{
             position: "absolute",
             top: "50%",
-            right: "20px",
+            right: "1rem",
             transform: "translateY(-50%)",
             color: theme.colors.black, 
           }}
@@ -33,7 +33,7 @@ export default function EwhainListHeader({ header, onClick }) {
           style={{
             position: "absolute",
             top: "50%",
-            left: "30px",
+            left: "1rem",
             transform: "translateY(-50%)",
             color: theme.colors.black, 
           }}

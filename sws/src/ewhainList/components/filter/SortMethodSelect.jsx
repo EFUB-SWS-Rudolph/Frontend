@@ -27,7 +27,7 @@ export default function SortMethodSelect() {
 
 const DetailBtnWrapper = styled.div`
   display: flex;
-  padding: 0.5rem 1.12rem 0.5rem 2.5rem;
+  padding: 0.5rem 2.5rem 0.5rem 2.5rem;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;

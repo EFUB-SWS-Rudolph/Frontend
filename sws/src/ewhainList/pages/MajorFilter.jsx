@@ -44,8 +44,7 @@ export default function MajorFilter() {
 }
 
 const FilterPageWrapper = styled.div`
-  width: 24.375px;
-  height: 52.75;
+  width: 24.375rem;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -59,7 +58,6 @@ const HeaderSpace = styled.div`
 `;
 
 const FilterContents = styled.div`
-  height: 44.94rem;
   width: 24.375rem;
   display: flex;
   flex-direction: column;

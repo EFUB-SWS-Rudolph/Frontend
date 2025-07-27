@@ -23,9 +23,9 @@ export default function EwhainFilter() {
     <FilterPageWrapper>
       <EwhainListHeader header="filter" onClick={handleMoveEwhainList} />
       <FilterContents>
-        <FilterDetailBtn select="교류 방식" value={exchange} detailroute="/ewhainfilter/exchange" />
-        <FilterDetailBtn select="학과" value={major} detailroute="/ewhainfilter/dept" />
-        <FilterDetailBtn select="최신순" value={period} detailroute="/ewhainfilter/period" />
+        <FilterDetailBtn type="main" select="교류 방식" value={exchange} detailroute="/ewhainfilter/exchange" />
+        <FilterDetailBtn type="main" select="학과" value={major} detailroute="/ewhainfilter/dept" />
+        <FilterDetailBtn type="main" select="최신순" value={period} detailroute="/ewhainfilter/period" />
         <SortMethodSelect />
       </FilterContents>
       <FilterFooter />
@@ -34,8 +34,8 @@ export default function EwhainFilter() {
 }
 
 const FilterPageWrapper = styled.div`
-  width: 24.375px;
-  height: 52.75;
+  width: 24.375rem;
+  height: 52.75rem;
   display: flex;
   flex-direction: column;
 `;

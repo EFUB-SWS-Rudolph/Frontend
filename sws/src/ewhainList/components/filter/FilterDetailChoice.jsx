@@ -15,7 +15,7 @@ export default function FilterDetailChoice({ icon: Icon, item, type, onChange })
   const isSelected = type === item;
 
   return (
-    <DetailChoiceWrapper onClick={handleClick}>
+    <DetailChoiceWrapper $icon={Icon} $item={item} onClick={handleClick}>
       <FilterOption>
         <ChoiceContent>
           {Icon && <Icon style={{color: isSelected ? theme.colors.secondary : theme.colors.black}} />}
@@ -29,7 +29,9 @@ export default function FilterDetailChoice({ icon: Icon, item, type, onChange })
 
 const DetailChoiceWrapper = styled.div`
   display: flex;
-  padding: 1.1875rem 1.12rem 1.1875rem 2.5rem;
+  padding: ${({ $icon, $item }) => 
+    $icon || $item==="전체" ? "1.1875rem 1.12rem 1.1875rem 2rem" : "1.1875rem 1.12rem 1.1875rem 2.5rem"
+  };
   align-items: center;
   align-self: stretch;
   width: 24.375rem;

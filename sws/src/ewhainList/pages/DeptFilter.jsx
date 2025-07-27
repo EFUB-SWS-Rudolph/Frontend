@@ -48,8 +48,7 @@ export default function DeptFilter() {
 }
 
 const FilterPageWrapper = styled.div`
-  width: 24.375px;
-  height: 52.75;
+  width: 24.375rem;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -63,7 +62,7 @@ const HeaderSpace = styled.div`
 `;
 
 const FilterContents = styled.div`
-  height: 44.94rem;
+  flex: 1;
   width: 24.375rem;
   display: flex;
   flex-direction: column;
@@ -73,5 +72,6 @@ const FilterContents = styled.div`
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
+    width: 0;
   }
 `;

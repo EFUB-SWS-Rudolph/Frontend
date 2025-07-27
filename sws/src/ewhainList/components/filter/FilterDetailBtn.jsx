@@ -6,7 +6,7 @@ import SLIGHT_RIGHT_ARROW from '../../icons/icon_rightarrow.svg?react';
 // select: 교환 방식, 학과, 최신순, 각 대학
 // value: 선택된 값, 처음에는 전체
 
-export default function FilterDetailBtn({ select, value, detailroute, fromheader, onChange }) {
+export default function FilterDetailBtn({ type, select, value, detailroute, fromheader, onChange }) {
   const navigate = useNavigate();
 
   const handleMoveFilterDetail = () => {
@@ -24,7 +24,7 @@ export default function FilterDetailBtn({ select, value, detailroute, fromheader
   };
 
   return (
-    <DetailBtnWrapper onClick={handleClick}>
+    <DetailBtnWrapper $type={type} onClick={handleClick}>
       <DetailType>{select}</DetailType>
       <SelectDetailContainer>
         <SelectedValue $value={value} theme={theme}>{value}</SelectedValue>
@@ -36,7 +36,9 @@ export default function FilterDetailBtn({ select, value, detailroute, fromheader
 
 const DetailBtnWrapper = styled.div`
   display: flex;
-  padding: 0.5rem 1.12rem 0.5rem 2.5rem;
+  padding: ${({ $type }) =>
+    $type==="main" ? "0.5rem 2.5rem 0.5rem 2.5rem" : "0.5rem 1.125rem 0.5rem 2.5rem"
+  };
   justify-content: space-between;
   align-items: center;
   align-self: stretch;

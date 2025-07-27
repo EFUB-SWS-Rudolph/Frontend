@@ -31,8 +31,8 @@ export default function PeriodFilter() {
 }
 
 const FilterPageWrapper = styled.div`
-  width: 24.375px;
-  height: 52.75;
+  width: 24.375rem;
+  height: 52.75rem;
   display: flex;
   flex-direction: column;
 `;
