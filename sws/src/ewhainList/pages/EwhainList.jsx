@@ -38,7 +38,7 @@ export default function EwhainList() {
 
 const EwhainListWrapper = styled.div`
   position: static;
-  width: 390px;
+  width: 24.375rem;
   height: 47.625rem;
   max-height: 100vh;
   display: flex;

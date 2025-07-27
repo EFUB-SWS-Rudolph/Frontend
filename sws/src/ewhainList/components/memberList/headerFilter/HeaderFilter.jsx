@@ -49,6 +49,7 @@ export default function HeaderFilter() {
 }
 
 const Filter = styled.div`
+  width: 24.375rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -59,15 +60,15 @@ const Filter = styled.div`
 `;
 
 const SearchBarSpace = styled.div`
-  width: 22.125rem;
+  width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const FilterWrapper = styled.div`
+  width: 23.75rem;
   position: relative;
-  width: 23.57rem;
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;

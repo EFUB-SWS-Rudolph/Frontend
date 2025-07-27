@@ -81,7 +81,7 @@ const ExchangeWrapper = styled.div`
 
 const MajorWrapper = styled.div`
   display: flex;
-  width: 2.5625rem;
+  width: auto;
   align-items: center;
   gap: 0.5rem;
   span {
@@ -96,7 +96,7 @@ const MajorWrapper = styled.div`
 
 const PeriodWrapper = styled.div`
   display: flex;
-  width: 3.375rem;
+  width: auto;
   height: 1rem;
   align-items: center;
   gap: 0.5rem;
@@ -113,7 +113,7 @@ const PeriodWrapper = styled.div`
 const HeaderButtonContainer = styled.button`
   flex-shrink: 0;
   height: 2.25rem;
-  width: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "2.25rem" : "auto"};
+  width: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "2.25rem" : "fit-content"};
   padding: ${({$buttontype}) => $buttontype === "sorting" || $buttontype === "search" ? "0.715rem" : "0.625rem 0.75rem"};
   border-radius: 0.5rem;
   background: var(--Gray-100, #F5F5F5);
