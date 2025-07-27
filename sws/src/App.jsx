@@ -6,6 +6,7 @@ import UnivInfo from './signUp/pages/UnivInfo';
 import SetProfile from './signUp/pages/SetProfile';
 import SetInterest from './signUp/pages/SetInterest';
 import SetTalent from './signUp/pages/SetTalent';
+import MyPage from './mypage/page/MyPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/signup/profile" element={<SetProfile />} />
           <Route path="/signup/interest" element={<SetInterest />} />
           <Route path="/signup/talent" element={<SetTalent />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
