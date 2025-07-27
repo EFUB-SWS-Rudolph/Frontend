@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
-import FilterDetailBtn from '../components/common/FilterDetailBtn';
-import SortMethodSelect from '../components/SortMethodSelect';
-import FilterFooter from '../components/FilterFooter';
+import FilterDetailBtn from '../components/filter/FilterDetailBtn';
+import SortMethodSelect from '../components/filter/SortMethodSelect';
+import FilterFooter from '../components/filter/FilterFooter';
 import { useFilterStore } from '../stores/FilterStore';
 
 export default function EwhainFilter() {
@@ -34,15 +34,15 @@ export default function EwhainFilter() {
 }
 
 const FilterPageWrapper = styled.div`
-  width: 390px;
-  height: 100vh;
+  width: 24.375px;
+  height: 52.75;
   display: flex;
   flex-direction: column;
 `;
 
 const FilterContents = styled.div`
-  width: 390px;
-  height: 600px;
+  width: 24.375rem;
+  height: 40.94rem;
   display: flex;
   flex-direction: column;
   align-items: center;

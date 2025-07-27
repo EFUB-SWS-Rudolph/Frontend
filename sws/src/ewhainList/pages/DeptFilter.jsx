@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
-import FilterDetailBtn from '../components/common/FilterDetailBtn';
+import FilterDetailBtn from '../components/filter/FilterDetailBtn';
 import { useFilterStore } from '../stores/FilterStore';
 import DEPARTMENT_MAJOR from '../constants/Univ';
 
@@ -48,22 +48,23 @@ export default function DeptFilter() {
 }
 
 const FilterPageWrapper = styled.div`
-  position: relative;
-  width: 100%;
+  width: 24.375px;
+  height: 52.75;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 const HeaderSpace = styled.div`
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const FilterContents = styled.div`
-  margin-bottom: 15px;
-  width: 390px;
+  height: 44.94rem;
+  width: 24.375rem;
   display: flex;
   flex-direction: column;
   align-items: center;

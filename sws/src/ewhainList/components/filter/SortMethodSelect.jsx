@@ -26,16 +26,17 @@ export default function SortMethodSelect() {
 }
 
 const DetailBtnWrapper = styled.div`
-  width: 390px;
-  height: 60px;
   display: flex;
+  padding: 0.5rem 1.12rem 0.5rem 2.5rem;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  align-self: stretch;
+  width: 24.375rem;
+  height: 3.75rem;
 `;
 
 const DetailType = styled.div`
-  color: ${({ theme }) => theme.colors.black};
+  color: #000;
   font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
@@ -44,8 +45,8 @@ const DetailType = styled.div`
 `;
 
 const SelectDetailContainer = styled.div`
+  width: 4.94rem;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 7px;
+  gap: 0.94rem;
 `;
