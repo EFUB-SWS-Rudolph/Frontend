@@ -8,7 +8,7 @@ import EMPTY from '../icons/icon_empty.svg?react';
 import { useFilterStore } from '../stores/FilterStore';
 
 export default function EwhainList() {
-  const searchExist = true;  // api 연결 후 검색 결과 여부 표시
+  const searchExist = false;  // api 연결 후 검색 결과 여부 표시
   const { isgallery } = useFilterStore();
 
   return (
@@ -28,8 +28,8 @@ export default function EwhainList() {
       </> :
       <>
         <NoResult>
-          <EMPTY styled={{ color: theme.colors.gray500 }} />
-          검색 결과가 없어요 :{'('}
+          <EMPTY width="6.1875rem" height="6.1875rem" flex-shrink="0" aspect-ratio="1/1" />
+          <EmptyText>검색 결과가 없어요 :{'('}</EmptyText>
         </NoResult>
       </>
       }
@@ -46,7 +46,7 @@ const EwhainListWrapper = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   padding: 0 10px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 `;
 
@@ -67,20 +67,21 @@ const EwhainContainer = styled.div`
 `;
 
 const NoResult = styled.div`
-  width: 356px;
-  margin-top: 10px;
-  margin-right: 0;
-  padding: 0;
+  height: 33.87rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  flex: 1;
-  color: ${({ theme }) => theme.colors.gray500};
-  font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
+  gap: 1.06rem;
+`;
+
+const EmptyText = styled.div`
+  color: var(--Gray-500, #999);
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.01031rem;
 `;
