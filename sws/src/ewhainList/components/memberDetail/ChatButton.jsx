@@ -14,7 +14,7 @@ export default function ChatButton() {
     <ChatBtnWrapper>
       <ChatBtnContainer onClick={handleMoveChat}>
         <ChatBtnContents>
-          <CHAT />
+          <CHAT width="1.25rem" height="1.25rem" aspect-ratio="1/1" />
           <ChatText>채팅하기</ChatText>
         </ChatBtnContents>
       </ChatBtnContainer>
@@ -23,37 +23,39 @@ export default function ChatButton() {
 }
 
 const ChatBtnWrapper = styled.div`
-  width: 389px;
-  height: 88px;
   display: flex;
+  width: 24.3125rem;
+  height: 5.5rem;
+  padding: 1rem 2.25rem;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 `;
 
 const ChatBtnContainer = styled.button`
-  width: 317px;
-  height: 56px;
   display: flex;
-  align-items: center;
+  width: 19.8125rem;
+  height: 3.5rem;
+  padding: 1rem 0;
   justify-content: center;
-  border-radius:  15px;
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.white}; 
-  cursor: pointer;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 1.25rem;
+  background: var(--Primary, #00664F);
 `;
 
 const ChatBtnContents = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 84px;
-  height: 24px;
 `;
 
 const ChatText = styled.div`
-  font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
+  color: var(--White, #FFF);
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.5rem; /* 150% */
 `;
