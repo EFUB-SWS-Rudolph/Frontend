@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import SLIGHT_RIGHT_ARROW from '../../icons/icon_rightarrow.svg?react';
+import SLIGHT_RIGHT_ARROW from '../../icons/icon_next.svg?react';
 
 // select: 교환 방식, 학과, 최신순, 각 대학
 // value: 선택된 값, 처음에는 전체
@@ -28,7 +28,7 @@ export default function FilterDetailBtn({ type, select, value, detailroute, from
       <DetailType>{select}</DetailType>
       <SelectDetailContainer>
         <SelectedValue $value={value} theme={theme}>{value}</SelectedValue>
-        <SLIGHT_RIGHT_ARROW width="5px" height="10px" color="#808080" onClick={handleMoveFilterDetail} cursor="pointer" />
+        <SLIGHT_RIGHT_ARROW width="2.75rem" height="2.75rem" onClick={handleMoveFilterDetail} cursor="pointer" />
       </SelectDetailContainer>
     </DetailBtnWrapper>
   );
@@ -36,9 +36,7 @@ export default function FilterDetailBtn({ type, select, value, detailroute, from
 
 const DetailBtnWrapper = styled.div`
   display: flex;
-  padding: ${({ $type }) =>
-    $type==="main" ? "0.5rem 2.5rem 0.5rem 2.5rem" : "0.5rem 1.125rem 0.5rem 2.5rem"
-  };
+  padding: 0.5rem 1.125rem 0.5rem 2.5rem;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
@@ -59,7 +57,6 @@ const SelectDetailContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
 `;
 
 const SelectedValue = styled.div`
