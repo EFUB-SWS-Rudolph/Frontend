@@ -51,7 +51,7 @@ const SignUpContents = styled.div`
   flex: 1;
   width: 22.75rem;
   gap: 3.62rem;
-  margin: 2.62rem 0.8rem 6.19rem;
+  padding: 2.62rem 0.8rem 6rem;
 `;
 
 const EnteringInfo = styled.h2`

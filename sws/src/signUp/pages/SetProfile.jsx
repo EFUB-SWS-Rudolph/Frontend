@@ -69,13 +69,14 @@ const Wrapper = styled.div`
 `;
 
 const SignUpContents = styled.div`
+  height: 39.81rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 21.375rem;
   flex: 1;
   gap: 2.87rem;
-  margin: 2.62rem 1.5rem 18.94rem;
+  padding: 2.62rem 1.5rem 18.94rem;
 `;
 
 const EnteringInfo = styled.h2`

@@ -44,36 +44,36 @@ export default function UnivInfo() {
       <SignUpHeader />
       <ProgressBar step='2' totalSteps='5' />
       <SignUpContents>
-          <EnteringInfo>
-            <span>대학 및 학과 정보</span>를<br/>
-            입력해 주세요
-          </EnteringInfo>
+        <EnteringInfo>
+          <span>대학 및 학과 정보</span>를<br/>
+          입력해 주세요
+        </EnteringInfo>
           
-          <UserEnterSection>
-            <DropDown
-              title="대학"
-              options={COLLEGES}
-              value={college}
-              onChange={handleCollege}
-            />
-            <DropDown
-              title="학과"
-              options={majorOptions}
-              value={major}
-              onChange={handleMajor}
-            />
+        <UserEnterSection>
+          <DropDown
+            title="대학"
+            options={COLLEGES}
+            value={college}
+            onChange={handleCollege}
+          />
+          <DropDown
+            title="학과"
+            options={majorOptions}
+            value={major}
+            onChange={handleMajor}
+          />
               
-            <InputContainer 
-              title="학번"
-              inputPlaceholder={PLACEHOLDER_MESSAGE.STUDENTID} 
-              value={studentId} 
-              onChange={handleStudentId}
-            />
-          </UserEnterSection>
-        </SignUpContents>
-        <ButtonContainer>
-          <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
-        </ButtonContainer>
+          <InputContainer 
+            title="학번"
+            inputPlaceholder={PLACEHOLDER_MESSAGE.STUDENTID} 
+            value={studentId} 
+            onChange={handleStudentId}
+          />
+        </UserEnterSection>
+      </SignUpContents>
+      <ButtonContainer>
+        <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
+      </ButtonContainer>
     </Wrapper>
   );
 }
@@ -85,13 +85,14 @@ const Wrapper = styled.div`
 `;
 
 const SignUpContents = styled.div`
+  height: 39.81rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 21.375rem;
   flex: 1;
   gap: 2.87rem;
-  margin: 2.62rem 1.5rem 12.56rem;
+  padding: 2.62rem 1.5rem 11rem;
 `;
 
 const EnteringInfo = styled.h2`

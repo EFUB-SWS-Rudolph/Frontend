@@ -42,6 +42,7 @@ export default function DropDown({ title, options, value, onChange }) {
 }
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   width: 21.375rem;
   max-height: 22.876rem;
