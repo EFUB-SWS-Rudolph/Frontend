@@ -21,7 +21,7 @@ export default function SignIn() {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 47.81rem;
   background-color: ${({ theme }) => theme.colors.background};
   padding: 0;
   margin: 0;

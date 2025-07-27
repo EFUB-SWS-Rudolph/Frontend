@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import KAKAO from '../icons/icon_kakao.svg?react';
 import GOOGLE from '../icons/logo_google.svg?react';
+import { FcGoogle } from "react-icons/fc";
 import theme from '../../styles/theme';
 
 export default function LoginButton( {method, color} ) {
@@ -12,7 +13,7 @@ export default function LoginButton( {method, color} ) {
         </IconContainer>
       : 
         <IconContainer>
-          <GOOGLE style={{width:"2.4375rem", height:"2.4375rem", flexShrink:"0", aspectRatio:"1/1", borderRadius:"3.125rem", background:"url(<path-to-image>) lightgray 50% / cover no-repeat"}} />
+          <FcGoogle style={{width:"1.25rem", height:"1.25rem", flexShrink:"0", aspectRatio:"1/1", borderRadius:"3.125rem"}} />
         </IconContainer>
       }
       <MethodText color={color}>{method} 로그인</MethodText>
