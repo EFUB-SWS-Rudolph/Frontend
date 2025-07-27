@@ -35,7 +35,8 @@ export default function Certification() {
   };
 
   return(
-    <>
+    <Wrapper>
+      <SignUpHeader />
       <ProgressBar step='1' totalSteps='5' />
       <SignUpContents>
         <EnteringInfoContainer>
@@ -70,9 +71,15 @@ export default function Certification() {
       <ButtonContainer>
         <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
       </ButtonContainer>
-    </>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  width: 24.375rem;
+  height: 52.8125rem; 
+  background: var(--White, #FFF);
+`;
 
 const SignUpContents = styled.div`
   display: flex;

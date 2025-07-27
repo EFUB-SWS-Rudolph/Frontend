@@ -6,16 +6,20 @@ import FieldItems from '../components/common/tags/FieldItems';
 import NextBtn from '../components/common/NextBtn';
 import FIELDLIST from '../constants/FieldList';
 import theme from '../../styles/theme';
+import { useUserStore } from '../stores/useUserStore';
 
 export default function SetTalent() {
+  const { resetTalents } = useUserStore();
   const navigate = useNavigate();
 
   const handleNextClick = () => {
     navigate('/main');
+    resetTalents();
   };
 
   return (
-    <>
+    <Wrapper>
+      <SignUpHeader backRoute="/signup/interest" />
       <ProgressBar step='5' totalSteps='5' />
       <SignUpContents>
         <EnteringInfo>
@@ -30,9 +34,15 @@ export default function SetTalent() {
           </LaterButtonContainer>
           <NextBtn disabled={false} onClick={handleNextClick} />
         </ButtonContainer>
-    </>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  width: 24.375rem;
+  height: 52.8125rem; 
+  background: var(--White, #FFF);
+`;
 
 const SignUpContents = styled.div`
   display: flex;

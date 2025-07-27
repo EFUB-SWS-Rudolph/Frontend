@@ -40,7 +40,8 @@ export default function UnivInfo() {
   const majorOptions = college ? DEPARTMENT_MAJOR[college] : [];
 
   return(
-    <>
+    <Wrapper>
+      <SignUpHeader />
       <ProgressBar step='2' totalSteps='5' />
       <SignUpContents>
           <EnteringInfo>
@@ -73,9 +74,15 @@ export default function UnivInfo() {
         <ButtonContainer>
           <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
         </ButtonContainer>
-    </>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  width: 24.375rem;
+  height: 52.8125rem; 
+  background: var(--White, #FFF);
+`;
 
 const SignUpContents = styled.div`
   display: flex;
