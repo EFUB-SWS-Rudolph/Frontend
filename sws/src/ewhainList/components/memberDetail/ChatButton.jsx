@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import CHAT from '../icons/icon_chat.svg?react';
+import CHAT from '../../icons/icon_chat.svg?react';
 
-export default function ChatButton() {
+export default function ChatButton({ id }) {
   const navigate = useNavigate();
 
   const handleMoveChat = () => {
@@ -45,6 +45,7 @@ const ChatBtnContainer = styled.button`
 `;
 
 const ChatBtnContents = styled.div`
+  width: 5.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

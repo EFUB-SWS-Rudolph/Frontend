@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import EXCHANGE from "../icons/icon_exchange.svg?react";
-import GIVE from "../icons/icon_give.svg?react";
-import COFFEECHAT from "../icons/icon_coffeechat.svg?react";
+import EXCHANGE from "../../icons/icon_exchange.svg?react";
+import GIVE from "../../icons/icon_give.svg?react";
+import COFFEECHAT from "../../icons/icon_coffeechat.svg?react";
 
 export default function UserProfileCard({ id }) {
   const userGive = true;
@@ -17,9 +17,9 @@ export default function UserProfileCard({ id }) {
       <UserNickname>닉네임</UserNickname>
       <UserAvailable>
         {/* user.give user.exchange user.coffeechat === "on" */}
-        {userGive && <GIVE />}
-        {userExchange && <EXCHANGE />}
-        {userCoffeechat && <COFFEECHAT />}
+        {userGive && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {userExchange && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {userCoffeechat && <COFFEECHAT width="1rem" height="1rem" aspect-ratio="1/1" />}
       </UserAvailable>
       {userStudentId ? 
         <UserUnivInfo>
@@ -36,19 +36,21 @@ export default function UserProfileCard({ id }) {
 }
 
 const UserProfileWrapper = styled.div`
-  width: 390px;
-  height: 244px;
   display: flex;
+  width: 24.375rem;
+  height: 15.25rem;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
+  gap: 0.75rem;
 `;
 
 const ProfileImage = styled.img`
-  width: 104px;
-  height: 104px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 50px;
+  width: 6.5rem;
+  height: 6.5rem;
+  flex-shrink: 0;
+  border-radius: 6.5rem;
+  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  box-shadow: 1px 1px 7px 0 rgba(0, 0, 0, 0.25);
 `;
 
 const UserNickname = styled.div`
@@ -58,13 +60,14 @@ const UserNickname = styled.div`
   font-weight: ${({ theme }) => theme.fonts.display.large.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.large.lineHeight};
   color: ${({ theme }) => theme.colors.black}; 
+  text-align: center;
 `;
 
 const UserAvailable = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 88px;
-  height: 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
 `;
 
 const UserUnivInfo = styled.div`
@@ -77,6 +80,7 @@ const UserUnivInfo = styled.div`
   span {
     color: ${({ theme }) => theme.colors.gray300};
   }
+  gap: 0.25rem;
 `;
 
 const UserLocation = styled.div`
