@@ -3,12 +3,16 @@ import EDIT_IMG from '../../assets/icon_editImg.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 
 export default function Profile() {
-  const { profileImg, isEditing, setProfileImg } = useProfileStore();
+  const { profileImg, isEditing, isOnChoice, setProfileImg, setIsOnChoice } = useProfileStore();
+
+  const handleOnChoice = () => {
+    setIsOnChoice(!isOnChoice);
+  };
 
   return (
     <Container>
       <Image src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRqyxfxX8QSTvO1ULBKz6IK_KKsMFoiOr9LxoMYKTdAkbIpHxHC" alt="profileimg" />
-      {isEditing && <EditContainer><EDIT_IMG /></EditContainer>}
+      {isEditing && <EditContainer onClick={handleOnChoice}><EDIT_IMG /></EditContainer>}
       <Name>y_eonie</Name>
     </Container>
   );
