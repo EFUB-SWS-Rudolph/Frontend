@@ -1,10 +1,16 @@
 //나의재능 관심분야 tag
 
 import styled from 'styled-components';
+import DELETE from '../../assets/icon_delete.svg?react';
+import { useProfileStore } from '../../stores/ProfileStore';
+
 export default function Tag({ text }) {
+  const { talentTags, interestTags, isEditing, setTalentTags, setInterestTags, removeTalentTag, removeInterestTag } = useProfileStore();
+
   return (
     <Container>
       <Text>{text}</Text>
+      {isEditing && <Delete />}
     </Container>
   );
 }
@@ -35,4 +41,10 @@ const Text = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: 150%;
+`;
+
+const Delete = styled(DELETE)`
+  width: 0.53125rem;
+  height: 0.49331rem;
+  flex-shrink: 0;
 `;
