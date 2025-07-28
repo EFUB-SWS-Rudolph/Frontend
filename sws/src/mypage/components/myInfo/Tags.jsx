@@ -8,7 +8,7 @@ export default function Tags() {
     <Container>
       <InfoTag tagname={TAG_INFO[0]} info="조형예술대학" />{' '}
       <InfoTag tagname={TAG_INFO[1]} info="서양화과" />
-      <InfoTag tagname={TAG_INFO[2]} info="24학번" />
+      <InfoTag tagname={TAG_INFO[2]} info="24" />
       <InfoTag tagname={TAG_INFO[3]} info="서울시 강동구" />
     </Container>
   );
