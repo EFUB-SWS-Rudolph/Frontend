@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default function EditImgChoice({ icon: Icon, text }) {
+export default function EditImgChoice({ icon: Icon, text, onClose }) {
   return (
     <Container>
       <Icon width="3rem" height="3rem" />
