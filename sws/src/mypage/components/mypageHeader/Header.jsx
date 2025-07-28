@@ -15,8 +15,8 @@ export default function Header() {
 const HeaderWrapper = styled.div`
   width: 24.375rem;
   height: 3.75rem;
-  padding: 1.12rem 1.69rem 1.06rem 9.41rem;
-  gap: 6.28rem;
+  padding-top: 1.12rem;
+  padding-bottom: 1.06rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,6 +34,10 @@ const HeaderContainer = styled.div`
 `;
 
 const EditButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 1.69rem;
+  transform: translateY(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
