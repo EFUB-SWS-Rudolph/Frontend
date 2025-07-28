@@ -24,7 +24,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-  color: #000;
+  color: var(--Black, #222);
   text-align: center;
   font-family: ${({ theme }) => theme.fonts.display.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.medium.fontSize};
