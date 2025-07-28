@@ -1,9 +1,15 @@
 import styled from 'styled-components';
+import { useProfileStore } from '../../stores/ProfileStore';
+import EDIT from '../../assets/icon_edit.svg?react';
+
 export default function InfoTag({ tagname, info }) {
+  const { isEditing } = useProfileStore();
+
   return (
     <Container>
       <Tag>{tagname}</Tag>
       <InfoText>{info}</InfoText>
+      {isEditing && <EDIT />}
     </Container>
   );
 }
