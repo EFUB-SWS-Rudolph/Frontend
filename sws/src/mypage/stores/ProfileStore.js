@@ -9,6 +9,7 @@ export const useProfileStore = create((set) => ({
   talentTags: [],
   interestTags: [],
   isEditing: true,
+  isOnChoice: true,
 
   setProfileImg: (img) => set({ profileImg: img }),
   setCollege: (tag) => set({ college: tag }),
@@ -19,6 +20,7 @@ export const useProfileStore = create((set) => ({
   setTalentTags: (tags) => set({ talentTags: tags }),
   setInterestTags: (tags) => set({ interestTags: tags }),
   setIsEditing: (flag) => set({ isEditing: flag }),
+  setIsOnChoice: (flag) => set({ isOnChoice: flag }),
   removeTalentTag: (index) => set((state) => ({
     talentTags: state.talentTags.filter((_, i) => i !== index),
   })),

@@ -6,9 +6,14 @@ import MyPageFooter from '../components/mypagefooter/MyPageFooter';
 import Header from '../components/mypageHeader/header';
 import MembershipContainer from '../components/membership/membershipContainer';
 import ChoiceContainer from '../components/editProfile/ChoiceContainer';
+import { useProfileStore } from '../stores/ProfileStore';
 
 export default function MyPage() {
-  const [isChoiceOpen, setIsChoiceOpen] = useState(true);
+  const { isOnChoice, setIsOnChoice } = useProfileStore();
+
+  const handleOnChoice = () => {
+    setIsOnChoice(!isOnChoice);
+  };
 
   return (
     <>
@@ -17,8 +22,8 @@ export default function MyPage() {
       <MyPageFooter />
       <MembershipContainer />
 
-      {isChoiceOpen && (
-        <ChoiceContainer onClose={() => setIsChoiceOpen(!isChoiceOpen)} />
+      {isOnChoice && (
+        <ChoiceContainer onClose={handleOnChoice} />
       )}
     </>
   );
