@@ -11,8 +11,8 @@ export default function SignIn() {
         <LoginPhrase>로그인</LoginPhrase>
       </LoginPhraseContainer>
       <LoginBtnContainer>
-        <LoginBtn method="카카오" color="yellow" />
-        <LoginBtn method="구글" />
+        <LoginBtn provider="kakao" method="카카오" color="yellow" />
+        <LoginBtn provider="google" method="구글" />
       </LoginBtnContainer>
     </Wrapper>
   );
