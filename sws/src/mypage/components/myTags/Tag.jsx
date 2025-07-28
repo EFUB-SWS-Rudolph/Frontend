@@ -17,8 +17,11 @@ const Container = styled.div`
   align-items: center;
   gap: 0.5rem;
   border-radius: 1.25rem;
-  border: 1px solid var(--Gray-300, #d9d9d9);
-  background: var(--White, #fff);
+  border: 1px solid transparent;
+  background: ${({ theme }) => `
+    linear-gradient(${theme.colors.white}, ${theme.colors.white}) padding-box,
+    linear-gradient(to right, ${theme.colors.primary}, ${theme.colors.third}) border-box
+  `};
 `;
 
 const Text = styled.div`
