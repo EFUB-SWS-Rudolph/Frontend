@@ -8,15 +8,10 @@ export default function Redirect() {
 
   useEffect(() => {
     const accessToken = searchParams.get('access_token');
-    const token = {
-      accessToken,
-      refreshToken: '', //추후 추가
-    };
 
-    console.log('실행');
     if (accessToken) {
-      localStorage.setItem('token', JSON.stringify(token));
-      console.log(token);
+      localStorage.setItem('token', accessToken);
+
       navigate('/');
     }
   }, []);
