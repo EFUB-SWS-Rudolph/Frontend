@@ -9,7 +9,7 @@ import ChoiceContainer from '../components/editProfile/ChoiceContainer';
 import { useProfileStore } from '../stores/ProfileStore';
 
 export default function MyPage() {
-  const { isOnChoice, setIsOnChoice } = useProfileStore();
+  const { isOnChoice, isEditing, setIsOnChoice } = useProfileStore();
 
   const handleOnChoice = () => {
     setIsOnChoice(!isOnChoice);
@@ -20,7 +20,7 @@ export default function MyPage() {
       <Header />
       <MyInfo /> <MyTags />
       <MyPageFooter />
-      <MembershipContainer />
+      {!isEditing && <MembershipContainer />}
 
       {isOnChoice && (
         <ChoiceContainer onClose={handleOnChoice} />
