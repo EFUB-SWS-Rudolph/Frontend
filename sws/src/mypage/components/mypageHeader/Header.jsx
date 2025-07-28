@@ -9,7 +9,7 @@ export default function Header() {
         <EditText>편집</EditText>
       </EditButton>
     </HeaderWrapper>
-  )
+  );
 }
 
 const HeaderWrapper = styled.div`
