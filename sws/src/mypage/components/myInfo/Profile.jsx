@@ -1,9 +1,14 @@
 import styled from 'styled-components';
+import EDIT_IMG from '../../assets/icon_editImg.svg?react';
+import { useProfileStore } from '../../stores/ProfileStore';
 
 export default function Profile() {
+  const { profileImg, isEditing, setProfileImg } = useProfileStore();
+
   return (
     <Container>
-      <Image />
+      <Image src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRqyxfxX8QSTvO1ULBKz6IK_KKsMFoiOr9LxoMYKTdAkbIpHxHC" alt="profileimg" />
+      {isEditing && <EditContainer><EDIT_IMG /></EditContainer>}
       <Name>y_eonie</Name>
     </Container>
   );
@@ -15,14 +20,28 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.625rem;
+  position: relative;
 `;
-const Image = styled.div`
+const Image = styled.img`
   width: 6.5rem;
   height: 6.5rem;
   flex-shrink: 0;
   border-radius: 6.5rem;
-  /* background: url(<path-to-image>) lightgray 50% / cover no-repeat; */
+  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
   box-shadow: 1px 1px 7px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const EditContainer = styled.div`
+  width: 1.85125rem;
+  height: 1.85125rem;
+  flex-shrink: 0;
+  position: absolute;
+  bottom: 2.75rem;
+  right: 0.3rem;
+  outline: none;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.18);
 `;
 
 const Name = styled.p`
