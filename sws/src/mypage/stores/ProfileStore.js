@@ -6,8 +6,8 @@ export const useProfileStore = create((set) => ({
   department: '서양화과',
   studentid: '24',
   location: '서울시 강동구',
-  talentTags: [],
-  interestTags: [],
+  talentTags: ['바이올린', '운동', '그림'],
+  interestTags: ['코딩', '뜨개질'],
   isEditing: true,
   isOnChoice: true,
 
