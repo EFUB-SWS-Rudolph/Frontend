@@ -1,9 +1,23 @@
 import styled from 'styled-components';
-export default function InfoTag({ tagname, info }) {
+import { useProfileStore } from '../../stores/ProfileStore';
+import EDIT from '../../assets/icon_edit.svg?react';
+
+export default function InfoTag({ tagname, info, onChange }) {
+  const { isEditing } = useProfileStore();
+
   return (
     <Container>
       <Tag>{tagname}</Tag>
-      <InfoText>{info}</InfoText>
+      {isEditing ? 
+        <>
+          <InfoInput value={info} onChange={onChange} />
+          <EDIT />
+        </>
+      :
+        <>
+          <InfoText>{info}</InfoText>
+        </>
+      }
     </Container>
   );
 }
@@ -34,6 +48,21 @@ const Container = styled.div`
 `;
 
 const InfoText = styled.p`
+  color: var(--Black, #222);
+  text-align: center;
+
+  /* Body/Medium */
+  font-family: 'Pretendard Variable';
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 1.3125rem */
+`;
+
+const InfoInput = styled.input`
+  border: none;
+  outline: none;
+  width: 5rem;
   color: var(--Black, #222);
   text-align: center;
 

@@ -2,14 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 import InfoTag from './InfoTag';
 import { TAG_INFO } from '../../constant/TAG_INFO';
+import { useProfileStore } from '../../stores/ProfileStore';
 
 export default function Tags() {
+  const { college, department, studentid, location, setCollege, setDepartment, setStudentid, setLocation } = useProfileStore();
+
+  const handleEditCollege = (e) => {
+    setCollege(e.target.value);
+  };
+  const handleEditDepartment = (e) => {
+    setDepartment(e.target.value);
+  };
+  const handleEditStudentid = (e) => {
+    setStudentid(e.target.value);
+  };
+  const handleEditLocation = (e) => {
+    setLocation(e.target.value);
+  };
+
   return (
     <Container>
-      <InfoTag tagname={TAG_INFO[0]} info="조형예술대학" />{' '}
-      <InfoTag tagname={TAG_INFO[1]} info="서양화과" />
-      <InfoTag tagname={TAG_INFO[2]} info="24학번" />
-      <InfoTag tagname={TAG_INFO[3]} info="서울시 강동구" />
+      <InfoTag tagname={TAG_INFO[0]} info={college} onChange={handleEditCollege} />{' '}
+      <InfoTag tagname={TAG_INFO[1]} info={department} onChange={handleEditDepartment} />
+      <InfoTag tagname={TAG_INFO[2]} info={studentid} onChange={handleEditStudentid} />
+      <InfoTag tagname={TAG_INFO[3]} info={location} onChange={handleEditLocation} />
     </Container>
   );
 }
