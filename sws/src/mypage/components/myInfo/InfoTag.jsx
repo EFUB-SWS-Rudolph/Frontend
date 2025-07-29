@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import { useProfileStore } from '../../stores/ProfileStore';
 import EDIT from '../../assets/icon_edit.svg?react';
 
-export default function InfoTag({ tagname, info }) {
+export default function InfoTag({ tagname, info, onChange }) {
   const { isEditing } = useProfileStore();
 
   return (
@@ -11,7 +10,7 @@ export default function InfoTag({ tagname, info }) {
       <Tag>{tagname}</Tag>
       {isEditing ? 
         <>
-          <InfoInput></InfoInput>
+          <InfoInput value={info} onChange={onChange} />
           <EDIT />
         </>
       :

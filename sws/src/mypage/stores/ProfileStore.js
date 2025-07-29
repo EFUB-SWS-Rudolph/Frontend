@@ -2,10 +2,10 @@ import { create } from 'zustand';
 
 export const useProfileStore = create((set) => ({
   profileImg: '',
-  college: '',
-  department: '',
-  studentid: '',
-  location: '',
+  college: '엘텍공과대학',
+  department: '서양화과',
+  studentid: '24',
+  location: '서울시 강동구',
   talentTags: [],
   interestTags: [],
   isEditing: true,
