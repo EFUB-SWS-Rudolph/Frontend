@@ -1,0 +1,30 @@
+import React from 'react';
+import { useState } from 'react';
+import MyInfo from '../components/myInfo/MyInfo';
+import MyTags from '../components/myTags/MyTags';
+import MyPageFooter from '../components/mypagefooter/MyPageFooter';
+import Header from '../components/mypageHeader/header';
+import MembershipContainer from '../components/membership/membershipContainer';
+import ChoiceContainer from '../components/editProfile/ChoiceContainer';
+import { useProfileStore } from '../stores/ProfileStore';
+
+export default function MyPage() {
+  const { isOnChoice, isEditing, setIsOnChoice } = useProfileStore();
+
+  const handleOnChoice = () => {
+    setIsOnChoice(!isOnChoice);
+  };
+
+  return (
+    <>
+      <Header />
+      <MyInfo /> <MyTags />
+      <MyPageFooter />
+      {!isEditing && <MembershipContainer />}
+
+      {isOnChoice && (
+        <ChoiceContainer onClose={handleOnChoice} />
+      )}
+    </>
+  );
+}
