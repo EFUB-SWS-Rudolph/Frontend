@@ -14,6 +14,9 @@ import MajorFilter from './ewhainList/pages/MajorFilter';
 import PeriodFilter from './ewhainList/pages/PeriodFilter';
 import DeptFilter from './ewhainList/pages/DeptFilter';
 import IndividualInquiry from './ewhainList/pages/IndividualInquiry';
+import LoginPage from './signIn/pages/SignIn';
+import RedirectPage from './signIn/pages/Redirect';
+
 
 function App() {
   return (
@@ -21,8 +24,11 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           {/* <Route path="/" element={<Signup />} /> */}
+
           <Route path="/" element={<Main />} />
-          <Route path="/signup/certification" element={<Certification />} />
+          <Route path="/signin" element={<LoginPage />} />
+          <Route path="/login" element={<RedirectPage />} />
+          <Route path="/signup/additional" element={<Certification />} />
           <Route path="/signup/univ" element={<UnivInfo />} />
           <Route path="/signup/profile" element={<SetProfile />} />
           <Route path="/signup/interest" element={<SetInterest />} />
