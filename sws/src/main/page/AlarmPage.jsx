@@ -11,30 +11,31 @@ const AlarmPageContainer = styled.div`
   height: 100%; 
   display: flex;
   flex-direction: column;
-  gap:8px;
+  gap:0.5rem;
 `;
 const AlarmItem = styled.div`
-  width: calc(100% + (2 * 16px)); 
-  margin-left: -16px; 
-  margin-right: -16px; 
-  padding: 15px 15px 15px 24px; 
+  width: calc(100% + (2 * 1rem)); 
+  margin-left: -1rem; 
+  margin-right: -1rem; 
+  padding: 1rem 1rem 1rem 1.5rem; 
   background-color: #FFFFFF;
   border: none;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.5rem;
   cursor: pointer;
   &:hover {
     background: var(--Fourth, #E0FCEF);
   }
 `;
 const AlarmCategoryIcon = styled.div`
-  width: 16px; 
-  height: 16px; 
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  aspect-ratio: 1/1; 
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0; 
   & > img {
     width: 100%;
     height: 100%;
@@ -42,39 +43,53 @@ const AlarmCategoryIcon = styled.div`
   }
 `;
 const AlarmTitle = styled.div`
-  font-family: 'Pretendard Variable', sans-serif;
+  color: var(--Black, #222);
+
+  /* Title/Medium */
+  font-family: "Pretendard Variable";
+  font-size: 1rem;
+  font-style: normal;
   font-weight: 600;
-  font-size: 16px;
-  color: #222222;
+  line-height: normal;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap:1rem;
 `;
 const AlarmContent = styled.div`
-  font-family: 'Pretendard Variable', sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  color: #555;
-  margin-left: 30px; 
-  padding-right: 15px;
+  color: var(--Black, #222);
+
+  /* Body/Medium */
+  font-family: "Pretendard Variable";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 1.3125rem */
+  margin-left: 2rem; 
 `;
 const AlarmTime = styled.div`
-  font-family: 'Pretendard Variable', sans-serif;
-  font-weight: 300;
-  font-size: 12px;
-  color: #999;
+  color: var(--Gray-500, #999);
+
+  /* Caption/Medium */
+  font-family: "Pretendard Variable";
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
   text-align: right;
-  margin-left: 30px; 
-  padding-right: 15px; 
+  position:absolute;
+  right:7rem;
 `;
 const NoAlarmMessage = styled.div` 
+  color: var(--Gray-500, #999);
+  font-family: "Pretendard Variable";
+  font-size: 1rem;
+  font-style: normal; 
+  font-weight: 600; 
+  line-height: normal; 
+  letter-spacing: 0rem; 
   width: 100%;
-  text-align: center;
-  padding: 50px 0;
-  color: #888;
-  font-size: 16px;
-  margin-top: auto; 
-  margin-bottom: auto; 
+  text-align: center; 
+  margin: auto; 
 `;
 //알림 데이터 (임시)
 const initialAlarms = [
@@ -96,7 +111,7 @@ const initialAlarms = [
     id: 3,
     category: "coffeechat",
     title: "시스템 공지",
-    content: "서버 점검 예정 안내입니다. 자세한 내용은 공지사항을 확인해주세요.",
+    content: "서버 점검 예정 안내입니다.자세한 내용은 공지사항을 확인해주세요.",
     time: "2024-07-20"
   },
   {
@@ -131,9 +146,11 @@ export default function AlarmPage() {
                  <AlarmCategoryIcon>
                 <img src={getAlarmIcon(alarm.category)} alt={`${alarm.category} 아이콘`} />
               </AlarmCategoryIcon>
-                {alarm.title}</AlarmTitle>
+                {alarm.title}
+                <AlarmTime>{alarm.time}</AlarmTime>
+                </AlarmTitle>
+                
             <AlarmContent>{alarm.content}</AlarmContent>
-            <AlarmTime>{alarm.time}</AlarmTime>
           </AlarmItem>
         ))
       ) : (

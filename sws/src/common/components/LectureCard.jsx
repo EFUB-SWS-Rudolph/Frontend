@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 const CardContainer = styled.div`
-  width: 172px;
-  height: 240px;
-  border-radius: 16px;
+  width: 10.75rem;
+  height: 15rem;
+  border-radius: 0.8rem;
   border: 1px solid #e0e0e0;
   background-color: #ffffff;
   flex-shrink: 0;
@@ -16,31 +16,32 @@ const CardContainer = styled.div`
 `;
 const CardImage = styled.img`
   width: 100%; 
-  height: 240px; 
+  height: 14.3125rem; 
   object-fit: cover; 
 `;
 const CardGrad = styled.div`
   width: 100%; 
-  height: 134px;
+  height: 8rem;
   position: absolute; 
   bottom: 0; 
   left: 0;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 42.09%);
 `;
 const CardInfo = styled.div`
-  width: 148px;
-  height: 56px; 
+  width: 9.25rem;
+  height: 60px; 
   position: absolute; 
-  bottom: 12px; 
-  left: 12px; 
+  bottom: 0.13rem; 
+  left: 0.75rem; 
   display: flex;
   flex-direction: column; 
-  gap: 4px; 
+  gap: 0.25rem; 
 `;
 const CardTitle = styled.span`
+  heignt:1.2rem;
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 600; /* SemiBold */
-  font-size: 16px;
+  font-size:1rem;
   line-height: 100%;
   letter-spacing: 0px;
   color: #222222; 
@@ -51,7 +52,7 @@ const CardTitle = styled.span`
 const CardNickname = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 500; 
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 150%;
   letter-spacing: 0px;
   color: #969696; 
@@ -62,7 +63,7 @@ const CardNickname = styled.span`
 const CardDate = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 400; /* Regular */
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 150%;
   letter-spacing: 0px;
   vertical-align: middle; 
@@ -85,8 +86,8 @@ const LectureCard = ({ lecture }) => {
       <CardImage src={lecture.image} alt={lecture.title} />
       <CardGrad /> 
       <CardInfo>
-        <CardTitle>{lecture.title}</CardTitle>
         <CardNickname>{lecture.nickname}</CardNickname>
+        <CardTitle>{lecture.title}</CardTitle>
         <CardDate>{lecture.date}</CardDate>
       </CardInfo>
     </CardContainer>

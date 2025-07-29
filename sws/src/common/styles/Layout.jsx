@@ -137,7 +137,6 @@ export default function Layout({ headerContent, backgroundColor, headerBackgroun
       <Header $headerBackgroundColor={headerBackgroundColor}>
         {headerContent}
       </Header>
-      {/*ContentArea에 $contentBackgroundColor prop 전달 */}
       <ContentArea $contentBackgroundColor={contentBackgroundColor}>
         <LectureTabProvider>
           <Outlet /> 

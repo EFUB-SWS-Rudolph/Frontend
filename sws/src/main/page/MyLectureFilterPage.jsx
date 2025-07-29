@@ -14,45 +14,47 @@ const FilterPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 0 24px; 
-  gap: 16px; 
-  padding-bottom: 136px; 
+  padding: 0 1.5rem; 
+  gap: 1rem; 
+  padding-bottom: 8.5rem;
 `;
 const FilterItemContainer = styled.div`
   width: 100%;
-  height: 70px;
+  height:4.375rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #eee; 
   cursor: pointer;
-`;
+  `;
+// [필터컴포넌트-필터이름]
 const FilterName = styled.span`
   font-family: Pretendard Variable;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 100%;
-  letter-spacing: 0px;
+  letter-spacing: 0rem;
   color: #222222;
 `;
+// [필터 컴포넌트-필터범위(버튼)]
 const FilterValueContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px; 
+  gap:0.5rem; 
 `;
 const FilterValue = styled.span`
   font-family: Pretendard Variable;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 100%;
-  letter-spacing: 0px;
+  letter-spacing: 0rem;
   color: #808080;
 `;
+// <IconNext>
 const NextIcon = styled.div`
-  width: 5px;
-  height: 10px; 
-  display: flex;
+  width: 0.313rem;
+  height: 0.625rem; 
   align-items: center;
+  display: flex;
   justify-content: center;
   & > img {
     width: 100%;
@@ -61,54 +63,54 @@ const NextIcon = styled.div`
   }
 `;
 const ViewModeIcon = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 2rem; 
+  height: 2rem; 
   object-fit: contain;
-  margin-right: 8px;
+  margin-right:0.5rem;
 `;
 const FooterBar = styled.div`
-  width: 390px; 
-  height: 136px;
+  width: 24.375rem; 
+  height:8.5rem;
   background: #FFFFFF;
   position: fixed;
   bottom: 0; 
   left: 50%; 
   transform: translateX(-50%); 
-  display: flex; 
+  display: flex;
   align-items: center;
-  justify-content: center; 
-  padding: 0 20px ; 
+  justify-content: center;
+  padding: 0 1.25rem 2.5rem;
   box-sizing: border-box;
   z-index: 1000; 
-  gap: 10px; 
+  gap: 0.625rem;
 `;
 const ResetButton = styled.button`
-  width: 54px; 
-  height: 48px;
-  border-radius: 8px;
+  height: 3rem;
+  width:3.375rem;
+  border-radius: 0.5rem;
   background: #F5F5F5; 
   color: #222222;
   font-family: Pretendard Variable;
   font-weight: 500;
-  font-size: 10px; 
+  font-size: 0.625rem;
   border: none;
   cursor: pointer;
   display: flex;
   flex-direction: column; 
-  align-items: center; 
-  justify-content: center; 
-  gap: 4px; 
-  flex-shrink: 0; 
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem; 
+  flex-shrink: 0;
 `;
 const ApplyFilterButton = styled.button`
-  width: 276px; 
-  height: 56px; 
-  border-radius: 12px;
+  width:17.25rem; 
+  height: 3.5rem; 
+  border-radius: 0.75rem;
   background: #00664F; 
   color: white;
   font-family: Pretendard Variable;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 1.125rem;
   border: none;
   cursor: pointer;
   display: flex;
@@ -143,15 +145,14 @@ export default function MyLectureFilterPage() {
   };
   const handleResetFilters = () => {
     setSelectedStatus('수강중');
-    setDisplayMode('grid'); // 초기화 시 갤러리정렬로
+    setDisplayMode('grid'); 
     alert('필터가 초기화되었습니다.');
   };
   const handleApplyFilters = () => {
-    // 실제 필터 적용 로직
     alert('필터가 적용되었습니다!');
     navigate(-1); // 이전 페이지로 돌아가기
   };
-  // 보기 방식 클릭 시 토글 함수 (그리드/리스트)
+  
   const handleToggleDisplayMode = () => {
     setDisplayMode(prevMode => (prevMode === 'grid' ? 'list' : 'grid'));
   };

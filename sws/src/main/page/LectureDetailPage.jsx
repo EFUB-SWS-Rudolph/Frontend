@@ -24,10 +24,10 @@ const DetailPageContainer = styled.div`
   &::-webkit-scrollbar { display: none; }
   -ms-overflow-style: none;
   scrollbar-width: none;
-  margin-left: -16px; 
-  margin-right: -16px; 
-  margin-top:-16px;
-  padding-bottom: 136px; 
+  margin-left: -1rem; 
+  margin-right: -1rem; 
+  margin-top:-1rem;
+  padding-bottom: 8.5rem; 
   box-sizing: border-box;
 `;
 //상단버튼컨테이너
@@ -35,19 +35,19 @@ const TopButtonsContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 390px;
-  height: 100px; 
+  width: 24.375rem;
+  height: 6.25rem; 
   display: flex;
   justify-content: space-between; 
   align-items: center; 
-  padding: 0 16px; 
+  padding: 0 1rem; 
   box-sizing: border-box;
   z-index: 10; 
 `;
 //뒤로가기 버튼
 const BackButton = styled.button`
-  width: 44px;
-  height: 44px;
+  width: 2.75rem;
+  height:  2.75rem;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -57,8 +57,8 @@ const BackButton = styled.button`
   flex-shrink: 0;
 `;
 const BackIcon = styled.div`
-  width: 10.06px; 
-  height: 18px;
+  width: 0.629rem; 
+  height: 1.125rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,8 +70,8 @@ const BackIcon = styled.div`
 `;
 // 공유버튼
 const ShareButton = styled.button`
-  width: 44px; 
-  height: 44px; 
+  width: 2.75rem;
+  height:  2.75rem;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -81,8 +81,8 @@ const ShareButton = styled.button`
   flex-shrink: 0;
 `;
 const ShareIcon = styled.div`
-  width: 15px; 
-  height: 19px; 
+  width: 0.938rem; 
+  height: 1.188rem; 
   border: none; 
   display: flex;
   align-items: center;
@@ -95,12 +95,12 @@ const ShareIcon = styled.div`
 `;
 // [강의 이미지]
 const LectureImageFrame = styled.div`
-  width: 390px; 
-  height: 478px;
+  width: 24.375rem; 
+  height:29.875rem;
   background-color: #222222; 
   opacity: 1; 
   position: absolute; 
-  top: -6px; 
+  top: -0.375rem; 
   left: 0;
   display: flex;
   align-items: center;
@@ -109,27 +109,27 @@ const LectureImageFrame = styled.div`
    z-index: 1;
    .swiper-pagination {
     position: absolute; 
-    width: 68px;
-    height: 8px; 
-    top: 404px; 
-    left: 161px; 
+    width: 4.25rem;
+    height: 0.5rem; 
+    top: 25.25rem; 
+    left: 10.063rem; 
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:8px; 
+    gap:0.5rem; 
     z-index: 5; 
   }
   .swiper-pagination-bullet {
-    width: 6px; 
-    height: 6px; 
+    width: 0.375rem; 
+    height: 0.375rem; 
     background: #FFFFFF; 
     opacity: 5; 
     border-radius: 50%; 
     margin: 0 !important; 
   }
   .swiper-pagination-bullet-active {
-    width: 8px; 
-    height: 8px; 
+    width: 0.5rem; 
+    height: 0.5rem; 
     background:  #13997B;
     opacity:100;
   }
@@ -141,35 +141,35 @@ const LectureActualImage = styled.img`
 `;
 // [강의 상세 정보 프레임]
 const LectureDetailFrame = styled.div`
- width: 390px; 
-  min-height: 431px; 
+  width: 24.375rem; 
+  min-height: 26.938rem; 
   background: #FFFFFF;
   opacity: 1;
   position: absolute; 
-  top: 428px; 
+  top: 26.75rem; 
   left: 0;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 22px 24px 24px; 
-  gap: 16px; 
-  margin-bottom: 136px; 
+  padding: 1.375rem 1.5rem 1.5rem; 
+  gap: 1rem; 
+  margin-bottom: 8.5rem; 
    z-index: 2;
 `;
 // <강의자 프로필 프레임>
 const InstructorProfileFrame = styled.div`
-  width: 166.6px;
-  height: 52px;
+  width: 10.413rem;
+  height: 3.25rem;
   display: flex;
   align-items: center;
-  gap: 12px; 
+  gap: 1.31rem; 
 `;
 // (강의자 프로필 이미지)
 const InstructorProfileImage = styled.img`
-  width: 52px;
-  height: 52px;
+  width: 3.25rem;
+  height: 3.25rem;
   border-radius: 50%; 
   object-fit: cover;
   flex-shrink: 0;
@@ -178,7 +178,7 @@ const InstructorProfileImage = styled.img`
 const InstructorNickname = styled.span`
   font-family: Pretendard Variable;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1; 
   color: #222222; 
   white-space: nowrap;
@@ -187,7 +187,7 @@ const InstructorNickname = styled.span`
 const InstructorDepartment = styled.span`
   font-family: Pretendard Variable;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1; 
   color: #BBBBBB; 
   white-space: nowrap;
@@ -195,65 +195,64 @@ const InstructorDepartment = styled.span`
 const InstructorInfoTextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px; 
+  gap: 0.25rem; 
 `;
 // <강의 타이틀>
 const LectureTitleText = styled.h3`
-  width: 342px; 
+  width: 21.375rem; 
   height: auto; 
   font-family: Pretendard Variable;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1.4; 
   color: #222222; 
   margin: 0;
 `;
 // <강의 상세 카테고리 프레임>
 const LectureCategoryFrame = styled.div`
-  width: 342px;
-  height: 75px;
+  width: 21.375rem;
+  height: 4.688rem;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75;
 `;
 // (강의 상세-카테고리) - 텍스트 + 값 + 아이콘 조합
 const LectureCategoryItem = styled.div`
   width: 100%;
-  height: 17px;
+  height:1.063rem;
   display: flex;
   align-items: center;
-  gap: 17px;
+  gap: 1.063rem;
   font-family: Pretendard Variable;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   color: #555555;
 `;
 const CategoryLabel = styled.span`
   flex-shrink: 0;
-  width: 80px; 
+  width: 5rem; 
   color: #222222;
 
 `;
 const CategoryValue = styled.span`
   font-weight: 500;
   color:  #969696;
-;
   flex-grow: 1;
 `;
 // <디바이더>
 const Divider = styled.div`
-  width: 390px; 
-  height: 1px; 
-  margin-left:-24px;
+  width: 24.375rem; 
+  height: 0.063rem; 
+  margin-left:-1.5rem;
   background-color: #DADADA;
 `;
 // <강의상세정보-줄글>
 const LectureFullDescription = styled.p`
-  width: 340px;
+  width: 21.25rem;
   height: auto; 
   font-family: Pretendard Variable;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.4; 
   letter-spacing: 0%;
   color: #222222; 
@@ -262,27 +261,27 @@ const LectureFullDescription = styled.p`
 `;
 // [푸터 바]
 const FooterBar = styled.div`
-  width: 390px; 
-  height: 136px;
+  width: 24.375rem; 
+  height: 8.5rem;
   background: #FFFFFF;
-  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0rem 0.25rem 1.25rem 0rem rgba(0, 0, 0, 0.25);
   position: fixed;
-  top:727px;
+  top:45.438rem;
   left:50%;
   bottom: 0; 
   transform: translateX(-50%); 
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 20px ;
+  padding: 0 1.25rem ;
   box-sizing: border-box;
   z-index: 1000; 
   
 `;
 // <북마크 버튼-아이콘 (아이콘을 누르면 북마크)>
 const BookmarkButton = styled.button`
-  width: 48px; 
-  height: 48px; 
+  width: 3rem; 
+  height: 3rem; 
   border-radius: 50%; 
   background: transparent; 
   border: none;
@@ -291,12 +290,12 @@ const BookmarkButton = styled.button`
   align-items: center;
   
   flex-shrink: 0;
-  margin-left: 10px; 
-  margin-right: 15px;
-  margin-top:-30px;
+  margin-left: 0.625rem; 
+  margin-right: 0.938rem;
+  margin-top:-1.875rem;
   & > img {
-    width: 30px; 
-    height: 30px;
+    width: 1.875rem; 
+    height:1.875rem;
     object-fit: contain;
   }
 `;
@@ -304,20 +303,20 @@ const BookmarkButton = styled.button`
 // <강의 신청 버튼>
 const ChatButton = styled.button`
   flex-grow: 1; 
-  width: 298px; 
-  height: 56px; 
-  border-radius: 12px;
+  width: 18.625rem; 
+  height: 3.5rem; 
+  border-radius: 0.75rem;
   background: #00664F;
   color: white;
   font-family: Pretendard Variable;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 1.125rem;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-   margin-top:-30px;
+   margin-top:-1.875rem;
 `;
 //팝업창 스타일 정의
 const ApplyPopupOverlay = styled.div`
@@ -326,35 +325,35 @@ const ApplyPopupOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* 반투명 검정 배경 */
+  background: rgba(0, 0, 0, 0.5); 
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; /* 최상단에 표시 */
+  z-index: 1000; 
 `;
 
 const ApplyPopupContent = styled.div`
-  width: 314px;
-  height: 160px;
-  border-radius: 20px;
+  width: 19.625rem;
+  height: 10rem;
+  border-radius: 1.25rem;
   background: #FFFFFF;
   display: flex;
   flex-direction: column;
   justify-content: space-between; 
-  padding: 24px 17px 20px; 
+  padding: 1.5rem 1.063rem 1.25; 
   box-sizing: border-box;
 `;
 
 const PopupTextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.313rem;
   width: 100%; 
 `;
 
 const PopupTitle = styled.div`
   font-family: Pretendard Variable;
-  font-weight: 600; /* SemiBold */
+  font-weight: 600; 
   font-size: 20px;
   line-height: 140%;
   letter-spacing: 0px;
@@ -366,33 +365,33 @@ const PopupTitle = styled.div`
 const PopupMessage = styled.div`
   font-family: Pretendard Variable;
   font-weight: 500; 
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 150%;
-  letter-spacing: 0px;
+  letter-spacing: 0rem;
   text-align: center;
   color: #808080;
 `;
 
 const PopupButtonsContainer = styled.div`
   display: flex;
-  justify-content: center; /* 버튼들을 가운데 정렬 */
-  gap: 16px; 
+  justify-content: center; 
+  gap: 1rem; 
   width: 100%;
 `;
 
 const PopupButton = styled.button`
-  width: 132px;
-  height: 44px;
-  border-radius: 12px;
+  width: 8.25rem;
+  height: 2.75rem;
+  border-radius:0.75rem;
   border: none;
   font-family: Pretendard Variable;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top:6px;
+  margin-top:0.375rem;
 `;
 
 const CancelButton = styled(PopupButton)`
