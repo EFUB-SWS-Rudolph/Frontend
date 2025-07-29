@@ -15,11 +15,11 @@ export default function FilterDetailChoice({ icon: Icon, item, type, onChange })
   const isSelected = type === item;
 
   return (
-    <DetailChoiceWrapper onClick={handleClick}>
+    <DetailChoiceWrapper $icon={Icon} $item={item} onClick={handleClick}>
       <FilterOption>
-        <ChoiceContent $selected={isSelected}>
+        <ChoiceContent>
           {Icon && <Icon style={{color: isSelected ? theme.colors.secondary : theme.colors.black}} />}
-          <Option>{item}</Option>
+          <Option $selected={isSelected}>{item}</Option>
         </ChoiceContent>
         {isSelected && <CHECK style={{color: theme.colors.secondary}} />}
       </FilterOption>
@@ -28,28 +28,29 @@ export default function FilterDetailChoice({ icon: Icon, item, type, onChange })
 }
 
 const DetailChoiceWrapper = styled.div`
-  width: 390px;
-  height: 60px;
   display: flex;
+  padding: ${({ $icon, $item }) => 
+    $icon || $item==="전체" ? "1.1875rem 1.12rem 1.1875rem 2rem" : "1.1875rem 1.12rem 1.1875rem 2.5rem"
+  };
   align-items: center;
-  padding: 30px;
-  cursor: pointer;
+  align-self: stretch;
+  width: 24.375rem;
+  height: 3.75rem;
 `;
 
 const FilterOption = styled.div`
   width: 100%;
+  height: 1.375rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
 const ChoiceContent = styled.div`
+  height: 1.375rem;
   display: flex;
   align-items: center;
-  gap: 7px;
-  color: ${({ $selected, theme }) =>
-    $selected ? theme.colors.secondary : theme.colors.black
-  };
+  gap: 1.12rem;
 `;
 
 const Option = styled.div`
@@ -58,17 +59,7 @@ const Option = styled.div`
   font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
-`;
-
-const StyledIcon = styled.div`
-  width: 24px;
-  height: 24px;
-
-  & > svg {
-    width: 100%;
-    height: 100%;
-    fill: ${({ $selected, theme }) =>
-      $selected ? theme.colors.secondary : theme.colors.black
-    };
-  }
+  color: ${({ $selected, theme }) =>
+    $selected ? theme.colors.secondary : theme.colors.black
+  };
 `;

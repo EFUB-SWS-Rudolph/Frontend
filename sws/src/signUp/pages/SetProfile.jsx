@@ -12,7 +12,8 @@ import { useUserStore } from '../stores/useUserStore';
 
 export default function SetProfile() {
   const { nickname, setNickname, location, setLocation } = useUserStore();
-  const isValid = (nickname !== '') && (nickname.length > 2);
+  const isValid = nickname !== '' && nickname.length > 2;
+  const isNextEnabled = isValid && location !== '';
   const navigate = useNavigate();
 
   const handleNickname = (e) => {
@@ -32,31 +33,27 @@ export default function SetProfile() {
   return (
     <Wrapper>
       <SignUpHeader backRoute="/signup/univ" />
-      <ProgressBar step='3' totalSteps='5' />
+      <ProgressBar step="3" totalSteps="5" />
       <SignUpContents>
         <EnteringInfo>
-          프로필을<br/>
+          프로필을
+          <br />
           설정해 주세요
         </EnteringInfo>
 
         <UserEnterSection>
-          <InputContainer 
+          <InputContainer
             title="닉네임"
-            inputPlaceholder={PLACEHOLDER_MESSAGE.NICKNAME} 
-            value={nickname} 
+            inputPlaceholder={PLACEHOLDER_MESSAGE.NICKNAME}
+            value={nickname}
             onChange={handleNickname}
             isValid={isValid}
           />
-          <DropDown
-            title="지역"
-            options={LOCATION}
-            value={location}
-            onChange={handleLocation}
-          />  
+          <DropDown title="지역" options={LOCATION} value={location} onChange={handleLocation} />
         </UserEnterSection>
       </SignUpContents>
       <ButtonContainer>
-        <NextBtn disabled={!isValid} onClick={handleNextClick} />
+        <NextBtn disabled={!isNextEnabled} onClick={handleNextClick} />
       </ButtonContainer>
     </Wrapper>
   );
@@ -64,8 +61,8 @@ export default function SetProfile() {
 
 const Wrapper = styled.div`
   width: 24.375rem;
-  height: 52.8125rem; 
-  background: var(--White, #FFF);
+  height: 52.8125rem;
+  background: var(--White, #fff);
 `;
 
 const SignUpContents = styled.div`

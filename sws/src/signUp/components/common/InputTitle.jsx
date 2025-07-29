@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import theme from '../../../styles/theme';
 
 export default function InputTitle({ title }) {
-  const essentialTitle = ['대학', '학과', '닉네임'];
+  const essentialTitle = ['대학', '학과', '닉네임', '학번', '지역'];
   const inTitle = essentialTitle.includes(title);
   return (
     <Title>
-      {title}{inTitle && <span>*</span>}
+      {title}
+      {inTitle && <span>*</span>}
     </Title>
   );
 }
@@ -20,6 +21,6 @@ const Title = styled.h2`
   line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
 
   span {
-    color: var(--Warning, var(--Color, #FF4D4D));
+    color: var(--Warning, var(--Color, #ff4d4d));
   }
 `;

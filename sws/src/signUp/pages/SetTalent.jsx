@@ -7,41 +7,77 @@ import NextBtn from '../components/common/NextBtn';
 import FIELDLIST from '../constants/FieldList';
 import theme from '../../styles/theme';
 import { useUserStore } from '../stores/useUserStore';
+import { postMemberInfo } from '../../api/members';
 
 export default function SetTalent() {
-  const { resetTalents } = useUserStore();
+  const { nickname, studentId, college, major, location, interests, talents, resetTalents } =
+    useUserStore();
   const navigate = useNavigate();
 
-  const handleNextClick = () => {
-    navigate('/main');
+  const completeOnboarding = async () => {
+    try {
+      const data = {
+        nickName: nickname,
+        studentId,
+        college,
+        department: major,
+        location,
+        interestKeywords: interests,
+        talentKeywords: talents,
+      };
+      const res = await postMemberInfo(data);
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+
+  const handleSkipClick = async () => {
     resetTalents();
+    const success = await completeOnboarding();
+    if (success) {
+      navigate('/');
+    } else {
+      alert('회원 정보 등록에 실패했습니다. 다시 시도해 주세요.');
+    }
+  };
+
+  const handleNextClick = async () => {
+    const succuess = await completeOnboarding();
+    if (succuess) {
+      navigate('/');
+    } else {
+      alert('회원 정보 등록에 실패했습니다. 다시 시도해 주세요.');
+    }
   };
 
   return (
     <Wrapper>
       <SignUpHeader backRoute="/signup/interest" />
-      <ProgressBar step='5' totalSteps='5' />
+      <ProgressBar step="5" totalSteps="5" />
       <SignUpContents>
         <EnteringInfo>
-          본인의 재능<br/>
+          본인의 재능
+          <br />
           3가지를 설정해 주세요
         </EnteringInfo>
         <FieldItems fields={FIELDLIST} type="talent" />
       </SignUpContents>
-        <ButtonContainer>
-          <LaterButtonContainer>
-            <LaterButton onClick={handleNextClick}>나중에 할래요</LaterButton>
-          </LaterButtonContainer>
-          <NextBtn disabled={false} onClick={handleNextClick} />
-        </ButtonContainer>
+      <ButtonContainer>
+        <LaterButtonContainer>
+          <LaterButton onClick={handleSkipClick}>나중에 할래요</LaterButton>
+        </LaterButtonContainer>
+        <NextBtn disabled={false} onClick={handleNextClick} />
+      </ButtonContainer>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
   width: 24.375rem;
-  height: 52.8125rem; 
-  background: var(--White, #FFF);
+  height: 52.8125rem;
+  background: var(--White, #fff);
 `;
 
 const SignUpContents = styled.div`

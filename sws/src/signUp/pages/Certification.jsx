@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import UNION from '../icons/icon_union.svg?react';
 import SignUpHeader from '../components/common/SignUpHeader';
@@ -15,8 +15,16 @@ export default function Certification() {
   const [isValid, setIsValid] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const isNextEnabled = certification.length === 4;
-  const  CERTIFICATION_CODE = '1986';
+  const CERTIFICATION_CODE = '1886';
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const accessToken = searchParams.get('accessToken');
+    if (accessToken) {
+      localStorage.setItem('token', accessToken);
+    }
+  }, []);
 
   const handleCertificationCode = (e) => {
     setCertification(e.target.value);
@@ -34,24 +42,27 @@ export default function Certification() {
     setIsValid(isCorrect);
   };
 
-  return(
+  return (
     <Wrapper>
       <SignUpHeader />
-      <ProgressBar step='1' totalSteps='5' />
+      <ProgressBar step="1" totalSteps="5" />
       <SignUpContents>
         <EnteringInfoContainer>
           <EnteringInfo>
-            <span>Weevo</span> 이용을 위해서는<br/>
+            <span>Weevo</span> 이용을 위해서는
+            <br />
             이화인 인증이 필요해요
           </EnteringInfo>
           <EnteringDescription>
-            <span>Weevo</span>는 오직 이화인을 위한 재능 공유 서비스입니다.<br/>
-            안전하고 신뢰할 수 있는 서비스 환경을 만들기 위해<br/>
+            <span>Weevo</span>는 오직 이화인을 위한 재능 공유 서비스입니다.
+            <br />
+            안전하고 신뢰할 수 있는 서비스 환경을 만들기 위해
+            <br />
             회원가입 시 이화인 인증 절차를 거치고 있어요.
           </EnteringDescription>
         </EnteringInfoContainer>
 
-        <InputContainer 
+        <InputContainer
           title="인증단어 입력"
           inputPlaceholder={PLACEHOLDER_MESSAGE.CERTIFICATION}
           value={certification}
@@ -77,8 +88,8 @@ export default function Certification() {
 
 const Wrapper = styled.div`
   width: 24.375rem;
-  height: 52.8125rem; 
-  background: var(--White, #FFF);
+  height: 52.8125rem;
+  background: var(--White, #fff);
 `;
 
 const SignUpContents = styled.div`

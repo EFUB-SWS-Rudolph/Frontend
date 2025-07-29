@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import X from '../../icons/icon_x.svg?react';
-import BACK_ARROW from '../../icons/icon_backarrow.svg?react';
+import BACK_ARROW from '../../icons/icon_back.svg?react';
 
 export default function EwhainListHeader({ header, onClick }) {
   if (header === "ewhainlist") {
     return (
-      <HeaderWrapper $header={header}>
+      <HeaderWrapper>
         <HeaderContainer>이화인 목록</HeaderContainer> 
       </HeaderWrapper>
     );
@@ -18,7 +18,7 @@ export default function EwhainListHeader({ header, onClick }) {
           style={{
             position: "absolute",
             top: "50%",
-            right: "20px",
+            right: "1rem",
             transform: "translateY(-50%)",
             color: theme.colors.black, 
           }}
@@ -29,55 +29,39 @@ export default function EwhainListHeader({ header, onClick }) {
   } else {
     return(
       <HeaderWrapper>
-        <HeaderContents>
-          <BACK_ARROW             
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "30px",
-              transform: "translateY(-50%)",
-              color: theme.colors.black, 
-            }}
-            onClick={onClick}
-          />
-          <HeaderContainer>{header}</HeaderContainer>
-        </HeaderContents>
+        <BACK_ARROW             
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "1rem",
+            transform: "translateY(-50%)",
+            color: theme.colors.black, 
+          }}
+          onClick={onClick}
+        />
+        <HeaderContainer>{header}</HeaderContainer>
       </HeaderWrapper>
     );
   }
 }
 
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 390px;
-  height: 56px;
-  margin: 0;
-  font-family: ${({ theme }) => theme.fonts.display.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.medium.lineHeight};
-`;
-
 const HeaderWrapper = styled.div`
-  position: relative;
+  width: 24.375rem;
+  height: 3.75rem;
+  padding-top: 1.12rem;
+  padding-bottom: 1.06rem;
   display: flex;
-  align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 56px;
-  margin: 0;
-  padding: 20px;
+  align-items: center;
+  position: relative;
+`;
+
+const HeaderContainer = styled.div`
+  color: #000;
+  text-align: center;
   font-family: ${({ theme }) => theme.fonts.display.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.medium.lineHeight};
 `;
-
-const HeaderContents = styled.div`
-  display: flex;
-
-`

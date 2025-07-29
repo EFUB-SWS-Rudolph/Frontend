@@ -1,13 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import SLIGHT_RIGHT_ARROW from '../../icons/icon_rightarrow.svg?react';
+import SLIGHT_RIGHT_ARROW from '../../icons/icon_next.svg?react';
 
 // select: 교환 방식, 학과, 최신순, 각 대학
 // value: 선택된 값, 처음에는 전체
 
-
-export default function FilterDetailBtn({ select, value, detailroute, fromheader, onChange }) {
+export default function FilterDetailBtn({ type, select, value, detailroute, fromheader, onChange }) {
   const navigate = useNavigate();
 
   const handleMoveFilterDetail = () => {
@@ -25,27 +24,28 @@ export default function FilterDetailBtn({ select, value, detailroute, fromheader
   };
 
   return (
-    <DetailBtnWrapper onClick={handleClick}>
+    <DetailBtnWrapper $type={type} onClick={handleClick}>
       <DetailType>{select}</DetailType>
       <SelectDetailContainer>
         <SelectedValue $value={value} theme={theme}>{value}</SelectedValue>
-        <SLIGHT_RIGHT_ARROW width="5px" height="10px" color="#808080" onClick={handleMoveFilterDetail} cursor="pointer" />
+        <SLIGHT_RIGHT_ARROW width="2.75rem" height="2.75rem" onClick={handleMoveFilterDetail} cursor="pointer" />
       </SelectDetailContainer>
     </DetailBtnWrapper>
   );
 }
 
 const DetailBtnWrapper = styled.div`
-  width: 390px;
-  height: 60px;
   display: flex;
+  padding: 0.5rem 1.125rem 0.5rem 2.5rem;
   justify-content: space-between;
   align-items: center;
-  padding: 30px;
+  align-self: stretch;
+  width: 24.375rem;
+  height: 3.75rem;
 `;
 
 const DetailType = styled.div`
-  color: ${({ theme }) => theme.colors.black};
+  color: #000;
   font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
@@ -57,16 +57,15 @@ const SelectDetailContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
 `;
 
 const SelectedValue = styled.div`
   color: ${({ $value, theme }) =>
-    ($value==="전체") || ($value==="최신순") ? "#808080" : theme.colors.black
+    ($value==="전체") || ($value==="최신순") ? "#808080" : "#000"
   };
-  font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
+  font-family: "Pretendard Variable";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 `;

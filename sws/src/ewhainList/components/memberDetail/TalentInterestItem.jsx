@@ -1,30 +1,34 @@
 import styled from 'styled-components';
-import theme from '../../styles/theme';
+import theme from '../../../styles/theme';
 
 export default function TalentInterestItem({ item }) {
   return (
     <ItemContainer>
-      {item}
+      <ItemText>{item}</ItemText>
     </ItemContainer>
   );
 }
 
 const ItemContainer = styled.div`
   display: flex;
-  align-items: center;
+  width: 6.2708rem;
+  height: 2.25rem;
   justify-content: center;
-  width: 101px;
-  height: 36px;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid transparent;
   background: ${({ theme }) => `
     linear-gradient(${theme.colors.white}, ${theme.colors.white}) padding-box,
     linear-gradient(to right, ${theme.colors.primary}, ${theme.colors.third}) border-box
   `};
-  border: 1px solid transparent;
-  border-radius: 90px;
+`;
+
+const ItemText = styled.div`
+  color: #000;
   font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
-  color: ${({ theme }) => theme.colors.black};
 `;
