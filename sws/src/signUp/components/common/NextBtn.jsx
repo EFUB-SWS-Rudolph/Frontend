@@ -3,29 +3,34 @@ import theme from '../../../styles/theme';
 
 export default function NextBtn({ disabled, onClick }) {
   return (
-    <NextButton disabled={disabled} onClick={onClick}>다음</NextButton>
+    <NextButton disabled={disabled} onClick={onClick}>
+      <NextText>다음</NextText>
+    </NextButton>
   );
 }
 
 const NextButton = styled.button`
-  color: ${({ theme }) => theme.colors.white};
-  text-align: center;
-  font-family: ${({ theme }) => theme.fonts.display.body.large.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.large.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.large.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.large.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.large.lineHeight};
-  height: 56px;
-  width: 358px;
   display: flex;
-  align-items: center;
+  width: 22.375rem;
+  height: 3.5rem;
+  padding: 1rem 7.5625rem;
   justify-content: center;
-  border-radius: 12px;
-  border: none;
-  margin: 10px auto 0;
-  cursor: pointer;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  border-radius: 1rem;
   background-color: ${({ disabled, theme }) =>
     disabled ? theme.colors.gray300 : theme.colors.primary};
-  cursor: ${({disabled}) => disabled ? 'default' : 'pointer'};
-  opacity: ${({disabled}) => disabled ? 0.6 : 1};
+`;
+
+const NextText = styled.div`
+  color: ${({ theme }) => theme.colors.white};
+  text-align: center;
+  
+
+  font-family: "Pretendard Variable";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.5rem; /* 150% */
 `;

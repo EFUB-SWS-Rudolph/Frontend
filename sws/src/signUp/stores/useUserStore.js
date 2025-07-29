@@ -28,6 +28,7 @@ export const useUserStore = create((set) => ({
     set((state) => ({
       interests: state.interests.filter((interest) => interest !== item),
     })),
+  resetInterests: () => set({ interests: [] }),
 
   talents: [],
   addTalents: (talent) =>
@@ -38,4 +39,5 @@ export const useUserStore = create((set) => ({
     set((state) => ({
       talents: state.talents.filter((talent) => talent !== item),
     })),
+  resetTalents: () => set({ interests: [] }),
 }));
