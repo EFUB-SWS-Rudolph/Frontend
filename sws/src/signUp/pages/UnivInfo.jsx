@@ -14,8 +14,8 @@ const COLLEGES = Object.keys(DEPARTMENT_MAJOR);
 
 export default function UnivInfo() {
   const { college, setCollege, major, setMajor, studentId, setStudentId } = useUserStore();
-  const isNextEnabled = (college !== '') && (major !== '');
-  const navigate = useNavigate(); 
+  const isNextEnabled = college !== '' && major !== '' && studentId !== '';
+  const navigate = useNavigate();
 
   const handleCollege = (e) => {
     const newCollege = e.target.value;
@@ -39,34 +39,24 @@ export default function UnivInfo() {
 
   const majorOptions = college ? DEPARTMENT_MAJOR[college] : [];
 
-  return(
+  return (
     <Wrapper>
       <SignUpHeader />
-      <ProgressBar step='2' totalSteps='5' />
+      <ProgressBar step="2" totalSteps="5" />
       <SignUpContents>
         <EnteringInfo>
-          <span>대학 및 학과 정보</span>를<br/>
+          <span>대학 및 학과 정보</span>를<br />
           입력해 주세요
         </EnteringInfo>
-          
+
         <UserEnterSection>
-          <DropDown
-            title="대학"
-            options={COLLEGES}
-            value={college}
-            onChange={handleCollege}
-          />
-          <DropDown
-            title="학과"
-            options={majorOptions}
-            value={major}
-            onChange={handleMajor}
-          />
-              
-          <InputContainer 
+          <DropDown title="대학" options={COLLEGES} value={college} onChange={handleCollege} />
+          <DropDown title="학과" options={majorOptions} value={major} onChange={handleMajor} />
+
+          <InputContainer
             title="학번"
-            inputPlaceholder={PLACEHOLDER_MESSAGE.STUDENTID} 
-            value={studentId} 
+            inputPlaceholder={PLACEHOLDER_MESSAGE.STUDENTID}
+            value={studentId}
             onChange={handleStudentId}
           />
         </UserEnterSection>
@@ -80,8 +70,8 @@ export default function UnivInfo() {
 
 const Wrapper = styled.div`
   width: 24.375rem;
-  height: 52.8125rem; 
-  background: var(--White, #FFF);
+  height: 52.8125rem;
+  background: var(--White, #fff);
 `;
 
 const SignUpContents = styled.div`

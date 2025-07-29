@@ -12,25 +12,30 @@ export default function SetProfile() {
   const { resetInterests } = useUserStore();
   const navigate = useNavigate();
 
-  const handleNextClick = () => {
+  const handleSkipClick = () => {
     navigate('/signup/talent');
     resetInterests();
+  };
+
+  const handleNextClick = () => {
+    navigate('/signup/talent');
   };
 
   return (
     <Wrapper>
       <SignUpHeader backRoute="/signup/profile" />
-      <ProgressBar step='4' totalSteps='5' />
+      <ProgressBar step="4" totalSteps="5" />
       <SignUpContents>
-          <EnteringInfo>
-            관심있는 분야<br/>
-            3가지를 설정해 주세요
-          </EnteringInfo>
+        <EnteringInfo>
+          관심있는 분야
+          <br />
+          3가지를 설정해 주세요
+        </EnteringInfo>
         <FieldItems fields={FIELDLIST} type="interest" />
       </SignUpContents>
       <ButtonContainer>
         <LaterButtonContainer>
-          <LaterButton onClick={handleNextClick}>나중에 할래요</LaterButton>
+          <LaterButton onClick={handleSkipClick}>나중에 할래요</LaterButton>
         </LaterButtonContainer>
         <NextBtn disabled={false} onClick={handleNextClick} />
       </ButtonContainer>
@@ -40,8 +45,8 @@ export default function SetProfile() {
 
 const Wrapper = styled.div`
   width: 24.375rem;
-  height: 52.8125rem; 
-  background: var(--White, #FFF);
+  height: 52.8125rem;
+  background: var(--White, #fff);
 `;
 
 const SignUpContents = styled.div`
