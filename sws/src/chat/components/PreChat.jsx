@@ -1,0 +1,133 @@
+import styled from 'styled-components';
+import theme from '../../styles/theme';
+
+export default function PreChat() {
+  return (
+    <Wrapper>
+      <ProfileImg />
+      <TextsContainer>
+        <NameClassContainer>
+          <Name>김일화</Name>
+          <AboutClass>커피챗</AboutClass>
+        </NameClassContainer>
+        <PreText>안녕하세요 수업 자리 남았을까요?</PreText>
+      </TextsContainer>
+      <AdditionalContainer>
+        <Time>1시간 전</Time>
+        <Messages>2</Messages>
+      </AdditionalContainer>
+    </Wrapper>
+  );
+}
+
+const Wrapper = styled.div`
+  width: 100%;
+  height: 5rem;
+
+  display: flex;
+  flex-shrink: 0;
+
+  padding: 0 1.5rem;
+  align-items: center;
+
+  border-bottom: 1px solid;
+  border-color: ${({ theme }) => theme.colors.gray300};
+`;
+
+const ProfileImg = styled.img`
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 2.5rem;
+  background-color: ${({ theme }) => theme.colors.gray300};
+  box-shadow: 1px 1px 7px 0px rgba(0, 0, 0, 0.25);
+  object-fit: cover;
+`;
+
+const TextsContainer = styled.div`
+  display: flex;
+  width: 14.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3125rem;
+  margin-left: 1rem;
+`;
+
+const NameClassContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const Name = styled.p`
+  text-align: center;
+  color: ${({ theme }) => theme.colors.black};
+  font-family: ${({ theme }) => theme.fonts.display.title.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.title.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.title.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.title.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.title.medium.lineHeight};
+`;
+
+const AboutClass = styled.p`
+  text-align: center;
+  color: #5c5c5c;
+  font-family: ${({ theme }) => theme.fonts.display.title.small.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.title.small.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.title.small.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.title.small.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.title.small.lineHeight};
+`;
+
+const PreText = styled.div`
+  width: 100%;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  color: ${({ theme }) => theme.colors.black};
+  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
+`;
+
+const AdditionalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.35rem;
+
+  margin-left: auto;
+`;
+
+const Time = styled.p`
+  text-align: center;
+  color: #5c5c5c;
+  font-family: ${({ theme }) => theme.fonts.display.title.small.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.title.small.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.title.small.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.title.small.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.title.small.lineHeight};
+`;
+
+const Messages = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.625rem;
+
+  background: ${({ theme }) => theme.colors.secondary};
+
+  color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.display.caption.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.caption.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.caption.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.caption.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.caption.medium.lineHeight};
+`;
