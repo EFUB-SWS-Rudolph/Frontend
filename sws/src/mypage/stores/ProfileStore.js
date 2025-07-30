@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 export const useProfileStore = create((set) => ({
+  nickname: '',
   profileImg: '',
   college: '엘텍공과대학',
   department: '서양화과',
@@ -11,6 +12,7 @@ export const useProfileStore = create((set) => ({
   isEditing: false,
   isOnChoice: false,
 
+  setNickname: (name) => set({ nickname: name }),
   setProfileImg: (img) => set({ profileImg: img }),
   setCollege: (tag) => set({ college: tag }),
   setDepartment: (tag) => set({ department: tag }),

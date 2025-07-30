@@ -1,9 +1,32 @@
 import styled from 'styled-components';
 import EDIT_IMG from '../../assets/icon_editImg.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
+import { getMemberProfile } from '../../../api/myPage';
 
 export default function Profile() {
-  const { profileImg, isEditing, isOnChoice, setProfileImg, setIsOnChoice } = useProfileStore();
+  const { nickname, profileImg, isEditing, isOnChoice, setNickname, setProfileImg, setIsOnChoice } = useProfileStore();
+  const [user, setUser] = useState('');
+  
+  // api 호출
+  const readUserInfo = async() => {
+    try {
+      const res = await getMemberProfile();
+      setUser(res.data);
+    } catch (err) {
+      throw err;
+    }
+  }
+  useEffect(()=>{
+    readUserInfo();
+  },[])
+
+  setProfileImg(user.profileImg);
+  setNickname(user.nickname);
+
+  // 변경된 이미지 url
+  const handleChangeProfileImg = (e) => {
+    setProfileImg(e.target.file[0]);
+  };
 
   const handleOnChoice = () => {
     setIsOnChoice(!isOnChoice);
@@ -11,9 +34,15 @@ export default function Profile() {
 
   return (
     <Container>
-      <Image src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRqyxfxX8QSTvO1ULBKz6IK_KKsMFoiOr9LxoMYKTdAkbIpHxHC" alt="profileimg" />
-      {isEditing && <EditContainer onClick={handleOnChoice}><EDIT_IMG /></EditContainer>}
-      <Name>y_eonie</Name>
+      {isEditing ?
+        <Image src={profileImg} alt="profileimg" />
+      :
+        <>
+          <ImageInput type="file" accept="image/jpg" />
+          <EditContainer onClick={handleOnChoice}><EDIT_IMG /></EditContainer>
+        </>
+      }
+      <Name>{nickname}</Name>
     </Container>
   );
 }

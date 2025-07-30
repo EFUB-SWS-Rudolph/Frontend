@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{ useState, useEffect } from 'react';
 import styled from 'styled-components';
 import InfoTag from './InfoTag';
 import { TAG_INFO } from '../../constant/TAG_INFO';
@@ -7,15 +7,12 @@ import { getMemberProfile } from '../../../api/myPage';
 
 export default function Tags() {
   const { college, department, studentid, location, setCollege, setDepartment, setStudentid, setLocation } = useProfileStore();
+  const [user, setUser] = useState('');
   
   const readUserInfo = async() => {
     try {
       const res = await getMemberProfile();
-      setCollege(res.data.college);
-      setDepartment(res.data.dept);
-      setStudentid(res.data.studentId);
-      setLocation(res.data.location);
-      console.log(res.data);
+      setUser(res.data);
     } catch (err) {
       throw err;
     }
@@ -23,6 +20,11 @@ export default function Tags() {
   useEffect(()=>{
     readUserInfo();
   },[])
+
+  setCollege(user.college);
+  setDepartment(user.dept);
+  setStudentid(user.studentId);
+  setLocation(user.location);
 
   const handleEditCollege = (e) => {
     setCollege(e.target.value);
