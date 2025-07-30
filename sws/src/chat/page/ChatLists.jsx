@@ -1,6 +1,6 @@
-import FilterBar from '../components/FilterBar';
-import Header from '../components/CharListHeader';
-import PreChat from '../components/PreChat';
+import FilterBar from '../components/chatlist/FilterBar';
+import Header from '../components/chatlist/CharListHeader';
+import PreChat from '../components/chatlist/PreChat';
 import styled from 'styled-components';
 import { useState } from 'react';
 

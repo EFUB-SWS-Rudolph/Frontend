@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import FilterButton from './FilterButton';
-import { HEADER_BUTTON_LIST } from '../constant/headerButtonList';
+import { HEADER_BUTTON_LIST } from '../../constant/headerButtonList';
 
 export default function FilterBar({ filter, onChange }) {
   return (
