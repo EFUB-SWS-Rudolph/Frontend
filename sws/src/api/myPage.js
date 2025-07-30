@@ -1,4 +1,6 @@
 import {client} from './client';
+import { useProfileStore } from '../mypage/stores/ProfileStore';
+const { nickname, department, studentid, location, exchange, coffeechat, donation, profileImg } = useProfileStore();
 
 export const getMemberProfile = async() => {
   try {
@@ -9,13 +11,39 @@ export const getMemberProfile = async() => {
   }
 };
 
-export const patchMemberProfile = async() => {
+export const getMemberTalent = async() => {
+  try {
+    const res = await client.get('/members/talent');
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getMemberInterest = async() => {
+  try {
+    const res = await client.get('/members/interest');
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const patchMemberProfile = async({
+  nickname,
+  department,
+  studentid,
+  location,
+  exchange,
+  coffeechat,
+  donation,
+}) => {
   try {
     await client.patch('/members/profile',
       {
         "nickname": nickname,
         "dept": department,
-        "studnetId": studentid,
+        "studentId": studentid,
         "location": location,
         "isExchange": exchange,
         "isCoffeeChat": coffeechat,
@@ -28,20 +56,41 @@ export const patchMemberProfile = async() => {
   }
 }
 
-export const patchProfileImg = async() => {
-  try {
-    await client.patch('/members/profile/image',
-      {
-        "profileImg": profileImg,  // 프로필 file(jpg, png 등) 보내기
-      }
-    )
+// profileImg: 파일 객체
+// 사용 예시 (예: 파일 업로드 onChange 이벤트에서)
+// const file = e.target.files[0];
+// await patchProfileImg({ profileImg: file });
 
+export const patchProfileImg = async({ profileImg }) => {
+  try {
+    const formData = new FormData();
+    formData.append('profileImg', profileImg);
+    
+    await client.patch('/members/profile/image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   } catch (err) {
     throw err;
   }
 };
 
-export const putTalentTag = async() => {
+export const putTalentTag = async({ tag1, tag2, tag3 }) => {
+  try {
+    await client.put('/members/talent',
+      {
+        "tag1": tag1,
+        "tag2": tag2,
+        "tag3": tag3
+      }
+    )
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const putInterestTag = async({ tag1, tag2, tag3 }) => {
   try {
     await client.put('/members/interest',
       {
