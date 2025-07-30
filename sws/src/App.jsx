@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './layout/Layout';
 import Main from './main/page/Main';
+import ChatListPage from './chat/page/ChatLists';
+import ChatRoomPage from './chat/page/ChatRoom';
 import Certification from './signUp/pages/Certification';
 import UnivInfo from './signUp/pages/UnivInfo';
 import SetProfile from './signUp/pages/SetProfile';
@@ -16,7 +18,6 @@ import DeptFilter from './ewhainList/pages/DeptFilter';
 import IndividualInquiry from './ewhainList/pages/IndividualInquiry';
 import LoginPage from './signIn/pages/SignIn';
 import RedirectPage from './signIn/pages/Redirect';
-
 
 function App() {
   return (
@@ -41,6 +42,8 @@ function App() {
           <Route path="/ewhainfilter/dept/major" element={<MajorFilter />} />
           <Route path="/ewhainfilter/period" element={<PeriodFilter />} />
           <Route path="/ewhain/:id" element={<IndividualInquiry />} />
+          <Route path="/chatlist" element={<ChatListPage />} />
+          <Route path="/chatroom/:chatId" element={<ChatRoomPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
