@@ -9,19 +9,32 @@ import { getMemberProfile } from '../../../api/myPage';
 
 export default function Interests() {
   const { interestTags, isEditing, addInterestTag, removeInterestTag, resetInterestTags } = useProfileStore();
-  const [user, setUser] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [isAdding, setIsAdding] = useState(false);
   const isMax = interestTags.length >= 3;
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      const newTag = inputValue.trim();
+      if (newTag) {
+        addInterestTag(newTag);;
+        setInputValue('');
+        setIsAdding(false);
+      }
+    }
+  };
 
   const readUserInfo = async() => {
     try {
       const res = await getMemberProfile();
-      setUser(res.data);
-
       resetInterestTags();
       
       if (Array.isArray(res.data.interest)) {
-        user.interest.slice(0, 3).forEach(tag => {
+        res.data.interest.slice(0, 3).forEach(tag => {
           addInterestTag(tag);
         });
       }
@@ -39,11 +52,10 @@ export default function Interests() {
     removeInterestTag(key);
   };
 
-  const handleAddTag = () => {
-    const newTag = prompt('추가할 관심 분야 태그를 입력하세요');
-    if (newTag && newTag.trim() !== '') {
-      addInterestTag(newTag.trim());
-    }
+  const handleChipClick = () => {
+    if (interestTags.length >= 3) return;
+    setIsAdding(true);
+    setInputValue('');
   };
 
   return (
@@ -60,12 +72,13 @@ export default function Interests() {
             onKeyDown={handleInputKeyDown}
             onBlur={() => setIsAdding(false)}
             style={{display:"flex", justifyContent:"center", alignItems:"center", 
-                    width:"6.3125rem", height:"2.25rem", borderRadius:"1.25rem", border:"1px solid transparnet",
-                    background: "linear-gradient(theme.colors.white, theme.colors.white) padding-box, linear-gradient(to right, theme.colors.primary, theme.colors.third) border-box"
+                    width:"6.3125rem", height:"2.25rem", borderRadius:"1.25rem", border:"1px solid transparent",
+                    background: "linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #00664f, #baedd4) border-box"
                   }}
+            onChange={handleInputChange}
           />
         : 
-          <CHIP onClick={handleAddTag} />
+          <CHIP onClick={handleChipClick} />
         )}
       </TagsContainer>
     </Container>
