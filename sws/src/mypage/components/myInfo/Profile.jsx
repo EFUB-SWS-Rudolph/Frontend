@@ -1,48 +1,90 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import EDIT_IMG from '../../assets/icon_editImg.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 import { getMemberProfile } from '../../../api/myPage';
 
 export default function Profile() {
-  const { nickname, profileImg, isEditing, isOnChoice, setNickname, setProfileImg, setIsOnChoice } = useProfileStore();
+  const { nickname, profileImg, isEditing, setProfileImg } = useProfileStore();
   const [user, setUser] = useState('');
-  
-  // api 호출
-  const readUserInfo = async() => {
-    try {
-      const res = await getMemberProfile();
-      setUser(res.data);
-    } catch (err) {
-      throw err;
-    }
-  }
-  useEffect(()=>{
-    readUserInfo();
-  },[])
+  const [image, setImage] = useState('');
+  const [file, setFile] = useState('');
+  const [showChocieModal, setShowChoiceModal] = useState(false);
 
-  setProfileImg(user.profileImg);
-  setNickname(user.nickname);
+  const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
 
-  // 변경된 이미지 url
-  const handleChangeProfileImg = (e) => {
-    setProfileImg(e.target.file[0]);
+  const handleProfileImgClick = () => {
+    if (isEditing) setShowChoiceModal(true);
   };
 
-  const handleOnChoice = () => {
-    setIsOnChoice(!isOnChoice);
+  const albumSelect = () => {
+    setShowChoiceModal(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = null;
+      fileInputRef.current.click();
+    }
+  };
+
+  const cameraSelect = () => {
+    setShowChoiceModal(false);
+    if (cameraInputRef.current) {
+      cameraInputRef.current.value = null;
+      cameraInputRef.current.click();
+    }
+  };
+  
+  const onChange = (e) => {
+    if (e.target.files[0]) {
+      setFile(e.target.files[0]);
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      // 업로드 취소 시
+      setImage(profileImg);
+      return;
+    }
   };
 
   return (
     <Container>
-      {isEditing ?
-        <Image src={profileImg} alt="profileimg" />
-      :
-        <>
-          <ImageInput type="file" accept="image/jpg" />
-          <EditContainer onClick={handleOnChoice}><EDIT_IMG /></EditContainer>
-        </>
-      }
+      <Image
+        src={image || profileImg}
+        alt="profileimg"
+        onClick={handleProfileImgClick}
+      />
+      {isEditing && (
+        <EditContainer><EDIT_IMG /></EditContainer>
+      )}
+
+      <input 
+        type="file"
+        accept="image/jpeg, image/jpg"
+        style={{ display: 'none' }}
+        ref={fileInputRef}
+        onChange={onChange}
+      />
+      <input 
+        type="file"
+        accpet="image/jpeg, image/jpg"
+        style={{ display: 'none' }}
+        ref={cameraInputRef} 
+        capture="environment"
+        onChange={onChange}
+      />
+
+      {showChoiceModal && (
+        <ChoiceContainer
+          onClose={() => setShowChoiceModal(false)}
+          onSelectAlbum={albumSelect}
+          onSelectCamera={cameraSelect}
+        />
+      )}
       <Name>{nickname}</Name>
     </Container>
   );

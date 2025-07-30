@@ -3,12 +3,12 @@ import EditImgChoice from './EditImgChoice';
 import IMAGE from '../../assets/icon_image.svg?react';
 import CAMERA from '../../assets/icon_camera.svg?react';
 
-export default function ChoiceContainer({ onClose }) {
+export default function ChoiceContainer({ onClose, onSelectAlbum, onSelectCamera }) {
   return(
     <Wrapper onClick={onClose}>
-      <Container>
-        <EditImgChoice icon={IMAGE} text="앨범에서 선택하기" onClose={onClose}/>
-        <EditImgChoice icon={CAMERA} text="직접 촬영하기" onClose={onClose}/>
+      <Container onClick={(e) => e.stopPropagation()}>
+        <EditImgChoice icon={IMAGE} text="앨범에서 선택하기" onClick={onSelectAlbum} />
+        <EditImgChoice icon={CAMERA} text="직접 촬영하기" onClick={onSelectCamera} />
       </Container>
     </Wrapper>
   );
