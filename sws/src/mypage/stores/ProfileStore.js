@@ -8,8 +8,8 @@ export const useProfileStore = create((set) => ({
   location: '서울시 강동구',
   talentTags: ['바이올린', '운동', '그림'],
   interestTags: ['코딩', '뜨개질'],
-  isEditing: true,
-  isOnChoice: true,
+  isEditing: false,
+  isOnChoice: false,
 
   setProfileImg: (img) => set({ profileImg: img }),
   setCollege: (tag) => set({ college: tag }),
