@@ -1,48 +1,61 @@
 import styled from 'styled-components';
-export default function AboutRoom() {
+import theme from '../../../styles/theme';
+
+export default function AboutRoom({ thumbnail, title, date }) {
   return (
     <Wrapper>
-      <RoomImg />
-      <AboutRoom>독일어 심화반</AboutRoom>
-      <Dates>2025년 6월 18일 ~ 2025년 8월 18일</Dates>
+      <RoomImg src={thumbnail} />
+      <TextContainer>
+        <RoomTitle>{title}</RoomTitle>
+        <Dates>{date}</Dates>
+      </TextContainer>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  width: 24.375rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  width: 100%;
   height: 4.5rem;
-  flex-shrink: 0;
-  border: 0.75px solid var(--Gray-300, #d9d9d9);
-  background: #fff;
+
+  padding: 1rem;
+
+  border-top: 0.75px solid;
+  border-bottom: 0.75px solid;
+  border-color: ${({ theme }) => theme.colors.gray300};
 `;
 
-const RoomImg = styled.div`
+const RoomImg = styled.img`
   width: 2.5rem;
   height: 2.5rem;
-  flex-shrink: 0;
   border-radius: 0.5rem;
-  /* background: url(<path-to-image>) lightgray 0px -1.85px / 100% 136.75% no-repeat; */
+  object-fit: cover;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-left: 1rem;
 `;
 
 const RoomTitle = styled.div`
-  color: #000;
-
-  /* Title/Medium */
-  font-family: 'Pretendard Variable';
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
+  color: ${({ theme }) => theme.colors.black};
+  font-family: ${({ theme }) => theme.fonts.display.title.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.title.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.title.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.title.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.title.medium.lineHeight};
 `;
 
 const Dates = styled.p`
-  color: var(--Gray-500, #999);
-
-  /* Caption/Medium */
-  font-family: 'Pretendard Variable';
-  font-size: 0.625rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
+  color: ${({ theme }) => theme.colors.gray500};
+  font-family: ${({ theme }) => theme.fonts.display.caption.medium.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.display.caption.medium.fontSize};
+  font-style: ${({ theme }) => theme.fonts.display.caption.medium.fontStyle};
+  font-weight: ${({ theme }) => theme.fonts.display.caption.medium.fontWeight};
+  line-height: ${({ theme }) => theme.fonts.display.caption.medium.lineHeight};
 `;
