@@ -4,13 +4,13 @@ import styled from 'styled-components';
 import DELETE from '../../assets/icon_delete.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 
-export default function Tag({ text }) {
-  const { talentTags, interestTags, isEditing, setTalentTags, setInterestTags, removeTalentTag, removeInterestTag } = useProfileStore();
+export default function Tag({ text, onClick }) {
+  const { isEditing } = useProfileStore();
 
   return (
     <Container>
       <Text>{text}</Text>
-      {isEditing && <Delete />}
+      {isEditing && <Delete onClick={onClick} />}
     </Container>
   );
 }

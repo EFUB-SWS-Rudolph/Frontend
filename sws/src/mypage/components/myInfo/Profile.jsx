@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import EDIT_IMG from '../../assets/icon_editImg.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';

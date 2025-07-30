@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import MyTalent from './MyTalent';
-import Interests from './Interests';
+import MyInterest from './MyInterest';
 
 export default function MyTags() {
   return (
     <Container>
       <MyTalent />
-      <Interests />
+      <MyInterest />
     </Container>
   );
 }

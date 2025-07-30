@@ -18,15 +18,26 @@ export const useProfileStore = create((set) => ({
   setDepartment: (tag) => set({ department: tag }),
   setStudentid: (tag) => set({ studentid: tag }),
   setLocation: (tag) => set({ location: tag }),
-  setInfoTags: (tags) => set({ infoTags: tags }),
-  setTalentTags: (tags) => set({ talentTags: tags }),
-  setInterestTags: (tags) => set({ interestTags: tags }),
+
+  addTalentTag: (tag) => 
+    set((state) => ({
+      talentTags: [...state.talentTags, { id: Date.now() + Math.random(), tag }],
+  })),
+  addInterestTag: (tag) => 
+    set((state) => ({
+      interestTags: [...state.interestTags, { id: Date.now() + Math.random(), tag }],
+  })),
+
   setIsEditing: (flag) => set({ isEditing: flag }),
   setIsOnChoice: (flag) => set({ isOnChoice: flag }),
-  removeTalentTag: (index) => set((state) => ({
-    talentTags: state.talentTags.filter((_, i) => i !== index),
+
+  removeTalentTag: (id) => set((state) => ({
+    talentTags: state.talentTags.filter((i) => i.id !== id),
   })),
-  removeInterestTag: (index) => set((state) => ({
-    interestTags: state.interestTags.filter((_, i) => i !== index),
+  removeInterestTag: (id) => set((state) => ({
+    interestTags: state.interestTags.filter((i) => i.id !== id),
   })),
+
+  resetInterestTags: () => set({ interestTags: [] }),
+  resetTalentTags: () => set({ talentTags: [] }),
 }));
