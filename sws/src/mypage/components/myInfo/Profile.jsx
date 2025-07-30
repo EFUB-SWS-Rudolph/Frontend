@@ -5,11 +5,11 @@ import { useProfileStore } from '../../stores/ProfileStore';
 import { getMemberProfile } from '../../../api/myPage';
 
 export default function Profile() {
-  const { nickname, profileImg, isEditing, setProfileImg } = useProfileStore();
+  const { nickname, profileImg, isEditing, setProfileImg, setNickname } = useProfileStore();
   const [user, setUser] = useState('');
   const [image, setImage] = useState('');
   const [file, setFile] = useState('');
-  const [showChocieModal, setShowChoiceModal] = useState(false);
+  const [showChoiceModal, setShowChoiceModal] = useState(false);
 
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
@@ -39,9 +39,7 @@ export default function Profile() {
       setFile(e.target.files[0]);
       const reader = new FileReader();
       reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImage(reader.result);
-        }
+        setImage(reader.result);
       };
       reader.readAsDataURL(e.target.files[0]);
     } else {
@@ -50,6 +48,21 @@ export default function Profile() {
       return;
     }
   };
+
+  // api 호출
+  const readUserInfo = async() => {
+    try {
+      const res = await getMemberProfile();
+      setUser(res.data);
+    } catch (err) {
+      throw err;
+    }
+  }
+  useEffect(()=>{
+    readUserInfo();
+    setProfileImg(user.profileImg);
+    setNickname(user.nickname);
+  },[user, setProfileImg, setNickname]);
 
   return (
     <Container>
@@ -71,7 +84,7 @@ export default function Profile() {
       />
       <input 
         type="file"
-        accpet="image/jpeg, image/jpg"
+        accept="image/jpeg, image/jpg"
         style={{ display: 'none' }}
         ref={cameraInputRef} 
         capture="environment"

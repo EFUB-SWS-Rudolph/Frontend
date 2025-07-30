@@ -13,12 +13,13 @@ export const patchMemberProfile = async() => {
   try {
     await client.patch('/members/profile',
       {
-        "userId": userId,
         "nickname": nickname,
-        "college": college,
         "dept": department,
-        "studentId": studentid,
+        "studnetId": studentid,
         "location": location,
+        "isExchange": exchange,
+        "isCoffeeChat": coffeechat,
+        "isSkillDonation": donation,
       }
     )
 
