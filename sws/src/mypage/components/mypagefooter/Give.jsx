@@ -11,7 +11,6 @@ export default function Give() {
   const isDonation = useProfileStore((state) => state.isDonation);
   const setIsDonation = useProfileStore((state) => state.setIsDonation);
   const isEditing = useProfileStore((state) => state.isEditing);
-  const [isOn, setIsOn] = useState(true);
   
   const handleIsDonation = () => {
     setIsDonation(!isDonation);
@@ -23,6 +22,7 @@ export default function Give() {
         <GiveIcon />
         <p>재능 기부</p>
       </TitleContainer>
+      
       {isEditing ?
         <ToggleContainer onClick={handleIsDonation}>
           {isDonation ? <SwitchOn /> : <Switch />}
