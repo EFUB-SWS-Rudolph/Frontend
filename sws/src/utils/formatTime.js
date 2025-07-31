@@ -15,3 +15,11 @@ export const formatTime = (dateString) => {
 
   return target.fromNow();
 };
+
+export const formatDate = (dateString) => {
+  return dayjs(dateString).format('YYYY년 M월 D일');
+};
+
+export const extractTime = (datetime) => {
+  return dayjs(datetime).format('HH:mm');
+};
