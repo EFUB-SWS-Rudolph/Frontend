@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
@@ -6,10 +7,27 @@ import UserCard from '../components/memberList/UserCard';
 import USERS from '../constants/users';
 import EMPTY from '../icons/icon_empty.svg?react';
 import { useFilterStore } from '../stores/FilterStore';
+import { getMemberList } from '../../api/members';
 
 export default function EwhainList() {
-  const searchExist = false;  // api 연결 후 검색 결과 여부 표시
+  const searchExist = true;  // api 연결 후 검색 결과 여부 표시
   const { isgallery } = useFilterStore();
+  const [users, setUsers] = useState([]);
+
+  // api 호출
+  const readMemberList = async () => {
+    try {
+      const res = await getMemberList();
+      console.log(res);
+      setUsers(res);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  useEffect(() => {
+    readMemberList();
+  }, [])
 
   return (
     <EwhainListWrapper>
@@ -18,10 +36,10 @@ export default function EwhainList() {
       { searchExist ? 
       <>
         <EwhainContainer $isgallery={isgallery}>
-          {USERS.map((user) => (
+          {users.map((user) => (
             <UserCard
               user={user}
-              key={user.id}
+              key={user.memberId}
             />
           ))}
         </EwhainContainer>

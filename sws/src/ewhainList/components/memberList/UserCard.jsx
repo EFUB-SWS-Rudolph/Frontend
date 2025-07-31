@@ -7,9 +7,14 @@ import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
 
 export default function UserCard({ user }) {
-  // const [users, setUsers] = useState([]);
   const { isgallery } = useFilterStore();
   const navigate = useNavigate();
+  const talentTags = user.talentTags;
+  const tagsString = talentTags.join(', ');
+  const imageSrc = user.profileImage ?
+    user.profileImage.replace(/([^:/])\/{2,}/g, '$1/') : "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRqyxfxX8QSTvO1ULBKz6IK_KKsMFoiOr9LxoMYKTdAkbIpHxHC";
+
+  console.log(user.profileImage);
 
   function available() {
     return (
@@ -22,28 +27,28 @@ export default function UserCard({ user }) {
   }
 
   const handleMoveDetail = () => {
-    navigate('/ewhain/${user.id}')
+    navigate('/ewhain/${user.memberId}')
   }
 
   return (
     <UserCardWrapper $isgallery={isgallery} onClick={handleMoveDetail}>
-      <ProfileImage src={user.profileimageurl} alt="profileimg" />
+      <ProfileImage src={imageSrc} alt="profileimg" />
 
       <UserContent $isgallery={isgallery}>
         <UserInfoContent $isgallery={isgallery}>
-          <Nickname>{user.nickname}</Nickname>
+          <Nickname>{user.nickName}</Nickname>
           <UnivInfoContent>
             {user.studentid ? 
               (
                 <>
-                  {user.studentid}학번 <span>|</span> {user.major}
+                  {user.studentid}학번 <span>|</span> {user.department}
                 </>
               )
-              : user.major
+              : user.department
             }
           </UnivInfoContent>
         </UserInfoContent>
-        <UserTalent $isgallery={isgallery}>{user.talent}</UserTalent>
+        <UserTalent $isgallery={isgallery}>{tagsString}</UserTalent>
         {isgallery && <UserLocation>{user.location}</UserLocation>}
       </UserContent>
       <AvailableSection $isgallery={isgallery}>{available()}</AvailableSection>
