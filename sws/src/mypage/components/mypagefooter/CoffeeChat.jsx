@@ -4,12 +4,15 @@ import CoffeeChatIcon from '../../assets/CoffeeChatIcon';
 import Switch from '../../assets/Switch';
 import SwitchOn from '../../assets/SwitchOn';
 import { FooterContainer, TitleContainer } from './FooterContainer';
+import { useProfileStore } from '../../stores/ProfileStore';
 
 export default function CoffeeChat() {
-  const [isOn, setIsOn] = useState(true);
+  const isCoffeeChat = useProfileStore((state) => state.isCoffeeChat);
+  const setIsCoffeeChat = useProfileStore((state) => state.setIsCoffeeChat);
+  const isEditing = useProfileStore((state) => state.isEditing);
 
-  const handleIsOn = () => {
-    setIsOn(!isOn);
+  const handleIsCoffeeChat = () => {
+    setIsCoffeeChat(!isCoffeeChat);
   };
 
   return (
@@ -19,9 +22,15 @@ export default function CoffeeChat() {
         <p>커피챗</p>
       </TitleContainer>
       
-      <ToggleContainer onClick={handleIsOn}>
-        {isOn ? <SwitchOn /> : <Switch />}
-      </ToggleContainer>
+      {isEditing ?
+        <ToggleContainer onClick={handleIsCoffeeChat}>
+          {isCoffeeChat ? <SwitchOn /> : <Switch />}
+        </ToggleContainer>
+      :
+        <ToggleContainer>
+          {isCoffeeChat ? <SwitchOn /> : <Switch />}
+        </ToggleContainer>
+      }
     </FooterContainer>
   );
 }
