@@ -77,7 +77,7 @@ export default function Profile() {
   const readUserInfo = async() => {
     try {
       const res = await getMemberProfile();
-      setUser(res.data);
+      setUser(res);
     } catch (err) {
       throw err;
     }
@@ -153,7 +153,7 @@ const EditContainer = styled.div`
   height: 1.85125rem;
   flex-shrink: 0;
   position: absolute;
-  bottom: 2.75rem;
+  bottom: 1.7rem;
   right: 0.3rem;
   outline: none;
   border: none;

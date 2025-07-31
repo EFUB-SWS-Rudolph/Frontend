@@ -12,7 +12,7 @@ export default function Tags() {
   const readUserInfo = async() => {
     try {
       const res = await getMemberProfile();
-      setUser(res.data);
+      setUser(res);
     } catch (err) {
       throw err;
     }
@@ -21,10 +21,14 @@ export default function Tags() {
     readUserInfo();
   },[])
 
-  setCollege(user.college);
-  setDepartment(user.dept);
-  setStudentid(user.studentId);
-  setLocation(user.location);
+  useEffect(() => {
+    if (user) {
+      setCollege(user.college);
+    setDepartment(user.dept);
+    setStudentid(user.studentId);
+    setLocation(user.location);
+    }
+  }, [user])
 
   const handleEditCollege = (e) => {
     setCollege(e.target.value);

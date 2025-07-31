@@ -62,7 +62,7 @@ export const patchMemberProfile = async({
 export const patchProfileImg = async({ profileImg }) => {
   try {
     const formData = new FormData();
-    formData.append('profileImg', profileImg);
+    formData.append('image', profileImg);
     
     await client.patch('/members/profile/image', formData, {
       headers: {
@@ -104,7 +104,8 @@ export const putInterestTag = async({ tag1, tag2, tag3 }) => {
 
 export const getWishlist = async() => {
   try {
-    await client.get('/members/wishlist-courses')
+    const res = await client.get('/members/wishlist-courses');
+    return res.data;
   } catch (err) {
     throw err;
   }

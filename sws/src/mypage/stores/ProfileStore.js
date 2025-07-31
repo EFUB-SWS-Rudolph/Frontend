@@ -7,8 +7,8 @@ export const useProfileStore = create((set) => ({
   department: '서양화과',
   studentid: '24',
   location: '서울시 강동구',
-  talentTags: ['바이올린', '운동', '그림'],
-  interestTags: ['코딩', '뜨개질'],
+  talentTags: [{ id: Date.now(), tag: '바이올린' }],
+  interestTags: [{ id: Date.now(), tag: '프로그래밍' }, { id: Date.now(), tag: '작곡' }],
   isEditing: false,
   isOnChoice: false,
 
@@ -21,7 +21,7 @@ export const useProfileStore = create((set) => ({
 
   setTalentTags: (tags) => set({ talentTags: tags }),
   setInterestTags: (tags) => set({ interestTags: tags }),
-  
+
   addTalentTag: (tag) => 
     set((state) => ({
       talentTags: [...state.talentTags, { id: Date.now() + Math.random(), tag }],
