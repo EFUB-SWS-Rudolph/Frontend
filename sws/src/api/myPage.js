@@ -9,18 +9,9 @@ export const getMemberProfile = async() => {
   }
 };
 
-export const getMemberTalent = async() => {
+export const getMemberTag = async() => {
   try {
-    const res = await client.get('/members/talent');
-    return res.data;
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const getMemberInterest = async() => {
-  try {
-    const res = await client.get('/members/interest');
+    const res = await client.get('/members/profile/tags');
     return res.data;
   } catch (err) {
     throw err;

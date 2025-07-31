@@ -3,7 +3,7 @@ import Tag from './Tag';
 import { Container, TagsContainer } from './TagCommonStyleFrame';
 import CHIP from '../../assets/icon_chip.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
-import { getMemberProfile } from '../../../api/myPage';
+import { getMemberTag } from '../../../api/myPage';
 
 export default function MyTalent() {
   const talentTags = useProfileStore((state) => state.talentTags);
@@ -17,7 +17,7 @@ export default function MyTalent() {
 
   const readUserInfo = async () => {
     try {
-      const res = await getMemberProfile();
+      const res = await getMemberTag();
       setTalentTags(res.talent);
     } catch (err) {
       throw err;

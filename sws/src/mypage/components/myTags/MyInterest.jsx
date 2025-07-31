@@ -3,7 +3,7 @@ import Tag from './Tag';
 import { Container, TagsContainer } from './TagCommonStyleFrame';
 import CHIP from '../../assets/icon_chip.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
-import { getMemberProfile } from '../../../api/myPage';
+import { getMemberTag } from '../../../api/myPage';
 
 // 사용자의 tag를 zustand에 저장 -> 해당 변수를 불러와서 tag로 보여줌
 
@@ -24,7 +24,7 @@ export default function Interests() {
 
   const readUserInfo = async() => {
     try{
-      const res = await getMemberProfile();
+      const res = await getMemberTag();
       setInterestTags(res.interest);
     } catch (err) {
       throw err;
