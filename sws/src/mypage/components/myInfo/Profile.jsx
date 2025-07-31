@@ -5,7 +5,11 @@ import { useProfileStore } from '../../stores/ProfileStore';
 import { getMemberProfile } from '../../../api/myPage';
 
 export default function Profile() {
-  const { nickname, profileImg, isEditing, setProfileImg, setNickname } = useProfileStore();
+  const nickname = useProfileStore((state) => state.nickname);
+  const profileImg = useProfileStore((state) => state.profileImg);
+  const isEditing = useProfileStore((state) => state.isEditing);
+  const setProfileImg = useProfileStore((state) => state.setProfileImg);
+  const setNickname = useProfileStore((state) => state.setNickname);
   const [user, setUser] = useState('');
   const [image, setImage] = useState('');
   const [file, setFile] = useState('');
@@ -60,9 +64,12 @@ export default function Profile() {
   }
   useEffect(()=>{
     readUserInfo();
-    setProfileImg(user.profileImg);
-    setNickname(user.nickname);
-  },[user, setProfileImg, setNickname]);
+  },[]);
+
+  useEffect(() => {
+    if (user?.profileImg) setProfileImg(user.profileImg);
+    if (user?.nickname) setNickname(user.nickname);
+  }, [user, setProfileImg, setNickname]);
 
   return (
     <Container>
