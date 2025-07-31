@@ -1,19 +1,25 @@
 import styled from 'styled-components';
 import MyChat from './MyChat';
 import YourChat from './YourChat';
+import { useChatStore } from '../../stores/useChatStore';
 
-export const ChatGroup = ({ owner }) => {
-  return owner ? (
+export const ChatGroup = ({ opponent, messages }) => {
+  const { profileImageUrl } = useChatStore();
+
+  return opponent ? (
     <Wrapper>
-      <Imgs />
+      <Imgs src={profileImageUrl} />
       <Container>
-        <YourChat />
-        <YourChat />
+        {messages.map((msg, idx) => (
+          <YourChat key={`yourchat-${idx}`} msg={msg} />
+        ))}
       </Container>
     </Wrapper>
   ) : (
     <MyContainer>
-      <MyChat />
+      {messages.map((msg, idx) => (
+        <MyChat key={`yourchat-${idx}`} msg={msg} />
+      ))}
     </MyContainer>
   );
 };

@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
+import { extractTime } from '../../../utils/formatTime';
 
-export default function YourChat() {
+export default function YourChat({ msg }) {
   return (
     <Container>
-      <Text>안녕하세요 수업 자리 남았을까요?</Text>
-      <Time>12:53</Time>
+      <Text>{msg.content}</Text>
+      <Time>{extractTime(msg.sentAt)}</Time>
     </Container>
   );
 }
