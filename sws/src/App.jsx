@@ -28,7 +28,7 @@ function App() {
 
           <Route path="/" element={<Main />} />
           <Route path="/signin" element={<LoginPage />} />
-          <Route path="/login" element={<RedirectPage />} />
+          <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
           <Route path="/signup/additional" element={<Certification />} />
           <Route path="/signup/univ" element={<UnivInfo />} />
           <Route path="/signup/profile" element={<SetProfile />} />
