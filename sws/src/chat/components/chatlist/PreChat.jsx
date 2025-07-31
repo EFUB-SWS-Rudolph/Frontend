@@ -1,20 +1,21 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
+import { formatTime } from '../../../utils/formatTime';
 
-export default function PreChat() {
+export default function PreChat({ prechatData }) {
   return (
     <Wrapper>
       <ProfileImg />
       <TextsContainer>
         <NameClassContainer>
-          <Name>김일화</Name>
-          <AboutClass>커피챗</AboutClass>
+          <Name>{prechatData.opponentName}</Name>
+          <AboutClass>{prechatData.courseTitle}</AboutClass>
         </NameClassContainer>
-        <PreText>안녕하세요 수업 자리 남았을까요?</PreText>
+        <PreText>{prechatData.lastMessage}</PreText>
       </TextsContainer>
       <AdditionalContainer>
-        <Time>1시간 전</Time>
-        <Messages>2</Messages>
+        <Time>{formatTime(prechatData.lastMessageSentAt)}</Time>
+        <Messages>{prechatData.unreadCount}</Messages>
       </AdditionalContainer>
     </Wrapper>
   );
