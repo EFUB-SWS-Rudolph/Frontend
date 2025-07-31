@@ -5,19 +5,22 @@ import { useProfileStore } from '../../stores/ProfileStore';
 import { getMemberProfile } from '../../../api/myPage';
 
 export default function Profile() {
+  // zustand 변수 불러오기(닉네임, 프로필 사진)
   const nickname = useProfileStore((state) => state.nickname);
   const profileImg = useProfileStore((state) => state.profileImg);
   const isEditing = useProfileStore((state) => state.isEditing);
   const setProfileImg = useProfileStore((state) => state.setProfileImg);
   const setNickname = useProfileStore((state) => state.setNickname);
-  const [user, setUser] = useState('');
-  const [image, setImage] = useState('');
-  const [file, setFile] = useState('');
-  const [showChoiceModal, setShowChoiceModal] = useState(false);
 
-  const fileInputRef = useRef(null);
-  const cameraInputRef = useRef(null);
+  const [user, setUser] = useState('');  // 서버로부터 사용자 정보를 담을 변수
+  const [imageFile, setImageFile] = useState('');  // 사용자가 변경한 이미지 파일
+  const [imageURL, setImageURL] = useState('');
+  const [showChoiceModal, setShowChoiceModal] = useState(false);  // 모달 보이기 여부
 
+  const fileInputRef = useRef(null);  // 갤러리 이미지 선택
+  const cameraInputRef = useRef(null);  // 카메라 이미지 선택
+
+  // 편집모드에서 프로필 이미지 클릭시 발동
   const handleProfileImgClick = () => {
     if (isEditing) setShowChoiceModal(true);
   };
@@ -37,7 +40,7 @@ export default function Profile() {
       cameraInputRef.current.click();
     }
   };
-  
+  /*
   const onChange = (e) => {
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
@@ -52,6 +55,23 @@ export default function Profile() {
       return;
     }
   };
+  */
+
+  // 이미지 변경 핸들러
+  const handleImageChange = (e) => {
+    const selectedFile = e.target.files[0];  // 사용자가 선택한 파일 중 첫 번째 파일
+
+    if (selectedFile) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {  // 파일 읽기 작업이 수행된 후 이 핸들러가 호출됨
+        setImageFile(selectedFile);
+        setImageURL(e.target.result);
+      };
+
+      reader.readAsDataURL(selectedFile);  // 파일 읽기 작업
+    }
+  }
 
   // api 호출
   const readUserInfo = async() => {
@@ -66,20 +86,21 @@ export default function Profile() {
     readUserInfo();
   },[]);
 
+  // user 정보가 바뀔 때마다 이미지, 닉네임 다시 설정
   useEffect(() => {
-    if (user?.profileImg) setProfileImg(user.profileImg);
+    if (user?.profileImg) setProfileImg(user.profileImg);  // 기존 유저가 설정했던 프로필 사진
     if (user?.nickname) setNickname(user.nickname);
   }, [user, setProfileImg, setNickname]);
 
   return (
     <Container>
       <Image
-        src={image || profileImg}
+        src={imageURL || profileImg}  // imageURL: 수정 버전, profileImg: 기존 사진
         alt="profileimg"
         onClick={handleProfileImgClick}
       />
       {isEditing && (
-        <EditContainer><EDIT_IMG /></EditContainer>
+        <EditContainer onClick={handleProfileImgClick}><EDIT_IMG /></EditContainer>
       )}
 
       <input 
@@ -87,7 +108,7 @@ export default function Profile() {
         accept="image/jpeg, image/jpg"
         style={{ display: 'none' }}
         ref={fileInputRef}
-        onChange={onChange}
+        onChange={handleImageChange}
       />
       <input 
         type="file"
@@ -95,7 +116,7 @@ export default function Profile() {
         style={{ display: 'none' }}
         ref={cameraInputRef} 
         capture="environment"
-        onChange={onChange}
+        onChange={handleImageChange}
       />
 
       {showChoiceModal && (

@@ -1,6 +1,4 @@
 import {client} from './client';
-import { useProfileStore } from '../mypage/stores/ProfileStore';
-const { nickname, department, studentid, location, exchange, coffeechat, donation, profileImg } = useProfileStore();
 
 export const getMemberProfile = async() => {
   try {

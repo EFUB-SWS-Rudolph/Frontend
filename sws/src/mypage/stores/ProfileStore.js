@@ -19,6 +19,9 @@ export const useProfileStore = create((set) => ({
   setStudentid: (tag) => set({ studentid: tag }),
   setLocation: (tag) => set({ location: tag }),
 
+  setTalentTags: (tags) => set({ talentTags: tags }),
+  setInterestTags: (tags) => set({ interestTags: tags }),
+  
   addTalentTag: (tag) => 
     set((state) => ({
       talentTags: [...state.talentTags, { id: Date.now() + Math.random(), tag }],

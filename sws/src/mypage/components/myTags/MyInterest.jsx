@@ -8,7 +8,7 @@ import { getMemberProfile } from '../../../api/myPage';
 // 사용자의 tag를 zustand에 저장 -> 해당 변수를 불러와서 tag로 보여줌
 
 export default function Interests() {
-  const { interestTags, isEditing, addInterestTag, removeInterestTag, resetInterestTags } = useProfileStore();
+  const { interestTags, isEditing, setInterestTags, addInterestTag, removeInterestTag, resetInterestTags } = useProfileStore();
   const [inputValue, setInputValue] = useState('');
   const [isAdding, setIsAdding] = useState(false);
   const isMax = interestTags.length >= 3;
@@ -34,11 +34,11 @@ export default function Interests() {
       resetInterestTags();
       
       if (Array.isArray(res.data.interest)) {
-        res.data.interest.slice(0, 3).forEach(tag => {
-          addInterestTag(tag);
-        });
+        const tags = res.data.interest.slice(0, 3).map((tag) => ({ id: Date.now() + Math.random(), tag }));
+        setInterestTags(tags);
+      } else {
+        resetInterestTags();
       }
-
     } catch (err) {
       throw err;
     }
