@@ -13,7 +13,7 @@ export default function Profile() {
   const setNickname = useProfileStore((state) => state.setNickname);
 
   const [user, setUser] = useState('');  // 서버로부터 사용자 정보를 담을 변수
-  const [imageFile, setImageFile] = useState('');  // 사용자가 변경한 이미지 파일
+  const [previousImg, setPreviousImg] = useState('');  // 서버에서 받은 이미지
   const [imageURL, setImageURL] = useState('');
   const [showChoiceModal, setShowChoiceModal] = useState(false);  // 모달 보이기 여부
 
@@ -65,7 +65,7 @@ export default function Profile() {
       const reader = new FileReader();
 
       reader.onload = (e) => {  // 파일 읽기 작업이 수행된 후 이 핸들러가 호출됨
-        setImageFile(selectedFile);
+        setProfileImg(selectedFile);
         setImageURL(e.target.result);
       };
 
@@ -88,14 +88,14 @@ export default function Profile() {
 
   // user 정보가 바뀔 때마다 이미지, 닉네임 다시 설정
   useEffect(() => {
-    if (user?.profileImg) setProfileImg(user.profileImg);  // 기존 유저가 설정했던 프로필 사진
+    if (user?.profileImg) setPreviousImg(user.profileImg);  // 기존 유저가 설정했던 프로필 사진
     if (user?.nickname) setNickname(user.nickname);
-  }, [user, setProfileImg, setNickname]);
+  }, [user, setPreviousImg, setNickname]);
 
   return (
     <Container>
       <Image
-        src={imageURL || profileImg}  // imageURL: 수정 버전, profileImg: 기존 사진
+        src={imageURL || previousImg}  // imageURL: 수정 버전, profileImg: 기존 사진
         alt="profileimg"
         onClick={handleProfileImgClick}
       />

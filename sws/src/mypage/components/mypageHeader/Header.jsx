@@ -1,11 +1,60 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { useProfileStore } from '../../stores/ProfileStore';
+import UserProfileCard from '../../../ewhainList/components/memberDetail/UserProfileCard';
+import { patchMemberProfile, patchProfileImg, putTalentTag, putInterestTag } from '../../../api/myPage';
 
 export default function Header() {
-  const { isEditing, setIsEditing } = useProfileStore();
+  const college = useProfileStore((state) => state.college);
+  const department = useProfileStore((state) => state.department);
+  const studentid = useProfileStore((state) => state.studentid);
+  const location = useProfileStore((state) => state.location);
+  const talentTags = useProfileStore((state) => state.talentTags);
+  const interestTags = useProfileStore((state) => state.interestTags);
+  const isExchange = useProfileStore((state) => state.isExchange);
+  const isDonation = useProfileStore((state) => state.isDonation);
+  const isCoffeeChat = useProfileStore((state) => state.isCoffeeChat);
+  const isEditing = useProfileStore((state) => state.isEditing);
+  const setIsEditing = useProfileStore((state) => state.setIsEditing);
+
+  const patchProfileInfo = async () => {
+    try {
+      await patchMemberProfile({
+        college,
+        dept: department,
+        studentId: studentid,
+        location,
+        isExchange: isExchange,
+        isCoffeeChat: isCoffeeChat,
+        isSkillDonation: isDonation,
+      });
+
+      await patchProfileImg({ profileImg });
+
+      const talentTagValues = talentTags.slice(0, 3).map((t) => t.tag || t);
+      await putTalentTag({
+        tag1: talentTagValues[0] || '',
+        tag2: talentTagValues[1] || '',
+        tag3: talentTagValues[2] || '',
+      });
+
+      const interestTagValues = interestTags.slice(0, 3).map((t) => t.tag || t);
+      await putInterestTag({
+        tag1: interestTagValues[0] || '',
+        tag2: interestTagValues[1] || '',
+        tag3: interestTagValues[2] || '',
+      });
+    } catch (err) {
+      throw err;
+    }
+  };
+
 
   const handleEditMode = () => {
+    if (isEditing) {
+      setIsEditing(!isEditing);
+      patchProfileInfo();
+    }
     setIsEditing(!isEditing);
   };
 

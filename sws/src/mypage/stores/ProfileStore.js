@@ -28,7 +28,7 @@ export const useProfileStore = create((set) => ({
   removeTalentTag: (id) => set((state) => ({
     talentTags: state.talentTags.filter((i) => i.id !== id),
   })),
-  resetInterestTags: () => set({ interestTags: [] }),
+  resetTalentTags: () => set({ talentTags: [] }),
 
   interestTags: [{ id: Date.now(), tag: '프로그래밍' }, { id: Date.now(), tag: '작곡' }],
   setInterestTags: (tags) => set({ interestTags: tags }),
@@ -39,7 +39,7 @@ export const useProfileStore = create((set) => ({
   removeInterestTag: (id) => set((state) => ({
     interestTags: state.interestTags.filter((i) => i.id !== id),
   })),
-  resetTalentTags: () => set({ talentTags: [] }),
+  resetInterestTags: () => set({ interestTags: [] }),
 
   isExchange: true,
   setIsExchange: (flag) => set({ isExchange: flag }),

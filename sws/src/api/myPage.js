@@ -39,7 +39,7 @@ export const patchMemberProfile = async({
   try {
     await client.patch('/members/profile',
       {
-        "nickname": nickname,
+        "college": college,
         "dept": department,
         "studentId": studentid,
         "location": location,
