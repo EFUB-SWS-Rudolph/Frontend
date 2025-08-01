@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../components/mypageHeader/Header';
+import Header from '../components/mypageHeader/header';
 import TagChoice from '../components/myTags/tagChoice/TagChoice';
 import { useProfileStore } from '../stores/ProfileStore';
 import CATEGORIES from '../constant/CATEGORIES';
