@@ -14,11 +14,11 @@ import IconchatInactiveURL from '../assets/icons/icon_chat-inactive.svg';
 import IconMypageInactiveURL from '../assets/icons/icon_mypage-inactive.svg';
 // 전체 앱 화면 컨테이너 (AppContainer)
 const AppContainer = styled.div`
-  width: 390px;
-  height:  844px;
+  width: 24.375rem;
+  height: 55.035rem;
   margin: 0 auto; 
-  border: 1px solid #ddd; 
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 0.063rem solid #ddd; 
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column; 
   overflow: hidden; 
@@ -41,11 +41,11 @@ const ContentArea = styled.main`
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 16px;
+  padding: 1rem;
   background-color: ${props => props.$contentBackgroundColor || '#FFFFFF'};
   display: flex;
   flex-direction: column;
-  gap: 23px;
+  gap: 1.438rem;
   &::-webkit-scrollbar { display: none; width: 0; height: 0; }
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -53,19 +53,19 @@ const ContentArea = styled.main`
 // 하단바 스타일 (Footer)
 const Footer = styled.footer`
   width: 100%;
-  height: 80px; 
+  height:5rem; 
   background-color: #FFFFFF;
   border-top: 1px solid #eee;
   display: flex;
   align-items: center; 
   justify-content: center; 
-  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0rem 0.25rem 1.25rem 0rem rgba(0, 0, 0, 0.25);
   flex-shrink: 0;
 `;
 // [btm_navi]
 const BottomNavigationBar = styled.div`
-  width: 389.2px; 
-  height: 48px;
+  width: 24.325rem; 
+  height: 3rem;
   display: flex; 
   flex-direction: row;
   justify-content: space-around; 
@@ -74,14 +74,14 @@ const BottomNavigationBar = styled.div`
 `;
 // [frame] - 각 내비게이션 아이템
 const NavItem = styled.div`
-  width: 77.8px;
-  height: 48px;
+  width: 4.863rem;
+  height: 3rem;
   display: flex;
   flex-direction: column; 
   align-items: center; 
   justify-content: center; 
-  gap: 6px;
-  padding: 4px;
+  gap: 0.375rem;
+  padding: 0.25rem;
   box-sizing: border-box; 
   cursor: pointer;
 `;
@@ -92,8 +92,8 @@ const NavIcon = styled.div`
   justify-content: center;
   flex-shrink: 0;
   cursor: pointer;
-  width: 25px; 
-  height: 25px; 
+  width: 1.563rem; 
+  height: 1.563rem;  
 `;
 // 개별 아이콘 (NavIcon을 상속받아 사용)
 const HomeIcon = styled(NavIcon)``;
@@ -105,9 +105,9 @@ const MypageIcon = styled(NavIcon)``;
 const NavText = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 600;
-  font-size: 10px;
+  font-size: 0.625rem;
   line-height: 100%; 
-  letter-spacing: 0px;
+  letter-spacing: 0rem;
   text-align: center;
   vertical-align: middle; 
   color: ${props => props.$active ? '#00664F' : '#999999'}; 
@@ -137,7 +137,6 @@ export default function Layout({ headerContent, backgroundColor, headerBackgroun
       <Header $headerBackgroundColor={headerBackgroundColor}>
         {headerContent}
       </Header>
-      {/*ContentArea에 $contentBackgroundColor prop 전달 */}
       <ContentArea $contentBackgroundColor={contentBackgroundColor}>
         <LectureTabProvider>
           <Outlet /> 

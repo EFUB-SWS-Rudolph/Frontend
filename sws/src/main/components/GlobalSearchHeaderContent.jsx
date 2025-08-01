@@ -7,12 +7,11 @@ import IconBackURL from '../../common/assets/icons/icon_back.svg'; // 뒤로 가
 // styled-components 정의
 const GlobalHeaderContainer = styled.div`
   width: 100%;
-  height: 104px;
+  height: 3.5rem;
   background: #FFFFFF;
   display: flex;
   flex-direction: column;
   justify-content: flex-end; 
-  padding: 0 16px 8px 16px; 
   box-sizing: border-box;
   position: relative; 
 `;
@@ -21,45 +20,37 @@ const HeaderContentWrapper = styled.div`
   display: flex;
   align-items: center;
   position: absolute; 
-  top:60px;
-  left:8px;
+  top:1.19rem;
 `;
 // 뒤로 가기 버튼
 const BackButton = styled.button`
-  width: 44px;
-  height: 44px;
+  width:2.75rem;
+  height:2.75rem;
+  flex-shrink: 0;
   border: none;
   background: transparent;
   cursor: pointer;
-  display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute; 
-  left: 0; 
-  top: 16px; 
-  transform: translateY(-50%); 
-  padding: 0; 
+  padding:0.78rem;
+  margin-left:0.5rem;
 `;
 const BackIcon = styled.div`
-  width: 18px; 
-  height: 18px;
-  display: flex;
+  width: 100%;
+  height: 100%;
   align-items: center;
   justify-content: center;
-  & > img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
 `;
 //  타이틀 스타일
 const HeaderTitleText = styled.h2`
-  font-family: 'Pretendard Variable', sans-serif;
+  color: #000;
+  
+  /* Display/Large */
+  font-family: "Pretendard Variable";
+  font-size: 1.5rem;
+  font-style: normal;
   font-weight: 600;
-  font-size: 24px;
-  color: #000000;
-  margin: 0 44px; 
-  line-height: 140%;
+  line-height: 140%; /* 2.1rem */
 `;
 export default function GlobalSearchHeaderContent({ title = "검색" }) { 
   const navigate = useNavigate();

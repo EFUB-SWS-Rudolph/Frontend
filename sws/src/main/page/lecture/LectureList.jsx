@@ -1,54 +1,63 @@
 // src/main/pages/LectureList.jsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import LectureCard from '../../common/components/LectureCard';
-import { useLectureTab } from '../../common/styles/Layout'; 
+import LectureCard from '../../../common/components/LectureCard';
+import { useLectureTab } from '../../../common/styles/Layout'; 
 import { useNavigate } from 'react-router-dom';
+import { FilterProvider, useFilter } from '../../../common/contexts/FilterContext';
 
-import SortGridIconURL from '../../common/assets/icons/FilterIcon_SortGrid.svg';
-import SortListIconURL from '../../common/assets/icons/FilterIcon_SortList.svg';
-import SortKeywordIconURL from '../../common/assets/icons/FilterIcon_SortKeyword.svg';
-import SortFilterIconURL from '../../common/assets/icons/FilterIcon_SortFilter.svg';
-import IconDownURL from '../../common/assets/icons/icon_down.svg';
+import SortGridIconURL from '../../../common/assets/icons/FilterIcon_SortGrid.svg';
+import SortListIconURL from '../../../common/assets/icons/FilterIcon_SortList.svg';
+import SortKeywordIconURL from '../../../common/assets/icons/FilterIcon_SortKeyword.svg';
+import SortFilterIconURL from '../../../common/assets/icons/FilterIcon_SortFilter.svg';
+import IconDownURL from '../../../common/assets/icons/icon_down.svg';
+import IconBackURL from '../../../common/assets/icons/icon_back.svg'; 
 //강의 이미지 예시 (임시)
-import LectureImageExample from '../../common/assets/images/weave_img_ex1.svg';
+import LectureImageExample from '../../../common/assets/images/weave_img_ex1.svg';
 const LectureListContainer = styled.div`
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
-  gap: 20px; 
+  gap: 1.25rem; 
 `;
 
 const SearchFilterSection = styled.div`
-  width: 100%; 
-  height: 40px;
-  border-radius: 12px;
-  background: #F5F5F5;
-  display: flex; 
+  display: flex;
+  height: 2.25rem;
   align-items: center;
-  gap: 8px; 
-  padding: 0 10px; 
-  box-sizing: border-box; 
+  gap: 0.5rem;
+  flex-shrink: 0;
+  width: 100%; 
+  box-sizing: border-box;
+  border-radius: 0.75rem;
+  background: var(--Gray-100, #F5F5F5);
 `;
 
 const SearchBar = styled.input`
+  display: inline-flex;
+  padding-left: 0.9375rem;
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 0.75rem;
+  background: var(--Gray-100, #F5F5F5);
   flex-grow: 1; 
   height: 100%; 
-  padding: 0; 
-  border: none; 
-  background: transparent; 
-  font-size: 13px;
-  outline: none; 
-   &::placeholder {
-    color: #AAAAAA; 
-  }
+  color: #AAA;
+  border-color:transparent;
+  outline:none;
+  font-family: "Pretendard Variable";
+  font-size: 0.8125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.01031rem;
 `;
 
 const FilterButton = styled.button`
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 1rem;
   background: transparent; 
   border: none;
   cursor: pointer;
@@ -58,8 +67,8 @@ const FilterButton = styled.button`
   flex-shrink: 0; 
 `;
 const FilterButtonIcon=styled.div`
-  width: 15px;
-  height: 15px;
+  width: 1rem;
+  height: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,46 +81,59 @@ const FilterButtonIcon=styled.div`
 
 const FilterIconBase = styled.div`
   font-family: Pretendard Variable;
-  width: 36px;
-  height: 36px;
-  background: #F5F5F5;
-  border-radius: 8px;
+  background: #F8F8F8;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
-  color: #222222;
+  font-size: 0.8125rem;
+  color: var(--Black, #222)
   flex-shrink: 0;
   font-weight: 500;
+  gap: 0.25rem; 
 `;
 
 const SortListIcon = styled(FilterIconBase)`
+  width: 2.25rem;
+  height: 2.25rem;
   & > img { width: 100%; height: 100%; }
 `;
 const SortKeywordIcon = styled(FilterIconBase)`
-  background: ${props => props.$isActive ? '#E0FCEF' : '#F5F5F5'}; 
+  width: 2.25rem;
+  height: 2.25rem;
+  background: ${props => props.$isActive ? '#E0FCEF' : '#F8F8F8;'}; 
   color: ${props => props.$isActive ? '#00664F' : '#222222'};
   & > img { width: 100%; height: 100%; }
 `;
 const SortFilterIcon = styled(FilterIconBase)`
-  width: 67px; display: flex; gap: 4px; 
+  background: ${props => props.$isActive ? '#E0FCEF' : '#F8F8F8;'}; 
+  color: ${props => props.$isActive ? '#00664F' : '#222222'};
+  width: 4.1875rem; height: 2.25rem;flex-shrink: 0; display: flex; 
 `;
 const SortTypeIcon = styled(FilterIconBase)`
-  width: 90px; display: flex; gap: 4px;  
+  background: ${props => props.$isActive ? '#E0FCEF' : '#F8F8F8;'}; 
+  color: ${props => props.$isActive ? '#00664F' : '#222222'};
+ width: 5.25rem;height: 2.25rem;flex-shrink: 0; display: flex; 
 `;
 const SortRegionIcon = styled(FilterIconBase)`
-  width: 63px; display: flex; gap: 4px; 
+  background: ${props => props.$isActive ? '#E0FCEF' : '#F8F8F8;'}; 
+  color: ${props => props.$isActive ? '#00664F' : '#222222'};
+  width: 3.875rem;height: 2.25rem;flex-shrink: 0; display: flex; 
 `;
 const SortDateIcon = styled(FilterIconBase)`
-  width: 63px; display: flex; gap: 4px;  
+  background: ${props => props.$isActive ? '#E0FCEF' : '#F8F8F8;'}; 
+  color: ${props => props.$isActive ? '#00664F' : '#222222'};
+  width: 3.875rem;height: 2.25rem;flex-shrink: 0; display: flex;  
 `;
 const SortRecentIcon = styled(FilterIconBase)`
-  width: 75px; display: flex; gap: 4px;
+  background: ${props => props.$isActive ? '#E0FCEF' : '#F8F8F8;'}; 
+  color: ${props => props.$isActive ? '#00664F' : '#222222'};
+  width: 5rem;height: 2.25rem;flex-shrink: 0; display: flex; 
 `;
 
 const LectureFilterBar = styled.div`
   width: 100%;
-  height: 36px;
+  height: 2.25rem;
   display: flex;
   gap: 8px; 
   overflow-x: auto;
@@ -125,16 +147,16 @@ const LectureFilterBar = styled.div`
 
 const FilterBarItem = styled.div`
   width: auto;
-  min-width: 36px;
-  height: 36px;
+  min-width: 2.25rem;
+  height: 2.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #FFFFFF;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   cursor: pointer;
   flex-shrink: 0;
-  font-size: 14px;
+  font-size: 0.8125rem;
   color: #555;
   
 `;
@@ -143,8 +165,8 @@ const FilterBarItem = styled.div`
 const LectureCardsGrid = styled.div`
   display: ${props => props.$displayMode === 'grid' ? 'grid' : 'flex'};
   grid-template-columns: ${props => props.$displayMode === 'grid' ? 'repeat(2, 1fr)' : 'none'}; /* 2열 고정 */
-  gap: 14px;
-  padding: 0 8px; 
+  gap: 0.88rem;
+  
   justify-content: center;
   flex-direction: ${props => props.$displayMode === 'list' ? 'column' : 'none'};
 `;
@@ -164,38 +186,40 @@ const LectureListItem = ({ lecture }) => {
 };
 
 const StyledLectureListItem = styled.div`
-  width: 100%;
-  height: 80px;
-  border-radius: 16px;
-  border: 1px solid #D9D9D9;
   display: flex;
-  align-items: center;
-  padding: 12px;
+  height: 5rem;
+  width:100%;
+  padding: 0.75rem 4.8125rem 0.75rem 0.75rem;
+  align-items: flex-start;
+  gap: 0.75rem;
+  align-self: stretch;
+  border-radius: 1rem;
+  border: 1px solid var(--Gray-300, #D9D9D9);
   box-sizing: border-box;
-  gap: 12px;
 `;
 
 const LectureListItemImage = styled.img`
-  width: 56px;
-  height: 56px;
+  width: 3.5rem;
+  height: 3.5rem;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 0.75rem;
+  background: url(<path-to-image>) lightgray -2.352px -0.049px / 177.72% 100% no-repeat;
   flex-shrink: 0;
 `;
 
 const LectureListItemInfo = styled.div`
-  width: 193px;
-  height: 56px;
+  width: 12rem;
+  height: auto;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.25rem;
   justify-content: center;
 `;
 
 const LectureListItemInstructor = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 150%;
   letter-spacing: 0px;
   color: #969696;
@@ -207,7 +231,7 @@ const LectureListItemInstructor = styled.span`
 const LectureListItemTitle = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 100%;
   letter-spacing: 0px;
   color: #222222;
@@ -219,7 +243,7 @@ const LectureListItemTitle = styled.span`
 const LectureListItemDate = styled.span`
   font-family: 'Pretendard Variable', sans-serif;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 150%;
   letter-spacing: 0px;
   vertical-align: middle;
@@ -234,26 +258,23 @@ const LectureListDisplayArea = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
- 
+  gap: 1rem;
 `;
 const NoResultsMessage = styled.div`
-  width: 100%; text-align: center; padding: 50px 0; color: #888; font-size: 16px;
+  width: 100%; text-align: center; padding: 4rem;  color: #888; font-size: 1rem;
 `;
 const ContentPlaceholder = styled.div`
-  
   text-align: center;
   color: #888;
-  font-size: 16px;
-  min-height: 200px;
+  font-size: 1rem;
+  min-height: 12.5 rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px dashed #ccc;
-  border-radius: 8px;
-  margin: 0 8px;
+  border-radius: 0.5rem;
+  
 `;
-
 //강의 데이터 예시
 const allLectureData = [
   { id: 1, image: LectureImageExample, title: "React 완전 정복", nickname: "김코딩", type: "재능기부", date: "2024.08.01" },
@@ -267,7 +288,7 @@ const allLectureData = [
 ];
 
 //LectureListPage 함수 컴포넌트 정의
-export default function LectureListPage() {
+function LectureListContent() {
   const { mainActiveTab, setMainActiveTab } = useLectureTab(); 
   const navigate = useNavigate();
   const [subFilter, setSubFilter] = useState('전체');
@@ -307,9 +328,20 @@ export default function LectureListPage() {
      setSearchQuery('');
   };
   const handleFilterClick = () => {
-    navigate('/lectures/search/filter'); // 핵심! 필터 설정 페이지로 이동
+    navigate('/lectures/search/filter'); // 필터 설정 페이지로 이동
   };
-
+  const handleFormatFilterClick=()=>{
+    navigate('/lectures/search/filter/format');
+  };
+  const handleRegionFilterClick=()=>{
+    navigate('/lectures/search/filter/location');
+  };
+  const handleDateFilterClick=()=>{
+    navigate('/lectures/search/filter/date');
+  };
+  const handleRecentFilterClick=()=>{
+    navigate('/lectures/search/filter/sort');
+  };
   return (
     <LectureListContainer>
       {mainActiveTab === '강의 조회' && (
@@ -326,7 +358,7 @@ export default function LectureListPage() {
               </SortListIcon>
             </FilterBarItem>
             <FilterBarItem onClick={handleToggleSearchBar}>
-              <SortKeywordIcon $isActive={showSearchBar}>
+              <SortKeywordIcon >
                 <img src={SortKeywordIconURL}style={{ width: '40%', height: '40%' }}/>
               </SortKeywordIcon>
             </FilterBarItem>
@@ -336,26 +368,26 @@ export default function LectureListPage() {
                 <img src={SortFilterIconURL}style={{ width: '30%', height: '30%' }}/>
               </SortFilterIcon>
             </FilterBarItem>
-            <FilterBarItem>
-              <SortTypeIcon>
+            <FilterBarItem > 
+              <SortTypeIcon onClick={handleFormatFilterClick}> 
                 강의 형태
                 <img src={IconDownURL} style={{margin:'3px'}}/>
               </SortTypeIcon>
             </FilterBarItem>
-            <FilterBarItem>
-              <SortRegionIcon>
+            <FilterBarItem >
+              <SortRegionIcon onClick={handleRegionFilterClick}>
                 지역
                 <img src={IconDownURL} style={{margin:'3px'}}/>
               </SortRegionIcon>
             </FilterBarItem>
-            <FilterBarItem>
-              <SortDateIcon>
+            <FilterBarItem >
+              <SortDateIcon onClick={handleDateFilterClick}>
                 기간
                 <img src={IconDownURL} style={{margin:'3px'}}/>
               </SortDateIcon>
             </FilterBarItem>
-             <FilterBarItem>
-              <SortRecentIcon>
+             <FilterBarItem >
+              <SortRecentIcon onClick={handleRecentFilterClick} >
                 최신 순
                 <img src={IconDownURL} style={{margin:'3px'}}/>
               </SortRecentIcon>
@@ -404,3 +436,4 @@ export default function LectureListPage() {
     </LectureListContainer>
   );
 }
+export default LectureListContent;
