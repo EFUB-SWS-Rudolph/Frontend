@@ -5,7 +5,7 @@ import UserProfileCard from '../../../ewhainList/components/memberDetail/UserPro
 import { patchMemberProfile, patchProfileImg, putTalentTag, putInterestTag } from '../../../api/myPage';
 import BACK_ARROW from '../../../ewhainList/icons/icon_back.svg?react';
 
-export default function Header() {
+export default function Header({ type, onClick }) {
   const college = useProfileStore((state) => state.college);
   const department = useProfileStore((state) => state.department);
   const studentid = useProfileStore((state) => state.studentid);
