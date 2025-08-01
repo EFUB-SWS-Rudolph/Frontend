@@ -23,6 +23,7 @@ import SelectMyInterestDetail from './mypage/page/SelectMyInterestDetail';
 import SelectMyTalentCategory from './mypage/page/SelectMyTalentCategory';
 import SelectMyTalentDetail from './mypage/page/SelectMyTalentDetail';
 import SelectMyInfo from './mypage/page/SelectMyInfo';
+import LectureCard from './mypage/components/wishlist/LectureCard';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           <Route path="/mypage/myinfotag" element={<SelectMyInfo />} />
           <Route path="/chatlist" element={<ChatListPage />} />
           <Route path="/chatroom/:chatId" element={<ChatRoomPage />} />
+          <Route path="/test" element={<LectureCard />} />
         </Route>
       </Routes>
     </BrowserRouter>
