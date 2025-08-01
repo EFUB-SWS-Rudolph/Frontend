@@ -17,14 +17,6 @@ export default function Certification() {
   const isNextEnabled = certification.length === 4;
   const CERTIFICATION_CODE = '1886';
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  useEffect(() => {
-    const accessToken = searchParams.get('accessToken');
-    if (accessToken) {
-      localStorage.setItem('token', accessToken);
-    }
-  }, []);
 
   const handleCertificationCode = (e) => {
     setCertification(e.target.value);

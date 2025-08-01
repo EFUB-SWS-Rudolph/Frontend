@@ -5,18 +5,28 @@ import EDIT from '../../assets/icon_edit.svg?react';
 export default function InfoTag({ tagname, info, onChange }) {
   const { isEditing } = useProfileStore();
 
+  const handleMoveSelection = () => {
+    navigate('/mypage/myinfotag', { state: { type: {info} }})
+  };
+
   return (
     <Container>
       <Tag>{tagname}</Tag>
-      {isEditing ? 
+      { tagname === "학번" && isEditing ? 
         <>
           <InfoInput value={info} onChange={onChange} />
           <EDIT />
         </>
       :
-        <>
-          <InfoText>{info}</InfoText>
-        </>
+        isEditing ? 
+          <>
+            <InfoText onClick={handleMoveSelection}>{info}</InfoText>
+            <EDIT />
+          </>
+        :
+          <>
+            <InfoText>{info}</InfoText>
+          </>
       }
     </Container>
   );
