@@ -17,7 +17,7 @@ export default function MyPage() {
 
   return (
     <>
-      <Header />
+      <Header type="mypage" />
       <MyInfo /> <MyTags />
       <MyPageFooter />
       {!isEditing && <MembershipContainer />}
