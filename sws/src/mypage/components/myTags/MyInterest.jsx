@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Tag from './Tag';
 import { Container, TagsContainer } from './TagCommonStyleFrame';
 import CHIP from '../../assets/icon_chip.svg?react';
@@ -14,13 +15,11 @@ export default function Interests() {
   // isEditing === true 일 경우에만 CHIP 클릭하면 추가할 수 있게
 
   const interestTags = useProfileStore((state) => state.interestTags);
-  const setInterestTags = useProfileStore((state) => state.setInterestTags); 
-  const addInterestTag = useProfileStore((state) => state.addInterestTag);
+  const setInterestTags = useProfileStore((state) => state.setInterestTags);
   const removeInterestTag = useProfileStore((state) => state.removeInterestTag);
   const isEditing = useProfileStore((state) => state.isEditing);
-  const [inputValue, setInputValue] = useState('');
   const [isMax, setIsMax] = useState(true);
-  const [isAdding, setIsAdding] = useState(false);
+  const navigate = useNavigate();
 
   const readUserInfo = async() => {
     try{
@@ -39,27 +38,12 @@ export default function Interests() {
     removeInterestTag(id);
   };
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleInputKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      const newTag = inputValue.trim();
-      if (newTag) {
-        addInterestTag(newTag);
-        setInputValue('');
-        setIsAdding(false);
-      }
-    }
-  };
-
   useEffect(() => {
     setIsMax(interestTags.length >= 3);
   }, [interestTags]);
 
   const handleChipClick = () => {
-    setIsAdding(true);
+    navigate('/mypage/interesttag');
   };
   
   return (
@@ -68,22 +52,7 @@ export default function Interests() {
       <TagsContainer>
         {interestTags.map((item) => <Tag key={item.id} text={item.tag} onClick={() => handleRemoveInterestTag(item.id)} />)}
         {!isMax && !isEditing && <CHIP />}
-        {!isMax && isEditing && (
-          isAdding ?
-          <input 
-            type="text"
-            value={inputValue}
-            onKeyDown={handleInputKeyDown}
-            onBlur={() => setIsAdding(false)}
-            style={{display:"flex", justifyContent:"center", alignItems:"center", textAlign: "center",
-                    width:"6.3125rem", height:"2.25rem", borderRadius:"1.25rem", border:"1px solid transparent",
-                    background: "linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #00664f, #baedd4) border-box"
-                  }}
-            onChange={handleInputChange}
-          />
-        : 
-          <CHIP onClick={handleChipClick} />
-        )}
+        {!isMax && isEditing && <CHIP onClick={handleChipClick} />}
       </TagsContainer>
     </Container>
   );
