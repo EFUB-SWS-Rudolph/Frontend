@@ -55,4 +55,10 @@ export const useProfileStore = create((set) => ({
 
   isOnChoice: false,
   setIsOnChoice: (flag) => set({ isOnChoice: flag }),
+
+  category: '',
+  setCategory: (newCategory) => set({ category: newCategory }),
+
+  tag: '',
+  setTag: (newTag) => set({ tag: newTag}),
 }));

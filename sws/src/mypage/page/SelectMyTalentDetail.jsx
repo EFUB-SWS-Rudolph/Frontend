@@ -1,0 +1,66 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import Header from '../components/mypageHeader/Header';
+import TagChoice from '../components/myTags/tagChoice/TagChoice';
+import { useProfileStore } from '../stores/ProfileStore';
+import CATEGORIES from '../constant/CATEGORIES';
+
+export default function SelectMyTalentDetail() {
+  const addTalentTag = useProfileStore((state) => state.addTalentTag);
+  const category = useProfileStore((state) => state.category);
+  const setCategory = useProfileStore((state) => state.setCategory);
+  const navigate = useNavigate();
+  const TAG_DETAIL = CATEGORIES[category];  // category: 언어, 음악/악기, ...
+
+  const handleMoveBack = () => {
+    navigate('/mypage/talenttag')
+  };
+
+  const handleTagChoice = (item) => {
+    addTalentTag(item);
+    navigate('/mypage');
+    setCategory('');
+  };
+
+  return (
+    <Wrapper>
+      <HeaderSpace>
+        <Header type="나의 재능" onClick={handleMoveBack} />
+      </HeaderSpace>
+      <FilterContents>
+        {TAG_DETAIL.map((item) => (
+          <TagChoice key={item} item={item} onChange={handleTagChoice} />
+        ))};
+      </FilterContents>
+    </Wrapper>
+  )
+}
+
+const Wrapper = styled.div`
+  width: 24.375rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: 1rem;
+`;
+
+const HeaderSpace = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: ${({ theme }) => theme.colors.white};
+`;
+
+const FilterContents = styled.div`
+  width: 24.375rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 1;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;

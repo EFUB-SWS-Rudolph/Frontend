@@ -3,6 +3,7 @@ import theme from '../../../styles/theme';
 import { useProfileStore } from '../../stores/ProfileStore';
 import UserProfileCard from '../../../ewhainList/components/memberDetail/UserProfileCard';
 import { patchMemberProfile, patchProfileImg, putTalentTag, putInterestTag } from '../../../api/myPage';
+import BACK_ARROW from '../../../ewhainList/icons/icon_back.svg?react';
 
 export default function Header() {
   const college = useProfileStore((state) => state.college);
@@ -49,7 +50,6 @@ export default function Header() {
     }
   };
 
-
   const handleEditMode = () => {
     if (isEditing) {
       setIsEditing(!isEditing);
@@ -58,14 +58,32 @@ export default function Header() {
     setIsEditing(!isEditing);
   };
 
-  return (
-    <HeaderWrapper>
-      <HeaderContainer>마이 페이지</HeaderContainer>
-      <EditButton onClick={handleEditMode}>
-        <EditText $isediting={isEditing}>{isEditing ? "완료" : "편집" }</EditText>
-      </EditButton>
-    </HeaderWrapper>
-  );
+  if (type === "mypage") {
+    return (
+      <HeaderWrapper>
+        <HeaderContainer>마이 페이지</HeaderContainer>
+        <EditButton onClick={handleEditMode}>
+          <EditText $isediting={isEditing}>{isEditing ? "완료" : "편집" }</EditText>
+        </EditButton>
+      </HeaderWrapper>
+    );
+  } else {
+    return (
+      <HeaderWrapper>
+        <BACK_ARROW             
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "1rem",
+            transform: "translateY(-50%)",
+            color: theme.colors.black, 
+          }}
+          onClick={onClick}
+        />
+        <HeaderContainer>{type}</HeaderContainer>
+      </HeaderWrapper>
+    )
+  }
 }
 
 const HeaderWrapper = styled.div`
