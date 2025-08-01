@@ -22,6 +22,7 @@ import SelectMyInterestCategory from './mypage/page/SelectMyInterestCategory';
 import SelectMyInterestDetail from './mypage/page/SelectMyInterestDetail';
 import SelectMyTalentCategory from './mypage/page/SelectMyTalentCategory';
 import SelectMyTalentDetail from './mypage/page/SelectMyTalentDetail';
+import SelectMyInfo from './mypage/page/SelectMyInfo';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           <Route path="/mypage/interesttag/detail" element={<SelectMyInterestDetail />} />
           <Route path="/mypage/talenttag" element={<SelectMyTalentCategory />} />
           <Route path="/mypage/talenttag/detail" element={<SelectMyTalentDetail />} />
+          <Route path="/mypage/myinfotag" element={<SelectMyInfo />} />
           <Route path="/chatlist" element={<ChatListPage />} />
           <Route path="/chatroom/:chatId" element={<ChatRoomPage />} />
         </Route>
