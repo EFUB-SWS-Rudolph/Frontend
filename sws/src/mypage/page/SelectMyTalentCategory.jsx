@@ -1,40 +1,30 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
-import TagChoice from '../components/myTags/tagChoice/TagChoice';
-import { useProfileStore } from '../stores/ProfileStore';
+import MoveTagDetail from '../components/myTags/tagChoice/MoveTagDetail';
 import CATEGORIES from '../constant/CATEGORIES';
 
-export default function SelectMyInterestDetail() {
-  const addInterestTag = useProfileStore((state) => state.addInterestTag);
-  const category = useProfileStore((state) => state.category);
-  const setCategory = useProfileStore((state) => state.setCategory);
+export default function SelectMyTalentCategory() {
   const navigate = useNavigate();
-  const TAG_DETAIL = CATEGORIES[category];  // category: 언어, 음악/악기, ...
+  const CATEGORY = Object.keys(CATEGORIES);
 
   const handleMoveBack = () => {
-    navigate('/mypage/interesttag')
-  };
-
-  const handleTagChoice = (item) => {
-    addInterestTag(item);
     navigate('/mypage');
-    setCategory('');
   };
 
   return (
     <Wrapper>
       <HeaderSpace>
-        <Header type="관심 분야" onClick={handleMoveBack} />
+        <Header type="나의 재능" onClick={handleMoveBack} />
       </HeaderSpace>
       <FilterContents>
-        {TAG_DETAIL.map((item) => (
-          <TagChoice key={item} item={item} onChange={handleTagChoice} />
+        {CATEGORY.map((category) => (
+          <MoveTagDetail key={category} select={category} detailroute={'/mypage/talenttag/detail'} />
         ))};
       </FilterContents>
     </Wrapper>
-  )
+  );
 }
 
 const Wrapper = styled.div`

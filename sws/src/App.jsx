@@ -18,6 +18,8 @@ import LoginPage from './signIn/pages/SignIn';
 import RedirectPage from './signIn/pages/Redirect';
 import SelectMyInterestCategory from './mypage/page/SelectMyInterestCategory';
 import SelectMyInterestDetail from './mypage/page/SelectMyInterestDetail';
+import SelectMyTalentCategory from './mypage/page/SelectMyTalentCategory';
+import SelectMyTalentDetail from './mypage/page/SelectMyTalentDetail';
 
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
           <Route path="/ewhain/:id" element={<IndividualInquiry />} />
           <Route path="/mypage/interesttag" element={<SelectMyInterestCategory />} />
           <Route path="/mypage/interesttag/detail" element={<SelectMyInterestDetail />} />
+          <Route path="/mypage/talenttag" element={<SelectMyTalentCategory />} />
+          <Route path="/mypage/talenttag/detail" element={<SelectMyTalentDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

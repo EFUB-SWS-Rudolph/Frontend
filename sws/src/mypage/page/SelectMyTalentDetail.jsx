@@ -6,19 +6,19 @@ import TagChoice from '../components/myTags/tagChoice/TagChoice';
 import { useProfileStore } from '../stores/ProfileStore';
 import CATEGORIES from '../constant/CATEGORIES';
 
-export default function SelectMyInterestDetail() {
-  const addInterestTag = useProfileStore((state) => state.addInterestTag);
+export default function SelectMyTalentDetail() {
+  const addTalentTag = useProfileStore((state) => state.addTalentTag);
   const category = useProfileStore((state) => state.category);
   const setCategory = useProfileStore((state) => state.setCategory);
   const navigate = useNavigate();
   const TAG_DETAIL = CATEGORIES[category];  // category: 언어, 음악/악기, ...
 
   const handleMoveBack = () => {
-    navigate('/mypage/interesttag')
+    navigate('/mypage/talenttag')
   };
 
   const handleTagChoice = (item) => {
-    addInterestTag(item);
+    addTalentTag(item);
     navigate('/mypage');
     setCategory('');
   };
@@ -26,7 +26,7 @@ export default function SelectMyInterestDetail() {
   return (
     <Wrapper>
       <HeaderSpace>
-        <Header type="관심 분야" onClick={handleMoveBack} />
+        <Header type="나의 재능" onClick={handleMoveBack} />
       </HeaderSpace>
       <FilterContents>
         {TAG_DETAIL.map((item) => (
