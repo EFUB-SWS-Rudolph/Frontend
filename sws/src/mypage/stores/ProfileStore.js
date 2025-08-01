@@ -27,4 +27,7 @@ export const useProfileStore = create((set) => ({
   removeInterestTag: (index) => set((state) => ({
     interestTags: state.interestTags.filter((_, i) => i !== index),
   })),
+
+  category: '',
+  setCategory: (newCategory) => set({ category: newCategory }),
 }));

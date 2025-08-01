@@ -7,6 +7,7 @@ import { useProfileStore } from '../stores/ProfileStore';
 
 export default function SelectMyInterestDetail({}) {
   const addInterestTag = useProfileStore((state) => state.addInterestTag);
+  const category = useProfileStore((state) => state.category);
   const navigate = useNavigate();
   const TAG_DETAIL = TAGS[category];  // category: 언어, 음악/악기, ...
 
