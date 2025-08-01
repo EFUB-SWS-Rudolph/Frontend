@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import CHECK from '../../icons/icon_check.svg?react';
+import CHECK from '../../../ewhainList/icons/icon_check.svg?react';
 
 // type: talentTag, interestTag
 // item: 영어 일본어 중국어 등등등
 // onClick: setTalentTag, setInterestTag(useState) + interestTags, talentTags에 추가
 
-export default function FilterDetailChoice({ type, item, onChange }) {
+export default function TagChoice({ type, item, onChange }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
