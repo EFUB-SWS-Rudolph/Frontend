@@ -1,15 +1,17 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Layout from './layout/styles/Layout';
+import { BrowserRouter, Route, Routes, Link, useLocation, useNavigate  } from 'react-router-dom';
+import styled from 'styled-components';
+import Layout from './common/styles/Layout';
 
 import Main from './main/page/Main'; 
 import LectureListPage from './main/page/lecture/LectureList';
 import LectureRecommendPage from './main/page/lecture/LectureRecommend';
-import MyLecturePage from './main/page/lecture/MyLecture'; 
+import MyLecturePage from './main/page/lecture/LectureMy'; 
 
 import GlobalSearchPage from './main/page/GlobalSearchPage'; 
 import AlarmPage from './main/page/AlarmPage';
 import LectureDetailPage from './main/page/lecture/LectureDetailPage'; 
-
+import GlobalSearchHeaderContent from './main/components/GlobalSearchHeaderContent';
+import LectureSearchFilterPageHeader from './main/components/LectureSearchFilterPageHeader';
 import LectureSearchFilterPage from './main/page/lecture/LectureSearchFilterPage';
 import LectureRecommendFilterPage from './main/page/lecture/LectureRecommendFilterPage';
 import MyLectureFilterPage from './main/page/lecture/MyLectureFilterPage';
@@ -18,7 +20,6 @@ import LectureLocationFilterPage from './main/page/lecture/LectureLocationFilter
 import LectureDateFilterPage from './main/page/lecture/LectureDateFilterPage';
 import LectureSortFilterPage from './main/page/lecture/LectureSortFilterPage'; 
 import LectureStatusFilterPage from './main/page/lecture/LectureStatusFilterPage'; 
-import Main from './main/page/Main';
 import Certification from './signUp/pages/Certification';
 import UnivInfo from './signUp/pages/UnivInfo';
 import SetProfile from './signUp/pages/SetProfile';
@@ -36,7 +37,7 @@ import LoginPage from './signIn/pages/SignIn';
 import RedirectPage from './signIn/pages/Redirect';
 
 import { FilterProvider } from './common/contexts/FilterContext';
-import { AlarmProvider } from './common/contexts/AlarmContext';
+import { AlarmProvider , useAlarm} from './common/contexts/AlarmContext';
 
 import AddIconURL from './common/assets/icons/btn_add.svg'; 
 import WeevoLogoURL from './common/assets/icons/logo_weevo.svg'; 
