@@ -1,22 +1,41 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { useProfileStore } from '../../stores/ProfileStore';
+import BACK_ARROW from '../../../ewhainList/icons/icon_back.svg?react';
 
-export default function Header() {
+export default function Header({ type, onClick }) {
   const { isEditing, setIsEditing } = useProfileStore();
 
   const handleEditMode = () => {
     setIsEditing(!isEditing);
   };
 
-  return (
-    <HeaderWrapper>
-      <HeaderContainer>마이 페이지</HeaderContainer>
-      <EditButton onClick={handleEditMode}>
-        <EditText $isediting={isEditing}>{isEditing ? "완료" : "편집" }</EditText>
-      </EditButton>
-    </HeaderWrapper>
-  );
+  if (type === "mypage") {
+    return (
+      <HeaderWrapper>
+        <HeaderContainer>마이 페이지</HeaderContainer>
+        <EditButton onClick={handleEditMode}>
+          <EditText $isediting={isEditing}>{isEditing ? "완료" : "편집" }</EditText>
+        </EditButton>
+      </HeaderWrapper>
+    );
+  } else {
+    return (
+      <HeaderWrapper>
+        <BACK_ARROW             
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "1rem",
+            transform: "translateY(-50%)",
+            color: theme.colors.black, 
+          }}
+          onClick={onClick}
+        />
+        <HeaderContainer>{type}</HeaderContainer>
+      </HeaderWrapper>
+    )
+  }
 }
 
 const HeaderWrapper = styled.div`

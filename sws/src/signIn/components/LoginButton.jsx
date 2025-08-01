@@ -4,10 +4,32 @@ import GOOGLE from '../icons/logo_google.svg?react';
 import { FcGoogle } from 'react-icons/fc';
 import theme from '../../styles/theme';
 
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?${new URLSearchParams({
+  client_id: import.meta.env.VITE_KAKAO_CLIENT_ID,
+  redirect_uri: `${import.meta.env.VITE_REDIRECT_URI}/kakao`,
+  response_type: 'code',
+  scope: 'profile_nickname account_email',
+})}`;
+
+const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?${new URLSearchParams({
+  client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+  redirect_uri: `${import.meta.env.VITE_REDIRECT_URI}/google`,
+  response_type: 'code',
+  scope: 'openid email profile',
+  access_type: 'offline',
+  prompt: 'consent',
+})}`;
+
 export default function LoginButton({ provider, method, color }) {
   const handleLogin = () => {
-    const AUTH_URL = `${import.meta.env.VITE_SERVER_URL}/oauth2/authorization/${provider}`;
-    window.location.href = AUTH_URL;
+    switch (provider) {
+      case 'kakao':
+        window.location.href = KAKAO_AUTH_URL;
+        break;
+      case 'google':
+        window.location.href = GOOGLE_AUTH_URL;
+        break;
+    }
   };
 
   return (
