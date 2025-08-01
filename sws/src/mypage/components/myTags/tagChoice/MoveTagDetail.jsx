@@ -6,7 +6,7 @@ import SLIGHT_RIGHT_ARROW from '../../../ewhainList/icons/icon_next.svg?react';
 // select: 언어, 음악/악기, ...
 // value: 선택된 값, 처음에는 전체
 
-export default function MoveTagDetail({ type, select, value, detailroute, onChange }) {
+export default function MoveTagDetail({ select, detailroute }) {
   const navigate = useNavigate();
 
   const handleMoveDetail = () => {
@@ -14,7 +14,7 @@ export default function MoveTagDetail({ type, select, value, detailroute, onChan
   };
   
   return (
-    <DetailBtnWrapper $type={type}>
+    <DetailBtnWrapper>
       <DetailType>{select}</DetailType>
       <SelectDetailContainer>
         <SLIGHT_RIGHT_ARROW width="2.75rem" height="2.75rem" onClick={handleMoveDetail} />
