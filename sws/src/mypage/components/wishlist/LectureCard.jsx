@@ -4,13 +4,25 @@ import styled from 'styled-components';
 import RECTANGLE from '../../assets/icon_rectangle.svg?react';
 
 export default function LectureCard({ course }) {
+  const navigate = useNavigate();
+  const isoString = course.createdAt;
+  const date = new Date(isoString);
+  const formatted =
+    String(date.getFullYear()).slice(2) + "." +
+    String(date.getMonth() + 1).padStart(2, '0') + "." +
+    String(date.getDate()).padStart(2, '0');
+
+  const handleMoveCourseDetail = () => {
+    navigate(`/courses/${course.courseId}`)
+  }
+
   return (
-    <CardWrapper $image="https://img.khan.co.kr/news/2010/02/01/20100202.01100112000004.01M.jpg">
+    <CardWrapper $image={course.thumbnailUrl} onClick={handleMoveCourseDetail}>
       <Rectangle />
       <LectureInfoContainer>
-        <Instructor>y_eonie</Instructor>
-        <LectureTitle>피그마로 PPT 디자인 만들기</LectureTitle>
-        <LectureDate>25.06.04~</LectureDate>
+        <Instructor>{course.instructor}</Instructor>
+        <LectureTitle>{course.title}</LectureTitle>
+        <LectureDate>{formatted}~</LectureDate>
       </LectureInfoContainer>
     </CardWrapper>
   );
