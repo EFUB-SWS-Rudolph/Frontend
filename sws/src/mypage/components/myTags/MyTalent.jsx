@@ -29,7 +29,7 @@ export default function MyTalent() {
 
   useEffect(() => {
     setIsMax(talentTags.length >= 3);
-  }, talentTags);
+  }, [talentTags]);
 
   const handleRemoveTalentTag = (id) => {
     removeTalentTag(id);
@@ -43,7 +43,9 @@ export default function MyTalent() {
     <Container>
       <p>나의 재능</p>
       <TagsContainer>
-        {talentTags.map((item) => <Tag key={item.id} text={item.tag} onClick={() => handleRemoveTalentTag(item.id)} />)}
+        { Array.isArray(talentTags) && talentTags.length > 0 &&
+          talentTags.map((item) => <Tag key={item.id} text={item.tag} onClick={() => handleRemoveTalentTag(item.id)} />)
+        }
         {!isMax && !isEditing && <CHIP />}
         {!isMax && isEditing && <CHIP onClick={handleChipClick} />}
       </TagsContainer>

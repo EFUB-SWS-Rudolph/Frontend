@@ -1,6 +1,7 @@
 //나의재능 관심분야 tag
 
 import styled from 'styled-components';
+import theme from '../../../styles/theme';
 import DELETE from '../../assets/icon_delete.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 

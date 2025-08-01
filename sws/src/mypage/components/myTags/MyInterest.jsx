@@ -50,7 +50,9 @@ export default function Interests() {
     <Container>
       <p>관심 분야</p>
       <TagsContainer>
-        {interestTags.map((item) => <Tag key={item.id} text={item.tag} onClick={() => handleRemoveInterestTag(item.id)} />)}
+        { Array.isArray(interestTags) && interestTags.length > 0 &&
+          interestTags.map((item) => <Tag key={item.id} text={item.tag} onClick={() => handleRemoveTalentTag(item.id)} />)
+        }
         {!isMax && !isEditing && <CHIP />}
         {!isMax && isEditing && <CHIP onClick={handleChipClick} />}
       </TagsContainer>

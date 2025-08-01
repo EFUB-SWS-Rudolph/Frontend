@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import styled from 'styled-components';
 import MyInfo from '../components/myInfo/MyInfo';
 import MyTags from '../components/myTags/MyTags';
 import MyPageFooter from '../components/mypagefooter/MyPageFooter';
@@ -18,20 +19,38 @@ export default function MyPage() {
 
   return (
     <>
-      <Header type="mypage" />
-      <MyInfo /> <MyTags />
-      <MyPageFooter />
-      {!isEditing && 
-        <>
-          <MoveWishList />
+      <HeaderSpace>
+        <Header type="mypage" />
+      </HeaderSpace>
+      <Content>
+        <MyInfo /> <MyTags />
+        <MyPageFooter />
+        {!isEditing && 
+          <>
+            <MoveWishList />
 
-          <MembershipContainer />
-        </>
-      }
+            <MembershipContainer />
+          </>
+        }
 
-      {isOnChoice && (
-        <ChoiceContainer onClose={handleOnChoice} />
-      )}
+        {isOnChoice && (
+          <ChoiceContainer onClose={handleOnChoice} />
+        )}
+      </Content>
     </>
   );
 }
+
+const HeaderSpace = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: ${({ theme }) => theme.colors.white};
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
