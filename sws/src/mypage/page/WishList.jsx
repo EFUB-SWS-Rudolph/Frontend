@@ -2,13 +2,28 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
+import { getWishlist } from '../../api/myPage';
 
 export default function WishList() {
   const navigate = useNavigate();
+  const [courses, setCourses] = useState(null);
 
   const handleMoveBack = () => {
     navigate('/mypage');
   };
+
+  const readUserWish = async () => {
+    try {
+      const res = getWishlist();
+      setCourses(res);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  useEffect(() => {
+    readUserWish();
+  }, [])
 
   return (
     <Wrapper>
