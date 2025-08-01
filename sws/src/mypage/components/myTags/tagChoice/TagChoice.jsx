@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import theme from '../../../styles/theme';
-import CHECK from '../../../ewhainList/icons/icon_check.svg?react';
+import theme from '../../../../styles/theme';
+import CHECK from '../../../../ewhainList/icons/icon_check.svg?react';
 
 // type: talentTag, interestTag
 // item: 영어 일본어 중국어 등등등
@@ -9,13 +10,13 @@ import CHECK from '../../../ewhainList/icons/icon_check.svg?react';
 
 export default function TagChoice({ type, item, onChange }) {
   const navigate = useNavigate();
+  const [isSelected, setIsSelected] = useState(false);
 
   const handleClick = () => {
     onChange(item);
+    setIsSelected(!isSelected);
     navigate('/mypage');
   };
-
-  const isSelected = type === item;
 
   return (
     <DetailChoiceWrapper $item={item} onClick={handleClick}>

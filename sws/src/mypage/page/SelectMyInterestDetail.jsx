@@ -4,12 +4,14 @@ import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
 import TagChoice from '../components/myTags/tagChoice/TagChoice';
 import { useProfileStore } from '../stores/ProfileStore';
+import CATEGORIES from '../constant/CATEGORIES';
 
-export default function SelectMyInterestDetail({}) {
+export default function SelectMyInterestDetail() {
   const addInterestTag = useProfileStore((state) => state.addInterestTag);
   const category = useProfileStore((state) => state.category);
+  const tag = useProfileStore((state) => state.tag);
   const navigate = useNavigate();
-  const TAG_DETAIL = TAGS[category];  // category: 언어, 음악/악기, ...
+  const TAG_DETAIL = CATEGORIES[category];  // category: 언어, 음악/악기, ...
 
   const handleMoveBack = () => {
     navigate('/mypage/interesttag')
@@ -27,7 +29,7 @@ export default function SelectMyInterestDetail({}) {
       </HeaderSpace>
       <FilterContents>
         {TAG_DETAIL.map((item) => (
-          <TagChoice type={type} item={item} onChange={handleTagChoice} />
+          <TagChoice key={item} item={item} onChange={handleTagChoice} />
         ))};
       </FilterContents>
     </Wrapper>

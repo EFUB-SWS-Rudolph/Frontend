@@ -16,6 +16,8 @@ import DeptFilter from './ewhainList/pages/DeptFilter';
 import IndividualInquiry from './ewhainList/pages/IndividualInquiry';
 import LoginPage from './signIn/pages/SignIn';
 import RedirectPage from './signIn/pages/Redirect';
+import SelectMyInterestCategory from './mypage/page/SelectMyInterestCategory';
+import SelectMyInterestDetail from './mypage/page/SelectMyInterestDetail';
 
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
           <Route path="/ewhainfilter/dept/major" element={<MajorFilter />} />
           <Route path="/ewhainfilter/period" element={<PeriodFilter />} />
           <Route path="/ewhain/:id" element={<IndividualInquiry />} />
+          <Route path="/mypage/interesttag" element={<SelectMyInterestCategory />} />
+          <Route path="/mypage/interesttag/detail" element={<SelectMyInterestDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

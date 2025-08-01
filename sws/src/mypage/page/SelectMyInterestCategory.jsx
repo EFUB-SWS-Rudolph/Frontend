@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
 import MoveTagDetail from '../components/myTags/tagChoice/MoveTagDetail';
+import CATEGORIES from '../constant/CATEGORIES';
 
 export default function SelectMyInterestCategory() {
   const navigate = useNavigate();
+  const CATEGORY = Object.keys(CATEGORIES);
 
   const handleMoveBack = () => {
     navigate('/mypage');
@@ -17,8 +19,8 @@ export default function SelectMyInterestCategory() {
         <Header type="관심 분야" onClick={handleMoveBack} />
       </HeaderSpace>
       <FilterContents>
-        {CATEGORIES.map((category) => (
-          <MoveTagDetail select={category} detailroute={'/mypage/interesttag/detail'} />
+        {CATEGORY.map((category) => (
+          <MoveTagDetail key={category} select={category} detailroute={'/mypage/interesttag/detail'} />
         ))};
       </FilterContents>
     </Wrapper>
