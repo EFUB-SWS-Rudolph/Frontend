@@ -20,7 +20,6 @@ const AlarmPageContainer = styled.div`
   -webkit-overflow-scrolling: touch;
 `;
 
-// 핵심! AlarmItem Wrapper - isRead 상태에 따라 배경색 변경
 const AlarmItemWrapper = styled.div`
   width: 100% ; 
   padding: 1.25rem 1.5rem 1rem 1.5rem; 
@@ -50,6 +49,7 @@ const AlarmCategoryIcon = styled.div`
 
 const AlarmTitle = styled.div`
   color: var(--Black, #222);
+<<<<<<< HEAD
   font-family: "Pretendard Variable";
   font-size: 1rem; 
   font-style: normal;

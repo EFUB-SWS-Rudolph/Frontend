@@ -44,7 +44,6 @@ const BackIcon = styled.div`
 //  타이틀 스타일
 const HeaderTitleText = styled.h2`
   color: #000;
-  
   /* Display/Large */
   font-family: "Pretendard Variable";
   font-size: 1.5rem;

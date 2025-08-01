@@ -166,7 +166,6 @@ const LectureCardsGrid = styled.div`
   display: ${props => props.$displayMode === 'grid' ? 'grid' : 'flex'};
   grid-template-columns: ${props => props.$displayMode === 'grid' ? 'repeat(2, 1fr)' : 'none'}; /* 2열 고정 */
   gap: 0.88rem;
-  
   justify-content: center;
   flex-direction: ${props => props.$displayMode === 'list' ? 'column' : 'none'};
 `;
@@ -273,7 +272,7 @@ const ContentPlaceholder = styled.div`
   justify-content: center;
   border: 1px dashed #ccc;
   border-radius: 0.5rem;
-  
+>>>>>>> 00a95015a50e39be41baaec2fbd10100416e2fa6:sws/src/main/page/LectureList.jsx
 `;
 //강의 데이터 예시
 const allLectureData = [
@@ -296,6 +295,14 @@ function LectureListContent() {
   const [displayMode, setDisplayMode] = useState('grid');
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showSortTypePopup, setShowSortTypePopup] = useState(false); 
+  const [isSortTypeActive, setIsSortTypeActive] = useState(false);
+  const [showSortRegionPopup, setShowSortRegionPopup] = useState(false); 
+  const [isSortRegionActive, setIsSortRegionActive] = useState(false);
+  const [showSortDatePopup, setShowSortDatePopup] = useState(false); 
+  const [isSortDateActive, setIsSortDateActive] = useState(false);
+  const [showSortRecentPopup, setShowSortRecentPopup] = useState(false); 
+  const [isSortRecentActive, setIsSortRecentActive] = useState(false);
 
   useEffect(() => {
     if (mainActiveTab === '강의 조회') {
@@ -420,6 +427,62 @@ function LectureListContent() {
         </LectureCardsGrid>
       </LectureListDisplayArea>
         </>
+      )}
+      {showSortTypePopup && (
+        <FilterModalOverlay onClick={() => handleToggleSortTypePopup()}> 
+          <FilterModalContainer $isVisible={showSortTypePopup} onClick={e => e.stopPropagation()}> 
+            <ModalCloseButton  onClick={() => handleToggleSortTypePopup()}><img src={IconBackURL}/></ModalCloseButton>
+            <ModalTitle>강의 형태</ModalTitle>
+            <ModalComponentButton><ModalComponentButtonText>재능 기부</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>재능 교환</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>과외</ModalComponentButtonText></ModalComponentButton>
+          </FilterModalContainer>
+        </FilterModalOverlay>
+      )}
+      {showSortRegionPopup && (
+        <FilterModalOverlay onClick={() => handleToggleSortRegionPopup()}> 
+          <FilterModalContainer $isVisible={showSortRegionPopup} onClick={e => e.stopPropagation()}> 
+            <ModalCloseButton  onClick={() => handleToggleSortRegionPopup()}><img src={IconBackURL}/></ModalCloseButton>
+            <ModalTitle>지역</ModalTitle>
+            <ModalComponentButton><ModalComponentButtonText>서울특별시</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>부산광역시</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>대구광역시</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>인천광역시</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>광주광역시</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>대전광역시</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>울산광역시</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>세종특별자치시</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>경기도</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>충청북도</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>충청남도</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>경상북도</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>경상남도</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>전북특별자치도</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>전라남도</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>제주특별자치도</ModalComponentButtonText></ModalComponentButton>
+          </FilterModalContainer>
+        </FilterModalOverlay>
+      )}
+      {showSortDatePopup && (
+        <FilterModalOverlay onClick={() => handleToggleSortDatePopup()}> 
+          <FilterModalContainer $isVisible={showSortDatePopup} onClick={e => e.stopPropagation()}> 
+            <ModalCloseButton  onClick={() => handleToggleSortDatePopup()}><img src={IconBackURL}/></ModalCloseButton>
+            <ModalTitle>기간</ModalTitle>
+            <ModalComponentButton><ModalComponentButtonText>재능 기부</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>재능 교환</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>과외</ModalComponentButtonText></ModalComponentButton>
+          </FilterModalContainer>
+        </FilterModalOverlay>
+      )}
+      {showSortRecentPopup && (
+        <FilterModalOverlay onClick={() => handleToggleSortRecentPopup()}> 
+          <FilterModalContainer $isVisible={showSortRecentPopup} onClick={e => e.stopPropagation()}> 
+            <ModalCloseButton  onClick={() => handleToggleSortRecentPopup()}><img src={IconBackURL}/></ModalCloseButton>
+            <ModalTitle>정렬 기준</ModalTitle>
+            <ModalComponentButton><ModalComponentButtonText>최신 순</ModalComponentButtonText></ModalComponentButton>
+            <ModalComponentButton><ModalComponentButtonText>오래된 순</ModalComponentButtonText></ModalComponentButton>
+          </FilterModalContainer>
+        </FilterModalOverlay>
       )}
 
       {mainActiveTab === '강의 추천' && (
