@@ -1,19 +1,35 @@
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { getAccessToken } from '../../api/auth';
 
 export default function Redirect() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const { provider } = useParams();
 
   useEffect(() => {
-    const accessToken = searchParams.get('access_token');
+    const handleToken = async () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const code = searchParams.get('code');
+      try {
+        const res = await getAccessToken(provider, code);
+        const token = {
+          accessToken: res.access_token,
+          refreshToken: res.refresh_token,
+        };
+        localStorage.setItem('token', JSON.stringify(token));
 
-    if (accessToken) {
-      localStorage.setItem('token', accessToken);
+        if (res.isNew) {
+          navigate('/signup');
+        } else {
+          navigate('/');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-      navigate('/');
-    }
+    handleToken();
   }, []);
   return <Wrapper></Wrapper>;
 }
