@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import EDIT_IMG from '../../assets/icon_editImg.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 import { getMemberProfile } from '../../../api/myPage';
+import ChoiceContainer from '../editProfile/ChoiceContainer';
 
 export default function Profile() {
   // zustand 변수 불러오기(닉네임, 프로필 사진)

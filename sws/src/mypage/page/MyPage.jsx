@@ -28,7 +28,6 @@ export default function MyPage() {
         {!isEditing && 
           <>
             <MoveWishList />
-
             <MembershipContainer />
           </>
         }
