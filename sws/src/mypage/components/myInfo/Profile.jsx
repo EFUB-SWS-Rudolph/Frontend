@@ -5,74 +5,18 @@ import { useProfileStore } from '../../stores/ProfileStore';
 import { getMemberProfile } from '../../../api/myPage';
 import ChoiceContainer from '../editProfile/ChoiceContainer';
 
-export default function Profile() {
+export default function Profile({ onClick, onChange, fileRef, cameraRef }) {
   // zustand 변수 불러오기(닉네임, 프로필 사진)
   const nickname = useProfileStore((state) => state.nickname);
   const profileImg = useProfileStore((state) => state.profileImg);
   const isEditing = useProfileStore((state) => state.isEditing);
   const setProfileImg = useProfileStore((state) => state.setProfileImg);
   const setNickname = useProfileStore((state) => state.setNickname);
+  const previousImg = useProfileStore((state) => state.previousImg);
+  const setPreviousImg = useProfileStore((state) => state.setPreviousImg);
+  const imageURL = useProfileStore((state) => state.imageURL);
 
   const [user, setUser] = useState('');  // 서버로부터 사용자 정보를 담을 변수
-  const [previousImg, setPreviousImg] = useState('');  // 서버에서 받은 이미지
-  const [imageURL, setImageURL] = useState('');
-  const [showChoiceModal, setShowChoiceModal] = useState(false);  // 모달 보이기 여부
-
-  const fileInputRef = useRef(null);  // 갤러리 이미지 선택
-  const cameraInputRef = useRef(null);  // 카메라 이미지 선택
-
-  // 편집모드에서 프로필 이미지 클릭시 발동
-  const handleProfileImgClick = () => {
-    if (isEditing) setShowChoiceModal(true);
-  };
-
-  const albumSelect = () => {
-    setShowChoiceModal(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = null;
-      fileInputRef.current.click();
-    }
-  };
-
-  const cameraSelect = () => {
-    setShowChoiceModal(false);
-    if (cameraInputRef.current) {
-      cameraInputRef.current.value = null;
-      cameraInputRef.current.click();
-    }
-  };
-  /*
-  const onChange = (e) => {
-    if (e.target.files[0]) {
-      setFile(e.target.files[0]);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    } else {
-      // 업로드 취소 시
-      setImage(profileImg);
-      return;
-    }
-  };
-  */
-
-  // 이미지 변경 핸들러
-  const handleImageChange = (e) => {
-    const selectedFile = e.target.files[0];  // 사용자가 선택한 파일 중 첫 번째 파일
-
-    if (selectedFile) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {  // 파일 읽기 작업이 수행된 후 이 핸들러가 호출됨
-        setProfileImg(selectedFile);
-        setImageURL(e.target.result);
-      };
-
-      reader.readAsDataURL(selectedFile);  // 파일 읽기 작업
-    }
-  }
 
   // api 호출
   const readUserInfo = async() => {
@@ -98,35 +42,27 @@ export default function Profile() {
       <Image
         src={imageURL || previousImg}  // imageURL: 수정 버전, profileImg: 기존 사진
         alt="profileimg"
-        onClick={handleProfileImgClick}
+        onClick={onClick}
       />
       {isEditing && (
-        <EditContainer onClick={handleProfileImgClick}><EDIT_IMG /></EditContainer>
+        <EditContainer onClick={onClick}><EDIT_IMG /></EditContainer>
       )}
 
       <input 
         type="file"
         accept="image/jpeg, image/jpg"
         style={{ display: 'none' }}
-        ref={fileInputRef}
-        onChange={handleImageChange}
+        ref={fileRef}
+        onChange={onChange}
       />
       <input 
         type="file"
         accept="image/jpeg, image/jpg"
         style={{ display: 'none' }}
-        ref={cameraInputRef} 
+        ref={cameraRef} 
         capture="environment"
-        onChange={handleImageChange}
+        onChange={onChange}
       />
-
-      {showChoiceModal && (
-        <ChoiceContainer
-          onClose={() => setShowChoiceModal(false)}
-          onSelectAlbum={albumSelect}
-          onSelectCamera={cameraSelect}
-        />
-      )}
       <Name>{nickname}</Name>
     </Container>
   );
@@ -140,6 +76,7 @@ const Container = styled.div`
   gap: 0.625rem;
   position: relative;
 `;
+
 const Image = styled.img`
   width: 6.5rem;
   height: 6.5rem;
@@ -154,7 +91,7 @@ const EditContainer = styled.div`
   height: 1.85125rem;
   flex-shrink: 0;
   position: absolute;
-  bottom: 1.7rem;
+  bottom: 3rem;
   right: 0.3rem;
   outline: none;
   border: none;

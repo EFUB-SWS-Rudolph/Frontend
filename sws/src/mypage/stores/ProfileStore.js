@@ -61,4 +61,10 @@ export const useProfileStore = create((set) => ({
 
   tag: '',
   setTag: (newTag) => set({ tag: newTag}),
+
+  previousImg: '',
+  setPreviousImg: (image) => set({ previousImg: image }),
+
+  imageURL: '',
+  setImageURL: (url) => set({ imageURL: url }),
 }));
