@@ -37,15 +37,7 @@ export default function FieldItems({ fields, type }) {
               $ismiddle={row.length === 3 && row[1] === item}
               theme={theme}
             >
-              <FieldItemText>
-                {' '}
-                {item.split('\n').map((line, i) => (
-                  <span key={i}>
-                    {line}
-                    <br />
-                  </span>
-                ))}
-              </FieldItemText>
+              <FieldItemText>{item}</FieldItemText>
             </FieldItemContainer>
           ))}
         </Row>
