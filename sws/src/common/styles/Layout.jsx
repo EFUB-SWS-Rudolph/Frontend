@@ -75,7 +75,7 @@ export default function Layout({
                   <NavText $active={isLecturePage}>강의</NavText>
                 </NavItem>
 
-                <NavItem onClick={() => navigate('/ewhalist')}>
+                <NavItem onClick={() => navigate('/ewhainlist')}>
                   <EwhaListIcon>
                     <img
                       src={isEwhaListPage ? IconEwhalistInactiveURL : IconEwhalistInactiveURL}
@@ -86,7 +86,7 @@ export default function Layout({
                   <NavText $active={isEwhaListPage}>이화인 목록</NavText>
                 </NavItem>
 
-                <NavItem onClick={() => navigate('/chat')}>
+                <NavItem onClick={() => navigate('/chatlist')}>
                   <ChatIcon>
                     <img
                       src={isChatPage ? IconchatInactiveURL : IconchatInactiveURL}
