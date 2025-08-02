@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
-import FilterDetailBtn from '../components/common/FilterDetailBtn';
-import SortMethodSelect from '../components/SortMethodSelect';
-import FilterFooter from '../components/FilterFooter';
+import FilterDetailBtn from '../components/filter/FilterDetailBtn';
+import SortMethodSelect from '../components/filter/SortMethodSelect';
+import FilterFooter from '../components/filter/FilterFooter';
 import { useFilterStore } from '../stores/FilterStore';
 
 export default function EwhainFilter() {
@@ -23,9 +23,9 @@ export default function EwhainFilter() {
     <FilterPageWrapper>
       <EwhainListHeader header="filter" onClick={handleMoveEwhainList} />
       <FilterContents>
-        <FilterDetailBtn select="교류 방식" value={exchange} detailroute="/ewhainfilter/exchange" />
-        <FilterDetailBtn select="학과" value={major} detailroute="/ewhainfilter/dept" />
-        <FilterDetailBtn select="최신순" value={period} detailroute="/ewhainfilter/period" />
+        <FilterDetailBtn type="main" select="교류 방식" value={exchange} detailroute="/ewhainfilter/exchange" />
+        <FilterDetailBtn type="main" select="학과" value={major} detailroute="/ewhainfilter/dept" />
+        <FilterDetailBtn type="main" select="최신순" value={period} detailroute="/ewhainfilter/period" />
         <SortMethodSelect />
       </FilterContents>
       <FilterFooter />
@@ -34,15 +34,15 @@ export default function EwhainFilter() {
 }
 
 const FilterPageWrapper = styled.div`
-  width: 390px;
-  height: 100vh;
+  width: 24.375rem;
+  height: 47.625rem;
   display: flex;
   flex-direction: column;
 `;
 
 const FilterContents = styled.div`
-  width: 390px;
-  height: 600px;
+  width: 24.375rem;
+  height: 40.94rem;
   display: flex;
   flex-direction: column;
   align-items: center;

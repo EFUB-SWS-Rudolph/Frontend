@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
-import FilterDetailChoice from '../components/common/FilterDetailChoice';
+import FilterDetailChoice from '../components/filter/FilterDetailChoice';
 import { useFilterStore } from '../stores/FilterStore';
 
 export default function PeriodFilter() {
@@ -31,15 +31,15 @@ export default function PeriodFilter() {
 }
 
 const FilterPageWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
+  width: 24.375rem;
+  height: 47.625rem;
   display: flex;
   flex-direction: column;
 `;
 
 const FilterContents = styled.div`
-  width: 390px;
-  height: 600px;
+  width: 24.375rem;
+  height: 44.94rem;
   display: flex;
   flex-direction: column;
   align-items: center;

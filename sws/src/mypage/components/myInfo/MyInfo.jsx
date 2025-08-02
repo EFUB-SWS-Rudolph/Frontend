@@ -11,7 +11,11 @@ export default function MyInfo() {
 }
 
 const Container = styled.div`
-  display: flex;
+  display: inline-flex;
+  padding: 1.5rem 2.125rem 1.4375rem 2.125rem;
+  justify-content: center;
   align-items: center;
-  gap: 2.875rem;
+  border-bottom: 1px solid var(--Gray-300, #D9D9D9);
+  background: #FFF;
+  gap: 2.88rem;
 `;

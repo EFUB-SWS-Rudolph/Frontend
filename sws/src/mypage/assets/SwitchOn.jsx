@@ -4,7 +4,7 @@ export default function SwitchOn() {
       <rect width="52" height="32" rx="16" fill="#13997B" />
       <mask
         id="mask0_801_3596"
-        style="mask-type:luminance"
+        maskType="luminance"
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -26,9 +26,9 @@ export default function SwitchOn() {
           width="44"
           height="44"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"

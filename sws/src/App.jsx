@@ -1,33 +1,74 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Layout from './layout/Layout';
+import Layout from './common/styles/Layout';
+import GlobalSearchHeaderContent from './main/components/GlobalSearchHeaderContent';
+import { FilterProvider } from './common/contexts/FilterContext';
+import { AlarmProvider } from './common/contexts/AlarmContext';
+import { MainHeaderContent } from './main/components/MainHeaderContent';
+
 import Main from './main/page/Main';
-import Certification from './signUp/pages/Certification';
-import UnivInfo from './signUp/pages/UnivInfo';
-import SetProfile from './signUp/pages/SetProfile';
-import SetInterest from './signUp/pages/SetInterest';
-import SetTalent from './signUp/pages/SetTalent';
-import MyPage from './mypage/page/MyPage';
+import GlobalSearchPage from './main/page/GlobalSearchPage';
+import AlarmPage from './main/page/AlarmPage';
 import LoginPage from './signIn/pages/SignIn';
 import RedirectPage from './signIn/pages/Redirect';
+import { LectureRoutes } from './routes/LectureRoutes';
+import { ChatRoutes } from './routes/ChatRoutes';
+import { MyPageRoutes } from './routes/MyPageRoutes';
+import { SignUpRoutes } from './routes/SignUpRoutes';
+import { EwhainRoutes } from './routes/EwhainRoutes';
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          {/* <Route path="/" element={<Signup />} /> */}
+      <AlarmProvider>
+        <FilterProvider>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Layout
+                  headerContent={<MainHeaderContent />}
+                  backgroundColor="#F7F6F3"
+                  headerBackgroundColor="#F7F6F3"
+                  contentBackgroundColor="#F7F6F3"
+                />
+              }
+            >
+              <Route index element={<Main />} />
+            </Route>
 
-          <Route path="/" element={<Main />} />
-          <Route path="/signin" element={<LoginPage />} />
-          <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
-          <Route path="/signup/additional" element={<Certification />} />
-          <Route path="/signup/univ" element={<UnivInfo />} />
-          <Route path="/signup/profile" element={<SetProfile />} />
-          <Route path="/signup/interest" element={<SetInterest />} />
-          <Route path="/signup/talent" element={<SetTalent />} />
-          <Route path="/mypage" element={<MyPage />} />
-        </Route>
-      </Routes>
+            <Route
+              path="/global-search"
+              element={<Layout headerContent={<GlobalSearchHeaderContent />} showFooter={false} />}
+            >
+              <Route index element={<GlobalSearchPage />} />
+            </Route>
+            <Route
+              path="/alarm"
+              element={
+                <Layout
+                  headerContent={<GlobalSearchHeaderContent title="알림" />}
+                  showFooter={false}
+                />
+              }
+            >
+              <Route index element={<AlarmPage />} />
+            </Route>
+            <Route element={<Layout showFooter={false} />}>
+              <Route path="/signin" element={<LoginPage />} />
+              <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
+            </Route>
+
+            {EwhainRoutes}
+            {SignUpRoutes}
+            {MyPageRoutes}
+            {ChatRoutes}
+            {LectureRoutes}
+
+            {/* 404 Not Found 라우트 */}
+            <Route path="*" element={<div>페이지를 찾을 수 없습니다.</div>} />
+          </Routes>
+        </FilterProvider>
+      </AlarmProvider>
     </BrowserRouter>
   );
 }
