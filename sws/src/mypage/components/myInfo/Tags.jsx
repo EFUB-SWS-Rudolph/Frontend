@@ -7,25 +7,16 @@ import { useProfileStore } from '../../stores/ProfileStore';
 export default function Tags() {
   const { college, department, studentid, location, setCollege, setDepartment, setStudentid, setLocation } = useProfileStore();
 
-  const handleEditCollege = (e) => {
-    setCollege(e.target.value);
-  };
-  const handleEditDepartment = (e) => {
-    setDepartment(e.target.value);
-  };
   const handleEditStudentid = (e) => {
     setStudentid(e.target.value);
-  };
-  const handleEditLocation = (e) => {
-    setLocation(e.target.value);
   };
 
   return (
     <Container>
-      <InfoTag tagname={TAG_INFO[0]} info={college} onChange={handleEditCollege} />{' '}
-      <InfoTag tagname={TAG_INFO[1]} info={department} onChange={handleEditDepartment} />
+      <InfoTag tagname={TAG_INFO[0]} info={college} />{' '}
+      <InfoTag tagname={TAG_INFO[1]} info={department} />
       <InfoTag tagname={TAG_INFO[2]} info={studentid} onChange={handleEditStudentid} />
-      <InfoTag tagname={TAG_INFO[3]} info={location} onChange={handleEditLocation} />
+      <InfoTag tagname={TAG_INFO[3]} info={location} />
     </Container>
   );
 }
