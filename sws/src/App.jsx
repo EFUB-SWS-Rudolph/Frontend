@@ -53,8 +53,11 @@ function App() {
             >
               <Route index element={<AlarmPage />} />
             </Route>
-            <Route path="/signin" element={<LoginPage />} />
-            <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
+            <Route element={<Layout showFooter={false} />}>
+              <Route path="/signin" element={<LoginPage />} />
+              <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
+            </Route>
+
             {EwhainRoutes}
             {SignUpRoutes}
             {MyPageRoutes}
