@@ -21,7 +21,7 @@ export default function IndividualInquiry() {
       <PageContents>
         <UserProfileCard id={id} />
         <ChatButton id={id} />
-        <TalentInterestContainer />
+        <TalentInterestContainer id={id} />
         <Spacer />
       </PageContents>
     </Wrapper>

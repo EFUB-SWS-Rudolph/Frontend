@@ -1,36 +1,52 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import EXCHANGE from "../../icons/icon_exchange.svg?react";
 import GIVE from "../../icons/icon_give.svg?react";
 import COFFEECHAT from "../../icons/icon_coffeechat.svg?react";
+import { getMemberIndividual } from '../../../api/members';
 
 export default function UserProfileCard({ id }) {
   const userGive = true;
   const userExchange = true;
   const userCoffeechat = true;
   const userStudentId = true;
+  const [user, setuser] = useState(null);
+
+  const readMemberIndividual = async () => {
+    try {
+      const res = getMemberIndividual();
+      setuser(res);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  useEffect(() => {
+    readMemberIndividual();
+  }, []);
 
   return (
     <UserProfileWrapper>
       {/* src={user.prifileimgurl */}
-      <ProfileImage src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRqyxfxX8QSTvO1ULBKz6IK_KKsMFoiOr9LxoMYKTdAkbIpHxHC" alt="user profile img" />
-      <UserNickname>닉네임</UserNickname>
+      <ProfileImage src={user.profileImage} />
+      <UserNickname>{user.nickName}</UserNickname>
       <UserAvailable>
         {/* user.give user.exchange user.coffeechat === "on" */}
-        {userGive && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
-        {userExchange && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
-        {userCoffeechat && <COFFEECHAT width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.donation && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.exchange && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.coffeeChat && <COFFEECHAT width="1rem" height="1rem" aspect-ratio="1/1" />}
       </UserAvailable>
-      {userStudentId ? 
+      {user.studentId ? 
         <UserUnivInfo>
-          24학번 <span>|</span> 컴퓨터공학과
+          {user.studentId}학번 <span>|</span> {user.department}
         </UserUnivInfo>
         :
         <UserUnivInfo>
-          비공개 <span>|</span> 컴퓨터공학과
+          비공개 <span>|</span> {user.department}
         </UserUnivInfo>
       }
-      <UserLocation>서울 서대문구</UserLocation>
+      <UserLocation>{user.location}</UserLocation>
     </UserProfileWrapper>
   );
 }
