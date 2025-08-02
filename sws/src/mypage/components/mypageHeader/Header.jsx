@@ -17,6 +17,7 @@ export default function Header({ type, onClick }) {
   const isCoffeeChat = useProfileStore((state) => state.isCoffeeChat);
   const isEditing = useProfileStore((state) => state.isEditing);
   const setIsEditing = useProfileStore((state) => state.setIsEditing);
+  const imageURL = useProfileStore((state) => state.imageURL);
 
   const patchProfileInfo = async () => {
     try {
@@ -30,7 +31,7 @@ export default function Header({ type, onClick }) {
         isSkillDonation: isDonation,
       });
 
-      await patchProfileImg({ profileImg });
+      await patchProfileImg({ imageURL });
 
       const talentTagValues = talentTags.slice(0, 3).map((t) => t.tag || t);
       await putTalentTag({
