@@ -2,10 +2,27 @@ import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import TalentInterestItem from './TalentInterestItem';
 
-export default function TalentInterestContainer() {
+export default function TalentInterestContainer({ id }) {
   const talent = ['음악', '독일어', '프로그래밍', '뜨개질', '미술'];
   const interest = ['기타', '공예'];
-  const isItemEmpty = false;
+  const [isTalentEmpty, setIsTalentEmpty] = useState(false);
+  const [isInterestEmpty, setIsInterestEmpty] = useState(false);
+  const [user, setuser] = useState(null);
+  
+  const readMemberIndividual = async () => {
+    try {
+      const res = getMemberIndividual();
+      setuser(res);
+      setIsTalentEmpty(res.talentTags.isArray && res.talentTags.length === 0);
+      setIsInterestEmpty(res.interestTags.isArray && res.interestTags.length === 0);
+    } catch (err) {
+      throw err;
+    }
+  };
+  
+  useEffect(() => {
+    readMemberIndividual();
+  }, []);
 
   return (
     <UserTalentInterest>
@@ -13,11 +30,11 @@ export default function TalentInterestContainer() {
         <Title>나의 재능</Title>
         <ItemContainer>
           {/* map 사용 / key는 id로 수정 */}
-          {isItemEmpty ? 
+          {isTalentEmpty ? 
             <NoticeContainer>
               <Notice>재능을 설정하지 않았어요</Notice>
             </NoticeContainer> :
-            talent.map((item) => (
+            user.talentTags.map((item) => (
             <>
               <TalentInterestItem key={item} item={item} />
             </>
@@ -30,11 +47,11 @@ export default function TalentInterestContainer() {
         <Title>관심 분야</Title>
         <ItemContainer>
           {/* map 사용 */}
-          {isItemEmpty ? 
+          {isInterestEmpty ? 
             <NoticeContainer>
               <Notice>관심 분야를 설정하지 않았어요</Notice>
             </NoticeContainer> :
-            interest.map((item) => (
+            user.interstTags.map((item) => (
             <>
               <TalentInterestItem item={item} />
             </>
