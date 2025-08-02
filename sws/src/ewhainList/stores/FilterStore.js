@@ -18,4 +18,7 @@ export const useFilterStore = create((set) => ({
 
   dept: '',
   setDept: (newDept) => set({ dept: newDept }),
+
+  searchItem: '',
+  setSearchItem: (item) => set({ searchItem: item }),
 }));

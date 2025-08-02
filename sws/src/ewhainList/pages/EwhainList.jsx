@@ -14,6 +14,14 @@ export default function EwhainList() {
   const { isgallery } = useFilterStore();
   const [users, setUsers] = useState([]);
 
+  const major = useFilterStore((state) => state.major);  // 학과
+  const exchange = useFilterStore((state) => state.exchange);  // 재능기부, 재능교환, 커피챗
+  const period = useFilterStore((state) => state.period);  // 최신순, 오래된 순
+  const searchItem = useFilterStore((state) => state.searchItem); // 검색어(학과/닉네임)
+
+  // 필터할 항목들: 학과, 교류 방식, 최신순
+  // 검색: 학과, 닉네임
+
   // api 호출
   const readMemberList = async () => {
     try {
