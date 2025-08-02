@@ -20,6 +20,8 @@ import LectureLocationFilterPage from './main/page/lecture/LectureLocationFilter
 import LectureDateFilterPage from './main/page/lecture/LectureDateFilterPage';
 import LectureSortFilterPage from './main/page/lecture/LectureSortFilterPage'; 
 import LectureStatusFilterPage from './main/page/lecture/LectureStatusFilterPage'; 
+import ChatListPage from './chat/page/ChatLists';
+import ChatRoomPage from './chat/page/ChatRoom';
 import Certification from './signUp/pages/Certification';
 import UnivInfo from './signUp/pages/UnivInfo';
 import SetProfile from './signUp/pages/SetProfile';
@@ -35,9 +37,13 @@ import DeptFilter from './ewhainList/pages/DeptFilter';
 import IndividualInquiry from './ewhainList/pages/IndividualInquiry';
 import LoginPage from './signIn/pages/SignIn';
 import RedirectPage from './signIn/pages/Redirect';
-
 import { FilterProvider } from './common/contexts/FilterContext';
 import { AlarmProvider , useAlarm} from './common/contexts/AlarmContext';
+import SelectMyInterestCategory from './mypage/page/SelectMyInterestCategory';
+import SelectMyInterestDetail from './mypage/page/SelectMyInterestDetail';
+import SelectMyTalentCategory from './mypage/page/SelectMyTalentCategory';
+import SelectMyTalentDetail from './mypage/page/SelectMyTalentDetail';
+import SelectMyInfo from './mypage/page/SelectMyInfo';
 
 import AddIconURL from './common/assets/icons/btn_add.svg'; 
 import WeevoLogoURL from './common/assets/icons/logo_weevo.svg'; 
@@ -271,7 +277,7 @@ function App() {
 
           <Route path="/" element={<Main />} />
           <Route path="/signin" element={<LoginPage />} />
-          <Route path="/login" element={<RedirectPage />} />
+          <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
           <Route path="/signup/additional" element={<Certification />} />
           <Route path="/signup/univ" element={<UnivInfo />} />
           <Route path="/signup/profile" element={<SetProfile />} />
@@ -285,6 +291,13 @@ function App() {
           <Route path="/ewhainfilter/dept/major" element={<MajorFilter />} />
           <Route path="/ewhainfilter/period" element={<PeriodFilter />} />
           <Route path="/ewhain/:id" element={<IndividualInquiry />} />
+          <Route path="/mypage/interesttag" element={<SelectMyInterestCategory />} />
+          <Route path="/mypage/interesttag/detail" element={<SelectMyInterestDetail />} />
+          <Route path="/mypage/talenttag" element={<SelectMyTalentCategory />} />
+          <Route path="/mypage/talenttag/detail" element={<SelectMyTalentDetail />} />
+          <Route path="/mypage/myinfotag" element={<SelectMyInfo />} />
+          <Route path="/chatlist" element={<ChatListPage />} />
+          <Route path="/chatroom/:chatId" element={<ChatRoomPage />} />
         </Route>
         {/* --- 1. 가장 구체적인 필터 상세 설정 페이지들을 먼저 배치 */}
         <Route 

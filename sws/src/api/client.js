@@ -11,9 +11,10 @@ export const client = axios.create({
 
 client.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+    const tokenString = localStorage.getItem('token');
+    const token = JSON.parse(tokenString);
+    if (token?.accessToken) {
+      config.headers['Authorization'] = `Bearer ${token.accessToken}`;
     } else {
       console.log('토큰 없음');
     }
@@ -61,8 +62,14 @@ client.interceptors.response.use(
       isRefreshing = true;
       try {
         const res = await getReissueToken();
-        const newAccessToken = res.accessToken; //액세스토큰 저장 방식 추후 확인
-        localStorage.setItem('token', newAccessToken);
+        const newAccessToken = res.payload.access_token;
+        const tokenString = localStorage.getItem('token');
+        const existingToken = tokenString ? JSON.parse(tokenString) : {};
+        const updatedToken = {
+          ...existingToken,
+          accessToken: newAccessToken,
+        };
+        localStorage.setItem('token', JSON.stringify(updatedToken));
 
         processQueue(null, newAccessToken);
 
