@@ -17,18 +17,19 @@ export default function MyTalent() {
   const readUserInfo = async () => {
     try {
       const res = await getMemberTag();
-      setTalentTags(res.talent);
+      setTalentTags(res.talent.tagNames);
     } catch (err) {
       throw err;
     }
   };
 
   useEffect(() => {
-    readUserInfo();
+    !isEditing && readUserInfo();
   }, [])
 
   useEffect(() => {
     setIsMax(talentTags.length >= 3);
+    console.log(talentTags);
   }, [talentTags]);
 
   const handleRemoveTalentTag = (id) => {

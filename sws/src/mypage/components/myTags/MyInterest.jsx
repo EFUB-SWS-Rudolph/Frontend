@@ -24,14 +24,14 @@ export default function Interests() {
   const readUserInfo = async() => {
     try{
       const res = await getMemberTag();
-      setInterestTags(res.interest);
+      setInterestTags(res.interest.tagNames);
     } catch (err) {
       throw err;
     }
   };
 
   useEffect(() => {
-    readUserInfo();
+    !isEditing && readUserInfo();
   }, [])
 
   const handleRemoveInterestTag = (id) => {

@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useProfileStore } from '../../stores/ProfileStore';
 import EDIT from '../../assets/icon_edit.svg?react';
 
 export default function InfoTag({ tagname, info, onChange }) {
   const { isEditing } = useProfileStore();
+  const navigate = useNavigate();
 
   const handleMoveSelection = () => {
     navigate('/mypage/myinfotag', { state: { type: {info} }})
