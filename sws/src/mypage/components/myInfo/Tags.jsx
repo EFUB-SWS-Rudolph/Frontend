@@ -6,7 +6,7 @@ import { useProfileStore } from '../../stores/ProfileStore';
 import { getMemberProfile } from '../../../api/myPage';
 
 export default function Tags() {
-  const { college, department, studentid, location, setCollege, setDepartment, setStudentid, setLocation } = useProfileStore();
+  const { college, department, studentid, location, isEditing, setCollege, setDepartment, setStudentid, setLocation } = useProfileStore();
   const [user, setUser] = useState(null);
   
   const readUserInfo = async() => {
@@ -19,7 +19,7 @@ export default function Tags() {
     }
   }
   useEffect(()=>{
-    readUserInfo();
+    !isEditing && readUserInfo();
   },[])
 
   useEffect(() => {

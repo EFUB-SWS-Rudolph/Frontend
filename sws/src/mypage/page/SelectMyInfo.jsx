@@ -5,6 +5,7 @@ import Header from '../components/mypageHeader/Header';
 import InfoTagChoice from '../components/myInfo/InfoTagChoice';
 import UNIV from '../constant/UNIV';
 import LOCATION from '../constant/LOCATION';
+import { useProfileStore } from '../stores/ProfileStore';
 
 export default function SelectMyInfo() {
   const { college, setCollege, setDepartment, setLocation } = useProfileStore();
@@ -14,6 +15,8 @@ export default function SelectMyInfo() {
   const type = location.state.type;
   const COLLEGE = Object.keys(UNIV);
   const DEPT = UNIV[college];
+
+  console.log('college:', college, 'DEPT:', DEPT);
 
   const handleMoveBack = () => {
     navigate('/mypage');
