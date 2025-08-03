@@ -20,6 +20,7 @@ export const getMemberTag = async() => {
 
 export const patchMemberProfile = async({
   nickname,
+  college,
   department,
   studentid,
   location,
@@ -28,8 +29,9 @@ export const patchMemberProfile = async({
   donation,
 }) => {
   try {
-    await client.patch('/members/profile',
+    await client.patch('/members/profile/basic',
       {
+        "nickname": nickname,
         "college": college,
         "dept": department,
         "studentId": studentid,
@@ -65,13 +67,11 @@ export const patchProfileImg = async({ profileImg }) => {
   }
 };
 
-export const putTalentTag = async({ tag1, tag2, tag3 }) => {
+export const putTalentTag = async({ talentTags }) => {
   try {
     await client.put('/members/talent',
       {
-        "tag1": tag1,
-        "tag2": tag2,
-        "tag3": tag3
+        "tagNames": talentTags.tag
       }
     )
   } catch (err) {
@@ -79,13 +79,11 @@ export const putTalentTag = async({ tag1, tag2, tag3 }) => {
   }
 };
 
-export const putInterestTag = async({ tag1, tag2, tag3 }) => {
+export const putInterestTag = async({ interestTags }) => {
   try {
     await client.put('/members/interest',
       {
-        "tag1": tag1,
-        "tag2": tag2,
-        "tag3": tag3
+        "tagNames": interestTags.tag
       }
     )
   } catch (err) {
@@ -93,6 +91,7 @@ export const putInterestTag = async({ tag1, tag2, tag3 }) => {
   }
 };
 
+// 403에러
 export const getWishlist = async() => {
   try {
     const res = await client.get('/members/wishlist-courses');

@@ -17,10 +17,11 @@ export default function Header({ type, onClick }) {
   const isCoffeeChat = useProfileStore((state) => state.isCoffeeChat);
   const isEditing = useProfileStore((state) => state.isEditing);
   const setIsEditing = useProfileStore((state) => state.setIsEditing);
-  const imageURL = useProfileStore((state) => state.imageURL);
+  const profileImg = useProfileStore((state) => state.profileImg);
 
   const patchProfileInfo = async () => {
     try {
+      /*
       await patchMemberProfile({
         college,
         dept: department,
@@ -30,22 +31,48 @@ export default function Header({ type, onClick }) {
         isCoffeeChat: isCoffeeChat,
         isSkillDonation: isDonation,
       });
+      */
 
-      await patchProfileImg({ imageURL });
-
+      await patchProfileImg({ profileImg });
+      /*
       const talentTagValues = talentTags.slice(0, 3).map((t) => t.tag || t);
       await putTalentTag({
+        
         tag1: talentTagValues[0] || '',
         tag2: talentTagValues[1] || '',
         tag3: talentTagValues[2] || '',
+        
+      });
+      */
+      /*
+      테스트용 
+      await putTalentTag({
+        
+        tag1: '회화',
+        tag2: '조각',
+        tag3: '공예',
+        
       });
 
+      await putInterestTag({
+        
+        tag1: '악기',
+        tag2: '스페인어',
+        tag3: '스타일링',
+        
+      });
+      */
+
+      /*
       const interestTagValues = interestTags.slice(0, 3).map((t) => t.tag || t);
       await putInterestTag({
+        
         tag1: interestTagValues[0] || '',
         tag2: interestTagValues[1] || '',
         tag3: interestTagValues[2] || '',
+        
       });
+      */
     } catch (err) {
       throw err;
     }
