@@ -10,10 +10,10 @@ const FilterHeaderContainer = styled.div`
   flex-shrink: 0;
   box-sizing: border-box;
   display: flex;
-  align-items: center; /* 세로 중앙 정렬 (내용물이) */
-  justify-content: center; /* 타이틀을 수평 중앙 정렬 */
-  padding: 0rem 1.5rem; /* 좌우 패딩을 여기에 직접 줌 */
-  position: relative; /* BackButton absolute 기준 */
+  align-items: center;
+  justify-content: center; 
+  padding: 0rem 1rem;
+  position: relative;
 `;
 const HeaderContentWrapper = styled.div`
   width: 100%;

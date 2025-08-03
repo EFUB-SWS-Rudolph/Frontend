@@ -9,15 +9,14 @@ import IconExchangeURL from '../../common/assets/icons/icon_exchange.svg';
 import IconCoffeeChatURL from '../../common/assets/icons/icon_coffeechat.svg';
 //  styled-components 정의
 const AlarmPageContainer = styled.div`
- width: calc(100% + 2rem); 
+  width: 100%; 
   height: 100%; 
-  margin-left: -1rem; 
-  margin-right: -1rem; 
   display: flex;
   flex-direction: column;
   gap:0.5rem; 
   overflow-y: auto; 
   -webkit-overflow-scrolling: touch;
+  padding:1rem 0 0 0;
 `;
 
 const AlarmItemWrapper = styled.div`
@@ -29,6 +28,7 @@ const AlarmItemWrapper = styled.div`
   flex-direction: column;
   gap: 0.5rem; 
   cursor: pointer;
+  padding:1rem;
 `;
 
 const AlarmCategoryIcon = styled.div`

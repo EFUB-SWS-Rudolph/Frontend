@@ -9,11 +9,11 @@ import SortGridIconURL from '../../../common/assets/icons/sort_list.svg';
 import SortListIconURL from '../../../common/assets/icons/sort_gallery.svg';
 const FilterPageContainer = styled.div`
   width: 100%;
-  height: auto; 
+  height: 100%; 
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 0 1.5rem; 
+  padding: 0 2rem; 
 `;
 // [필터 컴포넌트 프레임] 
 const FilterItemContainer = styled.div`

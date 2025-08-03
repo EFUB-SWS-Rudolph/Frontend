@@ -14,7 +14,6 @@ const PageContainer = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   padding-bottom: 8.5rem;
-  margin-top: -1rem;
   gap:0rem;
   min-height: 100vh;
 `;

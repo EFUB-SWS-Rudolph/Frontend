@@ -12,10 +12,9 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding-bottom: 8.5rem;
-  margin-top: -1rem;
+  padding:1rem 0  8.5rem 0;
   gap:0rem;
-  min-height: 100vh;
+ 
 `;
 const HeaderWrapper = styled.div`
   width: 100%;

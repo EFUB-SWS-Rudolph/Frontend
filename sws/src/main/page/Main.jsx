@@ -38,6 +38,21 @@ import LectureImageExample from '../../common/assets/images/weave_img_ex1.svg';
     { id: 2, name: "박이화", major: "수학과", talent: "데이터 분석", interest: "머신러닝" },
     { id: 3, name: "최이화", major: "경제학과", talent: "전략 수립", interest: "투자" },
   ];
+  const MainPageContainer = styled.div`
+  width: 100%;
+  height: 100%; 
+  padding:  1rem;
+  box-sizing: border-box; 
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; 
+  &::-webkit-scrollbar {
+    display: none; 
+  }
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
+  gap: 1.25rem;
+`;
 // MyInfoFrame 관련
 const MyInfoFrame = styled.div`
   width: 22.375rem;
@@ -630,7 +645,7 @@ export default function Main() {
     navigate('/lectures/my'); 
   };
   return (
-    <> 
+    <MainPageContainer>
       <MyInfoFrame> 
         <MyInfoInnerContent>
           <ProfileSection> 
@@ -700,6 +715,6 @@ export default function Main() {
           ))}
         </MainListEwhainContainer>
       </EwhainFrame>
-    </>
+    </MainPageContainer>
   );
 }
