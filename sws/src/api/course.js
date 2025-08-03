@@ -1,0 +1,22 @@
+import { client } from './client';
+
+export const getLectureDetail = async (courseId) => { 
+    try {
+        const response = await client.get(`/course/${courseId}`);
+        console.log(`강의 상세 조회 성공 (ID: ${courseId}):`, response.data);
+        return response.data; 
+    } catch (error) {
+        console.error(`강의 상세 조회 실패 (ID: ${courseId}):`, error);
+        throw error; 
+    }
+};
+export const getLectureList = async (params = {}) => {
+    try {
+        const response = await client.get(`/course`, { params }); 
+        console.log("강의 목록 조회 성공:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("강의 목록 조회 실패:", error);
+        throw error;
+    }
+};

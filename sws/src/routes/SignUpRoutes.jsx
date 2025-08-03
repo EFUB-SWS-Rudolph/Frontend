@@ -8,7 +8,7 @@ import SetInterest from '../signUp/pages/SetInterest';
 import SetTalent from '../signUp/pages/SetTalent';
 
 export const SignUpRoutes = (
-  <Route element={<Layout />}>
+  <Route element={<Layout showFooter={false} />}>
     <Route path="/signup/additional" element={<Certification />} />
     <Route path="/signup/univ" element={<UnivInfo />} />
     <Route path="/signup/profile" element={<SetProfile />} />

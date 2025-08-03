@@ -4,10 +4,11 @@ import theme from '../../../../styles/theme';
 import { useUserStore } from '../../../stores/useUserStore';
 
 export default function FieldItems({ fields, type }) {
-  const { interests, addInterests, deleteInterests, talents, addTalents, deleteTalents } = useUserStore();
+  const { interests, addInterests, deleteInterests, talents, addTalents, deleteTalents } =
+    useUserStore();
 
   const handleSelectedField = (item) => {
-    if (type === "interest") {
+    if (type === 'interest') {
       interests.includes(item) ? deleteInterests(item) : addInterests(item);
     } else {
       talents.includes(item) ? deleteTalents(item) : addTalents(item);
@@ -16,7 +17,7 @@ export default function FieldItems({ fields, type }) {
 
   const chunkArray = (array, size) => {
     const result = [];
-    for (let i=0; i < array.length; i += size) {
+    for (let i = 0; i < array.length; i += size) {
       result.push(array.slice(i, i + size));
     }
     return result;
@@ -32,7 +33,7 @@ export default function FieldItems({ fields, type }) {
             <FieldItemContainer
               key={item}
               onClick={() => handleSelectedField(item)}
-              selected={type==="interest" ? interests.includes(item) : talents.includes(item)}
+              selected={type === 'interest' ? interests.includes(item) : talents.includes(item)}
               $ismiddle={row.length === 3 && row[1] === item}
               theme={theme}
             >
@@ -64,21 +65,20 @@ const Row = styled.div`
 const FieldItemContainer = styled.div`
   display: flex;
   height: 3rem;
-  width: ${({ $ismiddle }) => 
-    $ismiddle ? "6.9375rem" : "7rem"
-  };
+  width: ${({ $ismiddle }) => ($ismiddle ? '6.9375rem' : '7rem')};
   padding: 0.9375rem;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
   border-radius: 1.25rem;
-  border: 1px solid var(--Gray-300, #D9D9D9);
-  background-color: ${({selected, theme}) =>
-    selected ? theme.colors.third : theme.colors.white
-  };
+  border: 1px solid var(--Gray-300, #d9d9d9);
+  background-color: ${({ selected, theme }) =>
+    selected ? theme.colors.third : theme.colors.white};
 `;
 
 const FieldItemText = styled.div`
+  text-align: center;
+
   font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};

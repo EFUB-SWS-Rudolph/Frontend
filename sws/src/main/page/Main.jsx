@@ -644,6 +644,7 @@ export default function Main() {
   const handleProLecCountClick = () => {
     navigate('/lectures/my'); 
   };
+ 
   return (
     <MainPageContainer>
       <MyInfoFrame> 

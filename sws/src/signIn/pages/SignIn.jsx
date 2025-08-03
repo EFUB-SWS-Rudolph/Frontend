@@ -21,7 +21,7 @@ export default function SignIn() {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 47.81rem;
+  height: 100%;
   background-color: ${({ theme }) => theme.colors.background};
   padding: 0;
   margin: 0;
@@ -57,6 +57,6 @@ const LoginBtnContainer = styled.div`
   align-items: center;
   padding-bottom: 50px;
   gap: 1rem;
-  margin: 0 1.5rem 1.81rem;
+  margin: auto 1.5rem 1.81rem;
   padding: 0;
 `;

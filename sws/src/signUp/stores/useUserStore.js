@@ -45,6 +45,6 @@ export const useUserStore = create(
       set((state) => ({
         talents: state.talents.filter((talent) => talent !== item),
       })),
-    resetTalents: () => set({ interests: [] }),
+    resetTalents: () => set({ talents: [] }),
   }))
 );
