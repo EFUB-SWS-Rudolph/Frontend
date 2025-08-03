@@ -16,10 +16,11 @@ import IconBackURL from '../../../common/assets/icons/icon_back.svg';
 import LectureImageExample from '../../../common/assets/images/weave_img_ex1.svg';
 const LectureListContainer = styled.div`
   width: 100%;
-  height: auto;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.25rem; 
+  padding:1rem;
 `;
 
 const SearchFilterSection = styled.div`

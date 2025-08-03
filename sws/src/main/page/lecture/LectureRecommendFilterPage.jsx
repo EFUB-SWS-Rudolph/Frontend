@@ -17,9 +17,7 @@ const FilterPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 0 1.5rem; 
-  gap: 1rem; 
-  padding-bottom: 8.5rem;
+  padding: 0 2rem; 
 `;
 // [필터 컴포넌트 프레임] 
 const FilterItemContainer = styled.div`
