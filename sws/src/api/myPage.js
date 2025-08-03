@@ -36,9 +36,9 @@ export const patchMemberProfile = async({
         "dept": department,
         "studentId": studentid,
         "location": location,
-        "exchange": exchange,
-        "coffeeChat": coffeechat,
-        "skillDonate": donation,
+        "isExchange": exchange,
+        "isCoffeeChat": coffeechat,
+        "isSkillDonation": donation,
       }
     )
 

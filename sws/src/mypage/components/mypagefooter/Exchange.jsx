@@ -25,11 +25,11 @@ export default function Exchange() {
 
       {isEditing ?
         <ToggleContainer onClick={handleIsExchange}>
-          {isExchange ? <Switch /> : <SwitchOn />}
+          {isExchange ? <SwitchOn /> : <Switch />}
         </ToggleContainer>
       :
         <ToggleContainer>
-          {isExchange ? <Switch /> : <SwitchOn />}
+          {isExchange ? <SwitchOn /> : <Switch />}
         </ToggleContainer>
       }
     </FooterContainer>
