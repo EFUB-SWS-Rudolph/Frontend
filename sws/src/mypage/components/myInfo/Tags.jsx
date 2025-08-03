@@ -20,7 +20,7 @@ export default function Tags() {
   }
   useEffect(()=>{
     !isEditing && readUserInfo();
-  },[])
+  },[isEditing])
 
   useEffect(() => {
     if (user) {

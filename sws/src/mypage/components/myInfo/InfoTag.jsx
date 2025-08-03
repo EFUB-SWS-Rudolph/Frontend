@@ -8,7 +8,7 @@ export default function InfoTag({ tagname, info, onChange }) {
   const navigate = useNavigate();
 
   const handleMoveSelection = () => {
-    navigate('/mypage/myinfotag', { state: { type: {info} }})
+    navigate('/mypage/myinfotag', { state: { type: tagname }})
   };
 
   return (
@@ -23,7 +23,7 @@ export default function InfoTag({ tagname, info, onChange }) {
         isEditing ? 
           <>
             <InfoText onClick={handleMoveSelection}>{info}</InfoText>
-            <EDIT />
+            <EDIT onClick={handleMoveSelection} />
           </>
         :
           <>

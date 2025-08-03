@@ -32,7 +32,7 @@ export default function Interests() {
 
   useEffect(() => {
     !isEditing && readUserInfo();
-  }, [])
+  }, [isEditing])
 
   const handleRemoveInterestTag = (id) => {
     removeInterestTag(id);

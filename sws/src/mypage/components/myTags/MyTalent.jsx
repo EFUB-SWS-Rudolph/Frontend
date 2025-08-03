@@ -25,7 +25,7 @@ export default function MyTalent() {
 
   useEffect(() => {
     !isEditing && readUserInfo();
-  }, [])
+  }, [isEditing])
 
   useEffect(() => {
     setIsMax(talentTags.length >= 3);

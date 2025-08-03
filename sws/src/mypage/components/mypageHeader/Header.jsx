@@ -1,3 +1,4 @@
+import { useState, useEffort } from 'react';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { useProfileStore } from '../../stores/ProfileStore';
@@ -19,6 +20,8 @@ export default function Header({ type, onClick }) {
   const isEditing = useProfileStore((state) => state.isEditing);
   const setIsEditing = useProfileStore((state) => state.setIsEditing);
   const profileImg = useProfileStore((state) => state.profileImg);
+
+  const [profile, setProfile] = useState(null);
 
   const patchProfileInfo = async () => {
     try {
@@ -42,6 +45,7 @@ export default function Header({ type, onClick }) {
       await putInterestTag({
         tagNames: interestTags.tag 
       });
+
     } catch (err) {
       throw err;
     }
