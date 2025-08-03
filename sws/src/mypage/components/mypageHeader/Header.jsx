@@ -26,14 +26,14 @@ export default function Header({ type, onClick }) {
   const patchProfileInfo = async () => {
     try {
       await patchMemberProfile({
-        nickname,
-        college,
+        nickname: nickname,
+        college: college,
         dept: department,
         studentId: studentid,
-        location,
-        isExchange: isExchange,
-        isCoffeeChat: isCoffeeChat,
-        isSkillDonation: isDonation,
+        location: location,
+        exchange: isExchange,
+        coffeeChat: isCoffeeChat,
+        skillDonate: isDonation,
       });
 
       await patchProfileImg({ profileImg });

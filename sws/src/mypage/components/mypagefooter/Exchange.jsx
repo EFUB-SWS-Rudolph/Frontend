@@ -13,6 +13,7 @@ export default function Exchange() {
 
   const handleIsExchange = () => {
     setIsExchange(!isExchange);
+    console.log(isExchange);
   };
 
   return (
@@ -24,11 +25,11 @@ export default function Exchange() {
 
       {isEditing ?
         <ToggleContainer onClick={handleIsExchange}>
-          {isExchange ? <SwitchOn /> : <Switch />}
+          {isExchange ? <Switch /> : <SwitchOn />}
         </ToggleContainer>
       :
         <ToggleContainer>
-          {isExchange ? <SwitchOn /> : <Switch />}
+          {isExchange ? <Switch /> : <SwitchOn />}
         </ToggleContainer>
       }
     </FooterContainer>

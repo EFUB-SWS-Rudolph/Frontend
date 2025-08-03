@@ -24,11 +24,11 @@ export default function CoffeeChat() {
       
       {isEditing ?
         <ToggleContainer onClick={handleIsCoffeeChat}>
-          {isCoffeeChat ? <SwitchOn /> : <Switch />}
+          {isCoffeeChat ? <Switch /> : <SwitchOn />}
         </ToggleContainer>
       :
         <ToggleContainer>
-          {isCoffeeChat ? <SwitchOn /> : <Switch />}
+          {isCoffeeChat ? <Switch /> : <SwitchOn />}
         </ToggleContainer>
       }
     </FooterContainer>
