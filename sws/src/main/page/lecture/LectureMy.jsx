@@ -13,11 +13,12 @@ import IconBackURL from '../../../common/assets/icons/icon_back.svg';
 //강의 이미지 예시 (임시)
 import LectureImageExample from '../../../common/assets/images/weave_img_ex1.svg';
 const MyLecturePageContainer = styled.div` /* RecommendPageContainer와 동일 */
-   width: 100%;
-  height: auto;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.25rem; 
+  padding:1rem;
 `;
 
 // 필터 바 아이콘 관련 styled-components

@@ -18,18 +18,15 @@ import LectureDetailImage3 from '../../../common/assets/images/weave_img_ex3.svg
 // styled-components 정의
 const DetailPageContainer = styled.div`
   width: 100%;
-  height: auto; 
+  height: 100%;
   min-height: 100%; 
   position: relative; 
   -webkit-overflow-scrolling: touch;
   &::-webkit-scrollbar { display: none; }
   -ms-overflow-style: none;
   scrollbar-width: none;
-  margin-left: -1rem; 
-  margin-right: -1rem; 
-  margin-top:-1rem;
-  padding-bottom: 8.5rem; 
   box-sizing: border-box;
+  padding:1rem 0  8.5rem 0;
 `;
 //상단버튼컨테이너
 const TopButtonsContainer = styled.div`
@@ -154,7 +151,7 @@ const LectureDetailFrame = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 1.375rem 1.5rem 1.5rem; 
+  padding: 1.375rem 1.5rem  8.5rem 1.5rem; 
   gap: 1rem; 
   margin-bottom: 8.5rem; 
    z-index: 2;

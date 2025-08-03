@@ -17,9 +17,8 @@ const PageContainer = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   padding-bottom: 8.5rem;
-  margin-top: -1rem;
   gap:0rem;
-  min-height: 100vh;
+  padding:1rem 0  8.5rem 0;
 `;
 const HeaderWrapper = styled.div`
   width: 100%;
