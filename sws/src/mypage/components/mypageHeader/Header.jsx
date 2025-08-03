@@ -6,6 +6,7 @@ import { patchMemberProfile, patchProfileImg, putTalentTag, putInterestTag } fro
 import BACK_ARROW from '../../../ewhainList/icons/icon_back.svg?react';
 
 export default function Header({ type, onClick }) {
+  const nickname = useProfileStore((state) => state.nickname);
   const college = useProfileStore((state) => state.college);
   const department = useProfileStore((state) => state.department);
   const studentid = useProfileStore((state) => state.studentid);
@@ -21,8 +22,8 @@ export default function Header({ type, onClick }) {
 
   const patchProfileInfo = async () => {
     try {
-      /*
       await patchMemberProfile({
+        nickname,
         college,
         dept: department,
         studentId: studentid,
@@ -31,48 +32,16 @@ export default function Header({ type, onClick }) {
         isCoffeeChat: isCoffeeChat,
         isSkillDonation: isDonation,
       });
-      */
 
       await patchProfileImg({ profileImg });
-      /*
-      const talentTagValues = talentTags.slice(0, 3).map((t) => t.tag || t);
+      
       await putTalentTag({
-        
-        tag1: talentTagValues[0] || '',
-        tag2: talentTagValues[1] || '',
-        tag3: talentTagValues[2] || '',
-        
-      });
-      */
-      /*
-      테스트용 
-      await putTalentTag({
-        
-        tag1: '회화',
-        tag2: '조각',
-        tag3: '공예',
-        
+        tagNames: talentTags.tag
       });
 
       await putInterestTag({
-        
-        tag1: '악기',
-        tag2: '스페인어',
-        tag3: '스타일링',
-        
+        tagNames: interestTags.tag 
       });
-      */
-
-      /*
-      const interestTagValues = interestTags.slice(0, 3).map((t) => t.tag || t);
-      await putInterestTag({
-        
-        tag1: interestTagValues[0] || '',
-        tag2: interestTagValues[1] || '',
-        tag3: interestTagValues[2] || '',
-        
-      });
-      */
     } catch (err) {
       throw err;
     }
