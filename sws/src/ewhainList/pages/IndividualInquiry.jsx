@@ -19,9 +19,9 @@ export default function IndividualInquiry() {
     <Wrapper>
       <EwhainListHeader header="프로필" onClick={handleMoveList} />
       <PageContents>
-        <UserProfileCard id={id} />
-        <ChatButton id={id} />
-        <TalentInterestContainer id={id} />
+        <UserProfileCard id={Number(id)} />
+        <ChatButton id={Number(id)} />
+        <TalentInterestContainer id={Number(id)} />
         <Spacer />
       </PageContents>
     </Wrapper>

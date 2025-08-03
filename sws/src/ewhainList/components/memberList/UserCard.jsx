@@ -27,7 +27,7 @@ export default function UserCard({ user }) {
   }
 
   const handleMoveDetail = () => {
-    navigate('/ewhain/${user.memberId}')
+    navigate(`/ewhain/${user.memberId}`)
   }
 
   return (

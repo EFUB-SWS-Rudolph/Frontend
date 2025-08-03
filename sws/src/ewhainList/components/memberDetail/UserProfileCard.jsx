@@ -7,29 +7,32 @@ import COFFEECHAT from "../../icons/icon_coffeechat.svg?react";
 import { getMemberIndividual } from '../../../api/members';
 
 export default function UserProfileCard({ id }) {
-  const userGive = true;
-  const userExchange = true;
-  const userCoffeechat = true;
-  const userStudentId = true;
-  const [user, setuser] = useState(null);
+  const [user, setUser] = useState(null);
 
-  const readMemberIndividual = async () => {
+  const readMemberIndividual = async ({ id }) => {
     try {
-      const res = getMemberIndividual();
-      setuser(res);
+      const res = await getMemberIndividual(id);
+      console.log("API 응답: ", res);
+      setUser(res);
+      console.log(res);
     } catch (err) {
       throw err;
     }
   };
 
   useEffect(() => {
-    readMemberIndividual();
-  }, []);
+    readMemberIndividual({ id });
+  }, [id]);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <UserProfileWrapper>
       {/* src={user.prifileimgurl */}
-      <ProfileImage src={user.profileImage} />
+      {(user.profileImage !== "" && !user.profileImage) ? <ProfileImage src={user.profileImage} alt="profileimg" /> : 
+        <ProfileImage src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRqyxfxX8QSTvO1ULBKz6IK_KKsMFoiOr9LxoMYKTdAkbIpHxHC" alt="profileimg" />}
       <UserNickname>{user.nickName}</UserNickname>
       <UserAvailable>
         {/* user.give user.exchange user.coffeechat === "on" */}

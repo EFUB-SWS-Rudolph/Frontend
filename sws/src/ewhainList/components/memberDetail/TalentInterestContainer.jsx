@@ -1,28 +1,32 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import TalentInterestItem from './TalentInterestItem';
+import { getMemberIndividual } from '../../../api/members';
 
 export default function TalentInterestContainer({ id }) {
-  const talent = ['음악', '독일어', '프로그래밍', '뜨개질', '미술'];
-  const interest = ['기타', '공예'];
   const [isTalentEmpty, setIsTalentEmpty] = useState(false);
   const [isInterestEmpty, setIsInterestEmpty] = useState(false);
   const [user, setuser] = useState(null);
   
   const readMemberIndividual = async () => {
     try {
-      const res = getMemberIndividual();
+      const res = await getMemberIndividual(id);
       setuser(res);
-      setIsTalentEmpty(res.talentTags.isArray && res.talentTags.length === 0);
-      setIsInterestEmpty(res.interestTags.isArray && res.interestTags.length === 0);
+      setIsTalentEmpty(Array.isArray(res.talentTags) && res.talentTags.length === 0);
+      setIsInterestEmpty(Array.isArray(res.interestTags) && res.interestTags.length === 0);
     } catch (err) {
       throw err;
     }
   };
   
   useEffect(() => {
-    readMemberIndividual();
-  }, []);
+    if (id) {
+      readMemberIndividual();
+    }
+  }, [id]);
+
+  if (!user) return null;
 
   return (
     <UserTalentInterest>
