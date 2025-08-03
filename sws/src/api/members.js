@@ -10,9 +10,9 @@ export const postMemberInfo = async (data) => {
   }
 };
 
-export const getMemberList = async () => {
+export const getMemberList = async (params) => {
   try {
-    const res = await client.get('/members');
+    const res = await client.get('/members', { params });
     return res.data;
   } catch (err) {
     throw err;

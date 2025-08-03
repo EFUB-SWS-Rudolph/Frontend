@@ -21,4 +21,13 @@ export const useFilterStore = create((set) => ({
 
   searchItem: '',
   setSearchItem: (item) => set({ searchItem: item }),
+
+  isExchange: '',
+  setIsExchange: (flag) => set({ isExchange: flag }),
+
+  isDonation: '',
+  setIsDonation: (flag) => set({ isDonation: flag }),
+
+  isCoffeeChat: '',
+  setIsCoffeeChat: (flag) => set({ isCoffeeChat: flag }),
 }));

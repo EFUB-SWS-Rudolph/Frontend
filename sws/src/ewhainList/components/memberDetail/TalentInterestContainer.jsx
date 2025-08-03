@@ -55,7 +55,7 @@ export default function TalentInterestContainer({ id }) {
             <NoticeContainer>
               <Notice>관심 분야를 설정하지 않았어요</Notice>
             </NoticeContainer> :
-            user.interstTags.map((item) => (
+            user.interestTags.map((item) => (
             <>
               <TalentInterestItem item={item} />
             </>

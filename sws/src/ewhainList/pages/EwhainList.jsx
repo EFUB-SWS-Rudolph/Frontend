@@ -18,6 +18,13 @@ export default function EwhainList() {
   const exchange = useFilterStore((state) => state.exchange);  // 재능기부, 재능교환, 커피챗
   const period = useFilterStore((state) => state.period);  // 최신순, 오래된 순
   const searchItem = useFilterStore((state) => state.searchItem); // 검색어(학과/닉네임)
+  const isExchange = useFilterStore((state) => state.isExchange);
+  const setIsExchange = useFilterStore((state) => state.setIsExchange);
+  const isDonation = useFilterStore((state) => state.isDonation);
+  const setIsDonation = useFilterStore((state) => state.setIsDonation);
+  const isCoffeeChat = useFilterStore((state) => state.isCoffeeChat);
+  const setIsCoffeeChat = useFilterStore((state) => state.setIsCoffeeChat);
+  const isSort = (period === "최신순" ? "desc" : "asc");
 
   // 필터할 항목들: 학과, 교류 방식, 최신순
   // 검색: 학과, 닉네임
@@ -25,7 +32,32 @@ export default function EwhainList() {
   // api 호출
   const readMemberList = async () => {
     try {
-      const res = await getMemberList();
+      // 필터링
+      const departments = [];
+
+      if (major) departments.push(major);
+      if (searchItem) {
+        departments.push(searchItem);
+      }
+
+      const nickName = searchItem ? searchItem: undefined;
+
+      const coffeechat = isCoffeeChat;
+      const donation = isDonation;
+      const exchange = isExchange;
+
+      const sort = isSort;
+
+      const params = {
+        nickName, 
+        department: departments.length > 0 ? departments : undefined,
+        coffeechat: coffeechat ? true : undefined,
+        donation: donation ? true : undefined,
+        exchange: exchange ? true : undefined,
+        sort
+      };
+
+      const res = await getMemberList(params);
       console.log(res);
       setUsers(res);
     } catch (err) {
@@ -34,8 +66,14 @@ export default function EwhainList() {
   };
 
   useEffect(() => {
+    setIsExchange(exchange === "재능교환");
+    setIsDonation(exchange === "재능기부");
+    setIsCoffeeChat(exchange === "커피챗");
+  }, [exchange, setIsExchange, setIsDonation, setIsCoffeeChat]);
+
+  useEffect(() => {
     readMemberList();
-  }, [])
+  }, [major, searchItem, isExchange, isDonation, isCoffeeChat, period]);
 
   return (
     <EwhainListWrapper>
