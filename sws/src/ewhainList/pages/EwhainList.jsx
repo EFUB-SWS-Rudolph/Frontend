@@ -121,12 +121,12 @@ export default function EwhainList() {
 const EwhainListWrapper = styled.div`
   position: static;
   width: 24.375rem;
-  height: 47.625rem;
+  height: 100vh;
   max-height: 100vh;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  padding: 0 10px;
+  padding: 0;
   justify-content: flex-start;
   align-items: center;
 `;

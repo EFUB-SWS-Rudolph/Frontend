@@ -14,7 +14,6 @@ export default function UserCard({ user }) {
   const tagsString = talentTags.join(', ');
   const showingImg = user.profileImage && user.profileImage !== "" ? user.profileImage 
                     : defaultImage;
-  console.log(user.profileImage);
 
   function available() {
     return (

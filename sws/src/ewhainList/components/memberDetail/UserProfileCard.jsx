@@ -5,9 +5,12 @@ import EXCHANGE from "../../icons/icon_exchange.svg?react";
 import GIVE from "../../icons/icon_give.svg?react";
 import COFFEECHAT from "../../icons/icon_coffeechat.svg?react";
 import { getMemberIndividual } from '../../../api/members';
+import defaultImage from '../../icons/defaultImage.jpg';
 
 export default function UserProfileCard({ id }) {
   const [user, setUser] = useState(null);
+  const showingImg = user.profileImage && user.profileImage !== "" ? user.profileImage 
+                      : defaultImage;
 
   const readMemberIndividual = async ({ id }) => {
     try {
@@ -31,8 +34,8 @@ export default function UserProfileCard({ id }) {
   return (
     <UserProfileWrapper>
       {/* src={user.prifileimgurl */}
-      {(user.profileImage !== "" && !user.profileImage) ? <ProfileImage src={user.profileImage} alt="profileimg" /> : 
-        <ProfileImage src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRqyxfxX8QSTvO1ULBKz6IK_KKsMFoiOr9LxoMYKTdAkbIpHxHC" alt="profileimg" />}
+      {(user.profileImage && user.profileImage !== "") ? <ProfileImage src={defaultImage} alt="profileimg" /> : 
+        <ProfileImage src={user.profileImage} alt="profileimg" />}
       <UserNickname>{user.nickName}</UserNickname>
       <UserAvailable>
         {/* user.give user.exchange user.coffeechat === "on" */}
