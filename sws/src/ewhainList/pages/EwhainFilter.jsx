@@ -35,14 +35,14 @@ export default function EwhainFilter() {
 
 const FilterPageWrapper = styled.div`
   width: 24.375rem;
-  height: 47.625rem;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 `;
 
 const FilterContents = styled.div`
   width: 24.375rem;
-  height: 40.94rem;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;

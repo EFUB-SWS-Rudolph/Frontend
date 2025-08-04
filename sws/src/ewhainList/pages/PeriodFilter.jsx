@@ -21,7 +21,9 @@ export default function PeriodFilter() {
   
   return(
     <FilterPageWrapper>
-      <EwhainListHeader header="최신순" onClick={handleMoveInitialFilter} />
+      <HeaderSpace>
+        <EwhainListHeader header="최신순" onClick={handleMoveInitialFilter} />
+      </HeaderSpace>
       <FilterContents>
         <FilterDetailChoice item="최신순" type={period} onChange={handlePeriod} />
         <FilterDetailChoice item="오래된 순" type={period} onChange={handlePeriod} />
@@ -32,9 +34,16 @@ export default function PeriodFilter() {
 
 const FilterPageWrapper = styled.div`
   width: 24.375rem;
-  height: 47.625rem;
   display: flex;
   flex-direction: column;
+  position: relative;
+`;
+
+const HeaderSpace = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const FilterContents = styled.div`

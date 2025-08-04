@@ -37,7 +37,7 @@ export default function ExchangeFilter() {
 
 const FilterPageWrapper = styled.div`
   width: 24.375rem;
-  height: 47.625rem;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 `;

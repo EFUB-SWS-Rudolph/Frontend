@@ -30,7 +30,7 @@ export default function IndividualInquiry() {
 
 const Wrapper = styled.div`
   width: 24.375rem;
-  height: 45.065rem;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 `;
