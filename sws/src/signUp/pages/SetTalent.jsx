@@ -10,21 +10,11 @@ import { useUserStore } from '../stores/useUserStore';
 import { postMemberInfo } from '../../api/members';
 
 export default function SetTalent() {
-  const { nickname, studentId, college, major, location, interests, talents, resetTalents } =
-    useUserStore();
+  const { resetTalents } = useUserStore();
   const navigate = useNavigate();
 
-  const completeOnboarding = async () => {
+  const completeOnboarding = async (data) => {
     try {
-      const data = {
-        nickName: nickname,
-        studentId,
-        college,
-        department: major,
-        location,
-        interestKeywords: interests,
-        talentKeywords: talents,
-      };
       const res = await postMemberInfo(data);
       return true;
     } catch (err) {
@@ -35,7 +25,19 @@ export default function SetTalent() {
 
   const handleSkipClick = async () => {
     resetTalents();
-    const success = await completeOnboarding();
+    const { nickname, studentId, college, major, location, interests } = useUserStore.getState();
+
+    const data = {
+      nickName: nickname,
+      studentId,
+      college,
+      department: major,
+      location,
+      interestKeywords: interests,
+      talentKeywords: [],
+    };
+
+    const success = await completeOnboarding(data);
     if (success) {
       navigate('/');
     } else {
@@ -44,8 +46,21 @@ export default function SetTalent() {
   };
 
   const handleNextClick = async () => {
-    const succuess = await completeOnboarding();
-    if (succuess) {
+    const { nickname, studentId, college, major, location, interests, talents } =
+      useUserStore.getState();
+
+    const data = {
+      nickName: nickname,
+      studentId,
+      college,
+      department: major,
+      location,
+      interestKeywords: interests,
+      talentKeywords: talents,
+    };
+
+    const success = await completeOnboarding(data);
+    if (success) {
       navigate('/');
     } else {
       alert('회원 정보 등록에 실패했습니다. 다시 시도해 주세요.');
@@ -75,9 +90,12 @@ export default function SetTalent() {
 }
 
 const Wrapper = styled.div`
-  width: 24.375rem;
-  height: 52.8125rem;
+  width: 100%;
+  height: 100%;
   background: var(--White, #fff);
+
+  display: flex;
+  flex-direction: column;
 `;
 
 const SignUpContents = styled.div`
@@ -121,4 +139,6 @@ const ButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+
+  margin: auto 0 1.5rem;
 `;
