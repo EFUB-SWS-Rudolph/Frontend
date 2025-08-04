@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import EDIT_IMG from '../../assets/icon_editImg.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 import { getMemberProfile } from '../../../api/myPage';
+import defaultImage from '../../assets/defaultImage.jpg';
 
 export default function Profile({ onClick, onChange, fileRef, cameraRef }) {
   // zustand 변수 불러오기(닉네임, 프로필 사진)
@@ -31,6 +32,8 @@ export default function Profile({ onClick, onChange, fileRef, cameraRef }) {
   // user 정보가 바뀔 때마다 이미지, 닉네임 다시 설정
   useEffect(() => {
     if (user.profileImage) setPreviousImg(user.profileImage);  // 기존 유저가 설정했던 프로필 사진
+    if (!user.profileImage || user.profileImage === "/images/general_profile.jpg") setPreviousImg(defaultImage);
+    console.log("이전이미지:", previousImg);
     if (user.nickname) setNickname(user.nickname);
   }, [user, setPreviousImg, setNickname]);
 
