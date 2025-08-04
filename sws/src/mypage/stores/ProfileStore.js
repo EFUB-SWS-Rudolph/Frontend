@@ -19,7 +19,7 @@ export const useProfileStore = create((set) => ({
   location: '서울시 강동구',
   setLocation: (tag) => set({ location: tag }),
 
-  talentTags: [{ id: Date.now(), tag: '바이올린' }],
+  talentTags: [],
   setTalentTags: (tags) => set({ talentTags: tags }),
   addTalentTag: (tag) => 
     set((state) => ({
@@ -30,7 +30,7 @@ export const useProfileStore = create((set) => ({
   })),
   resetTalentTags: () => set({ talentTags: [] }),
 
-  interestTags: [{ id: Date.now(), tag: '프로그래밍' }, { id: Date.now(), tag: '작곡' }],
+  interestTags: [],
   setInterestTags: (tags) => set({ interestTags: tags }),
   addInterestTag: (tag) => 
     set((state) => ({

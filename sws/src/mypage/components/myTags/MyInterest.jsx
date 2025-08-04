@@ -24,7 +24,8 @@ export default function Interests() {
   const readUserInfo = async() => {
     try{
       const res = await getMemberTag();
-      setInterestTags(res.interest.tagNames);
+      const interestObject = res.interest.tagNames.map(tag => ({ id: Date.now() + Math.random(), tag }));
+      setInterestTags(interestObject);
     } catch (err) {
       throw err;
     }
@@ -40,6 +41,7 @@ export default function Interests() {
 
   useEffect(() => {
     setIsMax(interestTags.length >= 3);
+    console.log("관심분야:", interestTags);
   }, [interestTags]);
 
   const handleChipClick = () => {
@@ -51,7 +53,7 @@ export default function Interests() {
       <p>관심 분야</p>
       <TagsContainer>
         { Array.isArray(interestTags) && interestTags.length > 0 &&
-          interestTags.map((item) => <Tag key={item.id} text={item.tag} onClick={() => handleRemoveTalentTag(item.id)} />)
+          interestTags.map((item) => <Tag key={item.id} text={item.tag} onClick={() => handleRemoveInterestTag(item.id)} />)
         }
         {!isMax && !isEditing && <CHIP />}
         {!isMax && isEditing && <CHIP onClick={handleChipClick} />}

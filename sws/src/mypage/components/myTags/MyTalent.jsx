@@ -17,7 +17,8 @@ export default function MyTalent() {
   const readUserInfo = async () => {
     try {
       const res = await getMemberTag();
-      setTalentTags(res.talent.tagNames);
+      const tagObjects = res.talent.tagNames.map(tag => ({ id: Date.now() + Math.random(), tag }));
+      setTalentTags(tagObjects);
     } catch (err) {
       throw err;
     }
@@ -29,7 +30,7 @@ export default function MyTalent() {
 
   useEffect(() => {
     setIsMax(talentTags.length >= 3);
-    console.log(talentTags);
+    console.log(talentTags[0]);
   }, [talentTags]);
 
   const handleRemoveTalentTag = (id) => {
