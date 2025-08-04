@@ -9,15 +9,13 @@ import defaultImage from '../../icons/defaultImage.jpg';
 
 export default function UserProfileCard({ id }) {
   const [user, setUser] = useState(null);
-  const showingImg = user.profileImage && user.profileImage !== "" ? user.profileImage 
-                      : defaultImage;
 
   const readMemberIndividual = async ({ id }) => {
     try {
       const res = await getMemberIndividual(id);
       console.log("API 응답: ", res);
       setUser(res);
-      console.log(res);
+      console.log("프로필 url: ", res.profileImage);
     } catch (err) {
       throw err;
     }
@@ -34,8 +32,8 @@ export default function UserProfileCard({ id }) {
   return (
     <UserProfileWrapper>
       {/* src={user.prifileimgurl */}
-      {(user.profileImage && user.profileImage !== "") ? <ProfileImage src={defaultImage} alt="profileimg" /> : 
-        <ProfileImage src={user.profileImage} alt="profileimg" />}
+      {(user.profileImage && user.profileImage !== "") ? <ProfileImage src={user.profileImage} alt="profileimg" /> : 
+        <ProfileImage src={defaultImage} alt="profileimg" />}
       <UserNickname>{user.nickName}</UserNickname>
       <UserAvailable>
         {/* user.give user.exchange user.coffeechat === "on" */}
