@@ -33,10 +33,11 @@ export default function Profile({ onClick, onChange, fileRef, cameraRef }) {
 
   // user 정보가 바뀔 때마다 이미지, 닉네임 다시 설정
   useEffect(() => {
-    if (user?.profileImg) setPreviousImg(user.profileImg);  // 기존 유저가 설정했던 프로필 사진
-    if (user?.nickname) setNickname(user.nickname);
+    if (user.profileImage) setPreviousImg(user.profileImage);  // 기존 유저가 설정했던 프로필 사진
+    if (user.nickname) setNickname(user.nickname);
   }, [user, setPreviousImg, setNickname]);
 
+  console.log("user정보:", user);
   return (
     <Container>
       <Image
