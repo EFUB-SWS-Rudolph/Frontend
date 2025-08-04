@@ -8,6 +8,7 @@ import SelectMyTalentCategory from '../mypage/page/SelectMyTalentCategory';
 import SelectMyTalentDetail from '../mypage/page/SelectMyTalentDetail';
 import SelectMyInfo from '../mypage/page/SelectMyInfo';
 import WishList from '../mypage/page/WishList';
+import SelectMyInfoCity from '../mypage/page/SelectMyInfoCity';
 
 export const MyPageRoutes = (
   <>
@@ -22,6 +23,7 @@ export const MyPageRoutes = (
       <Route path="/mypage/talenttag/detail" element={<SelectMyTalentDetail />} />
       <Route path="/mypage/myinfotag" element={<SelectMyInfo />} />
       <Route path="/mypage/wishlist" element={<WishList />} />
+      <Route path="/mypage/myinfotag/city" element={<SelectMyInfoCity />} />
     </Route>
   </>
 );

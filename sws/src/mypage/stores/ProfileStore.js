@@ -67,4 +67,10 @@ export const useProfileStore = create((set) => ({
 
   imageURL: '',
   setImageURL: (url) => set({ imageURL: url }),
+
+  city: '',
+  setCity: (newCity) => set({ city: newCity }),
+
+  subCity: '',
+  setSubCity: (newSubCity) => set({ subCity: newSubCity }),
 }));

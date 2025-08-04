@@ -11,6 +11,10 @@ export default function InfoTag({ tagname, info, onChange }) {
     navigate('/mypage/myinfotag', { state: { type: tagname }})
   };
 
+  const handleMoveCity = () => {
+    navigate('/mypage/myinfotag/city', { state: { type: tagname }})
+  };
+
   return (
     <Container>
       <Tag>{tagname}</Tag>
@@ -20,15 +24,21 @@ export default function InfoTag({ tagname, info, onChange }) {
           <EDIT />
         </>
       :
-        isEditing ? 
+        tagname === "지역" && isEditing ?
           <>
-            <InfoText onClick={handleMoveSelection} $isediting={isEditing}>{info}</InfoText>
-            <EDIT onClick={handleMoveSelection} />
+            <InfoText onClick={handleMoveCity} $isediting={isEditing}>{info}</InfoText>
+            <EDIT onClick={handleMoveCity} />
           </>
         :
-          <>
-            <InfoText $isediting={isEditing}>{info}</InfoText>
-          </>
+        isEditing ? 
+            <>
+              <InfoText onClick={handleMoveSelection} $isediting={isEditing}>{info}</InfoText>
+              <EDIT onClick={handleMoveSelection} />
+            </>
+          :
+            <>
+              <InfoText $isediting={isEditing}>{info}</InfoText>
+            </>
       }
     </Container>
   );

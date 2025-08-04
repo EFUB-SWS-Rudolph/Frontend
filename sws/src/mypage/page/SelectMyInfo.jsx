@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
@@ -8,19 +8,22 @@ import LOCATION from '../constant/LOCATION';
 import { useProfileStore } from '../stores/ProfileStore';
 
 export default function SelectMyInfo() {
-  const { college, setCollege, setDepartment, setLocation } = useProfileStore();
+  const { college, setCollege, setDepartment, location, setLocation, city, subCity, setCity, setSubCity } = useProfileStore();
   const navigate = useNavigate();
-  const location = useLocation();
+  const locate = useLocation();
 
-  const type = location.state.type;
+  const type = locate.state.type;
   console.log(type);
   const COLLEGE = Object.keys(UNIV);
   const DEPT = UNIV[college];
-
-  console.log('college:', college, 'DEPT:', DEPT);
+  const SUBCITY = LOCATION[city];
 
   const handleMoveBack = () => {
     navigate('/mypage');
+  };
+
+  const handleSubCityBack = () => {
+    navigate('/mypage/myinfotag/city');
   };
 
   const handleCollegeClick = (item) => {
@@ -37,6 +40,21 @@ export default function SelectMyInfo() {
     setLocation(item);
     navigate('/mypage');
   };
+
+  const handleCityClick = (item) => {
+    setCity(item);
+    navigate('/mypage/myinfotag/subcity');
+  };
+
+  const handleSubCityClick = (item) => {
+    setSubCity(item);
+    console.log("최종 지역:", location);
+    navigate('/mypage');
+  };
+
+  useEffect(() => {
+    setLocation(city + (subCity ? ` ${subCity}` : ''));
+  }, [city, subCity]);
 
   if (type === "대학") {
     return (
@@ -68,11 +86,11 @@ export default function SelectMyInfo() {
     return (
       <Wrapper>
         <HeaderSpace>
-          <Header type={type} onClick={handleMoveBack} />
+          <Header type={type} onClick={handleSubCityBack} />
         </HeaderSpace>
         <FilterContents>
-          {LOCATION.map((item) => (
-            <InfoTagChoice item={item} onClick={() => handleLocationClick(item)} />
+          {SUBCITY.map((item) => (
+            <InfoTagChoice item={item} onClick={() => handleSubCityClick(item)} />
           ))}
         </FilterContents>
       </Wrapper>
