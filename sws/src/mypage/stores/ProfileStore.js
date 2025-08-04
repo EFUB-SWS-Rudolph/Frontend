@@ -41,13 +41,13 @@ export const useProfileStore = create((set) => ({
   })),
   resetInterestTags: () => set({ interestTags: [] }),
 
-  isExchange: true,
+  isExchange: false,
   setIsExchange: (flag) => set({ isExchange: flag }),
 
-  isDonation: true,
+  isDonation: false,
   setIsDonation: (flag) => set({ isDonation: flag }),
 
-  isCoffeeChat: true,
+  isCoffeeChat: false,
   setIsCoffeeChat: (flag) => set({ isCoffeeChat: flag }),
 
   isEditing: false,

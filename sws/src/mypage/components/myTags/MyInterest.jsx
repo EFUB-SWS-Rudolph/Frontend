@@ -41,7 +41,7 @@ export default function Interests() {
 
   useEffect(() => {
     setIsMax(interestTags.length >= 3);
-    console.log("관심분야:", interestTags);
+    console.log("관심분야:", interestTags.tag);
   }, [interestTags]);
 
   const handleChipClick = () => {

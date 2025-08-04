@@ -24,21 +24,21 @@ export const patchMemberProfile = async({
   department,
   studentid,
   location,
-  exchange,
-  coffeechat,
-  donation,
+  isExchange,
+  isCoffeeChat,
+  isSkillDonation
 }) => {
   try {
     await client.patch('/members/profile/basic',
       {
         nickname,
         college,
-        department,
-        studentid,
+        dept: department,
+        studentId: studentid,
         location,
-        isExchange: exchange,
-        isCoffeeChat: coffeechat,
-        isSkillDonation: donation,
+        isExchange,
+        isCoffeeChat,
+        isSkillDonation,
       }
     )
 
@@ -67,25 +67,20 @@ export const patchProfileImg = async({ profileImg }) => {
   }
 };
 
-export const putTalentTag = async({ talentTags }) => {
+export const putTalentTag = async({ tagNames }) => {
   try {
-    await client.put('/members/talent',
-      {
-        "tagNames": talentTags.tag
-      }
-    )
+    if (!tagNames) tagNames = [];
+    console.log('putTalentTag received:', tagNames);
+    await client.put('/members/talent', { tagNames });
   } catch (err) {
     throw err;
   }
 };
 
-export const putInterestTag = async({ interestTags }) => {
+export const putInterestTag = async({ tagNames }) => {
   try {
-    await client.put('/members/interest',
-      {
-        "tagNames": interestTags.tag
-      }
-    )
+    if (!tagNames) tagNames = [];
+    await client.put('/members/interest', { tagNames });
   } catch (err) {
     throw err;
   }

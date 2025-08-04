@@ -30,7 +30,7 @@ export default function MyTalent() {
 
   useEffect(() => {
     setIsMax(talentTags.length >= 3);
-    console.log(talentTags[0]);
+    console.log(talentTags);
   }, [talentTags]);
 
   const handleRemoveTalentTag = (id) => {

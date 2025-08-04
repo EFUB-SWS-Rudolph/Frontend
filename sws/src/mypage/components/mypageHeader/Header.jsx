@@ -21,29 +21,32 @@ export default function Header({ type, onClick }) {
   const setIsEditing = useProfileStore((state) => state.setIsEditing);
   const profileImg = useProfileStore((state) => state.profileImg);
 
+  const talentArray = talentTags.map(item => item.tag);
+  const interestArray = interestTags.map(item => item.tag);
+
   const [profile, setProfile] = useState(null);
 
   const patchProfileInfo = async () => {
     try {
       await patchMemberProfile({
-        nickname: nickname,
-        college: college,
-        dept: department,
-        studentId: studentid,
-        location: location,
-        exchange: isExchange,
-        coffeeChat: isCoffeeChat,
-        skillDonate: isDonation,
+        nickname,
+        college,
+        department,
+        studentid,
+        location,
+        isExchange,
+        isCoffeeChat,
+        isSkillDonation: isDonation,
       });
 
       await patchProfileImg({ profileImg });
       
       await putTalentTag({
-        tagNames: talentTags.tag
+        tagNames: talentArray
       });
 
       await putInterestTag({
-        tagNames: interestTags.tag 
+        tagNames: interestArray
       });
 
     } catch (err) {
@@ -51,12 +54,11 @@ export default function Header({ type, onClick }) {
     }
   };
 
-  const handleEditMode = () => {
+  const handleEditMode = async () => {
     if (isEditing) {
-      setIsEditing(!isEditing);
-      patchProfileInfo();
+      await patchProfileInfo();
     }
-    setIsEditing(!isEditing);
+  setIsEditing(!isEditing);
   };
 
   if (type === "mypage") {
