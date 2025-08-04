@@ -22,12 +22,12 @@ export default function InfoTag({ tagname, info, onChange }) {
       :
         isEditing ? 
           <>
-            <InfoText onClick={handleMoveSelection}>{info}</InfoText>
+            <InfoText onClick={handleMoveSelection} $isediting={isEditing}>{info}</InfoText>
             <EDIT onClick={handleMoveSelection} />
           </>
         :
           <>
-            <InfoText>{info}</InfoText>
+            <InfoText $isediting={isEditing}>{info}</InfoText>
           </>
       }
     </Container>
@@ -69,6 +69,11 @@ const InfoText = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: 150%; /* 1.3125rem */
+
+  width: ${({ $isediting }) => $isediting ? "6rem" : "7rem"};
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const InfoInput = styled.input`
