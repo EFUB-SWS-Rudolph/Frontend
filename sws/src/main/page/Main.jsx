@@ -1,9 +1,8 @@
 import Layout from '../../common/styles/Layout'; 
-import React from 'react';
+import React , { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
-import LectureCard from '../../common/components/LectureCard'; 
+import { getLectureList, getMyCourses, getRecommendedLectures } from '../../api/course';import LectureCard from '../../common/components/LectureCard'; 
 
 import IconGiveURL from '../../common/assets/icons/icon_give.svg';
 import IconExchangeURL from '../../common/assets/icons/icon_exchange.svg';
@@ -636,6 +635,7 @@ const IconCoffeeChat = styled.div`
   height: 1rem;
   aspect-ratio: 1/1;
 `;
+
 export default function Main() {
   const navigate = useNavigate(); 
   const handleMoreRecommendClick = () => {
@@ -644,7 +644,60 @@ export default function Main() {
   const handleProLecCountClick = () => {
     navigate('/lectures/my'); 
   };
- 
+  const [recommendedLectures, setRecommendedLectures] = useState([]);
+  const [loadingRecommended, setLoadingRecommended] = useState(true); 
+  const [errorRecommended, setErrorRecommended] = useState(null); 
+  const [myTeachingCourses, setMyTeachingCourses] = useState([]); 
+  const [myEnrolledCourses, setMyEnrolledCourses] = useState([]); 
+  const [loadingMyCourses, setLoadingMyCourses] = useState(true); 
+  const [errorMyCourses, setErrorMyCourses] = useState(null);
+
+  useEffect(() => {
+    const fetchRecommendedLectures = async () => {
+      try {
+        setLoadingRecommended(true);
+        setErrorRecommended(null);
+        const response = await getRecommendedLectures({ size: 6 }); // <-- 이 부분이 변경됩니다!
+
+        if (response.isSuccess && response.payload && response.payload.courses) {
+          setRecommendedLectures(response.payload.courses);
+        } else {
+          setErrorRecommended(new Error(response.message || "추천 강의를 불러오지 못했습니다."));
+        }
+      } catch (err) {
+        console.error("추천 강의 로드 중 오류 발생:", err);
+        setErrorRecommended(err);
+      } finally {
+        setLoadingRecommended(false);
+      }
+    };
+    fetchRecommendedLectures();
+  }, []);
+  useEffect(() => {
+    const fetchMyCourses = async () => {
+      try {
+        setLoadingMyCourses(true);
+        setErrorMyCourses(null);
+
+        const response = await getMyCourses();
+
+        if (response.isSuccess && response.payload) {
+          setMyTeachingCourses(response.payload.teachingCourses || []);
+          setMyEnrolledCourses(response.payload.enrolledCourses || []);
+        } else {
+          setErrorMyCourses(new Error(response.message || "내 강의 목록을 불러오지 못했습니다."));
+        }
+      } catch (err) {
+        console.error("내 강의 목록 로드 중 오류 발생:", err);
+        setErrorMyCourses(err);
+      } finally {
+        setLoadingMyCourses(false);
+      }
+    };
+    fetchMyCourses();
+  }, []); 
+  const displayMyLectures = myTeachingCourses; 
+  const myLectureCount = myEnrolledCourses.length;
   return (
     <MainPageContainer>
       <MyInfoFrame> 
@@ -656,17 +709,31 @@ export default function Main() {
             </ProfileInfo>
             <ProLecFrame> 
               <ProLecLabel>진행 중인 강의</ProLecLabel>
-              <ProLecCount onClick={handleProLecCountClick}>3</ProLecCount>
+              <ProLecCount onClick={handleProLecCountClick}>
+              {loadingMyCourses ? '로딩 중...' : myLectureCount}
+            </ProLecCount>
             </ProLecFrame>
           </ProfileSection>
           <MyLecFrame>
+            {loadingMyCourses && <div>내 강의 불러오는 중...</div>}
+            {errorMyCourses && <div>내 강의 로드 실패: {errorMyCourses.message}</div>}
+            {!loadingMyCourses && !errorMyCourses && displayMyLectures.length === 0 && (
+              <div>진행 중인 강의가 없습니다.</div>
+            )}
             <MyLectureListContainer>
-              {myLectures.map((lecture, index) => (
-                <React.Fragment key={lecture.id}>
-                  <MyLectureItem lecture={lecture} />
-                  {index < myLectures.length - 1 && <HorizontalDivider />}
-                </React.Fragment>
-              ))}
+              {!loadingMyCourses && !errorMyCourses && displayMyLectures.length > 0 && (
+                displayMyLectures.map((lecture, index) => (
+                  <React.Fragment key={lecture.courseId}> 
+                    <MyLectureItem lecture={{
+                        id: lecture.courseId,
+                        title: lecture.courseTitle,
+                        status: "진행 중", 
+                        imageUrl: lecture.thumbnailUrl || ProfileExampleImage, 
+                    }} />
+                    {index < displayMyLectures.length - 1 && <HorizontalDivider />}
+                  </React.Fragment>
+                ))
+              )}
             </MyLectureListContainer>
           </MyLecFrame>
         </MyInfoInnerContent>
@@ -678,10 +745,31 @@ export default function Main() {
             <img src={IconRightURL} style={{margin:'3px'}}/>
           </MoreRecommendButton>
         </RCMHeader>
-        <MainCardRCMContainer>
-          {classCardData.map(lecture => ( 
-            <LectureCard key={lecture.id} lecture={lecture} /> 
-          ))}
+         <MainCardRCMContainer>
+          {loadingRecommended && <div>추천 강의 불러오는 중...</div>}
+          {errorRecommended && <div>추천 강의 로드 실패: {errorRecommended.message}</div>}
+          {!loadingRecommended && !errorRecommended && recommendedLectures.length === 0 && (
+            <div>추천 강의가 없습니다.</div>
+          )}
+          {!loadingRecommended && !errorRecommended && recommendedLectures.length > 0 && (
+            recommendedLectures.map(lecture => (
+              <LectureCard
+                key={lecture.courseId} 
+                lecture={{ 
+                  id: lecture.courseId,
+                  title: lecture.courseTitle,
+                  instructor: lecture.teacherNickname, 
+                  location: lecture.courseCity,
+                  period: { start: lecture.courseStartDate, end: lecture.courseEndDate },
+                  thumbnailUrl: lecture.thumbnailUrl, 
+                  currentParticipants: 0, 
+                  maxParticipants: 0,
+                  category: lecture.courseCategory, 
+                  bookmarkCount: lecture.bookmarkCount, 
+                }}
+              />
+            ))
+          )}
         </MainCardRCMContainer>
       </RCMFrame>
       <SNRFrame>
