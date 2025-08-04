@@ -14,7 +14,7 @@ export const EwhainRoutes = (
     {/* Layout with default footer */}
     <Route element={<Layout />}>
       <Route path="/ewhainlist" element={<EwhainList />} />
-      <Route path="/ewhain/:id" element={<IndividualInquiry />} />
+      <Route path="/ewhainlist/:id" element={<IndividualInquiry />} />
     </Route>
 
     {/* Layout without footer */}
