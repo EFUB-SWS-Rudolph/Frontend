@@ -37,7 +37,7 @@ export default function Redirect() {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 47.81rem;
+  height: 100%;
   background-color: ${({ theme }) => theme.colors.background};
   padding: 0;
   margin: 0;
