@@ -11,9 +11,8 @@ export default function UserCard({ user }) {
   const navigate = useNavigate();
   const talentTags = user.talentTags;
   const tagsString = talentTags.join(', ');
-  const imageSrc = user.profileImage ?
-    user.profileImage.replace(/([^:/])\/{2,}/g, '$1/') : "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRqyxfxX8QSTvO1ULBKz6IK_KKsMFoiOr9LxoMYKTdAkbIpHxHC";
-
+  const showingImg = user.profileImage !== "" || !user.profileImage ? user.profileImage 
+                    : user.profileImage;
   console.log(user.profileImage);
 
   function available() {
@@ -32,7 +31,7 @@ export default function UserCard({ user }) {
 
   return (
     <UserCardWrapper $isgallery={isgallery} onClick={handleMoveDetail}>
-      <ProfileImage src={imageSrc} alt="profileimg" />
+      <ProfileImage src={user.profileImage} alt="profileimg" />
 
       <UserContent $isgallery={isgallery}>
         <UserInfoContent $isgallery={isgallery}>

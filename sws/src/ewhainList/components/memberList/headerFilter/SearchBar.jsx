@@ -7,6 +7,7 @@ import { useFilterStore } from '../../../stores/FilterStore';
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
   const setSearchItem = useFilterStore((state) => state.setSearchItem);
+  const searchItem = useFilterStore((state) => state.searchItem);
 
   const handleSearchTerm = (e) => {
     setSearchTerm(e.target.value);
@@ -14,6 +15,7 @@ export default function SearchBar() {
 
   const handleSearch = () => {
     setSearchItem(searchTerm);
+    console.log(searchItem);
   };
 
   return (

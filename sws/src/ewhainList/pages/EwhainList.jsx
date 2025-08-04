@@ -8,23 +8,42 @@ import USERS from '../constants/users';
 import EMPTY from '../icons/icon_empty.svg?react';
 import { useFilterStore } from '../stores/FilterStore';
 import { getMemberList } from '../../api/members';
+import UNIV from '../constants/Univ';
 
 export default function EwhainList() {
-  const searchExist = true;  // api 연결 후 검색 결과 여부 표시
-  const { isgallery } = useFilterStore();
-  const [users, setUsers] = useState([]);
-
   const major = useFilterStore((state) => state.major);  // 학과
   const exchange = useFilterStore((state) => state.exchange);  // 재능기부, 재능교환, 커피챗
   const period = useFilterStore((state) => state.period);  // 최신순, 오래된 순
   const searchItem = useFilterStore((state) => state.searchItem); // 검색어(학과/닉네임)
   const isExchange = useFilterStore((state) => state.isExchange);
-  const setIsExchange = useFilterStore((state) => state.setIsExchange);
   const isDonation = useFilterStore((state) => state.isDonation);
-  const setIsDonation = useFilterStore((state) => state.setIsDonation);
   const isCoffeeChat = useFilterStore((state) => state.isCoffeeChat);
+
+  const setIsExchange = useFilterStore((state) => state.setIsExchange);
+  const setIsDonation = useFilterStore((state) => state.setIsDonation);
   const setIsCoffeeChat = useFilterStore((state) => state.setIsCoffeeChat);
-  const isSort = (period === "최신순" ? "desc" : "asc");
+  
+  const isSort = (period === "최신순" ? "desc" : "asc");  // sort 여부
+  const searchExist = (searchItem !== '');  // api 연결 후 검색 결과 여부 표시
+  const { isgallery } = useFilterStore();
+  const [users, setUsers] = useState([]);
+
+  function makeParams(params) {
+    const newParams = {};
+    Object.entries(params).forEach(([key, value]) => {
+      if (value != undefined) {
+        newParams[key] = value;
+      }
+    });
+    return newParams;
+  }
+
+  function isSearchItemInDepartments(searchItem) {
+    if (!searchItem) return false;
+
+    return Object.values(UNIV).some(departmentList => departmentList.includes(searchItem)
+    );
+  }
 
   // 필터할 항목들: 학과, 교류 방식, 최신순
   // 검색: 학과, 닉네임
@@ -32,15 +51,11 @@ export default function EwhainList() {
   // api 호출
   const readMemberList = async () => {
     try {
-      // 필터링
-      const departments = [];
-
-      if (major) departments.push(major);
-      if (searchItem) {
-        departments.push(searchItem);
-      }
-
-      const nickName = searchItem ? searchItem: undefined;
+      // const nickName = searchItem&& searchItem.trim() !== '' ? searchItem.trim() : undefined;
+      const nickName = searchItem && !isSearchItemInDepartments(searchItem) ? searchItem.trim() : undefined;
+      console.log(nickName);
+      // const dept = searchItem ? searchItem : major;
+      const dept = isSearchItemInDepartments(searchItem) ? searchItem : major
 
       const coffeechat = isCoffeeChat;
       const donation = isDonation;
@@ -50,14 +65,16 @@ export default function EwhainList() {
 
       const params = {
         nickName, 
-        department: departments.length > 0 ? departments : undefined,
+        department: dept === '전체' ? undefined : dept,
         coffeechat: coffeechat ? true : undefined,
         donation: donation ? true : undefined,
         exchange: exchange ? true : undefined,
         sort
       };
 
-      const res = await getMemberList(params);
+      const filteredParams = makeParams(params);
+
+      const res = await getMemberList(filteredParams);
       console.log(res);
       setUsers(res);
     } catch (err) {
@@ -79,7 +96,7 @@ export default function EwhainList() {
     <EwhainListWrapper>
       <EwhainListHeader header="ewhainlist" />
       <HeaderFilter />
-      { searchExist ? 
+      { users.length !== 0 ? 
       <>
         <EwhainContainer $isgallery={isgallery}>
           {users.map((user) => (
