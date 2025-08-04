@@ -5,22 +5,23 @@ import GIVE from "../../icons/icon_give.svg?react";
 import COFFEECHAT from "../../icons/icon_coffeechat.svg?react";
 import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
+import defaultImage from '../../icons/defaultImage.jpg';
 
 export default function UserCard({ user }) {
   const { isgallery } = useFilterStore();
   const navigate = useNavigate();
   const talentTags = user.talentTags;
   const tagsString = talentTags.join(', ');
-  const showingImg = user.profileImage !== "" || !user.profileImage ? user.profileImage 
-                    : user.profileImage;
+  const showingImg = user.profileImage && user.profileImage !== "" ? user.profileImage 
+                    : defaultImage;
   console.log(user.profileImage);
 
   function available() {
     return (
       <>
-        {user.재능기부 && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
-        {user.재능교환 && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
-        {user.커피챗 && <COFFEECHAT width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.exchange && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.donation && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.coffeeChat && <COFFEECHAT width="1rem" height="1rem" aspect-ratio="1/1" />}
       </>
     );
   }
@@ -31,7 +32,7 @@ export default function UserCard({ user }) {
 
   return (
     <UserCardWrapper $isgallery={isgallery} onClick={handleMoveDetail}>
-      <ProfileImage src={user.profileImage} alt="profileimg" />
+      <ProfileImage src={showingImg} alt="profileimg" />
 
       <UserContent $isgallery={isgallery}>
         <UserInfoContent $isgallery={isgallery}>
