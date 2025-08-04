@@ -83,8 +83,8 @@ export default function EwhainList() {
   };
 
   useEffect(() => {
-    setIsExchange(exchange === "재능교환");
-    setIsDonation(exchange === "재능기부");
+    setIsExchange(exchange === "재능 교환");
+    setIsDonation(exchange === "재능 기부");
     setIsCoffeeChat(exchange === "커피챗");
   }, [exchange, setIsExchange, setIsDonation, setIsCoffeeChat]);
 
