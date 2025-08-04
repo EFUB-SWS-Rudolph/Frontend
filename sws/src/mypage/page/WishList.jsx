@@ -6,7 +6,7 @@ import { getWishlist } from '../../api/myPage';
 
 export default function WishList() {
   const navigate = useNavigate();
-  const [courses, setCourses] = useState(null);
+  const [courses, setCourses] = useState([]);
 
   const handleMoveBack = () => {
     navigate('/mypage');
@@ -14,8 +14,9 @@ export default function WishList() {
 
   const readUserWish = async () => {
     try {
-      const res = getWishlist();
-      setCourses(res);
+      const res = await getWishlist();
+      setCourses(res.payload.myCourses);
+      console.log(res);
     } catch (err) {
       throw err;
     }
@@ -23,6 +24,7 @@ export default function WishList() {
 
   useEffect(() => {
     readUserWish();
+    console.log("찜한 강의:", courses);
   }, [])
 
   return (

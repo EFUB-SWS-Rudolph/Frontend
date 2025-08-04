@@ -91,10 +91,9 @@ export const putInterestTag = async({ interestTags }) => {
   }
 };
 
-// 403에러
 export const getWishlist = async() => {
   try {
-    const res = await client.get('/members/wishlist-courses');
+    const res = await client.get('/course/bookmark');
     return res.data;
   } catch (err) {
     throw err;
