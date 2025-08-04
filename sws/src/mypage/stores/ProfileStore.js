@@ -7,16 +7,16 @@ export const useProfileStore = create((set) => ({
   profileImg: '',
   setProfileImg: (img) => set({ profileImg: img }),
 
-  college: '엘텍공과대학',
+  college: '',
   setCollege: (tag) => set({ college: tag }),
 
-  department: '서양화과',
+  department: '',
   setDepartment: (tag) => set({ department: tag }),
 
-  studentid: '24',
+  studentid: '',
   setStudentid: (tag) => set({ studentid: tag }),
 
-  location: '서울시 강동구',
+  location: '',
   setLocation: (tag) => set({ location: tag }),
 
   talentTags: [],
