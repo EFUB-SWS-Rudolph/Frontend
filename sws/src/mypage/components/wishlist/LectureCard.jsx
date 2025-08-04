@@ -5,12 +5,13 @@ import RECTANGLE from '../../assets/icon_rectangle.svg?react';
 
 export default function LectureCard({ course }) {
   const navigate = useNavigate();
-  const isoString = course.createdAt;
-  const date = new Date(isoString);
-  const formatted =
-    String(date.getFullYear()).slice(2) + "." +
-    String(date.getMonth() + 1).padStart(2, '0') + "." +
-    String(date.getDate()).padStart(2, '0');
+
+  function formatDate(dateStr) {
+    const [year, month, day] = dateStr.split('-');
+    return `${year.slice(2)}.${month}.${day}~`;
+  }
+
+  const formattedDate = formatDate(course.startDate);  // 찜한 목록 api 수정되면 바꾸기
 
   const handleMoveCourseDetail = () => {
     navigate(`/courses/${course.courseId}`)
@@ -20,9 +21,9 @@ export default function LectureCard({ course }) {
     <CardWrapper $image={course.thumbnailUrl} onClick={handleMoveCourseDetail}>
       <Rectangle />
       <LectureInfoContainer>
-        <Instructor>{course.instructor}</Instructor>
+        <Instructor>{course.courseNickname}</Instructor>
         <LectureTitle>{course.title}</LectureTitle>
-        <LectureDate>{formatted}~</LectureDate>
+        <LectureDate>{formattedDate}~</LectureDate>
       </LectureInfoContainer>
     </CardWrapper>
   );
