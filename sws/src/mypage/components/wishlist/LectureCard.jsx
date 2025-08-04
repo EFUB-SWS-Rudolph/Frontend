@@ -22,7 +22,7 @@ export default function LectureCard({ course }) {
     <CardWrapper $image={course.thumbnailUrl} onClick={handleMoveCourseDetail}>
       <Rectangle />
       <LectureInfoContainer>
-        <Instructor>y_eonie</Instructor>
+        <Instructor>{course.courseNickname}</Instructor>
         <LectureTitle>{course.title}</LectureTitle>
         <LectureDate>{formattedDate}</LectureDate>
       </LectureInfoContainer>
