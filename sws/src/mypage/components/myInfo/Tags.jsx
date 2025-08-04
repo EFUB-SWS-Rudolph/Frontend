@@ -34,15 +34,11 @@ export default function Tags() {
       setDepartment(user.dept);
       setStudentid(user.studentId);
       setLocation(user.location);
-      setIsExchange(user.exchange);
-      setIsDonation(user.donation);
-      setIsCoffeeChat(user.coffeechat);
     }
   }, [user])
 
   const handleEditStudentid = (e) => {
     setStudentid(e.target.value);
-    console.log(studentid);
   };
 
   return (
