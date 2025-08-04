@@ -124,7 +124,8 @@ export const useLectureTab = () => {
 
 // 전체 앱 화면 컨테이너 (AppContainer)
 const AppContainer = styled.div`
-  width: 24.375rem;
+  width: 100%;
+  max-width: 400px;
   height: 55.035rem;
   margin: 0 auto;
   border: 0.063rem solid #ddd;
