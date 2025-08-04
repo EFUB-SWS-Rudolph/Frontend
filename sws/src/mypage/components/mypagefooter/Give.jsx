@@ -25,11 +25,11 @@ export default function Give() {
       
       {isEditing ?
         <ToggleContainer onClick={handleIsDonation}>
-          {isDonation ? <Switch /> : <SwitchOn />}
+          {isDonation ? <SwitchOn /> : <Switch />}
         </ToggleContainer>
       :
         <ToggleContainer>
-          {isDonation ? <Switch /> : <SwitchOn />}
+          {isDonation ? <SwitchOn /> : <Switch />}
         </ToggleContainer>
       }
     </FooterContainer>
