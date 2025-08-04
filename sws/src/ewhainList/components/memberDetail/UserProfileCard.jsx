@@ -32,7 +32,7 @@ export default function UserProfileCard({ id }) {
   return (
     <UserProfileWrapper>
       {/* src={user.prifileimgurl */}
-      {(user.profileImage && user.profileImage !== "") ? <ProfileImage src={user.profileImage} alt="profileimg" /> : 
+      {(user.profileImage && user.profileImage !== "/images/스크린샷 2025-07-20 오전 1.33.39.png") ? <ProfileImage src={user.profileImage} alt="profileimg" /> : 
         <ProfileImage src={defaultImage} alt="profileimg" />}
       <UserNickname>{user.nickName}</UserNickname>
       <UserAvailable>
@@ -43,11 +43,17 @@ export default function UserProfileCard({ id }) {
       </UserAvailable>
       {user.studentId ? 
         <UserUnivInfo>
-          {user.studentId}학번 <span>|</span> {user.department}
+          <UserStudentId>{user.studentId.slice(0, 2)}학번</UserStudentId>
+          <Partition>|</Partition>
+          <UserDept>{user.department}</UserDept>
+          {/* {user.studentId}학번 <span>|</span> {user.department} */}
         </UserUnivInfo>
         :
         <UserUnivInfo>
-          비공개 <span>|</span> {user.department}
+          <UserStudentId>비공개</UserStudentId>
+          <Partition>|</Partition>
+          <UserDept>{user.department}</UserDept>
+          {/* 비공개 <span>|</span> {user.department} */}
         </UserUnivInfo>
       }
       <UserLocation>{user.location}</UserLocation>
@@ -91,16 +97,45 @@ const UserAvailable = styled.div`
 `;
 
 const UserUnivInfo = styled.div`
-  font-family: ${({ theme }) => theme.fonts.display.body.medium.fontFamily};
-  font-size: ${({ theme }) => theme.fonts.display.body.medium.fontSize};
-  font-style: ${({ theme }) => theme.fonts.display.body.medium.fontStyle};
-  font-weight: ${({ theme }) => theme.fonts.display.body.medium.fontWeight};
-  line-height: ${({ theme }) => theme.fonts.display.body.medium.lineHeight};
-  color: ${({ theme }) => theme.colors.black}; 
-  span {
-    color: ${({ theme }) => theme.colors.gray300};
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 0.25rem;
+`;
+
+const UserStudentId = styled.div`
+  color: var(--Black, #222);
+  text-align: center;
+
+  /* Body/Medium */
+  font-family: "Pretendard Variable";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 1.3125rem */
+`;
+
+const Partition = styled.div`
+  color: ${({ theme }) => theme.colors.gray300};
+  text-align: center;
+
+  /* Body/Medium */
+  font-family: "Pretendard Variable";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 1.3125rem */
+`;
+
+const UserDept = styled.div`
+  color: var(--Black, #222);
+
+  /* Body/Medium */
+  font-family: "Pretendard Variable";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 1.3125rem */
 `;
 
 const UserLocation = styled.div`
