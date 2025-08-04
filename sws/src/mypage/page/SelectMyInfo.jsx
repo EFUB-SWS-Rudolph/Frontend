@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
@@ -34,16 +34,6 @@ export default function SelectMyInfo() {
   const handleDeptClick = (item) => {
     setDepartment(item);
     navigate('/mypage');
-  };
-
-  const handleLocationClick = (item) => {
-    setLocation(item);
-    navigate('/mypage');
-  };
-
-  const handleCityClick = (item) => {
-    setCity(item);
-    navigate('/mypage/myinfotag/subcity');
   };
 
   const handleSubCityClick = (item) => {

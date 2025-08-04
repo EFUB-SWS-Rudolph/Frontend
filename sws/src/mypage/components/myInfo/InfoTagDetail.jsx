@@ -5,13 +5,8 @@ import SLIGHT_RIGHT_ARROW from '../../../ewhainList/icons/icon_next.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 import LOCATION from '../../constant/LOCATION';
 
-// select: 언어, 음악/악기, ...
-// value: 선택된 값, 처음에는 전체
-
 export default function InfoTagDetail({ select, tagname }) {
-  const city = useProfileStore((state) => state.city);
   const setCity = useProfileStore((state) => state.setCity); 
-  const CITY = Object.keys(LOCATION);
 
   const navigate = useNavigate();
 

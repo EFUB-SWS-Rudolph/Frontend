@@ -3,14 +3,11 @@ import styled from 'styled-components';
 import EDIT_IMG from '../../assets/icon_editImg.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 import { getMemberProfile } from '../../../api/myPage';
-import ChoiceContainer from '../editProfile/ChoiceContainer';
 
 export default function Profile({ onClick, onChange, fileRef, cameraRef }) {
   // zustand 변수 불러오기(닉네임, 프로필 사진)
   const nickname = useProfileStore((state) => state.nickname);
-  const profileImg = useProfileStore((state) => state.profileImg);
   const isEditing = useProfileStore((state) => state.isEditing);
-  const setProfileImg = useProfileStore((state) => state.setProfileImg);
   const setNickname = useProfileStore((state) => state.setNickname);
   const previousImg = useProfileStore((state) => state.previousImg);
   const setPreviousImg = useProfileStore((state) => state.setPreviousImg);

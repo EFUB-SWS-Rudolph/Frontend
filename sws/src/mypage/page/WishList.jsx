@@ -17,7 +17,6 @@ export default function WishList() {
     try {
       const res = await getWishlist();
       setCourses(res.payload.myCourses);
-      console.log(res);
     } catch (err) {
       throw err;
     }

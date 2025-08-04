@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import CoffeeChatIcon from '../../assets/CoffeeChatIcon';
 import Switch from '../../assets/Switch';

@@ -1,8 +1,7 @@
-import { useState, useEffort } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { useProfileStore } from '../../stores/ProfileStore';
-import UserProfileCard from '../../../ewhainList/components/memberDetail/UserProfileCard';
 import { patchMemberProfile, patchProfileImg, putTalentTag, putInterestTag } from '../../../api/myPage';
 import BACK_ARROW from '../../../ewhainList/icons/icon_back.svg?react';
 
@@ -23,8 +22,6 @@ export default function Header({ type, onClick }) {
 
   const talentArray = talentTags.map(item => item.tag);
   const interestArray = interestTags.map(item => item.tag);
-
-  const [profile, setProfile] = useState(null);
 
   const patchProfileInfo = async () => {
     try {

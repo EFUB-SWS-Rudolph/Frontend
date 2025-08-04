@@ -4,17 +4,12 @@ import theme from '../../../../styles/theme';
 import SLIGHT_RIGHT_ARROW from '../../../../ewhainList/icons/icon_next.svg?react';
 import { useProfileStore } from '../../../stores/ProfileStore';
 
-// select: 언어, 음악/악기, ...
-// value: 선택된 값, 처음에는 전체
-
 export default function MoveTagDetail({ select, detailroute }) {
-  const category = useProfileStore((state) => state.category);
   const setCategory = useProfileStore((state) => state.setCategory);
   const navigate = useNavigate();
 
   const handleMoveDetail = () => {
     setCategory(select);
-    console.log(category);
     navigate(detailroute);
   };
   

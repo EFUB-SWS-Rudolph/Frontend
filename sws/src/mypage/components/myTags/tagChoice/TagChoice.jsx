@@ -5,12 +5,7 @@ import theme from '../../../../styles/theme';
 import CHECK from '../../../../ewhainList/icons/icon_check.svg?react';
 import { useProfileStore } from '../../../stores/ProfileStore';
 
-// type: talentTag, interestTag
-// item: 영어 일본어 중국어 등등등
-// onClick: setTalentTag, setInterestTag(useState) + interestTags, talentTags에 추가
-
-export default function TagChoice({ type, item, onChange }) {
-  const talentTags = useProfileStore((state) => state.talentTags);
+export default function TagChoice({ item, onChange }) {
   const navigate = useNavigate();
   const [isSelected, setIsSelected] = useState(false);
 

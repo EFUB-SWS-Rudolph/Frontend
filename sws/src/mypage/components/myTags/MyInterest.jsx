@@ -6,14 +6,7 @@ import CHIP from '../../assets/icon_chip.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 import { getMemberTag } from '../../../api/myPage';
 
-// 사용자의 tag를 zustand에 저장 -> 해당 변수를 불러와서 tag로 보여줌
-
 export default function Interests() {
-  // 서버에서 tag 받아서 리스트 형태로 interestTags에 저장 
-  // interestTags의 요소들을 Tag의 key, text로 보냄
-  // tag가 3개 이상 -> CHIP 안 보이게 
-  // isEditing === true 일 경우에만 CHIP 클릭하면 추가할 수 있게
-
   const interestTags = useProfileStore((state) => state.interestTags);
   const setInterestTags = useProfileStore((state) => state.setInterestTags);
   const removeInterestTag = useProfileStore((state) => state.removeInterestTag);
@@ -41,7 +34,6 @@ export default function Interests() {
 
   useEffect(() => {
     setIsMax(interestTags.length >= 3);
-    console.log("관심분야:", interestTags.tag);
   }, [interestTags]);
 
   const handleChipClick = () => {
