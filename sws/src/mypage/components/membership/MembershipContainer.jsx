@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container } from './MembershipBtn';
-import MoveWishList from '../wishlist/MoveWishList';
 import { postLogout } from '../../../api/auth';
 import { deleteMember } from '../../../api/auth';
 

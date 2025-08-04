@@ -5,7 +5,7 @@ import MyInfo from '../components/myInfo/MyInfo';
 import MyTags from '../components/myTags/MyTags';
 import MyPageFooter from '../components/mypagefooter/MyPageFooter';
 import Header from '../components/mypageHeader/Header';
-import MembershipContainer from '../components/membership/membershipContainer';
+import MembershipContainer from '../components/membership/MembershipContainer';
 import ChoiceContainer from '../components/editProfile/ChoiceContainer';
 import { useProfileStore } from '../stores/ProfileStore';
 import MoveWishList from '../components/wishlist/MoveWishList';
