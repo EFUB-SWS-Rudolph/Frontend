@@ -74,7 +74,7 @@ export default function Header({ type, onClick }) {
           style={{
             position: "absolute",
             top: "50%",
-            left: "1rem",
+            left: "0.5rem",
             transform: "translateY(-50%)",
             color: theme.colors.black, 
           }}
