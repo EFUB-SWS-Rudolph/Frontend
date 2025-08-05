@@ -9,13 +9,16 @@ import GIVE from "../icons/icon_give.svg?react";
 import COFFEECHAT from "../icons/icon_coffeechat.svg?react";
 
 export default function ExchangeFilter() {
-  const { exchange, setExchange } = useFilterStore();
+  const { exchange, setExchange, setIsExchange, setIsDonation, setIsCoffeeChat } = useFilterStore();
   const location = useLocation();
   const navigate = useNavigate();
   const cameFromHeader = location.state?.fromHeader;
 
   const handleExchange = (item) => {
     setExchange(item);
+    setIsExchange(item === "재능 교환");
+    setIsDonation(item === "재능 기부");
+    setIsCoffeeChat(item === "커피챗");
   };
   
   const handleMoveInitialFilter = () => {
@@ -29,21 +32,21 @@ export default function ExchangeFilter() {
         <FilterDetailChoice item="전체" type={exchange} onChange={handleExchange} />
         <FilterDetailChoice icon={EXCHANGE} item="재능 교환" type={exchange} onChange={handleExchange} />
         <FilterDetailChoice icon={GIVE} item="재능 기부" type={exchange} onChange={handleExchange} />
-        <FilterDetailChoice icon={COFFEECHAT} item="커피챗" type={exchange} onChange={handleExchange} />
+        <FilterDetailChoice icon={COFFEECHAT} item="커피챗" type={exchange} onChange={() => handleExchange("커피챗")} />
       </FilterContents>
     </FilterPageWrapper>
   );
 }
 
 const FilterPageWrapper = styled.div`
-  width: 24.375rem;
-  height: 47.625rem;
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 `;
 
 const FilterContents = styled.div`
-  width: 24.375rem;
+  width: 100%;
   height: 44.94rem;
   display: flex;
   flex-direction: column;

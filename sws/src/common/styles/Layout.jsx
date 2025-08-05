@@ -9,8 +9,10 @@ import IconHomeActiveURL from '../assets/icons/icon_home.svg';
 import IconHomeInactiveURL from '../assets/icons/icon_home-inactive.svg';
 import IconLectureActiveURL from '../assets/icons/icon_lecture.svg';
 import IconLectureInactiveURL from '../assets/icons/icon_lecture-inactive.svg';
+import IconEwhalistActiveURL from '../assets/icons/icon_ewhalist-active.svg';
 import IconEwhalistInactiveURL from '../assets/icons/icon_ewhalist-inactive.svg';
 import IconchatInactiveURL from '../assets/icons/icon_chat-inactive.svg';
+import IconMypageActiveURL from '../assets/icons/icon_mypage-active.svg';
 import IconMypageInactiveURL from '../assets/icons/icon_mypage-inactive.svg';
 
 // Layout 컴포넌트 정의
@@ -28,7 +30,7 @@ export default function Layout({
   const isHomePage = location.pathname === '/';
   const isLecturePage = location.pathname.startsWith('/lectures');
   //이화인 목록, 채팅, 마이페이지 활성화 여부 변수
-  const isEwhaListPage = location.pathname.startsWith('/ewhalist');
+  const isEwhaListPage = location.pathname.startsWith('/ewhainlist');
   const isChatPage = location.pathname.startsWith('/chat');
   const isMypage = location.pathname.startsWith('/mypage');
   const LectureTabProvider = ({ children }) => (
@@ -78,7 +80,7 @@ export default function Layout({
                 <NavItem onClick={() => navigate('/ewhainlist')}>
                   <EwhaListIcon>
                     <img
-                      src={isEwhaListPage ? IconEwhalistInactiveURL : IconEwhalistInactiveURL}
+                      src={isEwhaListPage ? IconEwhalistActiveURL : IconEwhalistInactiveURL}
                       alt="이화인 목록"
                       style={{ width: '100%', height: '100%' }}
                     />
@@ -100,7 +102,7 @@ export default function Layout({
                 <NavItem onClick={() => navigate('/mypage')}>
                   <MypageIcon>
                     <img
-                      src={isMypage ? IconMypageInactiveURL : IconMypageInactiveURL}
+                      src={isMypage ? IconMypageActiveURL : IconMypageInactiveURL}
                       alt="마이페이지"
                       style={{ width: '100%', height: '100%' }}
                     />

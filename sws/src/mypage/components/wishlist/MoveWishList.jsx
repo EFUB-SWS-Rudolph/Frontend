@@ -6,8 +6,6 @@ import SLIGHT_RIGHT_ARROW from '../../../ewhainList/icons/icon_next.svg?react';
 // value: 선택된 값, 처음에는 전체
 
 export default function MoveTagDetail() {
-  const category = useProfileStore((state) => state.category);
-  const setCategory = useProfileStore((state) => state.setCategory);
   const navigate = useNavigate();
 
   const handleMoveWishList = () => {

@@ -8,7 +8,7 @@ import FilterFooter from '../components/filter/FilterFooter';
 import { useFilterStore } from '../stores/FilterStore';
 
 export default function EwhainFilter() {
-  const { exchange, major, period, setExchange, setMajor, setPeriod, setIsGallery } = useFilterStore();
+  const { exchange, major, period, setExchange, setMajor, setPeriod, setIsGallery, setIsExchange, setIsDonation, setIsCoffeeChat } = useFilterStore();
   const navigate = useNavigate();
 
   const handleMoveEwhainList = () => {
@@ -17,6 +17,9 @@ export default function EwhainFilter() {
     setMajor('전체');
     setPeriod('최신순');
     setIsGallery(true);
+    setIsExchange(false);
+    setIsDonation(false);
+    setIsCoffeeChat(false);
   };
 
   return (
@@ -34,15 +37,15 @@ export default function EwhainFilter() {
 }
 
 const FilterPageWrapper = styled.div`
-  width: 24.375rem;
-  height: 47.625rem;
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 `;
 
 const FilterContents = styled.div`
-  width: 24.375rem;
-  height: 40.94rem;
+  width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
