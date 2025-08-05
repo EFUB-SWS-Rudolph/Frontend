@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import SLIGHT_RIGHT_ARROW from '../../../ewhainList/icons/icon_next.svg?react';
+import SLIGHT_RIGHT_ARROW from '../../../common/assets/icons/icon_next_square.svg?react';
 
 // select: 언어, 음악/악기, ...
 // value: 선택된 값, 처음에는 전체
