@@ -126,7 +126,7 @@ export const useLectureTab = () => {
 const AppContainer = styled.div`
   width: 100%;
   max-width: 400px;
-  height: 55.035rem;
+  height: 100%;
   margin: 0 auto;
   border: 0.063rem solid #ddd;
   box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
@@ -151,7 +151,7 @@ const ContentArea = styled.main`
   width: 100%;
   flex-grow: 1;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: visible;
 
   background-color: ${(props) => props.$contentBackgroundColor || '#FFF'};
   display: flex;

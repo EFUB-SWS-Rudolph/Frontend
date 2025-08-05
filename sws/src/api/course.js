@@ -1,8 +1,8 @@
 import { client } from './client';
 
-export const getLectureDetail = async (courseId) => { 
+export const getLectureDetail = async (courseId) => {
     try {
-        const response = await client.get(`/course/${courseId}`);
+        const response = await client.get(`/course/${courseId}`); 
         console.log(`강의 상세 조회 성공 (ID: ${courseId}):`, response.data);
         return response.data; 
     } catch (error) {

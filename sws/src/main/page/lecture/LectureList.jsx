@@ -1,9 +1,8 @@
 // src/main/pages/LectureList.jsx
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled , { css } from 'styled-components';
 import { useLectureTab } from '../../../common/styles/Layout'; 
 import { useNavigate } from 'react-router-dom';
-import { FilterProvider, useFilter } from '../../../common/contexts/FilterContext';
 import { getLectureList, getRecommendedLectures, getMyCourses } from '../../../api/course';
 
 import SortGridIconURL from '../../../common/assets/icons/FilterIcon_SortGrid.svg';
@@ -11,13 +10,10 @@ import SortListIconURL from '../../../common/assets/icons/FilterIcon_SortList.sv
 import SortKeywordIconURL from '../../../common/assets/icons/FilterIcon_SortKeyword.svg';
 import SortFilterIconURL from '../../../common/assets/icons/FilterIcon_SortFilter.svg';
 import IconDownURL from '../../../common/assets/icons/icon_down.svg';
-import IconBackURL from '../../../common/assets/icons/icon_back.svg'; 
 import LectureCard from '../../../common/components/LectureCard';
-//강의 이미지 예시 (임시)
-import LectureImageExample from '../../../common/assets/images/weave_img_ex1.svg';
 const LectureListContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   gap: 1.25rem; 
@@ -162,34 +158,28 @@ const FilterBarItem = styled.div`
   color: #555;
   
 `;
-
-// 강의 카드 그리드 (갤러리 정렬) 관련 styled-components
-const LectureCardsGrid = styled.div`
+const GridDisplayWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); 
-  gap: 1rem; 
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); /* <- .ePDKNU 내용 복사 */
+  gap: 1rem;
   justify-content: center;
-  ${props => props.$displayMode === 'list' && css`
-    display: flex; 
-    flex-direction: column; 
-    gap: 0.5rem;
-    grid-template-columns: unset; 
-    justify-content: unset; 
-    & > * {
-      width: 100%; 
-    }
-`}
+`;
+
+const ListDisplayWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* <- .LectureCardsGrid의 'list' 스타일 복사 */
 `;
 
 // 강의 목록 아이템 (리스트 정렬) 관련 styled-components
 const LectureListItem = ({ lecture }) => {
   return (
     <StyledLectureListItem>
-      <LectureListItemImage src={lecture.image} alt={lecture.title} />
+      <LectureListItemImage src={lecture.thumbnailUrl} alt={lecture.title} />
       <LectureListItemInfo>
-        <LectureListItemInstructor>{lecture.nickname}</LectureListItemInstructor>
+        <LectureListItemInstructor>{lecture.instructor}</LectureListItemInstructor>
         <LectureListItemTitle>{lecture.title}</LectureListItemTitle>
-        <LectureListItemDate>{lecture.date}</LectureListItemDate>
+        <LectureListItemDate>{lecture.period.start} ~ {lecture.period.end}</LectureListItemDate>
       </LectureListItemInfo>
     </StyledLectureListItem>
   );
@@ -280,7 +270,7 @@ const NoResultsMessage = styled.div`
 `;
 
 //LectureListPage 함수 컴포넌트 정의
-function LectureListContent() {
+function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 렌더링 시작!");
   const { mainActiveTab, setMainActiveTab } = useLectureTab(); 
   const navigate = useNavigate();
   const [subFilter, setSubFilter] = useState('전체');
@@ -445,14 +435,15 @@ function LectureListContent() {
           {!loading && !error && lectures.length === 0 ? (  
             <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage> 
           ) : (
-      <LectureListDisplayArea>
-              <LectureCardsGrid $displayMode={displayMode}>
-                {lectures.map(lecture => ( 
-                  displayMode === 'grid' ? (
-                    <LectureCard
-                      key={lecture.courseId || lecture.id}
+       <LectureListDisplayArea>
+            {displayMode === 'grid' ? ( 
+              <GridDisplayWrapper> 
+                {lectures.map(lecture => (
+                  <LectureCard 
+                    key={lecture.courseId}
                       lecture={ { 
                         id: lecture.courseId || lecture.id,
+                        courseId: lecture.courseId,
                         title: lecture.courseTitle || lecture.title,
                         instructor: lecture.teacherNickname,
                         location: lecture.courseCity,
@@ -462,11 +453,16 @@ function LectureListContent() {
                         bookmarkCount: lecture.bookmarkCount,
                       } }
                     />
+                    ))}
+              </GridDisplayWrapper>
               ) : (
-                <LectureListItem
-                      key={lecture.courseId || lecture.id}
+                 <ListDisplayWrapper> 
+                {lectures.map(lecture => (
+                  <LectureListItem 
+                    key={lecture.courseId}
                       lecture={ {
                         id: lecture.courseId || lecture.id,
+                        courseId: lecture.courseId,
                         title: lecture.courseTitle || lecture.title,
                         instructor: lecture.teacherNickname,
                         location: lecture.courseCity,
@@ -476,12 +472,12 @@ function LectureListContent() {
                         bookmarkCount: lecture.bookmarkCount,
                       } }
                     />
-                  )
-                ))}
-              </LectureCardsGrid>
-            </LectureListDisplayArea>
-          
-              )}</>)}
+                 ))}
+              </ListDisplayWrapper>
+            )}
+          </LectureListDisplayArea>
+          )}
+          </>)}
       
        {mainActiveTab === '강의 조회' && (
         <>
