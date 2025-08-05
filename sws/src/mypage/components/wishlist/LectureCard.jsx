@@ -74,6 +74,10 @@ const Instructor = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: 150%; /* 1.3125rem */
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const LectureTitle = styled.div`

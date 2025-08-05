@@ -16,6 +16,10 @@ export default function Profile({ onClick, onChange, fileRef, cameraRef }) {
 
   const [user, setUser] = useState('');  // 서버로부터 사용자 정보를 담을 변수
 
+  const handleNameChange = (e) => {
+    setNickname(e.target.value);
+  };
+
   // api 호출
   const readUserInfo = async() => {
     try {
@@ -37,7 +41,6 @@ export default function Profile({ onClick, onChange, fileRef, cameraRef }) {
     if (user.nickname) setNickname(user.nickname);
   }, [user, setPreviousImg, setNickname]);
 
-  console.log("user정보:", user);
   return (
     <Container>
       <Image
@@ -64,7 +67,8 @@ export default function Profile({ onClick, onChange, fileRef, cameraRef }) {
         capture="environment"
         onChange={onChange}
       />
-      <Name>{nickname}</Name>
+      {!isEditing && <Name value={nickname} onChange={handleNameChange}>{nickname}</Name>}
+      {isEditing && <NameInput value={nickname} onChange={handleNameChange} />}
     </Container>
   );
 }
@@ -101,6 +105,10 @@ const EditContainer = styled.div`
 `;
 
 const Name = styled.p`
+  width: 6.3rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   color: var(--Black, #222);
   text-align: center;
 
@@ -111,3 +119,21 @@ const Name = styled.p`
   font-weight: 600;
   line-height: 140%; /* 1.75rem */
 `;
+
+const NameInput = styled.input`
+  border: none;
+  outline: none;
+  width: 6.3rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: var(--Black, #222);
+  text-align: center;
+
+  /* Title/Large */
+  font-family: 'Pretendard Variable';
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 1.75rem */
+`
