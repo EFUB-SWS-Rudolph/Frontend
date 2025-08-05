@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import OUT_BUTTON from '../../assets/out_button.svg?react';
 
-export const ChatModal = ({ modalHandler }) => {
+export const ChatModal = ({ modalHandler, onClick }) => {
   return (
     <Overlay onClick={() => modalHandler((prev) => !prev)}>
       <Container>
-        <LeftButton>
+        <LeftButton onClick={onClick}>
           <OUT_BUTTON />
           <OutText>채팅방 나가기</OutText>
         </LeftButton>
@@ -16,10 +16,10 @@ export const ChatModal = ({ modalHandler }) => {
 };
 
 const Overlay = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 24.375rem;
-  height: 100vh;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.25); // 회색 반투명 배경
   display: flex;
   justify-content: center;

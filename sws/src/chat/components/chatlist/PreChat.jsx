@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { formatTime } from '../../../utils/formatTime';
+import { useNavigate } from 'react-router-dom';
 
 export default function PreChat({ prechatData }) {
+  const navigate = useNavigate();
+  const onClickPrechat = () => {
+    navigate(`/chatroom/${prechatData.chatRoomId}`);
+  };
+
   return (
-    <Wrapper>
+    <Wrapper onClick={onClickPrechat}>
       <ProfileImg />
       <TextsContainer>
         <NameClassContainer>
@@ -15,7 +21,7 @@ export default function PreChat({ prechatData }) {
       </TextsContainer>
       <AdditionalContainer>
         <Time>{formatTime(prechatData.lastMessageSentAt)}</Time>
-        <Messages>{prechatData.unreadCount}</Messages>
+        {prechatData.unreadCount > 0 && <Messages>{prechatData.unreadCount}</Messages>}
       </AdditionalContainer>
     </Wrapper>
   );
@@ -28,7 +34,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-shrink: 0;
 
-  padding: 0 1.5rem;
+  padding: 1.1rem 1.5rem;
   align-items: center;
 
   border-bottom: 1px solid;
@@ -97,9 +103,10 @@ const PreText = styled.div`
 const AdditionalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-end;
   gap: 0.35rem;
+  height: 100%;
 
   margin-left: auto;
 `;

@@ -5,7 +5,6 @@ import { useChatStore } from '../../stores/useChatStore';
 
 export default function ChatContainer({ messageList }) {
   const { userId } = useChatStore();
-  console.log(userId);
 
   const groupMessages = (data) => {
     const result = [];
@@ -46,8 +45,6 @@ export default function ChatContainer({ messageList }) {
 
     return result;
   };
-  console.log(messageList);
-  console.log(groupMessages(messageList));
 
   const grouped = groupMessages(messageList);
 

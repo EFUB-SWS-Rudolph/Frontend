@@ -32,7 +32,7 @@ export const getChatroomList = async (category) => {
 
 export const getMessageList = async (chatroomId, pageNum, size = 10) => {
   try {
-    const res = await client.get(`/chat/rooms/${chatroomId}/messages?page=${pageNum}&size=${size}`);
+    const res = await client.get(`/chat/${chatroomId}/messages?page=${pageNum}&size=${size}`);
     console.log(res.data);
     return res.data;
   } catch (err) {
@@ -42,8 +42,8 @@ export const getMessageList = async (chatroomId, pageNum, size = 10) => {
 
 export const patchMessageRead = async (chatroomId) => {
   try {
-    const res = await client.patch(`/chat/rooms/${chatroomId}/messages/read`);
-    console.log(res.data);
+    const res = await client.patch(`/chat/rooms/${chatroomId}/read`);
+    console.log(res.status);
   } catch (err) {
     throw err;
   }
