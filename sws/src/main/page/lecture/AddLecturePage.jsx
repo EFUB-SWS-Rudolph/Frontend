@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import EwhainListHeader from '../../../ewhainList/components/common/EwhainListHeader';
+import EwhainListHeader from '../../../common/components/Header';
 import NextBtn from '../../components/NextBtn';
 import CAMERA from '../../assets/camera.svg?react';
 import CALENDAR from '../../assets/calendar.svg?react';
@@ -248,7 +248,7 @@ export default AddLecturePage;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 24px 16px;
+  padding: 0px 16px;
   width: 100%;
   margin: 0 auto;
 `;
@@ -261,7 +261,7 @@ const ImageUploadArea = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 24px 0;
+  margin: 16px 0;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -287,7 +287,7 @@ const ImageUploadArea = styled.label`
 const TopContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 14px;
+  margin: 4px 0px 16px 0px;
 `;
 const TextInput = styled.input`
   width: 356px;
@@ -300,6 +300,7 @@ const TextInput = styled.input`
 
 const Fieldset = styled.fieldset`
   padding: 10px 0px 20px 0px;
+  align-self: flex-start;
 `;
 
 const Legend = styled.legend`

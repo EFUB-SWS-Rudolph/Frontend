@@ -1,20 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import SLIGHT_RIGHT_ARROW from '../../../ewhainList/icons/icon_next.svg?react';
+import SLIGHT_RIGHT_ARROW from '../../../common/assets/icons/icon_next.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 import LOCATION from '../../constant/LOCATION';
 
 export default function InfoTagDetail({ select, tagname }) {
-  const setCity = useProfileStore((state) => state.setCity); 
+  const setCity = useProfileStore((state) => state.setCity);
 
   const navigate = useNavigate();
 
   const handleMoveDetail = () => {
     setCity(select);
-    navigate('/mypage/myinfotag', { state: { type: tagname }});
+    navigate('/mypage/myinfotag', { state: { type: tagname } });
   };
-  
+
   return (
     <DetailBtnWrapper>
       <DetailType>{select}</DetailType>

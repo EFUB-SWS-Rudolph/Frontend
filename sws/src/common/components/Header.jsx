@@ -1,59 +1,60 @@
 import styled from 'styled-components';
-import theme from '../../../styles/theme';
-import X from '../../icons/icon_x.svg?react';
-import BACK_ARROW from '../../icons/icon_back.svg?react';
+import theme from '../../styles/theme';
+import X from '../../common/assets/icons/icon_x.svg?react';
+import BACK_ARROW from '../../common/assets/icons/icon_back.svg?react';
+import BACK_ARROW_WHITE from '../../common/assets/icons/icon_back_white.svg?react';
 
-export default function EwhainListHeader({ header, onClick }) {
-  if (header === "ewhainlist") {
+export default function Header({ header, onClick }) {
+  if (header === 'ewhainlist') {
     return (
       <HeaderWrapper>
-        <HeaderContainer>이화인 목록</HeaderContainer> 
+        <HeaderContainer>이화인 목록</HeaderContainer>
       </HeaderWrapper>
     );
-  } else if (header === "filter") {
+  } else if (header === 'filter') {
     return (
       <HeaderWrapper>
         <HeaderContainer>필터 설정</HeaderContainer>
-        <X              
+        <X
           style={{
-            position: "absolute",
-            top: "50%",
-            right: "1rem",
-            transform: "translateY(-50%)",
-            color: theme.colors.black, 
+            position: 'absolute',
+            top: '50%',
+            right: '1rem',
+            transform: 'translateY(-50%)',
+            color: theme.colors.black,
           }}
-          onClick={onClick}        
+          onClick={onClick}
         />
       </HeaderWrapper>
     );
   } else {
-    return(
+    return (
       <HeaderWrapper>
-        <BACK_ARROW             
+        <BACK_ARROW
           style={{
-            position: "absolute",
-            top: "50%",
-            left: "1rem",
-            transform: "translateY(-50%)",
-            color: theme.colors.black, 
+            color: theme.colors.black,
           }}
           onClick={onClick}
         />
         <HeaderContainer>{header}</HeaderContainer>
+        <BACK_ARROW_WHITE
+          style={{
+            color: theme.colors.white,
+          }}
+          onClick={onClick}
+        />
       </HeaderWrapper>
     );
   }
 }
 
 const HeaderWrapper = styled.div`
-  width: 100wh;
-  height: 3.75rem;
-  padding-top: 1.12rem;
-  padding-bottom: 1.06rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0px 24px 8px;
 `;
 
 const HeaderContainer = styled.div`

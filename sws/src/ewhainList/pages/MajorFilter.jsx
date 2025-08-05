@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
-import EwhainListHeader from '../components/common/EwhainListHeader';
+import EwhainListHeader from '../../common/components/Header';
 import FilterDetailChoice from '../components/filter/FilterDetailChoice';
 import { useFilterStore } from '../stores/FilterStore';
 import DEPARTMENT_MAJOR from '../constants/Univ';
@@ -16,7 +16,7 @@ export default function MajorFilter() {
   const handleMajor = (item) => {
     setMajor(item);
   };
-  
+
   const handleMoveDeptFilter = () => {
     if (cameFromHeader) {
       navigate('/ewhainfilter/dept', { state: { fromHeader: true } });
@@ -24,19 +24,15 @@ export default function MajorFilter() {
       navigate('/ewhainfilter/dept');
     }
   };
-  
-  return(
+
+  return (
     <FilterPageWrapper>
       <HeaderSpace>
         <EwhainListHeader header="학과" onClick={handleMoveDeptFilter} />
       </HeaderSpace>
       <FilterContents>
         {MAJOR.map((item) => (
-          <FilterDetailChoice 
-          item={item} 
-          type={major} 
-          onChange={handleMajor}
-          key={item} />
+          <FilterDetailChoice item={item} type={major} onChange={handleMajor} key={item} />
         ))}
       </FilterContents>
     </FilterPageWrapper>

@@ -2,8 +2,13 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { useProfileStore } from '../../stores/ProfileStore';
-import { patchMemberProfile, patchProfileImg, putTalentTag, putInterestTag } from '../../../api/myPage';
-import BACK_ARROW from '../../../ewhainList/icons/icon_back.svg?react';
+import {
+  patchMemberProfile,
+  patchProfileImg,
+  putTalentTag,
+  putInterestTag,
+} from '../../../api/myPage';
+import BACK_ARROW from '../../../common/assets/icons/icon_back.svg?react';
 
 export default function Header({ type, onClick }) {
   const nickname = useProfileStore((state) => state.nickname);
@@ -20,8 +25,8 @@ export default function Header({ type, onClick }) {
   const setIsEditing = useProfileStore((state) => state.setIsEditing);
   const profileImg = useProfileStore((state) => state.profileImg);
 
-  const talentArray = talentTags.map(item => item.tag);
-  const interestArray = interestTags.map(item => item.tag);
+  const talentArray = talentTags.map((item) => item.tag);
+  const interestArray = interestTags.map((item) => item.tag);
 
   const patchProfileInfo = async () => {
     try {
@@ -37,15 +42,14 @@ export default function Header({ type, onClick }) {
       });
 
       await patchProfileImg({ profileImg });
-      
+
       await putTalentTag({
-        tagNames: talentArray
+        tagNames: talentArray,
       });
 
       await putInterestTag({
-        tagNames: interestArray
+        tagNames: interestArray,
       });
-
     } catch (err) {
       throw err;
     }
@@ -55,34 +59,34 @@ export default function Header({ type, onClick }) {
     if (isEditing) {
       await patchProfileInfo();
     }
-  setIsEditing(!isEditing);
+    setIsEditing(!isEditing);
   };
 
-  if (type === "mypage") {
+  if (type === 'mypage') {
     return (
       <HeaderWrapper>
         <HeaderContainer>마이 페이지</HeaderContainer>
         <EditButton onClick={handleEditMode}>
-          <EditText $isediting={isEditing}>{isEditing ? "완료" : "편집" }</EditText>
+          <EditText $isediting={isEditing}>{isEditing ? '완료' : '편집'}</EditText>
         </EditButton>
       </HeaderWrapper>
     );
   } else {
     return (
       <HeaderWrapper>
-        <BACK_ARROW             
+        <BACK_ARROW
           style={{
-            position: "absolute",
-            top: "50%",
-            left: "0.5rem",
-            transform: "translateY(-50%)",
-            color: theme.colors.black, 
+            position: 'absolute',
+            top: '50%',
+            left: '0.5rem',
+            transform: 'translateY(-50%)',
+            color: theme.colors.black,
           }}
           onClick={onClick}
         />
         <HeaderContainer>{type}</HeaderContainer>
       </HeaderWrapper>
-    )
+    );
   }
 }
 
@@ -118,9 +122,7 @@ const EditButton = styled.button`
 `;
 
 const EditText = styled.div`
-  color: ${({ $isediting }) =>
-    $isediting ? "var(--Primary, #00664F)" : "var(--Gray-500, #999)"
-  };
+  color: ${({ $isediting }) => ($isediting ? 'var(--Primary, #00664F)' : 'var(--Gray-500, #999)')};
   text-align: center;
   font-family: ${({ theme }) => theme.fonts.display.small.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.small.fontSize};

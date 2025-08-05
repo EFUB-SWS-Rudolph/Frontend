@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
-import EwhainListHeader from '../components/common/EwhainListHeader';
+import EwhainListHeader from '../../common/components/Header';
 import FilterDetailChoice from '../components/filter/FilterDetailChoice';
 import { useFilterStore } from '../stores/FilterStore';
 
@@ -14,12 +14,12 @@ export default function PeriodFilter() {
   const handlePeriod = (item) => {
     setPeriod(item);
   };
-  
+
   const handleMoveInitialFilter = () => {
     cameFromHeader ? navigate('/ewhainlist') : navigate('/ewhainfilter');
   };
-  
-  return(
+
+  return (
     <FilterPageWrapper>
       <HeaderSpace>
         <EwhainListHeader header="최신순" onClick={handleMoveInitialFilter} />

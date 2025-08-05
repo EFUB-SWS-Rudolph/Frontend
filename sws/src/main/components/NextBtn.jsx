@@ -11,6 +11,8 @@ export default function NextBtn({ disabled, onClick }) {
 
 const NextButton = styled.button`
   display: flex;
+  position: absolute;
+  bottom: 2%;
   width: 22.375rem;
   height: 48px;
   padding: 1rem 7.5625rem;
