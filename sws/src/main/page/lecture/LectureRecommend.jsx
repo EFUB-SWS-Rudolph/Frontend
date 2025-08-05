@@ -315,17 +315,8 @@ export default function LectureRecommendPage() {
   const handleFilterClick = () => {
     navigate('/lectures/recommend/filter'); 
   };
-  const handleFormatFilterClick=()=>{
-    navigate('/lectures/recommend/filter/format'); 
-  };
-  const handleRegionFilterClick=()=>{
-    navigate('/lectures/recommend/filter/location');
-  };
-  const handleDateFilterClick=()=>{
-    navigate('/lectures/recommend/filter/date');
-  };
   const handleRecentFilterClick=()=>{
-    navigate('/lectures/recommend/filter/sort');
+    navigate('/lectures/search/filter/sort');
   };
   return (
     <RecommendPageContainer>

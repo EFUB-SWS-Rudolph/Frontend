@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled , { css } from 'styled-components';
 import { getMyCourses } from '../../../api/course'; 
+import { useFilter } from '../../../common/contexts/FilterContext';
 
 import SortGridIconURL from '../../../common/assets/icons/FilterIcon_SortGrid.svg';
 import SortListIconURL from '../../../common/assets/icons/FilterIcon_SortList.svg';
@@ -10,7 +11,6 @@ import SortKeywordIconURL from '../../../common/assets/icons/FilterIcon_SortKeyw
 import SortFilterIconURL from '../../../common/assets/icons/FilterIcon_SortFilter.svg';
 import IconDownURL from '../../../common/assets/icons/icon_down.svg';
 import LectureCard from '../../../common/components/LectureCard';
-import IconBackURL from '../../../common/assets/icons/icon_back.svg'; 
 
 //강의 이미지 예시 (임시)
 import LectureImageExample from '../../../common/assets/images/weave_img_ex1.svg';
@@ -257,82 +257,12 @@ const LectureListItemDate = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const FilterModalOverlay = styled.div`
-   position: fixed; 
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    align-items: flex-end; 
-    justify-content: center;
-    z-index: 10000; 
-`;
-
-const FilterModalContainer = styled.div`
-    width: 24.375rem; 
-    max-height: 23.75rem; 
-    min-height: 18rem;
-    border-radius: 1.25rem 1.25rem 0 0;
-    background: var(--White, #FFF);
-    box-sizing: border-box;
-    position: relative; 
-    transform: translateY(${props => props.$isVisible ? '0' : '100%'});
-    transition: transform 0.3s ease-out;
-    display: flex; 
-    flex-direction: column;
-    overflow-y: auto; 
-    -webkit-overflow-scrolling: touch; 
-`;
-
-const ModalTitle = styled.h3`
-    font-family: Pretendard Variable;
-    font-weight: 600;
-    font-size: 1.25rem;
-    color: #222222;
-    text-align: center;
-    margin-bottom: 1.25rem;
-    margin-top:1.65rem;
-`;
-
-const ModalCloseButton = styled.button`
-    position: absolute;
-    top: 1.563rem;
-    left: 1rem;
-    border: none;
-    font-size: 1.75rem;
-    cursor: pointer;
-    background: none;
-    color:#222222;
-`;
-const ModalComponentButton=styled.button`
- background:#FFFFFF;
-  border: none;
-  cursor: pointer;
-  width:100%;
-  heignt:3.75rem;
-  margin-left:0rem;
-`;
-const ModalComponentButtonText=styled.div`
-  idth:flex;
-  heignt:1.375rem;
-  margin-top:1.188rem;
-  margin-left:4rem;
-  margin-bottom:1.188rem;
-  font-size: 1rem;
-  font-weight:500;
-  color:#000000;
-  display: flex;
-  justify-content: flex-start; 
-  align-items: center; 
-`;
 //  MyLecturePage 함수 컴포넌트 정의
 export default function MyLecturePage() {
   const navigate = useNavigate();
   const [originalLectures, setOriginalLectures] = useState([]); 
   const [lectures, setLectures] = useState([]); 
-
+  const { generalFilterParams, updateGeneralFilter } = useFilter();
   const [searchQuery, setSearchQuery] = useState('');
   const [displayMode, setDisplayMode] = useState('grid');
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -365,7 +295,6 @@ export default function MyLecturePage() {
     };
     fetchMyCoursesData();
   }, []); 
- // 검색어 필터링
   useEffect(() => {
     let filteredBySearch = originalLectures;
 
@@ -376,9 +305,23 @@ export default function MyLecturePage() {
         (lecture.teacherNickname && lecture.teacherNickname.toLowerCase().includes(lowercasedQuery))
       );
     }
-    setLectures(filteredBySearch);
-  }, [searchQuery,originalLectures]); 
-
+    let finalFilteredLectures = filteredBySearch;
+    if (generalFilterParams.status === 'inProgress') {
+        finalFilteredLectures = filteredBySearch.filter(lecture => {
+            const now = new Date();
+            const startDate = new Date(lecture.courseStartDate);
+            const endDate = new Date(lecture.courseEndDate);
+            return now >= startDate && now <= endDate;
+        });
+    } else if (generalFilterParams.status === 'completed') {
+        finalFilteredLectures = filteredBySearch.filter(lecture => {
+            const now = new Date();
+            const endDate = new Date(lecture.courseEndDate);
+            return now > endDate;
+        });
+    }
+     setLectures(finalFilteredLectures);
+  }, [searchQuery, generalFilterParams, originalLectures]);
 
   const handleToggleSearchBar = () => {
     setShowSearchBar(prev => !prev);

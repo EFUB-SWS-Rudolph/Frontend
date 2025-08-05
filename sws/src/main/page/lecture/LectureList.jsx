@@ -252,12 +252,6 @@ const LectureListItemDate = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const CourseListGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); // 반응형 그리드 예시
-  gap: 1rem;
-  justify-content: center; // 중앙 정렬
-`;
 const LectureListDisplayArea = styled.div`
   width: 100%;
   height: auto;
@@ -489,29 +483,7 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
         </>
       )}
 
-      {loading && <div>강의 목록 불러오는 중...</div>}
-      {error && <div>오류 발생: {error.message}</div>}
-      {!loading && !error && lectures.length === 0 ? (
-        <div>{mainActiveTab} 탭에 표시할 강의가 없습니다.</div>
-      ) : (
-        <CourseListGrid>
-          {lectures.map(lecture => (
-            <LectureCard
-              key={lecture.courseId || lecture.id}
-              lecture={{
-                id: lecture.courseId || lecture.id,
-                title: lecture.courseTitle || lecture.title,
-                instructor: lecture.teacherNickname,
-                location: lecture.courseCity,
-                period: { start: lecture.courseStartDate, end: lecture.courseEndDate }, 
-                thumbnailUrl: lecture.thumbnailUrl,
-                category: lecture.courseCategory,
-                bookmarkCount: lecture.bookmarkCount,
-              }}
-            />
-          ))}
-        </CourseListGrid>
-      )}
+      
     </LectureListContainer>
   )};
 export default LectureListContent; 

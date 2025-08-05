@@ -81,6 +81,7 @@ const OptionName = styled.span`
   font-size: 1rem;
   color: #222222;
 `;
+// [푸터 바]
 const FooterBar = styled.div`
   width:100% ; 
   height: 5.19rem;
@@ -99,43 +100,41 @@ const FooterBar = styled.div`
   z-index: 1000; 
 `;
 const ResetButton = styled.button`
-  width: 3.375rem; /* 54px */
-  height: 3rem; /* 48px */
-  border-radius: 0.5rem; /* 8px */
+  height: 3rem;
+  width:3.375rem;
+  border-radius: 0.5rem;
   background: #F5F5F5; 
   color: #222222;
   font-family: Pretendard Variable;
   font-weight: 500;
-  font-size: 0.625rem; /* 10px */
+  font-size: 0.625rem;
   border: none;
   cursor: pointer;
   display: flex;
-  flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
-  align-items: center; 
-  justify-content: center; 
-  gap: 0.25rem; /* 4px */
-  flex-shrink: 0; 
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem; 
+  flex-shrink: 0;
 `;
 const ApplyFilterButton = styled.button`
-  flex-grow: 1;
-  width: 17.25rem; /* 276px */
-  height: 3.5rem; /* 56px */
-  border-radius: 0.75rem; /* 12px */
-  background: #00664F;
+  width:17.25rem; 
+  height: 3.5rem; 
+  border-radius: 0.75rem;
+  background: #00664F; 
   color: white;
   font-family: Pretendard Variable;
   font-weight: 600;
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-`;
-export default function LectureLocationFilterPage() {
+  flex-shrink: 0; 
+`;export default function LectureLocationFilterPage() {
   const navigate = useNavigate();
-  const { searchFilters, updateSearchFilter } = useFilter();
+  const { generalFilterParams, updateGeneralFilter } = useFilter();
   // 지역 옵션들
   const locationOptions = [
     { label: '전체', value: '전체' },
@@ -147,21 +146,40 @@ export default function LectureLocationFilterPage() {
     { label: '대전광역시', value: '대전광역시' },
     { label: '울산광역시', value: '울산광역시' },
   ];
-
-  const handleOptionClick = (value) => {
-    updateSearchFilter('location', value); // 'location' 필드만 업데이트
+  const getInitialSelectedLocation = () => {
+      const currentApiValue = generalFilterParams.courseCity; 
+      const matchingOption = locationOptions.find(opt => {
+          switch (opt.value) {
+              case '서울특별시': return currentApiValue === 'SEOUL';
+              case '부산광역시': return currentApiValue === 'BUSAN';
+              case '대구광역시': return currentApiValue === 'DAEGU';
+              case '인천광역시': return currentApiValue === 'INCHEON';
+              case '광주광역시': return currentApiValue === 'GWANGJU';
+              case '대전광역시': return currentApiValue === 'DAEJEON';
+              case '울산광역시': return currentApiValue === 'ULSAN';
+              case '전체': return currentApiValue === null;
+              default: return false;
+          }
+      });
+      return matchingOption ? matchingOption.value : '전체';
   };
-  
+
+  const [selectedLocation, setSelectedLocation] = useState(getInitialSelectedLocation());
+  const handleOptionClick = (value) => {
+    setSelectedLocation(value); 
+  };
+
   const handleResetFilters = () => {
-      updateSearchFilter('location', '전체'); // Context의 location을 '전체'로 초기화
+      updateGeneralFilter('courseCity', '전체');
       alert('필터가 초기화되었습니다.');
+      navigate(-1);
   };
   
   const handleApply = () => {
-    alert(`선택된 지역: ${searchFilters.location}`); 
-    navigate(-1); // 이전 페이지(LectureSearchFilterPage)로 
-  };
-
+     updateGeneralFilter('courseCity', selectedLocation);
+     alert('필터가 적용되었습니다.');
+    navigate(-1); 
+}; 
   return (
     <PageContainer>
       <HeaderWrapper>
@@ -173,11 +191,10 @@ export default function LectureLocationFilterPage() {
 
       <FilterOptionsContainer>
         {locationOptions.map(option => (
-          <FilterOptionItem 
-            key={option.value} 
+          <FilterOptionItem
+            key={option.value}
             onClick={() => handleOptionClick(option.value)}
-            // Context의 searchFilters.location과 비교하여 $isSelected 설정
-            $isSelected={searchFilters.location === option.value} 
+            $isSelected={selectedLocation === option.value}
           >
             <OptionName>{option.label}</OptionName>
           </FilterOptionItem>
@@ -185,13 +202,12 @@ export default function LectureLocationFilterPage() {
       </FilterOptionsContainer>
 
       <FooterBar>
-        <ResetButton onClick={handleResetFilters}>
-          <img src={IconInitializeURL} alt="초기화" style={{ width: '1.25rem', height: '1.25rem' }}/>
-          초기화
-        </ResetButton>
-        <ApplyFilterButton onClick={handleApply}>적용</ApplyFilterButton>
-      </FooterBar>
+              <ResetButton onClick={handleResetFilters}>
+                <img src={IconInitializeURL} alt="초기화" style={{ width: '1.25rem', height: '1.25rem' }}/> 
+                초기화
+              </ResetButton>
+              <ApplyFilterButton onClick={handleApply}>적용</ApplyFilterButton>
+            </FooterBar>
 
     </PageContainer>
-  );
-}
+  ); }
