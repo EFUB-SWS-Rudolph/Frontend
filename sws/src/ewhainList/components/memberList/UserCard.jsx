@@ -18,8 +18,8 @@ export default function UserCard({ user }) {
   function available() {
     return (
       <>
-        {user.exchange && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
-        {user.donation && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.exchange && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.donation && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
         {user.coffeeChat && <COFFEECHAT width="1rem" height="1rem" aspect-ratio="1/1" />}
       </>
     );

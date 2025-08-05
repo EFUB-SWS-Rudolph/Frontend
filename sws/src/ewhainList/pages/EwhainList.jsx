@@ -24,7 +24,6 @@ export default function EwhainList() {
   const setIsCoffeeChat = useFilterStore((state) => state.setIsCoffeeChat);
   
   const isSort = (period === "최신순" ? "desc" : "asc");  // sort 여부
-  const searchExist = (searchItem !== '');  // api 연결 후 검색 결과 여부 표시
   const { isgallery } = useFilterStore();
   const [users, setUsers] = useState([]);
 
@@ -53,10 +52,9 @@ export default function EwhainList() {
     try {
       // const nickName = searchItem&& searchItem.trim() !== '' ? searchItem.trim() : undefined;
       const nickName = searchItem && !isSearchItemInDepartments(searchItem) ? searchItem.trim() : undefined;
-      console.log(nickName);
       // const dept = searchItem ? searchItem : major;
       const dept = isSearchItemInDepartments(searchItem) ? searchItem : major
-      const coffeechat = isCoffeeChat;
+      const coffeeChat = isCoffeeChat;
       const donation = isDonation;
       const exchange = isExchange;
 
@@ -65,7 +63,7 @@ export default function EwhainList() {
       const params = {
         nickName, 
         department: dept === '전체' ? undefined : dept,
-        coffeechat: coffeechat ? true : undefined,
+        coffeeChat: coffeeChat ? true : undefined,
         donation: donation ? true : undefined,
         exchange: exchange ? true : undefined,
         sort

@@ -8,7 +8,7 @@ import FilterFooter from '../components/filter/FilterFooter';
 import { useFilterStore } from '../stores/FilterStore';
 
 export default function EwhainFilter() {
-  const { exchange, major, period, setExchange, setMajor, setPeriod, setIsGallery } = useFilterStore();
+  const { exchange, major, period, setExchange, setMajor, setPeriod, setIsGallery, setIsExchange, setIsDonation, setIsCoffeeChat } = useFilterStore();
   const navigate = useNavigate();
 
   const handleMoveEwhainList = () => {
@@ -17,6 +17,9 @@ export default function EwhainFilter() {
     setMajor('전체');
     setPeriod('최신순');
     setIsGallery(true);
+    setIsExchange(false);
+    setIsDonation(false);
+    setIsCoffeeChat(false);
   };
 
   return (

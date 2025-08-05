@@ -5,7 +5,7 @@ import { useFilterStore } from '../../stores/FilterStore';
 import Reset from '../../icons/icon_reset.svg?react';
 
 export default function FilterFooter() {
-  const { setExchange, setMajor, setPeriod, setIsGallery } = useFilterStore();
+  const { setExchange, setMajor, setPeriod, setIsGallery, setIsExchange, setIsDonation, setIsCoffeeChat } = useFilterStore();
   const navigate = useNavigate();
 
   const handleMoveEwhainPage = () => {
@@ -17,6 +17,9 @@ export default function FilterFooter() {
     setMajor('전체');
     setPeriod('최신순');
     setIsGallery(true);
+    setIsExchange(false);
+    setIsDonation(false);
+    setIsCoffeeChat(false);
   };
 
   return(
