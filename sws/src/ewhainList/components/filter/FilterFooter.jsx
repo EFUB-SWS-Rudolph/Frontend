@@ -38,7 +38,7 @@ export default function FilterFooter() {
 }
 
 const FooterWrapper = styled.div`
-  width: 24.375rem;
+  width: 100%;
   height: 3rem;
   padding: 0 1.25rem 0;
   display: flex;

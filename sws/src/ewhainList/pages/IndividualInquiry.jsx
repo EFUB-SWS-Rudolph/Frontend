@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 `;
 
 const PageContents = styled.div`
-  width: 24.375rem;
+  width: 100%;
   padding-top: 1rem;
   display: flex;
   flex-direction: column;

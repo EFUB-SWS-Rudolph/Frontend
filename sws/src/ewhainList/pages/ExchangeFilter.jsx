@@ -9,7 +9,7 @@ import GIVE from "../icons/icon_give.svg?react";
 import COFFEECHAT from "../icons/icon_coffeechat.svg?react";
 
 export default function ExchangeFilter() {
-  const { exchange, setExchange, setIsExchange, setIsDonation, setIsCoffeeChat, isCoffeeChat, isExchange, isDonation } = useFilterStore();
+  const { exchange, setExchange, setIsExchange, setIsDonation, setIsCoffeeChat } = useFilterStore();
   const location = useLocation();
   const navigate = useNavigate();
   const cameFromHeader = location.state?.fromHeader;
@@ -46,7 +46,7 @@ const FilterPageWrapper = styled.div`
 `;
 
 const FilterContents = styled.div`
-  width: 24.375rem;
+  width: 100%;
   height: 44.94rem;
   display: flex;
   flex-direction: column;

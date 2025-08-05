@@ -64,7 +64,7 @@ const HeaderSpace = styled.div`
 
 const FilterContents = styled.div`
   flex: 1;
-  width: 24.375rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
