@@ -1,8 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import AddIconURL from '../../common/assets/icons/btn_add.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const LectureListHeaderContent = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   return (
     <LecturePageHeaderContainer>
@@ -10,11 +12,11 @@ export const LectureListHeaderContent = () => {
         <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
           <LectureTitle>강의</LectureTitle>
         </div>
-        <AddButton>
+        <AddButton onClick={() => navigate('/add/lecture')}>
           <img src={AddIconURL} alt="추가" style={{ width: '24px', height: '24px' }} />
         </AddButton>
       </LecturePageTitleArea>
-      {/* 탭 바 (MainLectureTabsContainer) */}
+
       <MainLectureTabsContainer>
         <MainLectureTab
           to="/lectures/search"
