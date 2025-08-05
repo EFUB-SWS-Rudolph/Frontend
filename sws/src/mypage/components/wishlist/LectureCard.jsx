@@ -11,18 +11,18 @@ export default function LectureCard({ course }) {
     return `${year.slice(2)}.${month}.${day}~`;
   }
 
-  // const formattedDate = formatDate(course.startDate);   찜한 목록 api 수정되면 바꾸기
-  const formattedDate = "25.08.05~";
+  const formattedDate = formatDate(course.courseStartDate);   // 찜한 목록 api 수정되면 바꾸기
+  // const formattedDate = "25.08.05~";
 
   const handleMoveCourseDetail = () => {
     navigate(`/lectures/detail/${course.courseId}`)
-  }
+  };
 
   return (
     <CardWrapper $image={course.thumbnailUrl} onClick={handleMoveCourseDetail}>
       <Rectangle />
       <LectureInfoContainer>
-        <Instructor>{course.courseNickname}</Instructor>
+        <Instructor>{course.teacher}</Instructor>
         <LectureTitle>{course.title}</LectureTitle>
         <LectureDate>{formattedDate}</LectureDate>
       </LectureInfoContainer>
