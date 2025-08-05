@@ -56,7 +56,6 @@ export default function EwhainList() {
       console.log(nickName);
       // const dept = searchItem ? searchItem : major;
       const dept = isSearchItemInDepartments(searchItem) ? searchItem : major
-
       const coffeechat = isCoffeeChat;
       const donation = isDonation;
       const exchange = isExchange;
@@ -75,7 +74,6 @@ export default function EwhainList() {
       const filteredParams = makeParams(params);
 
       const res = await getMemberList(filteredParams);
-      console.log(res);
       setUsers(res);
     } catch (err) {
       throw err;
@@ -120,7 +118,7 @@ export default function EwhainList() {
 
 const EwhainListWrapper = styled.div`
   position: static;
-  width: 24.375rem;
+  width: 100%;
   height: 100vh;
   max-height: 100vh;
   display: flex;

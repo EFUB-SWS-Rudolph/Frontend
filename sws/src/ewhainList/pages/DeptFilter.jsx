@@ -48,7 +48,7 @@ export default function DeptFilter() {
 }
 
 const FilterPageWrapper = styled.div`
-  width: 24.375rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
   position: relative;

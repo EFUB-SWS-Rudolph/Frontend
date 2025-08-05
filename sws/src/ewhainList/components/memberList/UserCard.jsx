@@ -72,7 +72,7 @@ const UserCardWrapper = styled.div`
     $isgallery ? "column" : "row"
   };
   width: ${({$isgallery}) => 
-    $isgallery ? "10.5rem" : "21.9rem"
+    $isgallery ? "10.5rem" : "21.7rem"
   };
   height: ${({$isgallery}) => 
     $isgallery ? "11.5rem" : "5rem"
@@ -133,6 +133,9 @@ const Nickname = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const UnivInfoContent = styled.div`
@@ -169,6 +172,9 @@ const UserTalent = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   max-width: 10.5rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const UserLocation = styled.div`
@@ -179,6 +185,9 @@ const UserLocation = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const AvailableSection = styled.div`
