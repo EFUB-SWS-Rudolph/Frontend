@@ -7,72 +7,44 @@ import EDIT from '../../assets/icon_edit.svg?react';
 export default function InfoTag({ tagname, info, onChange }) {
   const { isEditing } = useProfileStore();
   const navigate = useNavigate();
-  const infoTextRef = useRef();
-  const [isOverflow, setIsOverflow] = useState(false);
-  
-  useLayoutEffect(() => {
-    if (infoTextRef.current) {
-      setIsOverflow(infoTextRef.current.scrollWidth > infoTextRef.current.clientWidth);
-    }
-  }, [info, isEditing, tagname]);
-  
 
   const handleMoveSelection = () => {
-    navigate('/mypage/myinfotag', { state: { type: tagname }})
+    navigate('/mypage/myinfotag', { state: { type: tagname } });
   };
 
   const handleMoveCity = () => {
-    navigate('/mypage/myinfotag/city', { state: { type: tagname }})
+    navigate('/mypage/myinfotag/city', { state: { type: tagname } });
   };
 
   return (
     <Container>
       <Tag>{tagname}</Tag>
-      { tagname === "학번" && isEditing ? 
+      {tagname === '학번' && isEditing ? (
         <>
           <InfoInput value={info} onChange={onChange} />
           <EDIT />
         </>
-      :
-        tagname === "지역" && isEditing ?
-          <>
-            <InfoText
-              onClick={handleMoveCity} 
-              $isediting={isEditing}
-              $tagname={tagname}
-              $isoverflow={isOverflow}
-              ref={infoTextRef}
-            >
-              {info}
-            </InfoText>
-            <EDIT onClick={handleMoveCity} />
-          </>
-        :
-        isEditing ? 
-            <>
-              <InfoText
-                onClick={handleMoveSelection} 
-                $isediting={isEditing} 
-                $tagname={tagname}
-                $isoverflow={isOverflow}
-                ref={infoTextRef}
-              >
-                {info}
-              </InfoText>
-              <EDIT onClick={handleMoveSelection} />
-            </>
-          :
-            <>
-              <InfoText
-                $isediting={isEditing}
-                $tagname={tagname}
-                $isoverflow={isOverflow}
-                ref={infoTextRef}
-              >
-                {info}
-              </InfoText>
-            </>
-      }
+      ) : tagname === '지역' && isEditing ? (
+        <>
+          <InfoText onClick={handleMoveCity} $isediting={isEditing} $tagname={tagname}>
+            {info}
+          </InfoText>
+          <EDIT onClick={handleMoveCity} />
+        </>
+      ) : isEditing ? (
+        <>
+          <InfoText onClick={handleMoveSelection} $isediting={isEditing} $tagname={tagname}>
+            {info}
+          </InfoText>
+          <EDIT onClick={handleMoveSelection} />
+        </>
+      ) : (
+        <>
+          <InfoText $isediting={isEditing} $tagname={tagname}>
+            {info}
+          </InfoText>
+        </>
+      )}
     </Container>
   );
 }
@@ -113,15 +85,11 @@ const InfoText = styled.p`
   font-weight: 500;
   line-height: 150%; /* 1.3125rem */
 
-  width: ${({ $isediting }) => $isediting ? "6rem" : "7rem"};
-  display: flex;
-  justify-content: ${({ $isediting, $isoverflow }) => 
-    $isoverflow ? "flex-start" :
-    $isediting ? "center" :
-    "flex-end"};
+  width: ${({ $isediting }) => ($isediting ? '6rem' : '7rem')};
   white-space: nowrap;
-  text-overflow: ellipsis;
   overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
 `;
 
 const InfoInput = styled.input`

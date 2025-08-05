@@ -8,7 +8,17 @@ import LOCATION from '../constant/LOCATION';
 import { useProfileStore } from '../stores/ProfileStore';
 
 export default function SelectMyInfo() {
-  const { college, setCollege, setDepartment, location, setLocation, city, subCity, setCity, setSubCity } = useProfileStore();
+  const {
+    college,
+    setCollege,
+    setDepartment,
+    location,
+    setLocation,
+    city,
+    subCity,
+    setCity,
+    setSubCity,
+  } = useProfileStore();
   const navigate = useNavigate();
   const locate = useLocation();
 
@@ -37,7 +47,7 @@ export default function SelectMyInfo() {
 
   const handleSubCityClick = (item) => {
     setSubCity(item);
-    console.log("최종 지역:", location);
+    console.log('최종 지역:', location);
     navigate('/mypage');
   };
 
@@ -45,7 +55,7 @@ export default function SelectMyInfo() {
     setLocation(city + (subCity ? ` ${subCity}` : ''));
   }, [city, subCity]);
 
-  if (type === "대학") {
+  if (type === '대학') {
     return (
       <Wrapper>
         <HeaderSpace>
@@ -57,20 +67,24 @@ export default function SelectMyInfo() {
           ))}
         </FilterContents>
       </Wrapper>
-    )
-  } else if (type === "학과") {
+    );
+  } else if (type === '학과') {
     return (
       <Wrapper>
         <HeaderSpace>
           <Header type={type} onClick={handleMoveBack} />
         </HeaderSpace>
         <FilterContents>
-          {DEPT.map((item) => (
-            <InfoTagChoice item={item} onClick={() => handleDeptClick(item)} />
+          {DEPT.map((item, idx) => (
+            <InfoTagChoice
+              key={`tagchoice-${idx}`}
+              item={item}
+              onClick={() => handleDeptClick(item)}
+            />
           ))}
         </FilterContents>
       </Wrapper>
-    )
+    );
   } else {
     return (
       <Wrapper>
@@ -83,7 +97,7 @@ export default function SelectMyInfo() {
           ))}
         </FilterContents>
       </Wrapper>
-    )
+    );
   }
 }
 
