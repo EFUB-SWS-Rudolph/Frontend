@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import CHECK from '../../icons/icon_check.svg?react';
+import CHECK from '../../../common/assets/icons/icon_check.svg?react';
 
 // icon: 교환 방식에서 앞에 svg 컴포넌트
 // item: 재능 기부, 재능 교환, 학과, 최신순, 오래된 순

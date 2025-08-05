@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import SLIGHT_RIGHT_ARROW from '../../icons/icon_next.svg?react';
+import SLIGHT_RIGHT_ARROW from '../../../common/assets/icons/icon_next_square.svg?react';
 
 // select: 교환 방식, 학과, 최신순, 각 대학
 // value: 선택된 값, 처음에는 전체

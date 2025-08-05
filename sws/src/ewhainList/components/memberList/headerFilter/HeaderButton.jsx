@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import GALLERY from '../../../icons/icon_gallery.svg?react';
-import INDEX from '../../../icons/icon_index.svg?react';
-import SEARCH from '../../../icons/icon_search.svg?react';
-import SEARCH_GREEN from '../../../icons/icon_searchgreen.svg?react';
-import FILTER from '../../../icons/icon_filter.svg?react';
-import DOWNARROW from '../../../icons/icon_downarrow.svg?react';
+import GALLERY from '../../../../common/assets/icons/FilterIcon_SortGrid.svg?react';
+import INDEX from '../../../../common/assets/icons/icon_index.svg?react';
+import SEARCH from '../../../../common/assets/icons/FilterIcon_SortKeyword.svg?react';
+import SEARCH_GREEN from '../../../../common/assets/icons/icon_searchgreen.svg?react';
+import FILTER from '../../../../common/assets/icons/FilterIcon_SortFilter.svg?react';
+import DOWNARROW from '../../../../common/assets/icons/icon_downarrow.svg?react';
 import theme from '../../../../styles/theme';
 import { useFilterStore } from '../../../stores/FilterStore';
 

@@ -4,9 +4,9 @@ import theme from '../../styles/theme';
 import EwhainListHeader from '../components/common/EwhainListHeader';
 import FilterDetailChoice from '../components/filter/FilterDetailChoice';
 import { useFilterStore } from '../stores/FilterStore';
-import EXCHANGE from "../icons/icon_exchange.svg?react";
-import GIVE from "../icons/icon_give.svg?react";
-import COFFEECHAT from "../icons/icon_coffeechat.svg?react";
+import EXCHANGE from "../../common/assets/icons/icon_exchange_black.svg?react";
+import GIVE from "../../common/assets/icons/icon_give_black.svg?react";
+import COFFEECHAT from "../../common/assets/icons/icon_coffeechat_black.svg?react";
 
 export default function ExchangeFilter() {
   const { exchange, setExchange, setIsExchange, setIsDonation, setIsCoffeeChat } = useFilterStore();
