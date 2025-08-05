@@ -10,13 +10,20 @@ import DeptFilter from '../ewhainList/pages/DeptFilter';
 import IndividualInquiry from '../ewhainList/pages/IndividualInquiry';
 
 export const EwhainRoutes = (
-  <Route element={<Layout />}>
-    <Route path="/ewhainlist" element={<EwhainList />} />
-    <Route path="/ewhainfilter" element={<EwhainFilter />} />
-    <Route path="/ewhainfilter/exchange" element={<ExchangeFilter />} />
-    <Route path="/ewhainfilter/dept" element={<DeptFilter />} />
-    <Route path="/ewhainfilter/dept/major" element={<MajorFilter />} />
-    <Route path="/ewhainfilter/period" element={<PeriodFilter />} />
-    <Route path="/ewhain/:id" element={<IndividualInquiry />} />
-  </Route>
+  <>
+    {/* Layout with default footer */}
+    <Route element={<Layout />}>
+      <Route path="/ewhainlist" element={<EwhainList />} />
+      <Route path="/ewhainlist/:id" element={<IndividualInquiry />} />
+    </Route>
+
+    {/* Layout without footer */}
+    <Route element={<Layout showFooter={false} />}>
+      <Route path="/ewhainfilter" element={<EwhainFilter />} />
+      <Route path="/ewhainfilter/exchange" element={<ExchangeFilter />} />
+      <Route path="/ewhainfilter/dept" element={<DeptFilter />} />
+      <Route path="/ewhainfilter/dept/major" element={<MajorFilter />} />
+      <Route path="/ewhainfilter/period" element={<PeriodFilter />} />
+    </Route>
+  </>
 );

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export default function EditImgChoice({ icon: Icon, text, onClose }) {
+export default function EditImgChoice({ icon: Icon, text, onClick }) {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <Icon width="3rem" height="3rem" />
       <Text>{text}</Text>
     </Container>

@@ -1,13 +1,61 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { useProfileStore } from '../../stores/ProfileStore';
+import { patchMemberProfile, patchProfileImg, putTalentTag, putInterestTag } from '../../../api/myPage';
 import BACK_ARROW from '../../../ewhainList/icons/icon_back.svg?react';
 
 export default function Header({ type, onClick }) {
-  const { isEditing, setIsEditing } = useProfileStore();
+  const nickname = useProfileStore((state) => state.nickname);
+  const college = useProfileStore((state) => state.college);
+  const department = useProfileStore((state) => state.department);
+  const studentid = useProfileStore((state) => state.studentid);
+  const location = useProfileStore((state) => state.location);
+  const talentTags = useProfileStore((state) => state.talentTags);
+  const interestTags = useProfileStore((state) => state.interestTags);
+  const isExchange = useProfileStore((state) => state.isExchange);
+  const isDonation = useProfileStore((state) => state.isDonation);
+  const isCoffeeChat = useProfileStore((state) => state.isCoffeeChat);
+  const isEditing = useProfileStore((state) => state.isEditing);
+  const setIsEditing = useProfileStore((state) => state.setIsEditing);
+  const profileImg = useProfileStore((state) => state.profileImg);
 
-  const handleEditMode = () => {
-    setIsEditing(!isEditing);
+  const talentArray = talentTags.map(item => item.tag);
+  const interestArray = interestTags.map(item => item.tag);
+
+  const patchProfileInfo = async () => {
+    try {
+      await patchMemberProfile({
+        nickname,
+        college,
+        department,
+        studentid,
+        location,
+        isExchange,
+        isCoffeeChat,
+        isSkillDonation: isDonation,
+      });
+
+      await patchProfileImg({ profileImg });
+      
+      await putTalentTag({
+        tagNames: talentArray
+      });
+
+      await putInterestTag({
+        tagNames: interestArray
+      });
+
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  const handleEditMode = async () => {
+    if (isEditing) {
+      await patchProfileInfo();
+    }
+  setIsEditing(!isEditing);
   };
 
   if (type === "mypage") {
@@ -26,7 +74,7 @@ export default function Header({ type, onClick }) {
           style={{
             position: "absolute",
             top: "50%",
-            left: "1rem",
+            left: "0.5rem",
             transform: "translateY(-50%)",
             color: theme.colors.black, 
           }}

@@ -2,18 +2,27 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import SEARCH from '../../../icons/icon_search.svg?react';
 import theme from '../../../../styles/theme';
+import { useFilterStore } from '../../../stores/FilterStore';
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
+  const setSearchItem = useFilterStore((state) => state.setSearchItem);
+  const searchItem = useFilterStore((state) => state.searchItem);
 
   const handleSearchTerm = (e) => {
     setSearchTerm(e.target.value);
-  }
+  };
+
+  const handleSearch = () => {
+    setSearchItem(searchTerm);
+    console.log(searchItem);
+  };
+
   return (
     <SearchBarContainer>
       <SearchBarContext>
         <SearchInput placeholder="학과 또는 닉네임 입력" value={searchTerm} onChange={handleSearchTerm} />
-        <SEARCH />
+        <SEARCH onClick={handleSearch} />
       </SearchBarContext>
     </SearchBarContainer>
   );

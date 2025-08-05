@@ -46,7 +46,7 @@ export default function EwhainListHeader({ header, onClick }) {
 }
 
 const HeaderWrapper = styled.div`
-  width: 24.375rem;
+  width: 100wh;
   height: 3.75rem;
   padding-top: 1.12rem;
   padding-bottom: 1.06rem;

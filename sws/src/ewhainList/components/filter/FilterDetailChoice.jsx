@@ -30,7 +30,7 @@ export default function FilterDetailChoice({ icon: Icon, item, type, onChange })
 const DetailChoiceWrapper = styled.div`
   display: flex;
   padding: ${({ $icon, $item }) => 
-    $icon || $item==="전체" ? "1.1875rem 1.12rem 1.1875rem 2rem" : "1.1875rem 1.12rem 1.1875rem 2.5rem"
+    $icon || $item==="전체" ? "1.1875rem 2rem 1.1875rem 2rem" : "1.1875rem 2.5rem 1.1875rem 2.5rem"
   };
   align-items: center;
   align-self: stretch;

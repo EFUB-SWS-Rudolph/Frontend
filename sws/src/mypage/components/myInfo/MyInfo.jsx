@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 import Profile from './Profile';
 import Tags from './Tags';
-export default function MyInfo() {
+export default function MyInfo({ onClick, onChange, fileRef, cameraRef }) {
   return (
     <Container>
-      <Profile />
+      <Profile 
+        onClick={onClick} 
+        onChange={onChange}
+        fileRef={fileRef}
+        cameraRef={cameraRef}
+      />
       <Tags />
     </Container>
   );

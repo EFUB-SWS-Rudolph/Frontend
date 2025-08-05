@@ -19,9 +19,9 @@ export default function IndividualInquiry() {
     <Wrapper>
       <EwhainListHeader header="프로필" onClick={handleMoveList} />
       <PageContents>
-        <UserProfileCard id={id} />
-        <ChatButton id={id} />
-        <TalentInterestContainer />
+        <UserProfileCard id={Number(id)} />
+        <ChatButton id={Number(id)} />
+        <TalentInterestContainer id={Number(id)} />
         <Spacer />
       </PageContents>
     </Wrapper>
@@ -29,14 +29,14 @@ export default function IndividualInquiry() {
 }
 
 const Wrapper = styled.div`
-  width: 24.375rem;
-  height: 45.065rem;
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 `;
 
 const PageContents = styled.div`
-  width: 24.375rem;
+  width: 100%;
   padding-top: 1rem;
   display: flex;
   flex-direction: column;

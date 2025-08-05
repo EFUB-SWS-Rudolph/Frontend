@@ -9,3 +9,22 @@ export const postMemberInfo = async (data) => {
     throw err;
   }
 };
+
+export const getMemberList = async (params) => {
+  try {
+    const res = await client.get('/members', { params });
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getMemberIndividual = async (memberId) => {
+  try {
+    const res = await client.get(`/members/${memberId}`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+
+};
