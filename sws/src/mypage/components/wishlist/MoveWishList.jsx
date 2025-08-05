@@ -13,23 +13,38 @@ export default function MoveTagDetail() {
   };
   
   return (
-    <DetailBtnWrapper>
-      <DetailType>찜한 강의</DetailType>
-      <SelectDetailContainer>
-        <SLIGHT_RIGHT_ARROW width="2.75rem" height="2.75rem" onClick={handleMoveWishList} />
-      </SelectDetailContainer>
-    </DetailBtnWrapper>
+    <Wrapper>
+      <DetailBtnWrapper>
+        <DetailType>찜한 강의</DetailType>
+        <SelectDetailContainer>
+          <SLIGHT_RIGHT_ARROW width="2.75rem" height="2.75rem" onClick={handleMoveWishList} />
+        </SelectDetailContainer>
+      </DetailBtnWrapper>
+    </Wrapper>
   );
 }
 
+const Wrapper = styled.div`
+  display: flex;
+  width: 24.375rem;
+  height: 4.625rem;
+  padding: 0.75rem 0;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--Gray-300, #D9D9D9);
+  background: #FFF;
+`;
+
 const DetailBtnWrapper = styled.div`
   display: flex;
-  padding: 0.5rem 1.125rem 0.5rem 2.5rem;
-  justify-content: space-between;
-  align-items: center;
-  align-self: stretch;
   width: 24.375rem;
-  height: 3.75rem;
+  height: 3.125rem;
+  padding: 0.1875rem 1rem 0.1875rem 2.125rem;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14.75rem;
+  flex-shrink: 0;
 `;
 
 const DetailType = styled.div`

@@ -1,34 +1,76 @@
 import { create } from 'zustand';
 
 export const useProfileStore = create((set) => ({
+  nickname: '',
+  setNickname: (name) => set({ nickname: name }),
+
   profileImg: '',
-  college: '엘텍공과대학',
-  department: '서양화과',
-  studentid: '24',
-  location: '서울시 강동구',
-  interestTags: [],
-  talentTags: ['바이올린', '운동', '그림'],
-  isEditing: true,
-  isOnChoice: true,
   setProfileImg: (img) => set({ profileImg: img }),
+
+  college: '',
   setCollege: (tag) => set({ college: tag }),
+
+  department: '',
   setDepartment: (tag) => set({ department: tag }),
+
+  studentid: '',
   setStudentid: (tag) => set({ studentid: tag }),
+
+  location: '',
   setLocation: (tag) => set({ location: tag }),
-  setInfoTags: (tags) => set({ infoTags: tags }),
+
+  talentTags: [],
   setTalentTags: (tags) => set({ talentTags: tags }),
+  addTalentTag: (tag) => 
+    set((state) => ({
+      talentTags: [...state.talentTags, { id: Date.now() + Math.random(), tag }],
+  })),
+  removeTalentTag: (id) => set((state) => ({
+    talentTags: state.talentTags.filter((i) => i.id !== id),
+  })),
+  resetTalentTags: () => set({ talentTags: [] }),
+
+  interestTags: [],
+  setInterestTags: (tags) => set({ interestTags: tags }),
+  addInterestTag: (tag) => 
+    set((state) => ({
+      interestTags: [...state.interestTags, { id: Date.now() + Math.random(), tag }],
+  })),
+  removeInterestTag: (id) => set((state) => ({
+    interestTags: state.interestTags.filter((i) => i.id !== id),
+  })),
+  resetInterestTags: () => set({ interestTags: [] }),
+
+  isExchange: false,
+  setIsExchange: (flag) => set({ isExchange: flag }),
+
+  isDonation: false,
+  setIsDonation: (flag) => set({ isDonation: flag }),
+
+  isCoffeeChat: false,
+  setIsCoffeeChat: (flag) => set({ isCoffeeChat: flag }),
+
+  isEditing: false,
   setIsEditing: (flag) => set({ isEditing: flag }),
+
+  isOnChoice: false,
   setIsOnChoice: (flag) => set({ isOnChoice: flag }),
-  removeTalentTag: (index) => set((state) => ({
-    talentTags: state.talentTags.filter((_, i) => i !== index),
-  })),
-  removeInterestTag: (index) => set((state) => ({
-    interestTags: state.interestTags.filter((_, i) => i !== index),
-  })),
 
   category: '',
   setCategory: (newCategory) => set({ category: newCategory }),
 
   tag: '',
   setTag: (newTag) => set({ tag: newTag}),
+
+  previousImg: '',
+  setPreviousImg: (image) => set({ previousImg: image }),
+
+  imageURL: '',
+  setImageURL: (url) => set({ imageURL: url }),
+
+  city: '',
+  setCity: (newCity) => set({ city: newCity }),
+
+  subCity: '',
+  setSubCity: (newSubCity) => set({ subCity: newSubCity }),
 }));

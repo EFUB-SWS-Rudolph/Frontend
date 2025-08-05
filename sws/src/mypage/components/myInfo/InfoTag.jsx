@@ -1,33 +1,50 @@
+import { useRef, useState, useLayoutEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useProfileStore } from '../../stores/ProfileStore';
 import EDIT from '../../assets/icon_edit.svg?react';
 
 export default function InfoTag({ tagname, info, onChange }) {
   const { isEditing } = useProfileStore();
+  const navigate = useNavigate();
 
   const handleMoveSelection = () => {
-    navigate('/mypage/myinfotag', { state: { type: {info} }})
+    navigate('/mypage/myinfotag', { state: { type: tagname } });
+  };
+
+  const handleMoveCity = () => {
+    navigate('/mypage/myinfotag/city', { state: { type: tagname } });
   };
 
   return (
     <Container>
       <Tag>{tagname}</Tag>
-      { tagname === "학번" && isEditing ? 
+      {tagname === '학번' && isEditing ? (
         <>
           <InfoInput value={info} onChange={onChange} />
           <EDIT />
         </>
-      :
-        isEditing ? 
-          <>
-            <InfoText onClick={handleMoveSelection}>{info}</InfoText>
-            <EDIT />
-          </>
-        :
-          <>
-            <InfoText>{info}</InfoText>
-          </>
-      }
+      ) : tagname === '지역' && isEditing ? (
+        <>
+          <InfoText onClick={handleMoveCity} $isediting={isEditing} $tagname={tagname}>
+            {info}
+          </InfoText>
+          <EDIT onClick={handleMoveCity} />
+        </>
+      ) : isEditing ? (
+        <>
+          <InfoText onClick={handleMoveSelection} $isediting={isEditing} $tagname={tagname}>
+            {info}
+          </InfoText>
+          <EDIT onClick={handleMoveSelection} />
+        </>
+      ) : (
+        <>
+          <InfoText $isediting={isEditing} $tagname={tagname}>
+            {info}
+          </InfoText>
+        </>
+      )}
     </Container>
   );
 }
@@ -67,6 +84,12 @@ const InfoText = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: 150%; /* 1.3125rem */
+
+  width: ${({ $isediting }) => ($isediting ? '6rem' : '7rem')};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
 `;
 
 const InfoInput = styled.input`

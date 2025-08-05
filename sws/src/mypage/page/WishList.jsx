@@ -2,13 +2,29 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
+import { getWishlist } from '../../api/myPage';
+import LectureCard from '../components/wishlist/LectureCard';
 
 export default function WishList() {
   const navigate = useNavigate();
+  const [courses, setCourses] = useState([]);
 
   const handleMoveBack = () => {
     navigate('/mypage');
   };
+
+  const readUserWish = async () => {
+    try {
+      const res = await getWishlist();
+      setCourses(res.payload.myCourses);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  useEffect(() => {
+    readUserWish();
+  }, []);
 
   return (
     <Wrapper>
@@ -41,10 +57,11 @@ const HeaderSpace = styled.div`
 
 const Contents = styled.div`
   width: 24.375rem;
+  padding: 1rem 0.9rem 0;
   display: flex;
   align-items: flex-start;
   align-content: flex-start;
-  gap: 0.88rem;
+  gap: 1rem;
   flex-wrap: wrap;
   flex: 1;
   overflow-y: auto;
