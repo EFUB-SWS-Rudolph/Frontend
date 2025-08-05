@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 const CardContainer = styled.div`
-  width: 10.75rem;
   height: 15rem;
   border-radius: 0.8rem;
   border: 1px solid #e0e0e0;
@@ -78,17 +77,18 @@ const LectureCard = ({ lecture }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/lectures/detail/${lecture.id}`); 
+    console.log("LectureCard에서 상세 페이지로 이동할 courseId:", lecture.courseId);
+    navigate(`/lectures/detail/${lecture.courseId}`);
   };
 
   return (
     <CardContainer onClick={handleClick}>
-      <CardImage src={lecture.image} alt={lecture.title} />
+      <CardImage src={lecture.thumbnailUrl|| null} alt={lecture.title} />
       <CardGrad /> 
       <CardInfo>
-        <CardNickname>{lecture.nickname}</CardNickname>
+        <CardNickname>{lecture.instructor}</CardNickname>
         <CardTitle>{lecture.title}</CardTitle>
-        <CardDate>{lecture.date}</CardDate>
+        <CardDate>{lecture.period?.start} ~ {lecture.period?.end}</CardDate>
       </CardInfo>
     </CardContainer>
   );
