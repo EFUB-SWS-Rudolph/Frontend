@@ -26,14 +26,14 @@ export default function Tags() {
     if (user) {
       setCollege(user.college);
       setDepartment(user.dept);
-      setStudentid(user.studentId);
+      setStudentid(user.studentId.slice(0, 2));
       setLocation(user.location);
       setCity(user.location);
     }
   }, [user])
 
   const handleEditStudentid = (e) => {
-    setStudentid(e.target.value);
+    setStudentid(e.target.value.slice(0, 2));
   };
 
   return (

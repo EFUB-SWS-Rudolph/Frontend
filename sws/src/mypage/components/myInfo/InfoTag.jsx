@@ -1,3 +1,4 @@
+import { useRef, useState, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useProfileStore } from '../../stores/ProfileStore';
@@ -6,6 +7,15 @@ import EDIT from '../../assets/icon_edit.svg?react';
 export default function InfoTag({ tagname, info, onChange }) {
   const { isEditing } = useProfileStore();
   const navigate = useNavigate();
+  const infoTextRef = useRef();
+  const [isOverflow, setIsOverflow] = useState(false);
+  
+  useLayoutEffect(() => {
+    if (infoTextRef.current) {
+      setIsOverflow(infoTextRef.current.scrollWidth > infoTextRef.current.clientWidth);
+    }
+  }, [info, isEditing, tagname]);
+  
 
   const handleMoveSelection = () => {
     navigate('/mypage/myinfotag', { state: { type: tagname }})
@@ -26,18 +36,41 @@ export default function InfoTag({ tagname, info, onChange }) {
       :
         tagname === "지역" && isEditing ?
           <>
-            <InfoText onClick={handleMoveCity} $isediting={isEditing}>{info}</InfoText>
+            <InfoText
+              onClick={handleMoveCity} 
+              $isediting={isEditing}
+              $tagname={tagname}
+              $isoverflow={isOverflow}
+              ref={infoTextRef}
+            >
+              {info}
+            </InfoText>
             <EDIT onClick={handleMoveCity} />
           </>
         :
         isEditing ? 
             <>
-              <InfoText onClick={handleMoveSelection} $isediting={isEditing}>{info}</InfoText>
+              <InfoText
+                onClick={handleMoveSelection} 
+                $isediting={isEditing} 
+                $tagname={tagname}
+                $isoverflow={isOverflow}
+                ref={infoTextRef}
+              >
+                {info}
+              </InfoText>
               <EDIT onClick={handleMoveSelection} />
             </>
           :
             <>
-              <InfoText $isediting={isEditing}>{info}</InfoText>
+              <InfoText
+                $isediting={isEditing}
+                $tagname={tagname}
+                $isoverflow={isOverflow}
+                ref={infoTextRef}
+              >
+                {info}
+              </InfoText>
             </>
       }
     </Container>
@@ -81,6 +114,11 @@ const InfoText = styled.p`
   line-height: 150%; /* 1.3125rem */
 
   width: ${({ $isediting }) => $isediting ? "6rem" : "7rem"};
+  display: flex;
+  justify-content: ${({ $isediting, $isoverflow }) => 
+    $isoverflow ? "flex-start" :
+    $isediting ? "center" :
+    "flex-end"};
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
