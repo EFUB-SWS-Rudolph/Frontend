@@ -9,3 +9,13 @@ export const postMemberInfo = async (data) => {
     throw err;
   }
 };
+export const getMemberList = async (params = {}) => {
+    try {
+        const response = await client.get(`/members`, { params }); 
+        console.log("이화인 목록 조회 성공:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("이화인 목록 조회 실패:", error);
+        throw error;
+    }
+};
