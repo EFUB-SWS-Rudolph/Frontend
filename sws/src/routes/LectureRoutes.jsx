@@ -13,9 +13,12 @@ import LectureDetailPage from '../main/page/lecture/LectureDetailPage';
 import LectureListPage from '../main/page/lecture/LectureList';
 import LectureRecommendPage from '../main/page/lecture/LectureRecommend';
 import MyLecturePage from '../main/page/lecture/LectureMy';
+import AddLecturePage from '../main/page/lecture/AddLecturePage';
 
 import { LectureListHeaderContent } from '../main/components/LectureListHeaderContent';
 import LectureSearchFilterPageHeader from '../main/components/LectureSearchFilterPageHeader';
+import CategorySelect from '../common/components/CategorySelect';
+import CategorySelectWrapper from '../common/components/CategorySelectWrapper';
 
 export const LectureRoutes = (
   <>
@@ -64,5 +67,9 @@ export const LectureRoutes = (
       <Route path="recommend" element={<LectureRecommendPage />} />
       <Route path="my" element={<MyLecturePage />} />
     </Route>
+    <Route path="/add/lecture" element={<Layout showFooter={false} />}>
+      <Route index element={<AddLecturePage />} />
+    </Route>
+    <Route path="/category" element={<CategorySelectWrapper />} />
   </>
 );
