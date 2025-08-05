@@ -26,4 +26,5 @@ export const getMemberIndividual = async (memberId) => {
   } catch (err) {
     throw err;
   }
+
 };
