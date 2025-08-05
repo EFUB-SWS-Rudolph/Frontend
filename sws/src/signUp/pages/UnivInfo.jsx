@@ -69,9 +69,12 @@ export default function UnivInfo() {
 }
 
 const Wrapper = styled.div`
-  width: 24.375rem;
-  height: 52.8125rem;
+  width: 100%;
+  height: 100%;
   background: var(--White, #fff);
+
+  display: flex;
+  flex-direction: column;
 `;
 
 const SignUpContents = styled.div`
@@ -109,4 +112,6 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  margin: auto 0 1.5rem;
 `;

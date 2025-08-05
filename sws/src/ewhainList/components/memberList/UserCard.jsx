@@ -1,49 +1,53 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import EXCHANGE from "../../icons/icon_exchange.svg?react";
-import GIVE from "../../icons/icon_give.svg?react";
-import COFFEECHAT from "../../icons/icon_coffeechat.svg?react";
+import EXCHANGE from "../../../common/assets/icons/icon_exchange_black.svg?react";
+import GIVE from "../../../common/assets/icons/icon_give_black.svg?react";
+import COFFEECHAT from "../../../common/assets/icons/icon_coffeechat_black.svg?react";
 import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
+import defaultImage from '../../icons/defaultImage.jpg';
 
 export default function UserCard({ user }) {
-  // const [users, setUsers] = useState([]);
   const { isgallery } = useFilterStore();
   const navigate = useNavigate();
+  const talentTags = user.talentTags;
+  const tagsString = talentTags.join(', ');
+  const showingImg = user.profileImage && user.profileImage !== "" ? user.profileImage 
+                    : defaultImage;
 
   function available() {
     return (
       <>
-        {user.재능기부 && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
-        {user.재능교환 && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
-        {user.커피챗 && <COFFEECHAT width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.exchange && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.donation && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
+        {user.coffeeChat && <COFFEECHAT width="1rem" height="1rem" aspect-ratio="1/1" />}
       </>
     );
   }
 
   const handleMoveDetail = () => {
-    navigate('/ewhain/${user.id}')
+    navigate(`/ewhainlist/${user.memberId}`)
   }
 
   return (
     <UserCardWrapper $isgallery={isgallery} onClick={handleMoveDetail}>
-      <ProfileImage src={user.profileimageurl} alt="profileimg" />
+      <ProfileImage src={showingImg} alt="profileimg" />
 
       <UserContent $isgallery={isgallery}>
         <UserInfoContent $isgallery={isgallery}>
-          <Nickname>{user.nickname}</Nickname>
+          <Nickname>{user.nickName}</Nickname>
           <UnivInfoContent>
             {user.studentid ? 
               (
                 <>
-                  {user.studentid}학번 <span>|</span> {user.major}
+                  {user.studentid}학번 <span>|</span> {user.department}
                 </>
               )
-              : user.major
+              : user.department
             }
           </UnivInfoContent>
         </UserInfoContent>
-        <UserTalent $isgallery={isgallery}>{user.talent}</UserTalent>
+        <UserTalent $isgallery={isgallery}>{tagsString}</UserTalent>
         {isgallery && <UserLocation>{user.location}</UserLocation>}
       </UserContent>
       <AvailableSection $isgallery={isgallery}>{available()}</AvailableSection>
@@ -68,7 +72,7 @@ const UserCardWrapper = styled.div`
     $isgallery ? "column" : "row"
   };
   width: ${({$isgallery}) => 
-    $isgallery ? "10.5rem" : "21.9rem"
+    $isgallery ? "10.5rem" : "21.7rem"
   };
   height: ${({$isgallery}) => 
     $isgallery ? "11.5rem" : "5rem"
@@ -129,6 +133,9 @@ const Nickname = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const UnivInfoContent = styled.div`
@@ -165,6 +172,9 @@ const UserTalent = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   max-width: 10.5rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const UserLocation = styled.div`
@@ -175,6 +185,9 @@ const UserLocation = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const AvailableSection = styled.div`

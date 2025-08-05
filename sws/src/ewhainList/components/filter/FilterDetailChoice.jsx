@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import CHECK from '../../icons/icon_check.svg?react';
+import CHECK from '../../../common/assets/icons/icon_check.svg?react';
 
 // icon: 교환 방식에서 앞에 svg 컴포넌트
 // item: 재능 기부, 재능 교환, 학과, 최신순, 오래된 순
@@ -30,7 +30,7 @@ export default function FilterDetailChoice({ icon: Icon, item, type, onChange })
 const DetailChoiceWrapper = styled.div`
   display: flex;
   padding: ${({ $icon, $item }) => 
-    $icon || $item==="전체" ? "1.1875rem 1.12rem 1.1875rem 2rem" : "1.1875rem 1.12rem 1.1875rem 2.5rem"
+    $icon || $item==="전체" ? "1.1875rem 2rem 1.1875rem 2rem" : "1.1875rem 2.5rem 1.1875rem 2.5rem"
   };
   align-items: center;
   align-self: stretch;

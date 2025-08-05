@@ -1,7 +1,8 @@
 // src/main/pages/LectureRecommendPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled , { css } from 'styled-components';
+import { getRecommendedLectures } from '../../../api/course';
 import LectureCard from '../../../common/components/LectureCard';
 
 import SortGridIconURL from '../../../common/assets/icons/FilterIcon_SortGrid.svg';
@@ -9,15 +10,14 @@ import SortListIconURL from '../../../common/assets/icons/FilterIcon_SortList.sv
 import SortKeywordIconURL from '../../../common/assets/icons/FilterIcon_SortKeyword.svg';
 import SortFilterIconURL from '../../../common/assets/icons/FilterIcon_SortFilter.svg';
 import IconDownURL from '../../../common/assets/icons/icon_down.svg';
-import IconBackURL from '../../../common/assets/icons/icon_back.svg'; 
-//강의 이미지 예시 (임시)
-import LectureImageExample from '../../../common/assets/images/weave_img_ex1.svg';
+
 const RecommendPageContainer = styled.div`
   width: 100%;
-  height: auto;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.25rem; 
+  padding:1rem;
 `;
 
 // 필터 바 아이콘 관련 styled-components 
@@ -143,12 +143,21 @@ const FilterButtonIcon=styled.div`
 
 // 강의 카드 그리드 (갤러리 정렬) 관련 styled-components
 const LectureCardsGrid = styled.div`
-  display: ${props => props.$displayMode === 'grid' ? 'grid' : 'flex'};
-  grid-template-columns: ${props => props.$displayMode === 'grid' ? 'repeat(2, 1fr)' : 'none'}; 
-  gap: 14px; 
-  
-  justify-content: ${props => props.$displayMode === 'grid' ? 'center' : 'flex-start'};
-  flex-direction: ${props => props.$displayMode === 'list' ? 'column' : 'none'}; 
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1rem;
+  justify-content: center;
+
+  ${props => props.$displayMode === 'list' && css`
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    grid-template-columns: unset;
+    justify-content: unset;
+    & > * {
+      width: 100%;
+    }
+  `}
 `;
 
 const LectureListDisplayArea = styled.div`
@@ -167,11 +176,11 @@ const NoResultsMessage = styled.div`
 const LectureListItem = ({ lecture }) => {
   return (
     <StyledLectureListItem>
-      <LectureListItemImage src={lecture.image} alt={lecture.title} />
+      <LectureListItemImage src={lecture.thumbnailUrl} alt={lecture.courseTitle} />
       <LectureListItemInfo>
-        <LectureListItemInstructor>{lecture.nickname}</LectureListItemInstructor>
-        <LectureListItemTitle>{lecture.title}</LectureListItemTitle>
-        <LectureListItemDate>{lecture.date}</LectureListItemDate>
+        <LectureListItemInstructor>{lecture.teacherNickname}</LectureListItemInstructor>
+        <LectureListItemTitle>{lecture.courseTitle}</LectureListItemTitle>
+        <LectureListItemDate>{lecture.courseStartDate} ~ {lecture.courseEndDate}</LectureListItemDate>
       </LectureListItemInfo>
     </StyledLectureListItem>
   );
@@ -243,122 +252,65 @@ const LectureListItemDate = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const FilterModalOverlay = styled.div`
-    position: fixed; 
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    align-items: flex-end; 
-    justify-content: center;
-    z-index: 10000; 
-`;
-
-const FilterModalContainer = styled.div`
-    width: 24.375rem; 
-    max-height: 23.75rem; 
-    min-height: 18rem;
-    border-radius: 1.25rem 1.25rem 0 0;
-    background: var(--White, #FFF);
-    box-sizing: border-box;
-    position: relative; 
-    transform: translateY(${props => props.$isVisible ? '0' : '100%'});
-    transition: transform 0.3s ease-out;
-    display: flex; 
-    flex-direction: column;
-    overflow-y: auto; 
-    -webkit-overflow-scrolling: touch; 
-`;
-
-const ModalTitle = styled.h3`
-    font-family: Pretendard Variable;
-    font-weight: 600;
-    font-size: 1.25rem;
-    color: #222222;
-    text-align: center;
-    margin-bottom: 1.25rem;
-    margin-top:1.65rem;
-`;
-
-const ModalCloseButton = styled.button`
-    position: absolute;
-    top: 1.563rem;
-    left: 1rem;
-    border: none;
-    font-size: 1.75rem;
-    cursor: pointer;
-    background: none;
-    color:#222222;
-`;
-const ModalComponentButton=styled.button`
- background:#FFFFFF;
-  border: none;
-  cursor: pointer;
-  width:100%;
-  heignt:3.75rem;
-  margin-left:0rem;
-`;
-const ModalComponentButtonText=styled.div`
-  idth:flex;
-  heignt:1.375rem;
-  margin-top:1.188rem;
-  margin-left:4rem;
-  margin-bottom:1.188rem;
-  font-size: 1rem;
-  font-weight:500;
-  color:#000000;
-  display: flex;
-  justify-content: flex-start; 
-  align-items: center; 
-`;
-//  추천 강의 데이터 예시 (임시)
-const recommendedLectureData = [
-  { id: 1, image: LectureImageExample, title: "React 완전 정복", nickname: "김코딩", type: "재능기부", date: "2024.08.01" },
-  { id: 2, image: LectureImageExample, title: "UI/UX 디자인 실전", nickname: "이디자인", type: "재능교환", date: "2024.08.15" },
-  { id: 3, image: LectureImageExample, title: "SQL 고급 활용", nickname: "박데이터", type: "과외", date: "2024.09.01" },
-  { id: 4, image: LectureImageExample, title: "Python 데이터 분석", nickname: "최파이", type: "재능기부", date: "2024.09.10" },
-  { id: 5, image: LectureImageExample, title: "Java 백엔드", nickname: "정자바", type: "재능교환", date: "2024.09.25" },
-  { id: 6, image: LectureImageExample, title: "React 기초", nickname: "김코딩", type: "과외", date: "2024.08.01" },
-  { id: 7, image: LectureImageExample, title: "UX 리서치", nickname: "이디자인", type: "재능기부", date: "2024.08.15" },
-  { id: 8, image: LectureImageExample, title: "데이터 모델링", nickname: "박데이터", type: "재능교환", date: "2024.09.01" },
-];
-
 // LectureRecommendPage 함수 컴포넌트 정의
 export default function LectureRecommendPage() {
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(''); 
-  const [filteredLectures, setFilteredLectures] = useState(recommendedLectureData); 
-  const [displayMode, setDisplayMode] = useState('grid');
   const navigate = useNavigate();
-  const [showSortRecentPopup, setShowSortRecentPopup] = useState(false); 
-  const [isSortRecentActive, setIsSortRecentActive] = useState(false);
- 
-  useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredLectures(recommendedLectureData); 
-    } else {
-      const lowercasedQuery = searchQuery.toLowerCase();
-      const results = recommendedLectureData.filter(lecture =>
-        lecture.title.toLowerCase().includes(lowercasedQuery) ||
-        lecture.nickname.toLowerCase().includes(lowercasedQuery)
-      );
-      setFilteredLectures(results);
-    }
-  }, [searchQuery]); 
 
-  const handleToggleSearchBar = () => {
-    setShowSearchBar(prev => !prev);
-    setSearchQuery(''); 
-  };
+  const [subFilter, setSubFilter] = useState('전체');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [displayMode, setDisplayMode] = useState('grid');
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
+  const [lectures, setLectures] = useState([]); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      setLectures([]);
+
+      let params = {
+        page: 0,
+        size: 20,
+        sort: 'latest', 
+      };
+
+      if (searchQuery.trim() !== '') {
+        params.keyword = searchQuery.trim();
+      }
+      if (subFilter !== '전체') {
+        params.courseType = subFilter;
+      }
+
+      try {
+        const response = await getRecommendedLectures(params); 
+        if (response.isSuccess) {
+          setLectures(response.payload?.courses || []);
+        } else {
+          setError(new Error(response.message || "추천 강의를 불러오지 못했습니다."));
+        }
+      } catch (err) {
+        console.error("추천 강의 로드 중 오류 발생:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [subFilter, searchQuery]);
+
 
   const handleSearchInputChange = (event) => {
-    setSearchQuery(event.target.value); 
+    setSearchQuery(event.target.value);
   };
-
   const handleToggleDisplayMode = () => {
     setDisplayMode(prev => prev === 'grid' ? 'list' : 'grid');
+  };
+  const handleToggleSearchBar = () => {
+    setShowSearchBar(prev => !prev);
+    setSearchQuery('');
   };
   const handleFilterClick = () => {
     navigate('/lectures/recommend/filter'); 
@@ -366,11 +318,6 @@ export default function LectureRecommendPage() {
   const handleRecentFilterClick=()=>{
     navigate('/lectures/search/filter/sort');
   };
-  const handleToggleSortRecentPopup = () => {
-    setShowSortRecentPopup(prev => !prev);
-    setIsSortRecentActive(prev => !prev); // 팝업이 열릴 때 아이콘 활성화
-  };
-
   return (
     <RecommendPageContainer>
       {/* 강의 필터 바 [강의 필터 바] */}
@@ -393,10 +340,10 @@ export default function LectureRecommendPage() {
           <SortFilterIcon>
               필터
               <img src={SortFilterIconURL}style={{ width: '30%', height: '30%' }}/>
-          </SortFilterIcon>
+            </SortFilterIcon>
         </FilterBarItem>
         <FilterBarItem onClick={handleRecentFilterClick}>
-          <SortRecentIcon $isActive={isSortRecentActive}>
+          <SortRecentIcon $isActive={handleRecentFilterClick}>
             최신 순
             <img src={IconDownURL} style={{margin:'3px'}}/>
           </SortRecentIcon>
@@ -413,36 +360,47 @@ export default function LectureRecommendPage() {
             </FilterButton>
         </SearchFilterSection>
       )}
-      {showSortRecentPopup && (
-              <FilterModalOverlay onClick={() => handleToggleSortRecentPopup()}> 
-                <FilterModalContainer $isVisible={showSortRecentPopup} onClick={e => e.stopPropagation()}> 
-                  <ModalCloseButton  onClick={() => handleToggleSortRecentPopup()}><img src={IconBackURL}/></ModalCloseButton>
-                  <ModalTitle>강의 형태</ModalTitle>
-                  <ModalComponentButton><ModalComponentButtonText>최신 순</ModalComponentButtonText></ModalComponentButton>
-                  <ModalComponentButton><ModalComponentButtonText>오래된 순</ModalComponentButtonText></ModalComponentButton>
-                 
-                </FilterModalContainer>
-              </FilterModalOverlay>
-            )}
-      
-      
-
-      {/* 추천 강의 목록 영역 (갤러리 정렬 고정) */}
-      <LectureListDisplayArea>
-        <LectureCardsGrid $displayMode={displayMode}> 
-          {filteredLectures.length > 0 ? (
-            filteredLectures.map(lecture => (
-              displayMode === 'grid' ? (
-                <LectureCard key={lecture.id} lecture={lecture} />
-              ) : (
-                <LectureListItem key={lecture.id} lecture={lecture} />
+      {loading && <div>추천 강의 불러오는 중...</div>}
+        {error && <div>오류 발생: {error.message}</div>}    
+        {!loading && !error && lectures.length === 0 ? (  
+          <NoResultsMessage>추천 강의가 없습니다.</NoResultsMessage> 
+        ) : (
+        <LectureListDisplayArea>
+          <LectureCardsGrid $displayMode={displayMode}>
+            {lectures.map(lecture => ( // 'lectures' 사용
+              displayMode === 'grid' ? ( 
+                <LectureCard 
+                  key={lecture.courseId || lecture.id}
+                  lecture={ { 
+                    id: lecture.courseId || lecture.id,
+                    title: lecture.courseTitle || lecture.title,
+                    instructor: lecture.teacherNickname,
+                    location: lecture.courseCity,
+                    period: { start: lecture.courseStartDate, end: lecture.courseEndDate },
+                    thumbnailUrl: lecture.thumbnailUrl,
+                    category: lecture.courseCategory,
+                    bookmarkCount: lecture.bookmarkCount,
+                  } }
+                />
+              ) : ( 
+                <LectureListItem 
+                  key={lecture.courseId || lecture.id}
+                  lecture={ { 
+                    id: lecture.courseId || lecture.id,
+                    title: lecture.courseTitle || lecture.title,
+                    instructor: lecture.teacherNickname,
+                    location: lecture.courseCity,
+                    period: { start: lecture.courseStartDate, end: lecture.courseEndDate },
+                    thumbnailUrl: lecture.thumbnailUrl,
+                    category: lecture.courseCategory,
+                    bookmarkCount: lecture.bookmarkCount,
+                  } }
+                />
               )
-            ))
-          ) : (
-            <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
-          )}
-        </LectureCardsGrid>
-      </LectureListDisplayArea>
+            ))}
+          </LectureCardsGrid>
+        </LectureListDisplayArea>
+        )}
     </RecommendPageContainer>
   );
 }

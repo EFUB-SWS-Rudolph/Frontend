@@ -1,14 +1,39 @@
-import React from 'react';
+import React,{ useState, useEffect } from 'react';
 import styled from 'styled-components';
 import InfoTag from './InfoTag';
 import { TAG_INFO } from '../../constant/TAG_INFO';
 import { useProfileStore } from '../../stores/ProfileStore';
+import { getMemberProfile } from '../../../api/myPage';
 
 export default function Tags() {
-  const { college, department, studentid, location, setCollege, setDepartment, setStudentid, setLocation } = useProfileStore();
+  const { college, department, studentid, location, isEditing, setCollege, setDepartment, setStudentid, setLocation, city, setCity } = useProfileStore();
+  const [user, setUser] = useState(null);
+  
+  const readUserInfo = async() => {
+    try {
+      const res = await getMemberProfile();
+      setUser(res);
+      console.log(user);
+    } catch (err) {
+      throw err;
+    }
+  }
+  useEffect(()=>{
+    !isEditing && readUserInfo();
+  }, [isEditing])
+
+  useEffect(() => {
+    if (user) {
+      setCollege(user.college);
+      setDepartment(user.dept);
+      setStudentid(user.studentId.slice(0, 2));
+      setLocation(user.location);
+      setCity(user.location);
+    }
+  }, [user])
 
   const handleEditStudentid = (e) => {
-    setStudentid(e.target.value);
+    setStudentid(e.target.value.slice(0, 2));
   };
 
   return (

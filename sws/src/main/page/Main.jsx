@@ -1,43 +1,31 @@
 import Layout from '../../common/styles/Layout'; 
-import React from 'react';
+import React , { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
-import LectureCard from '../../common/components/LectureCard'; 
+import { getLectureList, getMyCourses, getRecommendedLectures } from '../../api/course';import LectureCard from '../../common/components/LectureCard'; 
+import { getMemberList } from '../../api/members';
 
 import IconGiveURL from '../../common/assets/icons/icon_give.svg';
 import IconExchangeURL from '../../common/assets/icons/icon_exchange.svg';
 import IconCoffeeChatURL from '../../common/assets/icons/icon_coffeechat.svg';
 import IconRightURL from '../../common/assets/icons/icon_right.svg';
 import ProfileExampleImage from '../../common/assets/images/profile_ex1.jpg'; 
-//강의 이미지 예시 (임시)
-import LectureImageExample from '../../common/assets/images/weave_img_ex1.svg';
-  // 내강의 데이터 예시 
-  const myLectures = [
-    { id: 1, name: "React 기초 다지기", progress: "75%" },
-    { id: 2, name: "알고리즘 심화", progress: "40%" },
-    { id: 3, name: "데이터베이스 설계", progress: "90%" },
-  ];
-  // 강의 카드 데이터 예시 
-  const classCardData = [
-    { id: 1, image: LectureImageExample, nickname: "김퍼비", title: "React 심화", date: "2024.08.01~" },
-    { id: 2, image: LectureImageExample, nickname: "이디자인", title: "UI/UX 원리", date: "2024.08.15~" },
-    { id: 3, image: LectureImageExample, nickname: "박데이터", title: "SQL 최적화", date: "2024.09.01~" },
-    { id: 4, image: LectureImageExample, nickname: "최알고", title: "알고리즘 분석", date: "2024.09.10~" },
-    { id: 5, image: LectureImageExample, nickname: "정개발", title: "Java 웹 개발", date: "2024.09.25~" },
-  ];
-  // 선배 데이터 예시 
-  const seniorData = [
-    { id: 1, name: "김선배", major: "소프트웨어", status: "커피챗 가능", talent: "React", interest: "SQL" },
-    { id: 2, name: "이선배", major: "디자인", status: "재능기부 가능", talent: "UI/UX", interest: "인테리어" },
-    { id: 3, name: "박선배", major: "경영", status: "재능교환 가능", talent: "전략 분석", interest: "영화" },
-  ];
-  // 이화인 데이터 예시 
-  const ewhainData = [
-    { id: 1, name: "김이화", major: "컴퓨터공학", talent: "React", interest: "Vue.js" },
-    { id: 2, name: "박이화", major: "수학과", talent: "데이터 분석", interest: "머신러닝" },
-    { id: 3, name: "최이화", major: "경제학과", talent: "전략 수립", interest: "투자" },
-  ];
+
+const MainPageContainer = styled.div`
+  width: 100%;
+  height: 100%; 
+  padding:  1rem;
+  box-sizing: border-box; 
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; 
+  &::-webkit-scrollbar {
+    display: none; 
+  }
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
+  gap: 1.25rem;
+`;
 // MyInfoFrame 관련
 const MyInfoFrame = styled.div`
   width: 22.375rem;
@@ -621,6 +609,7 @@ const IconCoffeeChat = styled.div`
   height: 1rem;
   aspect-ratio: 1/1;
 `;
+
 export default function Main() {
   const navigate = useNavigate(); 
   const handleMoreRecommendClick = () => {
@@ -629,8 +618,96 @@ export default function Main() {
   const handleProLecCountClick = () => {
     navigate('/lectures/my'); 
   };
+  const [recommendedLectures, setRecommendedLectures] = useState([]);
+  const [loadingRecommended, setLoadingRecommended] = useState(true); 
+  const [errorRecommended, setErrorRecommended] = useState(null); 
+  const [myTeachingCourses, setMyTeachingCourses] = useState([]); 
+  const [myEnrolledCourses, setMyEnrolledCourses] = useState([]); 
+  const [loadingMyCourses, setLoadingMyCourses] = useState(true); 
+  const [errorMyCourses, setErrorMyCourses] = useState(null);
+  const [memberList, setMemberList] = useState([]); 
+  const [loadingMembers, setLoadingMembers] = useState(true);
+  const [errorMembers, setErrorMembers] = useState(null);
+  const [userDepartment, setUserDepartment] = useState(null);
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        setLoadingMembers(true);
+        setErrorMembers(null);
+        const response = await getMemberList();
+        if (response && Array.isArray(response)) { 
+          const sortedMembers = response.sort((a, b) => b.memberId - a.memberId);
+          setMemberList(sortedMembers); 
+        } else {
+            setErrorMembers(new Error("이화인 목록을 불러오지 못했습니다."));
+        }
+      } catch (err) {
+        console.error("이화인 목록 로드 중 오류 발생:", err);
+        setErrorMembers(err);
+      } finally {
+        setLoadingMembers(false);
+      }
+    };
+    fetchMembers();
+  }, []);
+  useEffect(() => {
+      setUserDepartment('국어국문학과'); // <-- 임시로 사용자 학과 설정 (실제 로그인 계정의 학과로 변경 필요)
+  }, []);
+  const displaySeniorData = memberList
+    .filter(member => userDepartment && member.department === userDepartment)
+    .slice(0, 3); 
+  const displayEwhainData = memberList.slice(0, 3);
+  
+  useEffect(() => {
+    const fetchRecommendedLectures = async () => {
+      try {
+        setLoadingRecommended(true);
+        setErrorRecommended(null);
+        const response = await getRecommendedLectures({ size: 6 }); 
+
+        if (response.isSuccess && response.payload && response.payload.courses) {
+          setRecommendedLectures(response.payload.courses);
+        } else {
+          setErrorRecommended(new Error(response.message || "추천 강의를 불러오지 못했습니다."));
+        }
+      } catch (err) {
+        console.error("추천 강의 로드 중 오류 발생:", err);
+        setErrorRecommended(err);
+      } finally {
+        setLoadingRecommended(false);
+      }
+    };
+    fetchRecommendedLectures();
+  }, []);
+
+  useEffect(() => {
+    const fetchMyCourses = async () => {
+      try {
+        setLoadingMyCourses(true);
+        setErrorMyCourses(null);
+
+        const response = await getMyCourses();
+
+        if (response.isSuccess && response.payload) {
+          setMyTeachingCourses(response.payload.teachingCourses || []);
+          setMyEnrolledCourses(response.payload.enrolledCourses || []);
+        } else {
+          setErrorMyCourses(new Error(response.message || "내 강의 목록을 불러오지 못했습니다."));
+        }
+      } catch (err) {
+        console.error("내 강의 목록 로드 중 오류 발생:", err);
+        setErrorMyCourses(err);
+      } finally {
+        setLoadingMyCourses(false);
+      }
+    };
+    fetchMyCourses();
+  }, []); 
+  const displayMyLectures = myTeachingCourses; 
+  const myLectureCount = myEnrolledCourses.length;
   return (
-    <> 
+    <MainPageContainer>
       <MyInfoFrame> 
         <MyInfoInnerContent>
           <ProfileSection> 
@@ -640,17 +717,31 @@ export default function Main() {
             </ProfileInfo>
             <ProLecFrame> 
               <ProLecLabel>진행 중인 강의</ProLecLabel>
-              <ProLecCount onClick={handleProLecCountClick}>3</ProLecCount>
+              <ProLecCount onClick={handleProLecCountClick}>
+              {loadingMyCourses ? '로딩 중...' : myLectureCount}
+            </ProLecCount>
             </ProLecFrame>
           </ProfileSection>
           <MyLecFrame>
+            {loadingMyCourses && <div>내 강의 불러오는 중...</div>}
+            {errorMyCourses && <div>내 강의 로드 실패: {errorMyCourses.message}</div>}
+            {!loadingMyCourses && !errorMyCourses && displayMyLectures.length === 0 && (
+              <div>진행 중인 강의가 없습니다.</div>
+            )}
             <MyLectureListContainer>
-              {myLectures.map((lecture, index) => (
-                <React.Fragment key={lecture.id}>
-                  <MyLectureItem lecture={lecture} />
-                  {index < myLectures.length - 1 && <HorizontalDivider />}
-                </React.Fragment>
-              ))}
+              {!loadingMyCourses && !errorMyCourses && displayMyLectures.length > 0 && (
+                displayMyLectures.map((lecture, index) => (
+                  <React.Fragment key={lecture.courseId}> 
+                    <MyLectureItem lecture={{
+                        id: lecture.courseId,
+                        title: lecture.courseTitle,
+                        status: "진행 중", 
+                        imageUrl: lecture.thumbnailUrl || ProfileExampleImage, 
+                    }} />
+                    {index < displayMyLectures.length - 1 && <HorizontalDivider />}
+                  </React.Fragment>
+                ))
+              )}
             </MyLectureListContainer>
           </MyLecFrame>
         </MyInfoInnerContent>
@@ -662,10 +753,31 @@ export default function Main() {
             <img src={IconRightURL} style={{margin:'3px'}}/>
           </MoreRecommendButton>
         </RCMHeader>
-        <MainCardRCMContainer>
-          {classCardData.map(lecture => ( 
-            <LectureCard key={lecture.id} lecture={lecture} /> 
-          ))}
+         <MainCardRCMContainer>
+          {loadingRecommended && <div>추천 강의 불러오는 중...</div>}
+          {errorRecommended && <div>추천 강의 로드 실패: {errorRecommended.message}</div>}
+          {!loadingRecommended && !errorRecommended && recommendedLectures.length === 0 && (
+            <div>추천 강의가 없습니다.</div>
+          )}
+          {!loadingRecommended && !errorRecommended && recommendedLectures.length > 0 && (
+            recommendedLectures.map(lecture => (
+              <LectureCard
+                key={lecture.courseId} 
+                lecture={{ 
+                  id: lecture.courseId,
+                  title: lecture.courseTitle,
+                  instructor: lecture.teacherNickname, 
+                  location: lecture.courseCity,
+                  period: { start: lecture.courseStartDate, end: lecture.courseEndDate },
+                  thumbnailUrl: lecture.thumbnailUrl, 
+                  currentParticipants: 0, 
+                  maxParticipants: 0,
+                  category: lecture.courseCategory, 
+                  bookmarkCount: lecture.bookmarkCount, 
+                }}
+              />
+            ))
+          )}
         </MainCardRCMContainer>
       </RCMFrame>
       <SNRFrame>
@@ -676,12 +788,26 @@ export default function Main() {
           </MoreSNRButton>
         </SNRTitleContainer>
         <MainListSNRContainer>
-          {seniorData.slice(0, 3).map((senior, index) => (
-            <React.Fragment key={senior.id}>
-              <MainSNR senior={senior} />
-              {index < 2 && <Divider />}
-            </React.Fragment>
-          ))}
+          {loadingMembers && <div>학과 선배 불러오는 중...</div>}
+          {errorMembers && <div>학과 선배 로드 실패: {errorMembers.message}</div>}
+          {!loadingMembers && !errorMembers && displaySeniorData.length === 0 && (
+            <div>학과 선배가 없습니다.</div>
+          )}
+          {!loadingMembers && !errorMembers && displaySeniorData.length > 0 && (
+            displaySeniorData.map((senior, index) => (
+              <React.Fragment key={senior.memberId}>
+                <MainSNR senior={{
+                    id: senior.memberId,
+                    name: senior.nickName,
+                    major: senior.department,
+                    talents: senior.talentTags,
+                    location: senior.location,
+                    profileImage: senior.profileImage || ProfileExampleImage, 
+                }} />
+                {index < 2 && <Divider />}
+              </React.Fragment>
+            ))
+          )}
         </MainListSNRContainer>
       </SNRFrame>
       <EwhainFrame>
@@ -692,14 +818,28 @@ export default function Main() {
           </MoreEwhainButton>
         </EwhainTitleContainer>
         <MainListEwhainContainer>
-          {ewhainData.slice(0, 3).map((ewhain, index) => (
-            <React.Fragment key={ewhain.id}>
-              <MainEwhain ewhain={ewhain} />
-              {index < 2 && <Divider />}
-            </React.Fragment>
-          ))}
+          {loadingMembers && <div>이화인 목록 불러오는 중...</div>}
+          {errorMembers && <div>이화인 목록 로드 실패: {errorMembers.message}</div>}
+          {!loadingMembers && !errorMembers && displayEwhainData.length === 0 && (
+            <div>이화인 목록이 없습니다.</div>
+          )}
+          {!loadingMembers && !errorMembers && displayEwhainData.length > 0 && (
+            displayEwhainData.map((ewhain, index) => (
+              <React.Fragment key={ewhain.memberId}> 
+                <MainEwhain ewhain={{
+                    id: ewhain.memberId,
+                    name: ewhain.nickName,
+                    major: ewhain.department,
+                    talents: ewhain.talentTags,
+                    location: ewhain.location,
+                    profileImage: ewhain.profileImage || ProfileExampleImage,
+                }} />
+                {index < 2 && <Divider />}
+              </React.Fragment>
+            ))
+          )}
         </MainListEwhainContainer>
       </EwhainFrame>
-    </>
+    </MainPageContainer>
   );
 }

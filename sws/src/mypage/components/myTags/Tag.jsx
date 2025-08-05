@@ -1,16 +1,15 @@
-//나의재능 관심분야 tag
-
 import styled from 'styled-components';
+import theme from '../../../styles/theme';
 import DELETE from '../../assets/icon_delete.svg?react';
 import { useProfileStore } from '../../stores/ProfileStore';
 
-export default function Tag({ text }) {
-  const { talentTags, interestTags, isEditing, setTalentTags, setInterestTags, removeTalentTag, removeInterestTag } = useProfileStore();
+export default function Tag({ text, onClick }) {
+  const { isEditing } = useProfileStore();
 
   return (
-    <Container>
+    <Container $isediting={isEditing} theme={theme}>
       <Text>{text}</Text>
-      {isEditing && <Delete />}
+      {isEditing && <Delete onClick={onClick} />}
     </Container>
   );
 }
@@ -23,7 +22,7 @@ const Container = styled.div`
   align-items: center;
   gap: 0.5rem;
   border-radius: 1.25rem;
-  border: 1px solid transparent;
+  border: ${({ $isediting, theme }) => ($isediting ? `1px solid ${theme.colors.gray300}` : "1px solid transparent")};
   background: ${({ theme }) => `
     linear-gradient(${theme.colors.white}, ${theme.colors.white}) padding-box,
     linear-gradient(to right, ${theme.colors.primary}, ${theme.colors.third}) border-box

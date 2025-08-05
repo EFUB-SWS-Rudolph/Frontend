@@ -14,9 +14,7 @@ const FilterPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 0 1.5rem; 
-  gap: 1rem; 
-  padding-bottom: 8.5rem;
+  padding: 0 2rem; 
 `;
 const FilterItemContainer = styled.div`
   width: 100%;

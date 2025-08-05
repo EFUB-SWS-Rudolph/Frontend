@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import IconBackURL from '../../../common/assets/icons/icon_back.svg'; // 뒤로가기 아이콘
 import IconInitializeURL from '../../../common/assets/icons/icon_initialize.svg'; // 초기화 아이콘 (푸터바용)
 
-// 핵심! useFilter 훅 임포트 (Context 사용)
 import { useFilter } from '../../../common/contexts/FilterContext';
 const PageContainer = styled.div`
   width: 100%;
@@ -17,9 +16,8 @@ const PageContainer = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   padding-bottom: 8.5rem;
-  margin-top: -1rem;
   gap:0rem;
-  min-height: 100vh;
+  padding:1rem 0  8.5rem 0;
 `;
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -85,61 +83,60 @@ const OptionName = styled.span`
   font-size: 1rem;
   color: #222222;
 `;
+// [푸터 바]
 const FooterBar = styled.div`
-  width: 24.375rem; 
-  height: 8.5rem; 
+  width:100% ; 
+  height: 5.19rem;
   background: #FFFFFF;
   box-shadow: 0rem 0.25rem 1.25rem 0rem rgba(0, 0, 0, 0.25);
   position: fixed;
-  bottom: 0rem;
-  left: 50%;
-  transform: translateX(-50%);
+  left:50%;
+  bottom: 0; 
+  padding:1rem;
+  gap:1.2rem;
+  transform: translateX(-50%); 
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0rem 1.25rem; /* 0 20px */
   box-sizing: border-box;
-  z-index: 1000;
-  gap: 0.625rem; /* 10px */
+  z-index: 1000; 
 `;
 const ResetButton = styled.button`
-  width: 3.375rem; /* 54px */
-  height: 3rem; /* 48px */
-  border-radius: 0.5rem; /* 8px */
+  height: 3rem;
+  width:3.375rem;
+  border-radius: 0.5rem;
   background: #F5F5F5; 
   color: #222222;
   font-family: Pretendard Variable;
   font-weight: 500;
-  font-size: 0.625rem; /* 10px */
+  font-size: 0.625rem;
   border: none;
   cursor: pointer;
   display: flex;
-  flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
-  align-items: center; 
-  justify-content: center; 
-  gap: 0.25rem; /* 4px */
-  flex-shrink: 0; 
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem; 
+  flex-shrink: 0;
 `;
 const ApplyFilterButton = styled.button`
-  flex-grow: 1;
-  width: 17.25rem; /* 276px */
-  height: 3.5rem; /* 56px */
-  border-radius: 0.75rem; /* 12px */
-  background: #00664F;
+  width:17.25rem; 
+  height: 3.5rem; 
+  border-radius: 0.75rem;
+  background: #00664F; 
   color: white;
   font-family: Pretendard Variable;
   font-weight: 600;
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-`;
-export default function LectureDateFilterPage() {
+  flex-shrink: 0; 
+`;export default function LectureDateFilterPage() {
   const navigate = useNavigate();
-  const { searchFilters, updateSearchFilter } = useFilter();
+  const { generalFilterParams, updateGeneralFilter } = useFilter();
 
   const dateOptions = [
     { label: '전체', value: '전체' },
@@ -148,22 +145,69 @@ export default function LectureDateFilterPage() {
     { label: '3개월 이내', value: '3month' },
     { label: '6개월 이내', value: '6month' },
     { label: '기간 무제한', value: 'unlimited' },
-    // 필요에 따라 더 많은 기간 옵션 추가
   ];
-  const handleOptionClick = (value) => {
-    updateSearchFilter('date', value); 
+  const getInitialSelectedOption = () => {
+    if (!generalFilterParams.courseStartDate && !generalFilterParams.courseEndDate) {
+      return 'all';
+    }
+    return 'unlimited'; 
   };
-  
+  const [selectedOption, setSelectedOption] = useState(getInitialSelectedOption());
+
+  const handleOptionClick = (value) => {
+    setSelectedOption(value); 
+  };
+  const calculateDates = (optionValue) => {
+    const today = new Date();
+    let startDate = null;
+    let endDate = null;
+
+    const pad = (num) => num < 10 ? '0' + num : num;
+    const formatDate = (date) => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+
+    if (optionValue === 'all' || optionValue === 'unlimited') {
+      startDate = null;
+      endDate = null;
+    } else if (optionValue === '1week') {
+      endDate = new Date(today);
+      endDate.setDate(today.getDate() + 7);
+      startDate = today;
+    } else if (optionValue === '1month') {
+      endDate = new Date(today);
+      endDate.setMonth(today.getMonth() + 1);
+      startDate = today;
+    } else if (optionValue === '3month') {
+      endDate = new Date(today);
+      endDate.setMonth(today.getMonth() + 3);
+      startDate = today;
+    } else if (optionValue === '6month') {
+      endDate = new Date(today);
+      endDate.setMonth(today.getMonth() + 6);
+      startDate = today;
+    }
+
+    return {
+      startDate: startDate ? formatDate(startDate) : null,
+      endDate: endDate ? formatDate(endDate) : null,
+    };
+  };
   // 초기화 버튼 핸들러
   const handleResetFilters = () => {
-      updateSearchFilter('date', '전체'); 
+      updateGeneralFilter('courseStartDate', null);
+      updateGeneralFilter('courseEndDate', null);
+      setSelectedOption('all'); 
       alert('필터가 초기화되었습니다.');
+      navigate(-1); 
   };
   
   // 적용 버튼 핸들러
   const handleApply = () => {
-    alert(`선택된 기간: ${searchFilters.date}`); 
-    navigate(-1); 
+    
+    const { startDate, endDate } = calculateDates(selectedOption);
+    updateGeneralFilter('courseStartDate', startDate);
+    updateGeneralFilter('courseEndDate', endDate);
+    alert('필터가 적용되었습니다.');
+    navigate(-1);  
   };
 
   return (
@@ -180,7 +224,7 @@ export default function LectureDateFilterPage() {
           <FilterOptionItem 
             key={option.value} 
             onClick={() => handleOptionClick(option.value)}
-            $isSelected={searchFilters.date === option.value} 
+            $isSelected={selectedOption === option.value}
           >
             <OptionName>{option.label}</OptionName>
           </FilterOptionItem>

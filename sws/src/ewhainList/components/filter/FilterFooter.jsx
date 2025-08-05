@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
-import Reset from '../../icons/icon_reset.svg?react';
+import Reset from '../../../common/assets/icons/icon_initialize.svg?react';
 
 export default function FilterFooter() {
-  const { setExchange, setMajor, setPeriod, setIsGallery } = useFilterStore();
+  const { setExchange, setMajor, setPeriod, setIsGallery, setIsExchange, setIsDonation, setIsCoffeeChat } = useFilterStore();
   const navigate = useNavigate();
 
   const handleMoveEwhainPage = () => {
@@ -17,6 +17,9 @@ export default function FilterFooter() {
     setMajor('전체');
     setPeriod('최신순');
     setIsGallery(true);
+    setIsExchange(false);
+    setIsDonation(false);
+    setIsCoffeeChat(false);
   };
 
   return(
@@ -35,7 +38,7 @@ export default function FilterFooter() {
 }
 
 const FooterWrapper = styled.div`
-  width: 24.375rem;
+  width: 100%;
   height: 3rem;
   padding: 0 1.25rem 0;
   display: flex;

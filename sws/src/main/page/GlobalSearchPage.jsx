@@ -14,6 +14,7 @@ const GlobalSearchContainer = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   gap: 2rem;
+  padding:1rem;
 `;
 // 상단 검색 바 섹션
 const SearchBarSection = styled.div`

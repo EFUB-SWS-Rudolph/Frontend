@@ -1,11 +1,32 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import TalentInterestItem from './TalentInterestItem';
+import { getMemberIndividual } from '../../../api/members';
 
-export default function TalentInterestContainer() {
-  const talent = ['음악', '독일어', '프로그래밍', '뜨개질', '미술'];
-  const interest = ['기타', '공예'];
-  const isItemEmpty = false;
+export default function TalentInterestContainer({ id }) {
+  const [isTalentEmpty, setIsTalentEmpty] = useState(false);
+  const [isInterestEmpty, setIsInterestEmpty] = useState(false);
+  const [user, setuser] = useState(null);
+  
+  const readMemberIndividual = async () => {
+    try {
+      const res = await getMemberIndividual(id);
+      setuser(res);
+      setIsTalentEmpty(Array.isArray(res.talentTags) && res.talentTags.length === 0);
+      setIsInterestEmpty(Array.isArray(res.interestTags) && res.interestTags.length === 0);
+    } catch (err) {
+      throw err;
+    }
+  };
+  
+  useEffect(() => {
+    if (id) {
+      readMemberIndividual();
+    }
+  }, [id]);
+
+  if (!user) return null;
 
   return (
     <UserTalentInterest>
@@ -13,11 +34,11 @@ export default function TalentInterestContainer() {
         <Title>나의 재능</Title>
         <ItemContainer>
           {/* map 사용 / key는 id로 수정 */}
-          {isItemEmpty ? 
+          {isTalentEmpty ? 
             <NoticeContainer>
               <Notice>재능을 설정하지 않았어요</Notice>
             </NoticeContainer> :
-            talent.map((item) => (
+            user.talentTags.map((item) => (
             <>
               <TalentInterestItem key={item} item={item} />
             </>
@@ -30,11 +51,11 @@ export default function TalentInterestContainer() {
         <Title>관심 분야</Title>
         <ItemContainer>
           {/* map 사용 */}
-          {isItemEmpty ? 
+          {isInterestEmpty ? 
             <NoticeContainer>
               <Notice>관심 분야를 설정하지 않았어요</Notice>
             </NoticeContainer> :
-            interest.map((item) => (
+            user.interestTags.map((item) => (
             <>
               <TalentInterestItem item={item} />
             </>

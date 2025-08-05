@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
-import MoveTagDetail from '../components/myTags/tagChoice/MoveTagDetail';
-import CATEGORIES from '../constant/CATEGORIES';
+import InfoTagDetail from '../components/myInfo/InfoTagDetail';
+import LOCATION from '../constant/LOCATION';
 
-export default function SelectMyInterestCategory() {
+export default function SelectMyInfoCity() {
   const navigate = useNavigate();
-  const CATEGORY = Object.keys(CATEGORIES);
+  const CITY = Object.keys(LOCATION);
 
   const handleMoveBack = () => {
     navigate('/mypage');
@@ -15,11 +15,11 @@ export default function SelectMyInterestCategory() {
   return (
     <Wrapper>
       <HeaderSpace>
-        <Header type="관심 분야" onClick={handleMoveBack} />
+        <Header type="지역" onClick={handleMoveBack} />
       </HeaderSpace>
       <FilterContents>
-        {CATEGORY.map((category) => (
-          <MoveTagDetail key={category} select={category} detailroute={'/mypage/interesttag/detail'} />
+        {CITY.map((item) => (
+          <InfoTagDetail key={item} select={item} tagname="지역" />
         ))};
       </FilterContents>
     </Wrapper>
