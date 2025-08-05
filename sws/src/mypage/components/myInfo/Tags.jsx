@@ -7,12 +7,6 @@ import { getMemberProfile } from '../../../api/myPage';
 
 export default function Tags() {
   const { college, department, studentid, location, isEditing, setCollege, setDepartment, setStudentid, setLocation } = useProfileStore();
-  const isExchange= useProfileStore((state) => state.isExchange);
-  const isDonation = useProfileStore((state) => state.isDonation);
-  const isCoffeeChat = useProfileStore((state) => state.isCoffeeChat);
-  const setIsExchange = useProfileStore((state) => state.setIsExchange);
-  const setIsDonation = useProfileStore((state) => state.setIsDonation);
-  const setIsCoffeeChat = useProfileStore((state) => state.setIsCoffeeChat);
   const [user, setUser] = useState(null);
   
   const readUserInfo = async() => {
