@@ -13,7 +13,6 @@ export default function SelectMyInfo() {
   const locate = useLocation();
 
   const type = locate.state.type;
-  console.log(type);
   const COLLEGE = Object.keys(UNIV);
   const DEPT = UNIV[college];
   const SUBCITY = LOCATION[city];

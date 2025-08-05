@@ -37,7 +37,6 @@ export default function Profile({ onClick, onChange, fileRef, cameraRef }) {
   useEffect(() => {
     if (user.profileImage) setPreviousImg(user.profileImage);  // 기존 유저가 설정했던 프로필 사진
     if (!user.profileImage || user.profileImage === "/images/general_profile.jpg") setPreviousImg(defaultImage);
-    console.log("이전이미지:", previousImg);
     if (user.nickname) setNickname(user.nickname);
   }, [user, setPreviousImg, setNickname]);
 
