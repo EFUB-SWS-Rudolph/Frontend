@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
 import InfoTagChoice from '../components/myInfo/InfoTagChoice';
-import UNIV from '../constant/UNIV';
+import { univCategory } from '../../common/data/Category';
 import { koreaLocationCategoryMap } from '../../common/data/Category';
 import { useProfileStore } from '../stores/ProfileStore';
 
@@ -12,15 +12,14 @@ export default function SelectMyInfo() {
     college,
     setCollege,
     setDepartment,
-    location,
     setLocation,
   } = useProfileStore();
   const navigate = useNavigate();
   const locate = useLocation();
 
   const type = locate.state.type;
-  const COLLEGE = Object.keys(UNIV);
-  const DEPT = UNIV[college];
+  const COLLEGE = Object.keys(univCategory);
+  const DEPT = univCategory[college];
   const LOCATION = Object.keys(koreaLocationCategoryMap);
 
   const handleMoveBack = () => {
