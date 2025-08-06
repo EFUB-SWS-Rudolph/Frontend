@@ -177,7 +177,6 @@ const ListDisplayWrapper = styled.div`
   gap: 0.5rem; /* <- .LectureCardsGrid의 'list' 스타일 복사 */
 `;
 
-// 강의 목록 아이템 (리스트 정렬) 관련 styled-components
 const LectureListItem = ({ lecture }) => {
   return (
     <StyledLectureListItem>
@@ -342,13 +341,10 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
       let apiCallFunction;
       let params = { ...generalFilterParams };
 
-      // 🔴 API에 없는 'status' 필드는 제외
-      // 이 로직은 `LectureMy.jsx`의 클라이언트 측 필터링에만 사용되어야 함.
-      if (params.status) { // generalFilterParams에 status가 'all' 또는 null이 아닌 실제 값일 때
-          delete params.status; // 🔴 'status' 필드를 API 요청에서 제거
+      if (params.status) { 
+          delete params.status; 
       }
 
-      // 로컬 searchQuery가 있다면 Context의 keyword를 덮어씀 (필터 설정 페이지에서 keyword도 Context에 저장)
       if (searchQuery.trim() !== '') {
         params.keyword = searchQuery.trim();
       }
@@ -357,8 +353,6 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
         apiCallFunction = getLectureList;
       } else if (mainActiveTab === '강의 추천') {
         apiCallFunction = getRecommendedLectures;
-        // recommendFilterParams가 따로 관리된다면 아래와 같이
-        // params = { ...recommendFilterParams, ...params };
       } else if (mainActiveTab === '내 강의') {
         apiCallFunction = getMyCourses;
       } else {
@@ -369,7 +363,6 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
       try {
         const response = await apiCallFunction(params);
         if (response.isSuccess) {
-          // 🔴 '내 강의' 탭에서만 클라이언트 측 필터링 적용
           if (mainActiveTab === '내 강의') {
               const combinedMyCourses = [
                   ...(response.payload?.teachingCourses || []),
@@ -377,7 +370,6 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
               ];
               let filteredByStatusAndSearch = combinedMyCourses;
 
-              // 검색어 필터링 (클라이언트 측)
               if (searchQuery.trim() !== '') {
                 const lowercasedQuery = searchQuery.toLowerCase();
                 filteredByStatusAndSearch = filteredByStatusAndSearch.filter(lecture =>
@@ -386,7 +378,6 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
                 );
               }
 
-              // 강의 상태 필터링 (클라이언트 측)
               if (generalFilterParams.status === 'inProgress') {
                   filteredByStatusAndSearch = filteredByStatusAndSearch.filter(lecture => {
                       const now = new Date();
@@ -417,15 +408,13 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
     };
 
     fetchData();
-  }, [mainActiveTab, generalFilterParams, searchQuery]); // 의존성 배열
-
+  }, [mainActiveTab, generalFilterParams, searchQuery]);
 
   const handleSearchInputChange = (event) => {
     const newSearchQuery = event.target.value;
-    setSearchQuery(newSearchQuery); // 로컬 상태 업데이트
-    updateGeneralFilter('keyword', newSearchQuery); // Context의 keyword도 업데이트
+    setSearchQuery(newSearchQuery); 
+    updateGeneralFilter('keyword', newSearchQuery);
   };
-  // 🔴 이벤트 핸들러: displayMode 토글은 Context의 setDisplayMode 사용
   const handleToggleDisplayMode = () => {
     setDisplayMode(prevMode => prevMode === 'grid' ? 'list' : 'grid');
   };
@@ -434,7 +423,7 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
     setSearchQuery('');
   };
   const handleFilterClick = () => {
-    navigate('/lectures/search/filter'); // 필터 메인 페이지로 이동
+    navigate('/lectures/search/filter');
   };
   const handleFormatFilterClick=()=>{
     navigate('/lectures/search/filter/format');
@@ -452,9 +441,7 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
     <LectureListContainer>
       {mainActiveTab === '강의 조회' && (
         <>
-          {/* 강의 필터 바 [강의 필터 바] */}
           <LectureFilterBar>
-            {/* 보기 방식 토글 */}
         <FilterBarItem onClick={handleToggleDisplayMode}>
             <SortListIcon $isActive={displayMode === 'list'}> {/* 🔴 $isActive prop 전달 */}
                 <img
@@ -464,13 +451,11 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
                 />
             </SortListIcon>
         </FilterBarItem>
-           {/* 검색바 토글 */}
         <FilterBarItem onClick={handleToggleSearchBar}>
           <SortKeywordIcon $isActive={showSearchBar}> {/* 🔴 $isActive prop 전달 */}
             <img src={SortKeywordIconURL}style={{ width: '1rem', height: '1rem' }}/>
           </SortKeywordIcon>
         </FilterBarItem>
-            {/* 필터 메인 페이지로 이동 */}
         <FilterBarItem onClick={handleFilterClick}>
           <SortFilterIcon $isActive={ // 🔴 어떤 필터라도 '전체'가 아니면 활성화
               generalFilterParams.courseType !== null ||

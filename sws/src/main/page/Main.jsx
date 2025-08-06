@@ -1,15 +1,17 @@
 import Layout from '../../common/styles/Layout'; 
-import React , { useEffect, useState } from 'react';
+import React , { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { getLectureList, getMyCourses, getRecommendedLectures } from '../../api/course';import LectureCard from '../../common/components/LectureCard'; 
-import { getMemberList } from '../../api/members';
+import { getMemberProfile } from '../../api/myPage';
+import { getLectureList, getMyCourses, getRecommendedLectures } from '../../api/course';
+import { getFilteredSeniorList,getMemberList } from '../../api/members';
 
 import IconGiveURL from '../../common/assets/icons/icon_give.svg';
 import IconExchangeURL from '../../common/assets/icons/icon_exchange.svg';
 import IconCoffeeChatURL from '../../common/assets/icons/icon_coffeechat.svg';
 import IconRightURL from '../../common/assets/icons/icon_right.svg';
-import ProfileExampleImage from '../../common/assets/images/profile_ex1.jpg'; 
+import ProfileDefaultImage from '../../common/assets/images/profile_ex1.jpg'; 
+import LectureCard from '../../common/components/LectureCard';
 
 const MainPageContainer = styled.div`
   width: 100%;
@@ -119,6 +121,19 @@ const MyLectureListContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const LectureGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+`;
+
+const NoLectureMessage = styled.div`
+  text-align: center;
+  color: #888;
+  padding: 2rem 0;
+`;
+
+
 const MyLectureItem = ({ lecture }) => {
   return (
     <MyLectureItemWrapper> 
@@ -144,13 +159,6 @@ const LectureName = styled.span`
   letter-spacing:0px;
   margin-left: 0.5rem;
   padding: 0;
-`;
-const HorizontalDivider = styled.div`
-  width: 100%;
-  height: 0px;
-  border-bottom: 1px solid #D9D9D9;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 `;
 // RCMFrame 관련
 const RCMFrame = styled.div`
@@ -204,20 +212,21 @@ const MoreRecommendButton = styled.button`
 `;
 // <main_card_rcm> - 가로 스크롤 가능한 카드 목록 컨테이너
 const MainCardRCMContainer = styled.div`
-  width: 100%; 
-  height: 15rem;
   display: flex; 
   flex-direction: row;
-  gap: 0.5rem; 
+  flex-wrap: nowrap;
   overflow-x: auto; 
-  overflow-y: hidden;
+  overflow-y: hidden; 
   -webkit-overflow-scrolling: touch; 
+  gap: 1rem; 
+  padding-bottom: 10px; 
   &::-webkit-scrollbar {
-    display: none; 
+    display: none;
   }
   -ms-overflow-style: none;
-  scrollbar-width: none; 
+  scrollbar-width: none;
 `;
+
 
 // SNRFrame 관련
 const SNRFrame = styled.div`
@@ -280,29 +289,40 @@ const MainListSNRContainer = styled.div`
   align-self: stretch;
   border-radius: 1.25rem;
 `;
+const IconCoffeeChat = styled.div`
+  justify-content: flex-end;
+  align-items: flex-end;
+`;
 const MainSNR = ({ senior }) => {
   return (
     <StyledMainSNR>
       <MainSNRProfile>
-        <ProfileImageSmall src={ProfileExampleImage} alt="프로필 이미지"/>
+        <ProfileImageSmall src={senior.profileImage || ProfileDefaultImage} alt="프로필 이미지"/>
         <MainSNRInfo>
           <MainSNRFrameTop>
             <SNRNickname>{senior.name}</SNRNickname> 
             <SNRMajor>{senior.major}</SNRMajor> 
           </MainSNRFrameTop>
           <MainSNRFrameBottom>
-            <SNRTalent>{senior.talent}</SNRTalent> 
-            <VerticalDivider />
-            <SNRInterest>{senior.interest}</SNRInterest> 
+            { senior.talents && senior.talents.slice(0, 2).map((talent, idx) => (
+            <React.Fragment key={idx}>
+              <SNRTalent>{talent}</SNRTalent>
+              {idx < Math.min(senior.talents.length, 2) - 1 && <VerticalDivider />} 
+            </React.Fragment>
+          ))}
           </MainSNRFrameBottom>
         </MainSNRInfo>
       </MainSNRProfile>
-      <IconCoffeeChat >
-        <img src={IconCoffeeChatURL} alt="커피챗" style={{ width: '100%', height: '100%' }} />
-      </IconCoffeeChat>
+      {senior.coffeeChat && ( 
+        <IconCoffeeChat >
+          <img src={IconCoffeeChatURL} alt="커피챗" style={{ width: '100%', height: '100%' }} />
+        </IconCoffeeChat>
+        )}
     </StyledMainSNR>
   );
 };
+
+
 // MainSNR의 스타일을 정의하는 styled-component 
 const StyledMainSNR = styled.div`
   width: 100%; 
@@ -311,12 +331,12 @@ const StyledMainSNR = styled.div`
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 1.375rem;
+  gap: 5.5rem;
   align-self: stretch;
 `;
 // (main_snr_profile)
 const MainSNRProfile = styled.div`
-  width: 18.1rem; 
+  width: 13.5rem; 
   height: 2.75rem; 
   display: flex;
   align-items: center;
@@ -334,11 +354,14 @@ const ProfileImageSmall = styled.img`
 const MainSNRInfo = styled.div`
   flex-grow: 1;
   display: flex;
-  width: 14.5625rem;
+  width: 13.5rem;
   height: 2.75rem;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap:0.5rem;
+  overflow: hidden; 
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
 `;
 // (main_snr_frame_top)
 const MainSNRFrameTop = styled.div`
@@ -457,9 +480,37 @@ const MoreEwhainButton = styled.button`
   font-weight: 600;
   line-height: normal;
 `;
-// <main_list_ewhain> 
+const MainEwhain = ({ ewhain }) => {
+  return (
+    <StyledMainEwhain>
+      <MainEwhainProfile>
+        <EwhainProfileImage src={ewhain.profileImage || ProfileDefaultImage} alt="프로필 이미지"/>
+        <MainEwhainInfo>
+          <MainEwhainFrameTop>
+            <EwhainNickname>{ewhain.name}</EwhainNickname> 
+            <EwhainMajor>{ewhain.major}</EwhainMajor> 
+          </MainEwhainFrameTop>
+          <MainEwhainFrameBottom>
+          { ewhain.talents && ewhain.talents.slice(0, 2).map((talent, idx) => (
+            <React.Fragment key={idx}>
+              <EwhainTalent>{talent}</EwhainTalent>
+              {idx < Math.min(ewhain.talents.length, 2) - 1 && <VerticalDivider />} 
+            </React.Fragment>
+          ))}
+      </MainEwhainFrameBottom>
+        </MainEwhainInfo>
+      </MainEwhainProfile>
+      <StyledMainListIconFrame>
+        {ewhain.coffeeChat && <EwhainIcon src={IconCoffeeChatURL} alt="커피챗" style={{ width: '100%', height: '100%' }}/>}
+        {ewhain.exchange && <EwhainIcon src={IconExchangeURL} alt="재능교환"style={{ width: '100%', height: '100%' }} />}
+        {ewhain.donation && <EwhainIcon src={IconGiveURL} alt="재능기부" style={{ width: '100%', height: '100%' }}/>}
+      </StyledMainListIconFrame>
+
+    </StyledMainEwhain>
+  );
+};
 const MainListEwhainContainer = styled.div`
-  width: 100%;
+width: 100%;
   height: 228px; 
   background: #FFFFFF;
   flex-direction: column; 
@@ -473,27 +524,7 @@ const MainListEwhainContainer = styled.div`
   align-self: stretch;
   border-radius: 1.25rem;
 `;
-const MainEwhain = ({ ewhain }) => {
-  return (
-    <StyledMainEwhain>
-      <MainEwhainProfile>
-        <ProfileImageSmall src={ProfileExampleImage} alt="프로필 이미지"/>
-        <MainEwhainInfo>
-          <MainEwhainFrameTop>
-            <EwhainNickname>{ewhain.name}</EwhainNickname>
-            <EwhainMajor>{ewhain.major}</EwhainMajor>
-          </MainEwhainFrameTop>
-          <MainEwhainFrameBottom>
-            <EwhainTalent>{ewhain.talent}</EwhainTalent>
-            <VerticalDivider />
-            <EwhainInterest>{ewhain.interest}</EwhainInterest>
-          </MainEwhainFrameBottom>
-        </MainEwhainInfo>
-        <MainListIconFrame />
-      </MainEwhainProfile>
-    </StyledMainEwhain>
-  );
-};
+
 const StyledMainEwhain = styled.div`
   width: 100%; 
   height: 2.75rem;
@@ -503,14 +534,26 @@ const StyledMainEwhain = styled.div`
   align-items: center;
   gap: 2.5rem;
   align-self: stretch;
+
 `;
+
 const MainEwhainProfile = styled.div`
-  width: 100%; 
+  width: 13.5rem; 
   height: 2.75rem; 
   display: flex;
   align-items: center;
   gap: 1rem;
+
 `;
+
+const EwhainProfileImage = styled.img`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+`;
+
 const MainEwhainInfo = styled.div`
   flex-grow: 1;
   display: flex;
@@ -519,20 +562,19 @@ const MainEwhainInfo = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
+  overflow: hidden; 
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
 `;
+
 const MainEwhainFrameTop = styled.div`
   height: 1.19rem; 
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
 `;
-const MainEwhainFrameBottom = styled.div`
-  height: 1.31rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  align-self: stretch;
-`;
+
 const EwhainNickname = styled.span`
   color: var(--Black, #222);
   /* Title/Medium */
@@ -541,16 +583,29 @@ const EwhainNickname = styled.span`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+
 `;
+
 const EwhainMajor = styled.span`
-  color: #808080;
+ color: #808080;
   /* Caption/Medium */
   font-family: "Pretendard Variable";
   font-size: 0.625rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+
 `;
+
+const MainEwhainFrameBottom = styled.div`
+  height: 1.31rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  align-self: stretch;
+
+`;
+
 const EwhainTalent = styled.span`
   color: var(--Black, #222);
   /* Body/Medium */
@@ -559,31 +614,15 @@ const EwhainTalent = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: 150%; /* 1.3125rem */
+
 `;
-const EwhainInterest = styled.span`
-  color: var(--Black, #222);
-  /* Body/Medium */
-  font-family: "Pretendard Variable";
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 1.3125rem */
+
+
+
+const EwhainIcon = styled.img`
+  width: 1.25rem;
+  height: 1.25rem;
 `;
-const MainListIconFrame = () => {
-  return (
-    <StyledMainListIconFrame>
-      <IconGive>
-        <img src={IconGiveURL} alt="재능기부" style={{ width: '100%', height: '100%' }} />
-      </IconGive>
-      <IconExchange>
-        <img src={IconExchangeURL} alt="재능교환" style={{ width: '100%', height: '100%' }} />
-      </IconExchange >
-      <IconCoffeeChat >
-        <img src={IconCoffeeChatURL} alt="커피챗" style={{ width: '100%', height: '100%' }} />
-      </IconCoffeeChat>
-    </StyledMainListIconFrame>
-  );
-};
 const StyledMainListIconFrame = styled.div`
   width: 4.5rem;
   height: 1rem;
@@ -592,22 +631,7 @@ const StyledMainListIconFrame = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  gap: 0.75rem;
-`;
-const IconGive = styled.div`
-  width: 1rem;
-  height: 1rem;
-  aspect-ratio: 1/1;
-`;
-const IconExchange = styled.div`
-  width: 1rem;
-  height: 1rem;
-  aspect-ratio: 1/1;
-`;
-const IconCoffeeChat = styled.div`
-  width: 1rem;
-  height: 1rem;
-  aspect-ratio: 1/1;
+  
 `;
 
 export default function Main() {
@@ -618,226 +642,369 @@ export default function Main() {
   const handleProLecCountClick = () => {
     navigate('/lectures/my'); 
   };
+  const handleMoreSNRClick = () => {
+    navigate('/ewhainlist'); 
+  }; 
+  const handleMoreEwhainClick = () => {
+    navigate('/ewhainlist'); 
+  };
   const [recommendedLectures, setRecommendedLectures] = useState([]);
-  const [loadingRecommended, setLoadingRecommended] = useState(true); 
-  const [errorRecommended, setErrorRecommended] = useState(null); 
-  const [myTeachingCourses, setMyTeachingCourses] = useState([]); 
+  const [recommendedLecturesLoading, setRecommendedLecturesLoading] = useState(false);
+  const [recommendedLecturesError, setRecommendedLecturesError] = useState(null);  
+   const [isRecommendedFallback, setIsRecommendedFallback] = useState(false);
   const [myEnrolledCourses, setMyEnrolledCourses] = useState([]); 
   const [loadingMyCourses, setLoadingMyCourses] = useState(true); 
   const [errorMyCourses, setErrorMyCourses] = useState(null);
-  const [memberList, setMemberList] = useState([]); 
-  const [loadingMembers, setLoadingMembers] = useState(true);
-  const [errorMembers, setErrorMembers] = useState(null);
-  const [userDepartment, setUserDepartment] = useState(null);
-
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        setLoadingMembers(true);
-        setErrorMembers(null);
-        const response = await getMemberList();
-        if (response && Array.isArray(response)) { 
-          const sortedMembers = response.sort((a, b) => b.memberId - a.memberId);
-          setMemberList(sortedMembers); 
-        } else {
-            setErrorMembers(new Error("이화인 목록을 불러오지 못했습니다."));
-        }
-      } catch (err) {
-        console.error("이화인 목록 로드 중 오류 발생:", err);
-        setErrorMembers(err);
-      } finally {
-        setLoadingMembers(false);
-      }
-    };
-    fetchMembers();
-  }, []);
-  useEffect(() => {
-      setUserDepartment('국어국문학과'); // <-- 임시로 사용자 학과 설정 (실제 로그인 계정의 학과로 변경 필요)
-  }, []);
-  const displaySeniorData = memberList
-    .filter(member => userDepartment && member.department === userDepartment)
-    .slice(0, 3); 
-  const displayEwhainData = memberList.slice(0, 3);
   
-  useEffect(() => {
-    const fetchRecommendedLectures = async () => {
-      try {
-        setLoadingRecommended(true);
-        setErrorRecommended(null);
-        const response = await getRecommendedLectures({ size: 6 }); 
+  const [userProfile, setUserProfile] = useState({
+    nickname: '사용자',
+    profileImageUrl: ProfileDefaultImage,
+    ongoingLectures: [],
+    ongoingLectureCount: 0,
+    department: null,
+    memberId: null, 
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [seniorList, setSeniorList] = useState([]);
+  const [seniorListLoading, setSeniorListLoading] = useState(false);
+  const [seniorListError, setSeniorListError] = useState(null);
+  const [ewhainList, setEwhainList] = useState([]);
+  const [ewhainListLoading, setEwhainListLoading] = useState(false);
+  const [ewhainListError, setEwhainListError] = useState(null);
 
-        if (response.isSuccess && response.payload && response.payload.courses) {
-          setRecommendedLectures(response.payload.courses);
+  const defaultProfile = {
+    nickname: '오류 사용자',
+    profileImageUrl: ProfileDefaultImage,
+    ongoingLectures: [],
+    ongoingLectureCount: 0,
+    department: null,
+    memberId: null, 
+  };
+//1번째 useEffect: 사용자 프로필 및 강의 정보 로딩
+  useEffect(() => {
+    const fetchUserProfileAndLectures = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const [profileResponseData, myCoursesResponse] = await Promise.all([
+          getMemberProfile(),
+          getMyCourses()
+        ]);
+
+        let extractedDepartment = profileResponseData.dept; 
+        const tempDepartment = "컴퓨터공학과";
+
+        setUserProfile(prevState => ({
+          ...prevState,
+          nickname: profileResponseData.nickname || '이름 없음',
+          profileImageUrl: profileResponseData.profileImg || ProfileDefaultImage,
+          department: profileResponseData.dept || tempDepartment, 
+          memberId: profileResponseData.memberId || null, 
+        }));
+        console.log("🟢 메인페이지: 사용자 프로필 정보 조회 성공", profileResponseData)
+
+        if (myCoursesResponse.isSuccess && myCoursesResponse.payload) {
+          const teaching = myCoursesResponse.payload.teachingCourses || [];
+          const enrolled = myCoursesResponse.payload.enrolledCourses || [];
+          const allOngoingLectures = [...teaching, ...enrolled];
+          const ongoingCount = allOngoingLectures.length;
+          
+
+          setUserProfile(prevState => ({
+            ...prevState,
+            ongoingLectures: allOngoingLectures,
+            ongoingLectureCount: ongoingCount,
+          }));
+          console.log("🟢 메인페이지: 진행 중인 강의 목록 조회 성공. 총:", ongoingCount, "개");
         } else {
-          setErrorRecommended(new Error(response.message || "추천 강의를 불러오지 못했습니다."));
+          console.error("🔴 메인페이지: 진행 중인 강의 목록 조회 실패 (API 응답 실패):", myCoursesResponse.message || "메시지 없음", "응답:", myCoursesResponse);
+          setUserProfile(prevState => ({ ...prevState, ongoingLectures: [], ongoingLectureCount: 0 }));
         }
+
       } catch (err) {
-        console.error("추천 강의 로드 중 오류 발생:", err);
-        setErrorRecommended(err);
+        const errorMessage = err.response?.data?.message || err.message || "알 수 없는 오류가 발생했습니다.";
+        console.error("🔴 메인페이지: 통합 정보 조회 오류 발생:", err); 
+        setError(new Error(errorMessage)); 
+        
+        setUserProfile(defaultProfile); 
       } finally {
-        setLoadingRecommended(false);
+        setLoading(false);
       }
     };
-    fetchRecommendedLectures();
+
+    fetchUserProfileAndLectures();
   }, []);
 
+  // 2번째 useEffect: 선배 목록 로딩
   useEffect(() => {
-    const fetchMyCourses = async () => {
-      try {
-        setLoadingMyCourses(true);
-        setErrorMyCourses(null);
-
-        const response = await getMyCourses();
-
-        if (response.isSuccess && response.payload) {
-          setMyTeachingCourses(response.payload.teachingCourses || []);
-          setMyEnrolledCourses(response.payload.enrolledCourses || []);
-        } else {
-          setErrorMyCourses(new Error(response.message || "내 강의 목록을 불러오지 못했습니다."));
+    if (userProfile.department && userProfile.memberId) { 
+       console.log(`🟡 선배 목록 API 호출 조건 만족: 학과=${userProfile.department}, ID=${userProfile.memberId}`);
+      const fetchSeniorList = async () => {
+        setSeniorListLoading(true);
+        setSeniorListError(null);
+        try {
+          const filteredSenors = await getFilteredSeniorList(userProfile.department, userProfile.memberId);
+          setSeniorList(filteredSenors);
+          console.log("🟢 메인페이지: 선배 목록 조회 성공. 총:", filteredSenors.length, "개");
+        } catch (err) {
+          console.error("🔴 메인페이지: 선배 목록 조회 오류:", err.response?.data?.message || err.message || "알 수 없는 오류");
+          setSeniorListError(new Error("선배 목록을 불러오는 데 실패했습니다."));
+          setSeniorList([]);
+        } finally {
+          setSeniorListLoading(false);
         }
+      };
+
+      fetchSeniorList();
+    } else {
+        console.log("🟡 선배 목록 API 호출 조건 미충족:", userProfile.department, userProfile.memberId);
+        setSeniorList([]); // 초기화
+        setSeniorListLoading(false); // 로딩 끝
+        setSeniorListError(null); // 에러 없음
+    }
+  }, [userProfile.department, userProfile.memberId]);
+
+  // 번째 useEffect: 이화인 목록 로딩 
+  useEffect(() => {
+    const fetchEwhainList = async () => {
+      setEwhainListLoading(true);
+      setEwhainListError(null);
+      try {
+        const response = await getMemberList(); 
+        const rawEwhains = response || []; 
+
+        const topNEwhains = rawEwhains.slice(0, 3); 
+        
+        setEwhainList(topNEwhains);
+        console.log("🟢 메인페이지: 이화인 목록 조회 성공. 총:", rawEwhains.length, "개 (표시:", topNEwhains.length, "개)");
+
       } catch (err) {
-        console.error("내 강의 목록 로드 중 오류 발생:", err);
-        setErrorMyCourses(err);
+        console.error("🔴 메인페이지: 이화인 목록 조회 오류:", err.response?.data?.message || err.message || "알 수 없는 오류");
+        setEwhainListError(new Error("이화인 목록을 불러오는 데 실패했습니다."));
+        setEwhainList([]);
       } finally {
-        setLoadingMyCourses(false);
+        setEwhainListLoading(false);
       }
     };
-    fetchMyCourses();
+
+    fetchEwhainList(); 
   }, []); 
-  const displayMyLectures = myTeachingCourses; 
-  const myLectureCount = myEnrolledCourses.length;
+
+  // 4번째 useEffect: 추천 강의 목록 로딩 
+useEffect(() => {
+    const fetchRecommendedLectures = async () => {
+  setRecommendedLecturesLoading(true);
+  setRecommendedLecturesError(null);
+  setIsRecommendedFallback(false);
+
+  try {
+    const response = await getRecommendedLectures({}); 
+
+    if (response.isSuccess && response.payload && Array.isArray(response.payload.courses)) {
+      const lectures = response.payload.courses; 
+
+      if (lectures.length > 0) {
+        setRecommendedLectures(lectures);
+        console.log("🟢 메인페이지: 추천 강의 목록 조회 성공. 총:", lectures.length, "개");
+      } else { 
+        console.log("🟡 메인페이지: 추천 강의 없음. 최신 강의 조회 시도...");
+        const latestLecturesResponse = await getLectureList({ page: 0, size: 6, sort: 'latest' }); 
+        
+        if (latestLecturesResponse.isSuccess && latestLecturesResponse.payload && Array.isArray(latestLecturesResponse.payload.courses)) {
+          const latestLectures = latestLecturesResponse.payload.courses;
+          setRecommendedLectures(latestLectures);
+          setIsRecommendedFallback(true);
+          console.log("🟢 메인페이지: 최신 강의 목록 (폴백) 조회 성공. 총:", latestLectures.length, "개");
+        } else {
+          console.error("🔴 메인페이지: 최신 강의 목록 조회도 실패.", latestLecturesResponse);
+          setRecommendedLectures([]);
+        }
+      }
+    } else { 
+      // 추천 강의 API 응답 오류 발생 시 폴백
+      console.error("🔴 메인페이지: 추천 강의 목록 조회 실패: 예상치 못한 응답 형태 또는 isSuccess false.", response);
+      console.log("🟡 메인페이지: 추천 강의 API 응답 오류 발생. 최신 강의 조회 시도...");
+      
+      const latestLecturesResponse = await getLectureList({ page: 0, size: 6, sort: 'latest' }); 
+      
+      if (latestLecturesResponse.isSuccess && latestLecturesResponse.payload && Array.isArray(latestLecturesResponse.payload.courses)) {
+        const latestLectures = latestLecturesResponse.payload.courses;
+        setRecommendedLectures(latestLectures);
+        setIsRecommendedFallback(true);
+        console.log("🟢 메인페이지: (오류 후) 최신 강의 목록 (폴백) 조회 성공. 총:", latestLectures.length, "개");
+      } else {
+        console.error("🔴 메인페이지: (오류 후) 최신 강의 목록 조회도 실패.", latestLecturesResponse);
+        setRecommendedLecturesError(new Error("추천 및 최신 강의를 불러오는 데 실패했습니다.")); 
+        setRecommendedLectures([]);
+      }
+    }
+  } catch (err) { 
+    console.error("🔴 메인페이지: 추천 강의 목록 API 호출 오류:", err.response?.data?.message || err.message || "알 수 없는 오류");
+    console.log("🟡 메인페이지: 추천 강의 API 호출 오류 발생. 최신 강의 조회 시도...");
+    
+  
+    const latestLecturesResponse = await getLectureList({ page: 0, size: 6, sort: 'latest' }); 
+    if (latestLecturesResponse.isSuccess && latestLecturesResponse.payload && Array.isArray(latestLecturesResponse.payload.courses)) {
+        const latestLectures = latestLecturesResponse.payload.courses;
+        setRecommendedLectures(latestLectures);
+        setIsRecommendedFallback(true);
+        console.log("🟢 메인페이지: (오류 후) 최신 강의 목록 (폴백) 조회 성공. 총:", latestLectures.length, "개");
+    } else {
+        console.error("🔴 메인페이지: (오류 후) 최신 강의 목록 조회도 실패.", latestLecturesResponse);
+        setRecommendedLecturesError(new Error("추천 및 최신 강의를 불러오는 데 실패했습니다."));
+        setRecommendedLectures([]);
+    }
+  } finally {
+    setRecommendedLecturesLoading(false);
+  }
+};
+    fetchRecommendedLectures();
+  }, []); // 의존성 배열 비움
+
+  
+
+  if (loading || seniorListLoading || ewhainListLoading || recommendedLecturesLoading) return <MainPageContainer><NoLectureMessage>정보 불러오는 중...</NoLectureMessage></MainPageContainer>;
+  if (error || seniorListError || ewhainListError || recommendedLecturesError) return <MainPageContainer><NoLectureMessage>오류: {error?.message || seniorListError?.message || ewhainListError?.message || recommendedLecturesError?.message}</NoLectureMessage></MainPageContainer>;
+  if (loading) return <MainPageContainer><NoLectureMessage>사용자 정보 불러오는 중...</NoLectureMessage></MainPageContainer>;
+  if (error) return <MainPageContainer><NoLectureMessage>오류: {error.message}</NoLectureMessage></MainPageContainer>;
+  if (loading || seniorListLoading) return <MainPageContainer><NoLectureMessage>정보 불러오는 중...</NoLectureMessage></MainPageContainer>;
+  if (error || seniorListError) return <MainPageContainer><NoLectureMessage>오류: {error?.message || seniorListError?.message}</NoLectureMessage></MainPageContainer>;
+  if (loading || seniorListLoading || ewhainListLoading) return <MainPageContainer><NoLectureMessage>정보 불러오는 중...</NoLectureMessage></MainPageContainer>;
+  if (error || seniorListError || ewhainListError) return <MainPageContainer><NoLectureMessage>오류: {error?.message || seniorListError?.message || ewhainListError?.message}</NoLectureMessage></MainPageContainer>;
+
   return (
     <MainPageContainer>
       <MyInfoFrame> 
         <MyInfoInnerContent>
           <ProfileSection> 
             <ProfileInfo>
-              <ProfileImage src={ProfileExampleImage} alt="프로필 이미지"/>
-              <ProfileName>퍼비</ProfileName>
+              <ProfileImage src={userProfile.profileImageUrl} alt="프로필 이미지"/>
+              <ProfileName>{userProfile.nickname}</ProfileName>
             </ProfileInfo>
             <ProLecFrame> 
               <ProLecLabel>진행 중인 강의</ProLecLabel>
               <ProLecCount onClick={handleProLecCountClick}>
-              {loadingMyCourses ? '로딩 중...' : myLectureCount}
+                {userProfile.ongoingLectureCount}
             </ProLecCount>
             </ProLecFrame>
           </ProfileSection>
           <MyLecFrame>
-            {loadingMyCourses && <div>내 강의 불러오는 중...</div>}
+            
             {errorMyCourses && <div>내 강의 로드 실패: {errorMyCourses.message}</div>}
-            {!loadingMyCourses && !errorMyCourses && displayMyLectures.length === 0 && (
-              <div>진행 중인 강의가 없습니다.</div>
-            )}
+            
             <MyLectureListContainer>
-              {!loadingMyCourses && !errorMyCourses && displayMyLectures.length > 0 && (
-                displayMyLectures.map((lecture, index) => (
-                  <React.Fragment key={lecture.courseId}> 
-                    <MyLectureItem lecture={{
-                        id: lecture.courseId,
-                        title: lecture.courseTitle,
-                        status: "진행 중", 
-                        imageUrl: lecture.thumbnailUrl || ProfileExampleImage, 
-                    }} />
-                    {index < displayMyLectures.length - 1 && <HorizontalDivider />}
-                  </React.Fragment>
-                ))
-              )}
+              {userProfile.ongoingLectures.length > 0 ? (
+        <LectureGrid>
+          {userProfile.ongoingLectures.map(lecture => (
+            <MyLectureItem key={lecture.courseId} lecture={lecture} /> 
+          ))}
+        </LectureGrid>
+      ) : (
+        <NoLectureMessage>진행 중인 강의가 없습니다.</NoLectureMessage>
+      )}
             </MyLectureListContainer>
           </MyLecFrame>
         </MyInfoInnerContent>
       </MyInfoFrame>
       <RCMFrame>
         <RCMHeader>
-          <RCMTitle>퍼비 님을 위한 추천 강의</RCMTitle>
-          <MoreRecommendButton onClick={handleMoreRecommendClick}>더 보기
-            <img src={IconRightURL} style={{margin:'3px'}}/>
+          <RCMTitle>{`${userProfile.nickname} 님을 위한 추천 강의`}</RCMTitle> 
+          <MoreRecommendButton onClick={handleMoreRecommendClick}>
+            더 보기
+            <img src={IconRightURL} style={{margin:'3px'}} alt="더 보기 아이콘"/> 
           </MoreRecommendButton>
         </RCMHeader>
-         <MainCardRCMContainer>
-          {loadingRecommended && <div>추천 강의 불러오는 중...</div>}
-          {errorRecommended && <div>추천 강의 로드 실패: {errorRecommended.message}</div>}
-          {!loadingRecommended && !errorRecommended && recommendedLectures.length === 0 && (
-            <div>추천 강의가 없습니다.</div>
-          )}
-          {!loadingRecommended && !errorRecommended && recommendedLectures.length > 0 && (
+        <MainCardRCMContainer>
+          {recommendedLecturesLoading && <NoLectureMessage>강의 불러오는 중...</NoLectureMessage>}
+          {recommendedLecturesError && <NoLectureMessage>추천 강의 로드 실패: {recommendedLecturesError.message}</NoLectureMessage>}
+          {!recommendedLecturesLoading && !recommendedLecturesError && recommendedLectures.length === 0 ? (
+            <NoLectureMessage>강의가 없습니다.</NoLectureMessage> 
+          ) : (
             recommendedLectures.map(lecture => (
-              <LectureCard
-                key={lecture.courseId} 
-                lecture={{ 
-                  id: lecture.courseId,
-                  title: lecture.courseTitle,
-                  instructor: lecture.teacherNickname, 
-                  location: lecture.courseCity,
-                  period: { start: lecture.courseStartDate, end: lecture.courseEndDate },
-                  thumbnailUrl: lecture.thumbnailUrl, 
-                  currentParticipants: 0, 
-                  maxParticipants: 0,
-                  category: lecture.courseCategory, 
-                  bookmarkCount: lecture.bookmarkCount, 
-                }}
-              />
+              <LectureCard 
+                    key={lecture.courseId}
+                      lecture={ { 
+                        id: lecture.courseId || lecture.id,
+                        courseId: lecture.courseId,
+                        title: lecture.courseTitle || lecture.title,
+                        instructor: lecture.teacherNickname,
+                        location: lecture.courseCity,
+                        period: { start: lecture.courseStartDate, end: lecture.courseEndDate },
+                        thumbnailUrl: lecture.thumbnailUrl,
+                        category: lecture.courseCategory,
+                        bookmarkCount: lecture.bookmarkCount,
+                      } }
+                    />
             ))
-          )}
-        </MainCardRCMContainer>
+          )}    </MainCardRCMContainer>
       </RCMFrame>
+
       <SNRFrame>
         <SNRTitleContainer>
-          <h3>퍼비 님의 학과 선배</h3>
-          <MoreSNRButton>더 보기
-            <img src={IconRightURL} style={{margin:'3px'}}/>
+          <h3>{userProfile.nickname} 님의 학과 선배</h3>
+          <MoreSNRButton onClick={handleMoreSNRClick}>
+            <>
+              더 보기
+              <img src={IconRightURL} style={{margin:'3px'}} alt="더 보기 아이콘"/>
+            </>
           </MoreSNRButton>
         </SNRTitleContainer>
         <MainListSNRContainer>
-          {loadingMembers && <div>학과 선배 불러오는 중...</div>}
-          {errorMembers && <div>학과 선배 로드 실패: {errorMembers.message}</div>}
-          {!loadingMembers && !errorMembers && displaySeniorData.length === 0 && (
-            <div>학과 선배가 없습니다.</div>
-          )}
-          {!loadingMembers && !errorMembers && displaySeniorData.length > 0 && (
-            displaySeniorData.map((senior, index) => (
+          {seniorListLoading && <NoLectureMessage>선배 목록 불러오는 중...</NoLectureMessage>}
+        {seniorListError && <NoLectureMessage>오류: {seniorListError.message}</NoLectureMessage>}
+        {!seniorListLoading && !seniorListError && seniorList.length > 0 ? (
+            seniorList.map((senior, index) => (
               <React.Fragment key={senior.memberId}>
                 <MainSNR senior={{
                     id: senior.memberId,
-                    name: senior.nickName,
-                    major: senior.department,
-                    talents: senior.talentTags,
+                    name: senior.nickName, 
+                    major: senior.department, 
+                    talents: senior.talentTags || [], 
                     location: senior.location,
-                    profileImage: senior.profileImage || ProfileExampleImage, 
+                    profileImage: senior.profileImage || ProfileDefaultImage, 
+                    coffeeChat: senior.coffeeChat,
                 }} />
-                {index < 2 && <Divider />}
+                {index < seniorList.length - 1 && <Divider />}
               </React.Fragment>
-            ))
-          )}
+             ))
+        ) : ( // 검색 결과가 없을 때
+          (!seniorListLoading && !seniorListError && <NoLectureMessage>같은 학과 선배가 없습니다.</NoLectureMessage>)
+        )}
         </MainListSNRContainer>
       </SNRFrame>
       <EwhainFrame>
         <EwhainTitleContainer>
           <h3>이화인 목록</h3>
-          <MoreEwhainButton>더 보기
+          <MoreEwhainButton  onClick={handleMoreEwhainClick}>더 보기
             <img src={IconRightURL} style={{margin:'3px'}}/>
           </MoreEwhainButton>
         </EwhainTitleContainer>
         <MainListEwhainContainer>
-          {loadingMembers && <div>이화인 목록 불러오는 중...</div>}
-          {errorMembers && <div>이화인 목록 로드 실패: {errorMembers.message}</div>}
-          {!loadingMembers && !errorMembers && displayEwhainData.length === 0 && (
-            <div>이화인 목록이 없습니다.</div>
-          )}
-          {!loadingMembers && !errorMembers && displayEwhainData.length > 0 && (
-            displayEwhainData.map((ewhain, index) => (
-              <React.Fragment key={ewhain.memberId}> 
-                <MainEwhain ewhain={{
-                    id: ewhain.memberId,
-                    name: ewhain.nickName,
-                    major: ewhain.department,
-                    talents: ewhain.talentTags,
-                    location: ewhain.location,
-                    profileImage: ewhain.profileImage || ProfileExampleImage,
-                }} />
-                {index < 2 && <Divider />}
-              </React.Fragment>
-            ))
-          )}
+          {ewhainListLoading && <NoLectureMessage>이화인 목록 불러오는 중...</NoLectureMessage>}
+        {ewhainListError && <NoLectureMessage>이화인 목록 로드 실패: {ewhainListError.message}</NoLectureMessage>}
+        {!ewhainListLoading && !ewhainListError && ewhainList.length === 0 ? (
+          <NoLectureMessage>이화인 목록이 없습니다.</NoLectureMessage> 
+        ) : ( 
+          ewhainList.map((ewhain, index) => (
+            <React.Fragment key={ewhain.memberId}> 
+              <MainEwhain ewhain={{
+                  id: ewhain.memberId,
+                  name: ewhain.nickName,
+                  major: ewhain.department,
+                  talents: ewhain.talentTags || [], 
+                  interests: ewhain.interestTags || [],
+                  location: ewhain.location,
+                  profileImage: ewhain.profileImage || ProfileDefaultImage,
+                  coffeeChat: ewhain.coffeeChat,
+                  exchange: ewhain.exchange,
+                  donation: ewhain.donation,
+              }} />
+              {index < ewhainList.length - 1 && <Divider />}
+            </React.Fragment>
+          ))
+        )}
         </MainListEwhainContainer>
       </EwhainFrame>
     </MainPageContainer>

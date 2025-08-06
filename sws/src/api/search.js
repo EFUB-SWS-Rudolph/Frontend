@@ -1,0 +1,27 @@
+// src/api/search.js
+
+import { client } from './client';
+
+export const getLecturesByKeyword = async (keyword, page = 0, size = 10) => {
+  try {
+    console.log(`🟢 API: getLecturesByKeyword 요청 - 키워드: ${keyword}`);
+    const response = await client.get('/lectures', { params: { keyword: keyword, page: page, size: size } });
+    console.log(`🟢 API: getLecturesByKeyword 응답 - 키워드: ${keyword}, 데이터:`, response.data);
+    return response.data;
+  } catch (error) {
+    console.error(`🔴 API: getLecturesByKeyword 실패 - 키워드: ${keyword}, 오류:`, error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const getEwhainsByKeyword = async (keyword, page = 0, size = 10) => {
+  try {
+    console.log(`🟢 API: getEwhainsByKeyword 요청 - 키워드: ${keyword}`);
+    const response = await client.get('/ewhainlist', { params: { keyword: keyword, page: page, size: size } });
+    console.log(`🟢 API: getEwhainsByKeyword 응답 - 키워드: ${keyword}, 데이터:`, response.data);
+    return response.data;
+  } catch (error) {
+    console.error(`🔴 API: getEwhainsByKeyword 실패 - 키워드: ${keyword}, 오류:`, error.response?.data || error.message);
+    throw error;
+  }
+};

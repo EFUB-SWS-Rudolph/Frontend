@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
-import { getLectureDetail } from '../../../api/course';
+import { getLectureDetail , addBookmark, removeBookmark } from '../../../api/course';
 import 'swiper/css';
 import 'swiper/css/pagination';
 // 필요한 아이콘 URL
@@ -12,8 +12,14 @@ import IconBookmarkActive from '../../../common/assets/icons/icon_bookmark.svg';
 import IconBookmarkDis from '../../../common/assets/icons/icon_bookmark_dis.svg';
 import IconBackURL from '../../../common/assets/icons/icon_back.svg';
 import IconExportURL from '../../../common/assets/icons/icon_export.svg';
-import ProfileExampleImage from '../../../common/assets/images/profile_ex1.jpg';
 import { getChatroomExists } from '../../../api/chat';
+
+import IconCoffeeChatURL from '../../../common/assets/icons/icon_coffeechat.svg'; // 강사 재능 아이콘
+import IconExchangeURL from '../../../common/assets/icons/icon_exchange.svg'; // 강사 재능 아이콘
+import IconGiftURL from '../../../common/assets/icons/icon_give.svg'; // 강사 재능 아이콘
+
+import ProfileExampleImage from '../../../common/assets/images/profile_ex1.jpg';
+import LectureDetailCustomFooter from '../../components/LectureDetailCustomFooter';
 // styled-components 정의
 const DetailPageContainer = styled.div`
   width: 100%;
@@ -416,7 +422,6 @@ export default function LectureDetailPage() {
   const [showApplyPopup, setShowApplyPopup] = useState(false);
 
   useEffect(() => {
-    // lectureId가 없거나 유효하지 않으면 에러 처리
     if (!lectureId) {
       setError(new Error("유효한 강의 ID가 제공되지 않았습니다."));
       setLoading(false);
@@ -426,27 +431,98 @@ export default function LectureDetailPage() {
     const fetchLectureDetail = async () => {
       setLoading(true);
       setError(null);
-      setLectureDetail(null); // 이전 데이터 초기화
+      setLectureDetail(null); 
 
-      try {
+       try {
         const response = await getLectureDetail(lectureId); 
-        if (response.isSuccess) {
-          setLectureDetail(response.payload); 
-           setIsBookmarked(response.payload.bookmarked || false); 
+        if (response.isSuccess && response.payload) {
+          setLectureDetail(response.payload);
+          setIsBookmarked(response.payload.bookmarked || false);
+          console.log(`🟢 강의 상세 조회 성공 (ID: ${lectureId}):`, response.payload);
         } else {
           setError(new Error(response.message || "강의 상세 정보를 불러오지 못했습니다."));
+          console.error("강의 상세 로드 실패 (isSuccess false):", response);
         }
       } catch (err) {
-        setError(new Error(err.response?.data?.message || err.message || "오류가 발생했습니다."));
+        setError(new Error(err.response?.data?.message || err.message || "알 수 없는 오류"));
         console.error("강의 상세 정보 로드 중 오류:", err);
       } finally {
-        setLoading(false);
+        setLoading(false); 
       }
     };
-
-
     fetchLectureDetail(); 
-  }, [lectureId]); 
+  }, [lectureId]);
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+  const handleShareClick = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: lectureDetail?.courseTitle || '강의 상세',
+        text: `${lectureDetail?.courseTitle} 강의를 확인해보세요!`,
+        url: window.location.href,
+      }).catch(error => console.error('Sharing failed', error));
+    } else {
+      alert('공유 기능을 지원하지 않는 브라우저입니다.');
+    }
+  };
+  const handleApplyClick = () => {
+    setShowApplyPopup(true);
+  };
+  const handleCancelApply = () => {
+    setShowApplyPopup(false);
+  };
+  const handleConfirmApply = async () => {
+    setShowApplyPopup(false); 
+    try {
+      const teacherId = lectureDetail?.teacher?.id; 
+      if (!teacherId) {
+        console.error("강사 ID를 찾을 수 없습니다.");
+        alert("강사 정보가 불완전하여 채팅방을 열 수 없습니다.");
+        return;
+      }
+
+      const res = await getChatroomExists(teacherId, lectureId); 
+      if (res.exists) {
+        navigate(`/chatroom/${res.chatRoomId}`); 
+      } else {
+        navigate(`/chatroom/new`, {
+          state: {
+            opponentId: teacherId,
+            courseId: lectureId,
+            res: res, 
+          },
+        });
+      }
+    } catch (err) {
+      console.error("채팅방 생성/확인 중 오류:", err);
+      alert("채팅방을 여는 중 오류가 발생했습니다.");
+    }
+  };
+  const handleBookmarkToggle = async () => {
+    if (!lectureId || !lectureDetail) return;
+
+    try {
+        let apiResponse;
+        if (isBookmarked) {
+            console.log(`강의 ID ${lectureId} 찜 취소 요청`);
+            apiResponse = await removeBookmark(lectureId);
+        } else { 
+            console.log(`강의 ID ${lectureId} 찜하기 요청`);
+            apiResponse = await addBookmark(lectureId);
+        }
+
+        if (apiResponse.isSuccess) {
+            setIsBookmarked(prev => !prev); 
+        } else {
+            alert(apiResponse.message || '찜하기/찜 취소 실패');
+        }
+    } catch (error) {
+        alert('찜하기/찜 취소 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        console.error('찜하기/찜 취소 오류:', error);
+    }
+  };
+
 // 렌더링 로직
   if (loading) {
     return <LoadingMessage>강의 상세 정보를 불러오는 중...</LoadingMessage>;
@@ -459,78 +535,6 @@ export default function LectureDetailPage() {
   if (!lectureDetail) {
     return <NoResultsMessage>해당 강의 정보를 찾을 수 없습니다.</NoResultsMessage>;
   }
-
-  //이전페이지로 이동
-  const handleBackClick = () => {
-    navigate(-1);
-  };
-  //공유버튼클릭핸들러
-  const handleShareClick = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: lectureDetail?.courseTitle || '강의 상세',
-        text: `${lectureDetail?.courseTitle} 강의를 확인해보세요!`,
-        url: window.location.href, 
-      }).catch(error => console.error('Sharing failed', error));
-    } else {
-      alert('공유 기능을 지원하지 않는 브라우저입니다.');
-    }
-  };
-  //강의 신청 버튼 클릭 핸들러
-  const handleApplyClick = () => {
-    setShowApplyPopup(true);
-  };
-  //팝업 취소 버튼 클릭 핸들러
-  const handleCancelApply = () => {
-    setShowApplyPopup(false);
-  };
-  //팝업 신청 버튼 클릭 핸들러
-  const handleConfirmApply = async () => {
-    setShowApplyPopup(false);
-    try {
-      const res = await getChatroomExists(lectureDetail.teacher.id, lectureId);
-      if (res.exists) {
-        navigate(`/chatroom/${res.chatRoomId}`);
-      } else {
-        navigate(`/chatroom/new`, {
-          state: {
-            opponentId: lectureDetail.teacher.id,
-            courseId: lectureId,
-            res,
-          },
-        });
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  const handleBookmarkToggle = () => {
-
-    if (!lectureId || !lectureDetail) return;
-    setLoading(true); 
-    try {
-        let response;
-        if (isBookmarked) {
-            console.log(`강의 ID ${lectureId} 찜 취소 요청`); 
-            response = { isSuccess: true }; // 임시 성공 응답
-        } else {
-            console.log(`강의 ID ${lectureId} 찜하기 요청`);
-            response = { isSuccess: true }; // 임시 성공 응답
-        }
-
-        if (response.isSuccess) {
-            setIsBookmarked(prev => !prev); // 상태 토글
-        } else {
-            alert(response.message || '찜하기/찜 취소 실패');
-        }
-    } catch (error) {
-        alert('찜하기/찜 취소 중 오류 발생');
-        console.error('찜하기/찜 취소 오류:', error);
-    } finally {
-        setLoading(false); // 로딩 해제
-    }
-
-  };
 
   return (
     <DetailPageContainer>
@@ -553,7 +557,7 @@ export default function LectureDetailPage() {
           spaceBetween={0}
           pagination={{
             clickable: true,
-            el: '.swiper-pagination', // HTML에 직접 pagination div를 넣을 때 필요
+            el: '.swiper-pagination', 
           }}
           loop={true}
           grabCursor={true}
@@ -564,7 +568,7 @@ export default function LectureDetailPage() {
               <LectureActualImage src={imgSrc} alt={`${lectureDetail.courseTitle} 이미지 ${index + 1}`} />
             </SwiperSlide>
           ))}
-            <div className="swiper-pagination"></div> {/* Swiper pagination 점들이 렌더링될 곳 */}
+            <div className="swiper-pagination"></div> 
         </Swiper>
       </LectureImageFrame>
       {/* 강의 상세 정보 프레임 */}
@@ -572,12 +576,12 @@ export default function LectureDetailPage() {
         {/* 강의자 프로필 프레임 */}
        <InstructorProfileFrame>
             <InstructorProfileImage
-            src={ProfileExampleImage} // API에서 강사 프로필 이미지를 제공하면 lectureDetail.teacher.profileImage 등으로 교체
+            src={lectureDetail.teacher.profileImage} 
             alt={lectureDetail.teacher?.nickname}
           />
           <InstructorInfoTextContainer>
             <InstructorNickname>{lectureDetail.teacher?.nickname}</InstructorNickname>
-            <InstructorDepartment>{lectureDetail.teacher?.department || lectureDetail.teacher?.college}</InstructorDepartment> {/* department가 없으면 college 표시 */}
+            <InstructorDepartment>{lectureDetail.teacher?.department || lectureDetail.teacher?.college}</InstructorDepartment>
           </InstructorInfoTextContainer>
         </InstructorProfileFrame>
         {/* 강의 타이틀 */}
@@ -590,7 +594,6 @@ export default function LectureDetailPage() {
           </LectureCategoryItem>
           <LectureCategoryItem>
             <CategoryLabel>기간</CategoryLabel>
-            {/* period 객체에 안전하게 접근 */}
             <CategoryValue>{`${lectureDetail.period?.start} ~ ${lectureDetail.period?.end}`}</CategoryValue>
           </LectureCategoryItem>
           <LectureCategoryItem>

@@ -146,17 +146,17 @@ export default function LectureLocationFilterPage() {
   ];
 
   const handleOptionClick = (value) => {
-    updateSearchFilter('location', value); // 'location' 필드만 업데이트
+    updateSearchFilter('location', value);
   };
   
   const handleResetFilters = () => {
-      updateSearchFilter('location', '전체'); // Context의 location을 '전체'로 초기화
+      updateSearchFilter('location', '전체'); 
       alert('필터가 초기화되었습니다.');
   };
   
   const handleApply = () => {
     alert(`선택된 지역: ${searchFilters.location}`); 
-    navigate(-1); // 이전 페이지(LectureSearchFilterPage)로 
+    navigate(-1);  
   };
 
   return (
@@ -173,7 +173,6 @@ export default function LectureLocationFilterPage() {
           <FilterOptionItem 
             key={option.value} 
             onClick={() => handleOptionClick(option.value)}
-            // Context의 searchFilters.location과 비교하여 $isSelected 설정
             $isSelected={searchFilters.location === option.value} 
           >
             <OptionName>{option.label}</OptionName>

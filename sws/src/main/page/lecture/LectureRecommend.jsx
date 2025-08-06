@@ -325,18 +325,16 @@ export default function LectureRecommendPage() {
     updateRecommendFilter('keyword', newSearchQuery); 
   };
   const handleFilterClick = () => {
-    navigate('/lectures/recommend/filter'); // 필터 메인 페이지로 이동
+    navigate('/lectures/recommend/filter'); 
   };
   const handleSortFilterClick=()=>{
     navigate('/lectures/recommend/filter/sort');
   };
   return (
     <RecommendPageContainer>
-      {/* 강의 필터 바 [강의 필터 바] */}
                 <LectureFilterBar>
-                  {/* 보기 방식 토글 */}
               <FilterBarItem onClick={handleToggleDisplayMode}>
-                  <SortListIcon $isActive={displayMode === 'list'}> {/* 🔴 $isActive prop 전달 */}
+                  <SortListIcon $isActive={displayMode === 'list'}> 
                       <img
                         src={displayMode === 'grid' ? SortListIconURL : SortGridIconURL}
                         alt={displayMode === 'grid' ? "목록 정렬" : "갤러리 정렬"}
@@ -344,15 +342,13 @@ export default function LectureRecommendPage() {
                       />
                   </SortListIcon>
               </FilterBarItem>
-                 {/* 검색바 토글 */}
               <FilterBarItem onClick={handleToggleSearchBar}>
-                <SortKeywordIcon $isActive={showSearchBar}> {/* 🔴 $isActive prop 전달 */}
+                <SortKeywordIcon $isActive={showSearchBar}> 
                   <img src={SortKeywordIconURL}style={{ width: '1rem', height: '1rem' }}/>
                 </SortKeywordIcon>
               </FilterBarItem>
-                  {/* 필터 메인 페이지로 이동 */}
               <FilterBarItem onClick={handleFilterClick}>
-                <SortFilterIcon $isActive={ // 🔴 어떤 필터라도 '전체'가 아니면 활성화
+                <SortFilterIcon $isActive={
                     recommendFilterParams.courseType !== null ||
                     recommendFilterParams.courseCity !== null ||
                     recommendFilterParams.courseStartDate !== null ||

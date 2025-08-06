@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 // 아이콘 임포트 (경로 확인)
 import IconCheckURL from '../../../common/assets/icons/icon_check.svg';
 
-import { useFilter } from '../../../common/contexts/FilterContext'; // useFilter 훅 임포트
+import { useFilter } from '../../../common/contexts/FilterContext'; 
 const PageContainer = styled.div`
   width: 100%;
   height: 100%;

@@ -141,7 +141,7 @@ export default function MyLectureFilterPage() {
   const getDisplayValue = (filterName) => {
     switch (filterName) {
      
-      case '강의 상태': // 🔴 내 강의 필터에만 있는 '강의 상태' 필터
+      case '강의 상태': 
         switch (generalFilterParams.status) {
           case 'inProgress': return '수강 중';
           case 'completed': return '수강 종료';

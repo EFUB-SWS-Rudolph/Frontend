@@ -9,6 +9,8 @@ import { useAlarm } from '../../common/contexts/AlarmContext';
 // 헤더 컴포넌트
 export const MainHeaderContent = () => {
   const navigate = useNavigate();
+  const alarmContextValue = useAlarm();
+  console.log("MainHeaderContent의 useAlarm() 훅 반환값:", alarmContextValue);
   const { unreadAlarmCount } = useAlarm();
 
   return (
@@ -46,7 +48,7 @@ const WeevoLogo = styled.div`
   width: 6.49156rem;
   height: 1.358rem;
   margin-top: 1.06rem; 
-  margin-left: 1.5rem; 
+  
   flex-shrink: 0;
 `;
 const HeaderRightIcons = styled.div`
@@ -67,7 +69,7 @@ const AlarmIcon = styled.div`
   display: flex;
   width: 1.25rem;
   height: 1.25rem;
-  margin-right: 1.34rem;
+  
   flex-shrink: 0;
   aspect-ratio: 1/1;  
   `;

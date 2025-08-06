@@ -65,7 +65,7 @@ export const LectureRoutes = (
       <Route index element={<LectureDetailPage />} />
     </Route>
 
-    <Route path="/lectures/*" element={<Layout headerContent="강의 목록" />}>
+    <Route path="/lectures/*" element={<Layout headerContent="강의" />}>
       <Route index element={<LectureListPage />} />
       <Route path="search" element={<LectureListPage />} />
       <Route path="recommend" element={<LectureRecommendPage />} />
