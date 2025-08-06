@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
 import TagChoice from '../components/myTags/tagChoice/TagChoice';
 import { useProfileStore } from '../stores/ProfileStore';
-import CATEGORIES from '../constant/CATEGORIES';
+import { exchangeLectureCategoryMap } from '../../common/data/Category';
 
 export default function SelectMyTalentDetail() {
   const addTalentTag = useProfileStore((state) => state.addTalentTag);
   const category = useProfileStore((state) => state.category);
   const setCategory = useProfileStore((state) => state.setCategory);
   const navigate = useNavigate();
-  const TAG_DETAIL = CATEGORIES[category];  // category: 언어, 음악/악기, ...
+  const TAG_DETAIL = exchangeLectureCategoryMap[category];  // category: 언어, 음악/악기, ...
 
   const handleMoveBack = () => {
     navigate('/mypage/talenttag')

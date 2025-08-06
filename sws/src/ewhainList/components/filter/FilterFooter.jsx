@@ -2,10 +2,19 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
-import Reset from '../../icons/icon_reset.svg?react';
+import Reset from '../../../common/assets/icons/icon_initialize.svg?react';
 
 export default function FilterFooter() {
-  const { setExchange, setMajor, setPeriod, setIsGallery, setIsExchange, setIsDonation, setIsCoffeeChat } = useFilterStore();
+  const { 
+    setExchange, 
+    setMajor, 
+    setPeriod, 
+    setIsGallery, 
+    setIsExchange, 
+    setIsDonation, 
+    setIsCoffeeChat, 
+    setSearchItem 
+  } = useFilterStore();
   const navigate = useNavigate();
 
   const handleMoveEwhainPage = () => {
@@ -20,6 +29,7 @@ export default function FilterFooter() {
     setIsExchange(false);
     setIsDonation(false);
     setIsCoffeeChat(false);
+    setSearchItem('');
   };
 
   return(

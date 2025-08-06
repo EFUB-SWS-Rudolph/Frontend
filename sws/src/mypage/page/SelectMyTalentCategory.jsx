@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/mypageHeader/Header';
 import MoveTagDetail from '../components/myTags/tagChoice/MoveTagDetail';
-import CATEGORIES from '../constant/CATEGORIES';
+import { exchangeLectureCategoryMap } from '../../common/data/Category';
 
 export default function SelectMyTalentCategory() {
   const navigate = useNavigate();
-  const CATEGORY = Object.keys(CATEGORIES);
+  const CATEGORY = Object.keys(exchangeLectureCategoryMap);
 
   const handleMoveBack = () => {
     navigate('/mypage');

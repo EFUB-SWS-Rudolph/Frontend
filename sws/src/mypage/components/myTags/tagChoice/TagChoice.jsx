@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../../styles/theme';
-import CHECK from '../../../../ewhainList/icons/icon_check.svg?react';
+import CHECK from '../../../../common/assets/icons/icon_check.svg?react';
 import { useProfileStore } from '../../../stores/ProfileStore';
 
 export default function TagChoice({ item, onChange }) {

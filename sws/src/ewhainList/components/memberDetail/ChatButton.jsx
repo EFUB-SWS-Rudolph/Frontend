@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import CHAT from '../../icons/icon_chat.svg?react';
 import { getChatroomExists } from '../../../api/chat';
+import CHAT from '../../../common/assets/icons/icon_chat_white.svg?react';
+
 
 export default function ChatButton({ id }) {
   const navigate = useNavigate();

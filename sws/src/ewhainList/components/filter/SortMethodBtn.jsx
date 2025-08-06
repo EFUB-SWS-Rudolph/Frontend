@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import GALLERY from '../../icons/icon_gallery.svg?react';
-import INDEX from '../../icons/icon_material-symbols_list-rounded.svg?react';
+import GALLERY from '../../../common/assets/icons/FilterIcon_SortGrid.svg?react';
+import INDEX from '../../../common/assets/icons/icon_material-symbols_list-rounded.svg?react';
 import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
 

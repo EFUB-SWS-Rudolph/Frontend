@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
-import EwhainListHeader from '../components/common/EwhainListHeader';
+import EwhainListHeader from '../../common/components/Header';
 import UserProfileCard from '../components/memberDetail/UserProfileCard';
 import ChatButton from '../components/memberDetail/ChatButton';
 import TalentInterestContainer from '../components/memberDetail/TalentInterestContainer';

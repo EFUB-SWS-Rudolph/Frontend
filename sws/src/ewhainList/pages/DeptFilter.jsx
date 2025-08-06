@@ -1,12 +1,12 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
-import EwhainListHeader from '../components/common/EwhainListHeader';
+import EwhainListHeader from '../../common/components/Header';
 import FilterDetailBtn from '../components/filter/FilterDetailBtn';
 import { useFilterStore } from '../stores/FilterStore';
-import DEPARTMENT_MAJOR from '../constants/Univ';
+import { univCategory } from '../../common/data/Category';
 
-const COLLEAGE = Object.keys(DEPARTMENT_MAJOR);
+const COLLEAGE = Object.keys(univCategory);
 
 export default function DeptFilter() {
   const { setDept } = useFilterStore();
@@ -33,12 +33,12 @@ export default function DeptFilter() {
       </HeaderSpace>
       <FilterContents>
         {COLLEAGE.map((item) => (
-          <FilterDetailBtn 
-            select={item} 
-            value="" 
-            detailroute="/ewhainfilter/dept/major" 
+          <FilterDetailBtn
+            select={item}
+            value=""
+            detailroute="/ewhainfilter/dept/major"
             fromheader={cameFromHeader}
-            onChange={handleDept} 
+            onChange={handleDept}
             key={item}
           />
         ))}

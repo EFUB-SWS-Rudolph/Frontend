@@ -17,17 +17,16 @@ import { getChatroomExists } from '../../../api/chat';
 // styled-components 정의
 const DetailPageContainer = styled.div`
   width: 100%;
-  height: 100%;
-  min-height: 100%;
-  position: relative;
-  -webkit-overflow-scrolling: touch;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  height: auto;
+  position: relative; 
+   -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar { display: none; }
   -ms-overflow-style: none;
-  scrollbar-width: none;
+    scrollbar-width: none;
   box-sizing: border-box;
   padding: 1rem 0 8.5rem 0;
+  overflow-y: visible;
+
 `;
 //상단버튼컨테이너
 const TopButtonsContainer = styled.div`
@@ -391,7 +390,21 @@ const ApplyButton = styled(PopupButton)`
   background: #00664f;
   color: #ffffff;
 `;
+const LoadingMessage = styled.div`
+  text-align: center;
+  padding: 2rem;
+  color: #555; /* 가독성을 위해 색상 추가 */
+`;
 
+const ErrorMessage = styled.div`
+  color: red;
+  text-align: center;
+  padding: 2rem;
+`;
+
+const NoResultsMessage = styled.div`
+  width: 100%; text-align: center; padding: 4rem;  color: #888; font-size: 1rem;
+  `;
 // LectureDetailPage 함수 컴포넌트 정의
 export default function LectureDetailPage() {
   const { lectureId } = useParams();
@@ -399,65 +412,69 @@ export default function LectureDetailPage() {
   const [lectureDetail, setLectureDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showApplyPopup, setShowApplyPopup] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
-  // API 호출 로직
+  const [showApplyPopup, setShowApplyPopup] = useState(false);
+
   useEffect(() => {
-    const fetchLecture = async () => {
+    // lectureId가 없거나 유효하지 않으면 에러 처리
+    if (!lectureId) {
+      setError(new Error("유효한 강의 ID가 제공되지 않았습니다."));
+      setLoading(false);
+      return;
+    }
+
+    const fetchLectureDetail = async () => {
+      setLoading(true);
+      setError(null);
+      setLectureDetail(null); // 이전 데이터 초기화
+
       try {
-        setLoading(true);
-        setError(null);
-        const responseData = await getLectureDetail(lectureId);
-        if (responseData.isSuccess && responseData.payload) {
-          setLectureDetail(responseData.payload);
-          setIsBookmarked(responseData.payload.bookmarked);
+        const response = await getLectureDetail(lectureId); 
+        if (response.isSuccess) {
+          setLectureDetail(response.payload); 
+           setIsBookmarked(response.payload.bookmarked || false); 
         } else {
-          setError(new Error(responseData.message || '강의 정보를 불러오지 못했습니다.'));
+          setError(new Error(response.message || "강의 상세 정보를 불러오지 못했습니다."));
         }
       } catch (err) {
-        console.error('강의 상세 정보 로드 중 오류 발생:', err);
-        setError(err);
+        setError(new Error(err.response?.data?.message || err.message || "오류가 발생했습니다."));
+        console.error("강의 상세 정보 로드 중 오류:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    if (lectureId) {
-      fetchLecture();
-    }
-  }, [lectureId]);
+
+    fetchLectureDetail(); 
+  }, [lectureId]); 
+// 렌더링 로직
   if (loading) {
-    return (
-      <DetailPageContainer>
-        <div>강의 상세 정보를 불러오는 중입니다...</div>
-      </DetailPageContainer>
-    );
+    return <LoadingMessage>강의 상세 정보를 불러오는 중...</LoadingMessage>;
   }
+
   if (error) {
-    return (
-      <DetailPageContainer>
-        <div>오류가 발생했습니다: {error.message}</div>
-        <ChatButton onClick={() => navigate(-1)}> 이전 페이지로 돌아가기</ChatButton>
-      </DetailPageContainer>
-    );
+    return <ErrorMessage>오류: {error.message}</ErrorMessage>;
   }
-  // API 호출은 성공했지만 데이터가 없는 경우
-  // 백엔드에서 404가 아닌 200 OK에 null 데이터를 주는 경우 등
+
   if (!lectureDetail) {
-    return (
-      <DetailPageContainer>
-        <p>죄송합니다. 요청하신 강의 정보를 찾을 수 없습니다.</p>
-        <ChatButton onClick={() => navigate(-1)}>이전 페이지로 돌아가기</ChatButton>
-      </DetailPageContainer>
-    );
+    return <NoResultsMessage>해당 강의 정보를 찾을 수 없습니다.</NoResultsMessage>;
   }
+
   //이전페이지로 이동
   const handleBackClick = () => {
     navigate(-1);
   };
   //공유버튼클릭핸들러
   const handleShareClick = () => {
-    alert('공유하기 기능은 아직 구현되지 않았습니다.');
+    if (navigator.share) {
+      navigator.share({
+        title: lectureDetail?.courseTitle || '강의 상세',
+        text: `${lectureDetail?.courseTitle} 강의를 확인해보세요!`,
+        url: window.location.href, 
+      }).catch(error => console.error('Sharing failed', error));
+    } else {
+      alert('공유 기능을 지원하지 않는 브라우저입니다.');
+    }
   };
   //강의 신청 버튼 클릭 핸들러
   const handleApplyClick = () => {
@@ -488,9 +505,31 @@ export default function LectureDetailPage() {
     }
   };
   const handleBookmarkToggle = () => {
-    setIsBookmarked((prev) => !prev);
-    // 북마크 저장/취소 API 호출 로직
-    alert(isBookmarked ? '북마크가 해제되었습니다!' : '북마크 되었습니다!');
+
+    if (!lectureId || !lectureDetail) return;
+    setLoading(true); 
+    try {
+        let response;
+        if (isBookmarked) {
+            console.log(`강의 ID ${lectureId} 찜 취소 요청`); 
+            response = { isSuccess: true }; // 임시 성공 응답
+        } else {
+            console.log(`강의 ID ${lectureId} 찜하기 요청`);
+            response = { isSuccess: true }; // 임시 성공 응답
+        }
+
+        if (response.isSuccess) {
+            setIsBookmarked(prev => !prev); // 상태 토글
+        } else {
+            alert(response.message || '찜하기/찜 취소 실패');
+        }
+    } catch (error) {
+        alert('찜하기/찜 취소 중 오류 발생');
+        console.error('찜하기/찜 취소 오류:', error);
+    } finally {
+        setLoading(false); // 로딩 해제
+    }
+
   };
 
   return (
@@ -514,33 +553,31 @@ export default function LectureDetailPage() {
           spaceBetween={0}
           pagination={{
             clickable: true,
-            el: '.swiper-pagination',
+            el: '.swiper-pagination', // HTML에 직접 pagination div를 넣을 때 필요
           }}
           loop={true}
           grabCursor={true}
           style={{ width: '100%', height: '100%' }}
         >
-          {lectureDetail.images &&
-            lectureDetail.images.map((imgSrc, index) => (
-              <SwiperSlide key={index}>
-                <LectureActualImage
-                  src={imgSrc}
-                  alt={`${lectureDetail.courseTitle} 이미지 ${index + 1}`}
-                />
-              </SwiperSlide>
-            ))}
-          <div className="swiper-pagination"></div>
+          {lectureDetail.images && lectureDetail.images.map((imgSrc, index) => (
+            <SwiperSlide key={index}>
+              <LectureActualImage src={imgSrc} alt={`${lectureDetail.courseTitle} 이미지 ${index + 1}`} />
+            </SwiperSlide>
+          ))}
+            <div className="swiper-pagination"></div> {/* Swiper pagination 점들이 렌더링될 곳 */}
         </Swiper>
       </LectureImageFrame>
       {/* 강의 상세 정보 프레임 */}
       <LectureDetailFrame>
         {/* 강의자 프로필 프레임 */}
-        <InstructorProfileFrame>
-          <InstructorProfileImage src={ProfileExampleImage} alt={lectureDetail.teacher?.nickname} />
+       <InstructorProfileFrame>
+            <InstructorProfileImage
+            src={ProfileExampleImage} // API에서 강사 프로필 이미지를 제공하면 lectureDetail.teacher.profileImage 등으로 교체
+            alt={lectureDetail.teacher?.nickname}
+          />
           <InstructorInfoTextContainer>
             <InstructorNickname>{lectureDetail.teacher?.nickname}</InstructorNickname>
-            <InstructorDepartment>{lectureDetail.teacher?.department}</InstructorDepartment>{' '}
-            {/* college와 department 중 선택 */}
+            <InstructorDepartment>{lectureDetail.teacher?.department || lectureDetail.teacher?.college}</InstructorDepartment> {/* department가 없으면 college 표시 */}
           </InstructorInfoTextContainer>
         </InstructorProfileFrame>
         {/* 강의 타이틀 */}
@@ -553,7 +590,8 @@ export default function LectureDetailPage() {
           </LectureCategoryItem>
           <LectureCategoryItem>
             <CategoryLabel>기간</CategoryLabel>
-            <CategoryValue>{`${lectureDetail.period.start} ~ ${lectureDetail.period.end}`}</CategoryValue>
+            {/* period 객체에 안전하게 접근 */}
+            <CategoryValue>{`${lectureDetail.period?.start} ~ ${lectureDetail.period?.end}`}</CategoryValue>
           </LectureCategoryItem>
           <LectureCategoryItem>
             <CategoryLabel>지역</CategoryLabel>
@@ -572,7 +610,6 @@ export default function LectureDetailPage() {
         </BookmarkButton>
         <ChatButton onClick={handleApplyClick}>채팅하기</ChatButton>
       </FooterBar>
-
       {/* 팝업창 렌더링 - showApplyPopup이 true일 때만 표시 */}
       {showApplyPopup && (
         <ApplyPopupOverlay>

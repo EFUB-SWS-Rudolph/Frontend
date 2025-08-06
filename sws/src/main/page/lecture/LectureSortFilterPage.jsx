@@ -79,77 +79,89 @@ const OptionName = styled.span`
   font-size: 1rem;
   color: #222222;
 `;
+// [푸터 바]
 const FooterBar = styled.div`
-  width: 24.375rem; /* 390px */
-  height: 8.5rem; /* 136px */
+  width:100% ; 
+  height: 5.19rem;
   background: #FFFFFF;
   box-shadow: 0rem 0.25rem 1.25rem 0rem rgba(0, 0, 0, 0.25);
   position: fixed;
-  bottom: 0rem;
-  left: 50%;
-  transform: translateX(-50%);
+  left:50%;
+  bottom: 0; 
+  padding:1rem;
+  gap:1.2rem;
+  transform: translateX(-50%); 
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0rem 1.25rem; /* 0 20px */
   box-sizing: border-box;
-  z-index: 1000;
-  gap: 0.625rem; /* 10px */
+  z-index: 1000; 
 `;
 const ResetButton = styled.button`
-  width: 3.375rem; /* 54px */
-  height: 3rem; /* 48px */
-  border-radius: 0.5rem; /* 8px */
+  height: 3rem;
+  width:3.375rem;
+  border-radius: 0.5rem;
   background: #F5F5F5; 
   color: #222222;
   font-family: Pretendard Variable;
   font-weight: 500;
-  font-size: 0.625rem; /* 10px */
+  font-size: 0.625rem;
   border: none;
   cursor: pointer;
   display: flex;
-  flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
-  align-items: center; 
-  justify-content: center; 
-  gap: 0.25rem; /* 4px */
-  flex-shrink: 0; 
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem; 
+  flex-shrink: 0;
 `;
 const ApplyFilterButton = styled.button`
-  flex-grow: 1;
-  width: 17.25rem; /* 276px */
-  height: 3.5rem; /* 56px */
-  border-radius: 0.75rem; /* 12px */
-  background: #00664F;
+  width:17.25rem; 
+  height: 3.5rem; 
+  border-radius: 0.75rem;
+  background: #00664F; 
   color: white;
   font-family: Pretendard Variable;
   font-weight: 600;
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-`;
-export default function LectureSortFilterPage() {
+  flex-shrink: 0; 
+`;export default function LectureSortFilterPage() {
   const navigate = useNavigate();
-   const { searchFilters, updateSearchFilter } = useFilter();
+  const { searchFilters, updateSearchFilter } = useFilter();
+  const { generalFilterParams, updateGeneralFilter } = useFilter();
 
   const SortOptions = [
     { label: '최신 순', value: '최신 순' },
-    { label: '오래된 순', value: '오래된 순' },
+    { label: '인기 순', value: '인기 순' },
   ];
+   const getInitialSelectedSort = () => {
+    const currentApiValue = generalFilterParams.sort; 
+    switch (currentApiValue) {
+      case 'latest': return '최신 순';
+      case 'popular': return '인기 순';
+      default: return '최신 순'; 
+    }
+  };
+
+  const [selectedSort, setSelectedSort] = useState(getInitialSelectedSort());
   const handleOptionClick = (value) => {
-   updateSearchFilter('sort', value); 
+   setSelectedSort(value);
   };
 
   const handleResetFilters = () => {
-    updateSearchFilter('sort', '최신 순');
+    updateGeneralFilter('sort', '최신 순');
     alert('필터가 초기화되었습니다.');
+    navigate(-1);
   };
 
   const handleApply = () => {
-    alert(`선택된 정렬 기준: ${searchFilters.sort}`); 
+    updateGeneralFilter('sort', selectedSort);
+    alert('필터가 적용되었습니다.');
     navigate(-1);
   };
 
@@ -167,7 +179,7 @@ export default function LectureSortFilterPage() {
           <FilterOptionItem 
             key={option.value} 
             onClick={() => handleOptionClick(option.value)}
-            $isSelected={searchFilters.sort === option.value} 
+            $isSelected={selectedSort === option.value}
           >
             <OptionName>{option.label}</OptionName>
           </FilterOptionItem>

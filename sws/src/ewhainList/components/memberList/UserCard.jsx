@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import EXCHANGE from "../../icons/icon_exchange.svg?react";
-import GIVE from "../../icons/icon_give.svg?react";
-import COFFEECHAT from "../../icons/icon_coffeechat.svg?react";
+import EXCHANGE from "../../../common/assets/icons/icon_exchange_black.svg?react";
+import GIVE from "../../../common/assets/icons/icon_give_black.svg?react";
+import COFFEECHAT from "../../../common/assets/icons/icon_coffeechat_black.svg?react";
 import theme from '../../../styles/theme';
 import { useFilterStore } from '../../stores/FilterStore';
 import defaultImage from '../../icons/defaultImage.jpg';

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../../styles/theme';
-import SLIGHT_RIGHT_ARROW from '../../../../ewhainList/icons/icon_next.svg?react';
+import SLIGHT_RIGHT_ARROW from '../../../../common/assets/icons/icon_next_square.svg?react';
 import { useProfileStore } from '../../../stores/ProfileStore';
 
 export default function MoveTagDetail({ select, detailroute }) {
@@ -12,7 +12,7 @@ export default function MoveTagDetail({ select, detailroute }) {
     setCategory(select);
     navigate(detailroute);
   };
-  
+
   return (
     <DetailBtnWrapper>
       <DetailType>{select}</DetailType>
