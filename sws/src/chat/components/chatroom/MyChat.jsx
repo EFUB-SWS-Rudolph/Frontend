@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
+import { extractTime } from '../../../utils/formatTime';
 
-export default function MyChat() {
+export default function MyChat({ msg }) {
   return (
     <Container>
-      <Time>12:53</Time>
-      <Text>안녕하세요 수업 자리 남았을까요?</Text>
+      <Time>{extractTime(msg.sentAt)}</Time>
+      <Text>{msg.content}</Text>
     </Container>
   );
 }
@@ -19,7 +20,7 @@ const Container = styled.div`
 
 const Text = styled.div`
   display: flex;
-  height: 2.25rem;
+  max-width: 16.125rem;
   padding: 0.4375rem 0.75rem;
   justify-content: center;
   align-items: center;

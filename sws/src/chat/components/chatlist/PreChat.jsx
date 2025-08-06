@@ -1,20 +1,27 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
+import { formatTime } from '../../../utils/formatTime';
+import { useNavigate } from 'react-router-dom';
 
-export default function PreChat() {
+export default function PreChat({ prechatData }) {
+  const navigate = useNavigate();
+  const onClickPrechat = () => {
+    navigate(`/chatroom/${prechatData.chatRoomId}`);
+  };
+
   return (
-    <Wrapper>
-      <ProfileImg />
+    <Wrapper onClick={onClickPrechat}>
+      <ProfileImg src={prechatData.opponentProfileImageUrl} />
       <TextsContainer>
         <NameClassContainer>
-          <Name>김일화</Name>
-          <AboutClass>커피챗</AboutClass>
+          <Name>{prechatData.opponentName}</Name>
+          <AboutClass>{prechatData.courseTitle}</AboutClass>
         </NameClassContainer>
-        <PreText>안녕하세요 수업 자리 남았을까요?</PreText>
+        <PreText>{prechatData.lastMessage}</PreText>
       </TextsContainer>
       <AdditionalContainer>
-        <Time>1시간 전</Time>
-        <Messages>2</Messages>
+        <Time>{formatTime(prechatData.lastMessageSentAt)}</Time>
+        {prechatData.unreadCount > 0 && <Messages>{prechatData.unreadCount}</Messages>}
       </AdditionalContainer>
     </Wrapper>
   );
@@ -27,7 +34,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-shrink: 0;
 
-  padding: 0 1.5rem;
+  padding: 1.1rem 1.5rem;
   align-items: center;
 
   border-bottom: 1px solid;
@@ -56,6 +63,7 @@ const NameClassContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  width: 14.5rem;
 `;
 
 const Name = styled.p`
@@ -66,6 +74,11 @@ const Name = styled.p`
   font-style: ${({ theme }) => theme.fonts.display.title.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.title.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.title.medium.lineHeight};
+
+  max-width: 10rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const AboutClass = styled.p`
@@ -96,9 +109,10 @@ const PreText = styled.div`
 const AdditionalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-end;
   gap: 0.35rem;
+  height: 100%;
 
   margin-left: auto;
 `;

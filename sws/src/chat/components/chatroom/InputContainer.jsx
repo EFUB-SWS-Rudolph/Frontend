@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import SEND_BUTTON from '../../assets/send_button.svg?react';
 
-export default function InputContainer() {
+export default function InputContainer({ message, setMessage, onClickButton }) {
   return (
     <Container>
-      <InputText />
-      <ButtonWrapper>
+      <InputText value={message} onChange={(e) => setMessage(e.target.value)} />
+      <ButtonWrapper onClick={onClickButton}>
         <SEND_BUTTON />
       </ButtonWrapper>
     </Container>
