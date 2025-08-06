@@ -28,7 +28,6 @@ export default function Tags() {
       setDepartment(user.dept);
       setStudentid(user.studentId.slice(0, 2));
       setLocation(user.location);
-      setCity(user.location);
     }
   }, [user])
 
