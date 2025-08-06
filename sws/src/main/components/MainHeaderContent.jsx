@@ -12,7 +12,7 @@ export const MainHeaderContent = () => {
   const { unreadAlarmCount } = useAlarm();
 
   return (
-    <>
+   <MainHeaderContainer>
       <WeevoLogo>
         <img src={WeevoLogoURL} alt="Weevo Logo" style={{ width: '103.86px', height: '21.73px' }} />
       </WeevoLogo>
@@ -28,45 +28,46 @@ export const MainHeaderContent = () => {
           />{' '}
         </AlarmIcon>
       </HeaderRightIcons>
-    </>
+    </MainHeaderContainer>
   );
 };
-
+const MainHeaderContainer = styled.div`
+  width: 100%;
+  height: 3.44rem; 
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box; 
+  position: relative; 
+  flex-shrink: 0;
+  padding: 0 1.5rem; 
+`;
 
 const WeevoLogo = styled.div`
   width: 6.49156rem;
   height: 1.358rem;
-  margin-top: 1rem; 
-   margin-left: 0.5rem;
-   margin-bottom:1rem;
-   align-items: center; 
-  flex-shrink: 0; 
+  margin-top: 1.06rem; 
+  margin-left: 1.5rem; 
+  flex-shrink: 0;
 `;
-
 const HeaderRightIcons = styled.div`
   display: flex;
-  gap: 1rem; 
-   margin-top: 1rem; 
-   margin-left: 0.5rem;
-   margin-bottom:1rem;
-  
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.25rem;
 `;
-
 const SearchIcon = styled.div`
   width: 1.25rem;
   height: 1.25rem;
   cursor: pointer;
-
- margin-left: 10rem; 
-  flex-shrink: 0; 
+  margin-left: 10rem; 
+  flex-shrink: 0;
 `;
-
 const AlarmIcon = styled.div`
   cursor: pointer;
   display: flex;
   width: 1.25rem;
   height: 1.25rem;
-  margin-right: 0.34rem;
- flex-shrink: 0;
-  aspect-ratio: 1/1;
-`;
+  margin-right: 1.34rem;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;  
+  `;

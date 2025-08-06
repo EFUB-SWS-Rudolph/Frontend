@@ -3,7 +3,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useLectureTab } from '../styles/Layout'; // useLectureTab 훅 임포트
+import { useLectureTab } from '../styles/Layout'; 
 
 // --- 스타일드 컴포넌트 정의 ---
 const TabBarContainer = styled.div`
@@ -46,7 +46,6 @@ const TabItem = styled.div`
 // --- LectureTabBar 함수 컴포넌트 정의 ---
 export default function LectureTabBar() {
   const navigate = useNavigate();
-  // 🔴 useLectureTab 훅을 사용하여 mainActiveTab과 setMainActiveTab 가져오기
   const { mainActiveTab, setMainActiveTab } = useLectureTab();
 
   const handleTabClick = (tabName, path) => {

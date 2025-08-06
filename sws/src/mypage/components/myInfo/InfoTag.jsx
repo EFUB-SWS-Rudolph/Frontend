@@ -1,4 +1,3 @@
-import { useRef, useState, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useProfileStore } from '../../stores/ProfileStore';
@@ -12,10 +11,6 @@ export default function InfoTag({ tagname, info, onChange }) {
     navigate('/mypage/myinfotag', { state: { type: tagname } });
   };
 
-  const handleMoveCity = () => {
-    navigate('/mypage/myinfotag/city', { state: { type: tagname } });
-  };
-
   return (
     <Container>
       <Tag>{tagname}</Tag>
@@ -24,14 +19,8 @@ export default function InfoTag({ tagname, info, onChange }) {
           <InfoInput value={info} onChange={onChange} />
           <EDIT />
         </>
-      ) : tagname === '지역' && isEditing ? (
-        <>
-          <InfoText onClick={handleMoveCity} $isediting={isEditing} $tagname={tagname}>
-            {info}
-          </InfoText>
-          <EDIT onClick={handleMoveCity} />
-        </>
-      ) : isEditing ? (
+      ) 
+     : isEditing ? (
         <>
           <InfoText onClick={handleMoveSelection} $isediting={isEditing} $tagname={tagname}>
             {info}
@@ -97,7 +86,7 @@ const InfoInput = styled.input`
   outline: none;
   width: 5rem;
   color: var(--Black, #222);
-  text-align: center;
+  text-align: right;
 
   /* Body/Medium */
   font-family: 'Pretendard Variable';

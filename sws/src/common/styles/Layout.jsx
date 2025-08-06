@@ -19,16 +19,6 @@ import IconMypageInactiveURL from '../assets/icons/icon_mypage-inactive.svg';
 
 export const LectureTabContext = createContext(); 
 
-const PageHeaderContainer = styled.div`
-  width: 100%;
-  height: 3.5rem; 
-  padding: 0 1rem; 
-  box-sizing: border-box; 
-  background-color: ${props => props.$headerBackgroundColor || 'white'}; 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 
 // Layout 컴포넌트 정의
@@ -61,15 +51,17 @@ export default function Layout({
     navigate('/lectures');
     setMainActiveTab('강의 조회');
   };
+  
 return (
     <AppContainer $backgroundColor={backgroundColor}>
-      <PageHeaderContainer $headerBackgroundColor={headerBackgroundColor}>
       {isHomePage ? (
-        <MainHeaderContent /> 
+        <MainHeaderContent />
       ) : (
-        <Header header={headerContent} onClick={() => navigate(-1)} />
+        <Header
+          header={headerContent}
+          onClick={() => navigate(-1)}
+        />
       )}
-      </PageHeaderContainer>
       <ContentArea $contentBackgroundColor={contentBackgroundColor}>
         <LectureTabProvider>
           {shouldShowLectureTabBar && <LectureTabBar />}
