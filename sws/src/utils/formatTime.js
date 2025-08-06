@@ -21,5 +21,5 @@ export const formatDate = (dateString) => {
 };
 
 export const extractTime = (datetime) => {
-  return dayjs(datetime).format('HH:mm');
+  return dayjs(datetime).add(9, 'hour').format('HH:mm');
 };
