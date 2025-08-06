@@ -38,8 +38,7 @@ export const getChatroomList = async (category) => {
   }
 };
 
-export const getMessageList = async (chatroomId, pageNum, size = 20) => {
-  console.log(`${pageNum}페이지 불러오기`);
+export const getMessageList = async (chatroomId, pageNum, size = 10) => {
   try {
     const res = await client.get(`/chat/${chatroomId}/messages?page=${pageNum}&size=${size}`);
     console.log(res.data);

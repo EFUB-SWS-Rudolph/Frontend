@@ -11,7 +11,7 @@ export default function PreChat({ prechatData }) {
 
   return (
     <Wrapper onClick={onClickPrechat}>
-      <ProfileImg />
+      <ProfileImg src={prechatData.opponentProfileImageUrl} />
       <TextsContainer>
         <NameClassContainer>
           <Name>{prechatData.opponentName}</Name>
@@ -63,6 +63,7 @@ const NameClassContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  width: 14.5rem;
 `;
 
 const Name = styled.p`
@@ -73,6 +74,11 @@ const Name = styled.p`
   font-style: ${({ theme }) => theme.fonts.display.title.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.title.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.title.medium.lineHeight};
+
+  max-width: 10rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const AboutClass = styled.p`
