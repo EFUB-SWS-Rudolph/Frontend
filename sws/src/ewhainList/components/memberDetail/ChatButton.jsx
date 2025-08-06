@@ -1,13 +1,30 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
+import { getChatroomExists } from '../../../api/chat';
 import CHAT from '../../../common/assets/icons/icon_chat_white.svg?react';
+
 
 export default function ChatButton({ id }) {
   const navigate = useNavigate();
 
-  const handleMoveChat = () => {
-    navigate('/chat/id');
+  const handleMoveChat = async () => {
+    try {
+      const res = await getChatroomExists(id);
+      if (res.exists) {
+        navigate(`/chatroom/${res.chatRoomId}`);
+      } else {
+        navigate(`/chatroom/new`, {
+          state: {
+            opponentId: id,
+            courseId: null,
+            res,
+          },
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -41,7 +58,7 @@ const ChatBtnContainer = styled.button`
   align-items: center;
   flex-shrink: 0;
   border-radius: 1.25rem;
-  background: var(--Primary, #00664F);
+  background: var(--Primary, #00664f);
 `;
 
 const ChatBtnContents = styled.div`
@@ -52,9 +69,9 @@ const ChatBtnContents = styled.div`
 `;
 
 const ChatText = styled.div`
-  color: var(--White, #FFF);
+  color: var(--White, #fff);
   text-align: center;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 1rem;
   font-style: normal;
   font-weight: 600;

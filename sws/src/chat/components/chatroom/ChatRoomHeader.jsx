@@ -2,15 +2,17 @@ import styled from 'styled-components';
 import BACK_BUTTON from '../../assets/back_button.svg?react';
 import MORE_BUTTON from '../../assets/more_button.svg?react';
 import { useNavigate } from 'react-router-dom';
+import { useChatStore } from '../../stores/useChatStore';
 
-export default function ChatRoomHeader({ name, modalHandler }) {
+export default function ChatRoomHeader({ modalHandler, newUser = null }) {
   const navigate = useNavigate();
+  const { name } = useChatStore();
   return (
     <HeaderWrapper>
       <ButtonWrapper onClick={() => navigate('/chatlist')}>
         <BACK_BUTTON />
       </ButtonWrapper>
-      <HeaderContainer>{name}</HeaderContainer>
+      <HeaderContainer>{newUser ? newUser : name}</HeaderContainer>
       <ButtonWrapper>
         <MORE_BUTTON onClick={() => modalHandler((prev) => !prev)} />
       </ButtonWrapper>
