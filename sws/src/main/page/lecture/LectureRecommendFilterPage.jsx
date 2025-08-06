@@ -158,7 +158,7 @@ export default function LectureRecommendFilterPage() {
 
   const handleFilterClick = (filterType) => {
     if (filterType === '정렬 기준') {
-      navigate('/lectures/search/filter/sort'); 
+      navigate('/lectures/recommend/filter/sort'); 
     }
     else {
       alert(`${filterType} 필터 설정 페이지 (미구현)`);
