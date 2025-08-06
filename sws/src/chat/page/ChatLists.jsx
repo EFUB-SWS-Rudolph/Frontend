@@ -5,29 +5,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { getChatroomList } from '../../api/chat';
 import { HEADER_BUTTON_LIST_PARAM } from '../constant/headerButtonList';
-
-const dummydata = [
-  {
-    chatRoomId: 1,
-    opponentId: 2,
-    opponentName: '김일화',
-    opponentProfileImageUrl: 'https://example.com/profile1.jpg',
-    courseTitle: '피아노 레슨 - 무료',
-    lastMessage: '네! 그때 뵙겠습니다 :)',
-    lastMessageSentAt: '2025-07-19 01:06',
-    unreadCount: 0,
-  },
-  {
-    chatRoomId: 2,
-    opponentId: 3,
-    opponentName: '김삼화',
-    opponentProfileImageUrl: 'https://example.com/profile2.jpg',
-    courseTitle: '독일어 심화반',
-    lastMessage: null,
-    lastMessageSentAt: null,
-    unreadCount: 0,
-  },
-];
+import dayjs from 'dayjs';
 
 export default function ChatLists() {
   const [filter, setFilter] = useState(0);
@@ -51,9 +29,11 @@ export default function ChatLists() {
       <Header />
       <FilterBar filter={filter} onChange={setFilter} />
       <ChatContainer>
-        {chatlist.map((item, idx) => (
-          <PreChat key={`prechat-${idx}`} prechatData={item} />
-        ))}
+        {[...chatlist]
+          .sort((a, b) => dayjs(b.lastMessageSentAt).diff(dayjs(a.lastMessageSentAt)))
+          .map((item, idx) => (
+            <PreChat key={`prechat-${idx}`} prechatData={item} />
+          ))}
       </ChatContainer>
     </Wrapper>
   );
