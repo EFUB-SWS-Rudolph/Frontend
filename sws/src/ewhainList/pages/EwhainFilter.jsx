@@ -19,6 +19,7 @@ export default function EwhainFilter() {
     setIsExchange,
     setIsDonation,
     setIsCoffeeChat,
+    setSearchItem,
   } = useFilterStore();
   const navigate = useNavigate();
 
@@ -31,6 +32,7 @@ export default function EwhainFilter() {
     setIsExchange(false);
     setIsDonation(false);
     setIsCoffeeChat(false);
+    setSearchItem('');
   };
 
   return (
