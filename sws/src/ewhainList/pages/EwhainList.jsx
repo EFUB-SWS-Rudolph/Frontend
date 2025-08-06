@@ -4,11 +4,10 @@ import theme from '../../styles/theme';
 import EwhainListHeader from '../../common/components/Header';
 import HeaderFilter from '../components/memberList/headerFilter/HeaderFilter';
 import UserCard from '../components/memberList/UserCard';
-import USERS from '../constants/users';
 import EMPTY from '../icons/icon_empty.svg?react';
 import { useFilterStore } from '../stores/FilterStore';
 import { getMemberList } from '../../api/members';
-import UNIV from '../constants/Univ';
+import { univCategory } from '../../common/data/Category';
 
 export default function EwhainList() {
   const major = useFilterStore((state) => state.major); // 학과
@@ -40,7 +39,7 @@ export default function EwhainList() {
   function isSearchItemInDepartments(searchItem) {
     if (!searchItem) return false;
 
-    return Object.values(UNIV).some((departmentList) => departmentList.includes(searchItem));
+    return Object.values(univCategory).some((departmentList) => departmentList.includes(searchItem));
   }
 
   // 필터할 항목들: 학과, 교류 방식, 최신순
