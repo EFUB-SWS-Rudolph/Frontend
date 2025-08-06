@@ -15,9 +15,6 @@ import LectureRecommendPage from '../main/page/lecture/LectureRecommend';
 import MyLecturePage from '../main/page/lecture/LectureMy';
 import AddLecturePage from '../main/page/lecture/AddLecturePage';
 
-import { LectureListHeaderContent } from '../main/components/LectureListHeaderContent';
-import LectureSearchFilterPageHeader from '../main/components/LectureSearchFilterPageHeader';
-import CategorySelect from '../common/components/CategorySelect';
 import CategorySelectWrapper from '../common/components/CategorySelectWrapper';
 
 export const LectureRoutes = (
@@ -40,33 +37,34 @@ export const LectureRoutes = (
 
     <Route
       path="/lectures/search/filter"
-      element={<Layout headerContent={<LectureSearchFilterPageHeader />} showFooter={false} />}
+      element={<Layout headerContent="필터" showFooter={false} />}
     >
       <Route index element={<LectureSearchFilterPage />} />
     </Route>
     <Route
       path="/lectures/recommend/filter"
-      element={<Layout headerContent={<LectureSearchFilterPageHeader />} showFooter={false} />}
+      element={<Layout headerContent="필터" showFooter={false} />}
     >
       <Route index element={<LectureRecommendFilterPage />} />
     </Route>
     <Route
       path="/lectures/my/filter"
-      element={<Layout headerContent={<LectureSearchFilterPageHeader />} showFooter={false} />}
+      element={<Layout headerContent="필터" showFooter={false} />}
     >
       <Route index element={<MyLectureFilterPage />} />
     </Route>
 
-    <Route path="/lectures/detail/:lectureId" element={<Layout showFooter={false} />}>
+    <Route path="/lectures/detail/:lectureId" element={<Layout headerContent="상세 정보" showFooter={false} />}>
       <Route index element={<LectureDetailPage />} />
     </Route>
 
-    <Route path="/lectures/*" element={<Layout headerContent={<LectureListHeaderContent />} />}>
+    <Route path="/lectures/*" element={<Layout headerContent="강의 목록" />}>
       <Route index element={<LectureListPage />} />
       <Route path="search" element={<LectureListPage />} />
       <Route path="recommend" element={<LectureRecommendPage />} />
       <Route path="my" element={<MyLecturePage />} />
     </Route>
+
     <Route path="/add/lecture" element={<Layout showFooter={false} />}>
       <Route index element={<AddLecturePage />} />
     </Route>

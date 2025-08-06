@@ -2,6 +2,7 @@
 import React, { useState, createContext, useContext } from 'react';
 import styled from 'styled-components';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import Header from '../components/Header';
 
 const LectureTabContext = createContext();
 
@@ -44,7 +45,10 @@ export default function Layout({
   };
   return (
     <AppContainer $backgroundColor={backgroundColor}>
-      <Header $headerBackgroundColor={headerBackgroundColor}>{headerContent}</Header>
+      <Header
+        header={headerContent}
+        onClick={() => navigate(-1)}
+      />
       <ContentArea $contentBackgroundColor={contentBackgroundColor}>
         <LectureTabProvider>
           <Outlet />
@@ -138,7 +142,7 @@ const AppContainer = styled.div`
   background-color: ${(props) => props.$backgroundColor || '#FFF'};
 `;
 // 상단바 스타일 (Header)
-const Header = styled.header`
+const LayoutHeaderContainer = styled.header`
   width: 100%;
   height: auto;
   background-color: ${(props) => props.$headerBackgroundColor || '#FFF'};

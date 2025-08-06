@@ -190,7 +190,7 @@ export default function LectureRecommendFilterPage() {
         onClick={handleToggleDisplayMode} // 클릭 시 보기 방식 토글
         valueComponent={ // value 대신 커스텀 컴포넌트 전달
           <ViewModeIcon
-            src={displayMode === 'grid' ? SortGridIconURL : SortListIconURL} // 🔴 displayMode 사용
+            src={displayMode === 'grid' ? SortGridIconURL : SortListIconURL}
             alt={displayMode === 'grid' ? "그리드 정렬" : "목록 정렬"}
           />
         }
