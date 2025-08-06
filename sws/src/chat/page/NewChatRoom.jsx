@@ -16,8 +16,8 @@ export default function NewChatRoom() {
   const handleMakeChatroom = async () => {
     try {
       const data = {
-        opponentId: 8,
-        courseId: 2,
+        opponentId: location.state.opponentId,
+        courseId: location.state.courseId,
         content: message,
       };
       const res = await postChatroom(data);
@@ -35,11 +35,14 @@ export default function NewChatRoom() {
   return (
     <Wrapper>
       <ChatRoomHeader modalHandler={null} newUser={location.state.res.opponentName} />
-      <AboutRoom
-        thumbnail={location.state.res.courseImgUrl}
-        title={location.state.res.courseTitle}
-        date={`${formatDate(location.state.res.recruitStartDate)} ~ ${formatDate(location.state.res.recruitEndDate)}`}
-      />
+      {location.state.courseId && (
+        <AboutRoom
+          thumbnail={location.state.res.courseImageUrl}
+          title={location.state.res.courseTitle}
+          date={`${formatDate(location.state.res.recruitStartDate)} ~ ${formatDate(location.state.res.recruitEndDate)}`}
+        />
+      )}
+
       <ChatContainer messageList={[]} />
       <ChatInput message={message} setMessage={setMessage} onClickButton={handleMakeChatroom} />
     </Wrapper>

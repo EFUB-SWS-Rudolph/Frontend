@@ -1,10 +1,18 @@
 import { client } from './client';
 
-export const getChatroomExists = async (opponentId, courseId) => {
+export const getChatroomExists = async (opponentId, courseId = null) => {
   try {
-    const res = await client.get(`/chat/rooms/exist?opponentId=${opponentId}&courseId=${courseId}`);
-    console.log(res.data);
-    return res.data;
+    if (courseId) {
+      const res = await client.get(
+        `/chat/rooms/exist?opponentId=${opponentId}&courseId=${courseId}`
+      );
+      console.log(res.data);
+      return res.data;
+    } else {
+      const res = await client.get(`/chat/rooms/exist?opponentId=${opponentId}`);
+      console.log(res.data);
+      return res.data;
+    }
   } catch (err) {
     throw err;
   }
@@ -30,7 +38,8 @@ export const getChatroomList = async (category) => {
   }
 };
 
-export const getMessageList = async (chatroomId, pageNum, size = 10) => {
+export const getMessageList = async (chatroomId, pageNum, size = 20) => {
+  console.log(`${pageNum}페이지 불러오기`);
   try {
     const res = await client.get(`/chat/${chatroomId}/messages?page=${pageNum}&size=${size}`);
     console.log(res.data);

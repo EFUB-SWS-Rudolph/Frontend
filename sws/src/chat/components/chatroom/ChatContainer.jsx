@@ -3,7 +3,7 @@ import { ChatGroup } from './ChatGroup';
 import { formatDate } from '../../../utils/formatTime';
 import { useChatStore } from '../../stores/useChatStore';
 
-export default function ChatContainer({ messageList }) {
+export default function ChatContainer({ messageList, topRef, bottomRef, scrollRef }) {
   const { userId } = useChatStore();
 
   const groupMessages = (data) => {
@@ -49,7 +49,8 @@ export default function ChatContainer({ messageList }) {
   const grouped = groupMessages(messageList);
 
   return (
-    <Container>
+    <Container ref={scrollRef}>
+      <div ref={topRef} />
       {grouped.map((dateGroup, idx) => (
         <DateGroup key={`date-${idx}`}>
           <Dates>{formatDate(dateGroup.date)}</Dates>
@@ -68,6 +69,7 @@ export default function ChatContainer({ messageList }) {
           )}
         </DateGroup>
       ))}
+      <div ref={bottomRef} />
     </Container>
   );
 }
