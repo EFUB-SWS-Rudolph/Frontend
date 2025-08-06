@@ -4,14 +4,14 @@ import theme from '../../styles/theme';
 import EwhainListHeader from '../../common/components/Header';
 import FilterDetailChoice from '../components/filter/FilterDetailChoice';
 import { useFilterStore } from '../stores/FilterStore';
-import DEPARTMENT_MAJOR from '../constants/Univ';
+import { univCategory } from '../../common/data/Category';
 
 export default function MajorFilter() {
   const { major, dept, setMajor } = useFilterStore();
   const navigate = useNavigate();
   const location = useLocation();
   const cameFromHeader = location.state?.fromHeader;
-  const MAJOR = DEPARTMENT_MAJOR[dept];
+  const MAJOR = univCategory[dept];
 
   const handleMajor = (item) => {
     setMajor(item);
