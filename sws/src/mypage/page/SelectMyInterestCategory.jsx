@@ -20,7 +20,7 @@ export default function SelectMyInterestCategory() {
       <FilterContents>
         {CATEGORY.map((category) => (
           <MoveTagDetail key={category} select={category} detailroute={'/mypage/interesttag/detail'} />
-        ))};
+        ))}
       </FilterContents>
     </Wrapper>
   );
