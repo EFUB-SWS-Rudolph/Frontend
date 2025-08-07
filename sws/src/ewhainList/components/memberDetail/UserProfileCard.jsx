@@ -31,7 +31,6 @@ export default function UserProfileCard({ id }) {
 
   return (
     <UserProfileWrapper>
-      {/* src={user.prifileimgurl */}
       {user.profileImage &&
       user.profileImage !== '/images/스크린샷 2025-07-20 오전 1.33.39.png' ? (
         <ProfileImage src={user.profileImage} alt="profileimg" />
@@ -40,7 +39,6 @@ export default function UserProfileCard({ id }) {
       )}
       <UserNickname>{user.nickName}</UserNickname>
       <UserAvailable>
-        {/* user.give user.exchange user.coffeechat === "on" */}
         {user.donation && <GIVE width="1rem" height="1rem" aspect-ratio="1/1" />}
         {user.exchange && <EXCHANGE width="1rem" height="1rem" aspect-ratio="1/1" />}
         {user.coffeeChat && <COFFEECHAT width="1rem" height="1rem" aspect-ratio="1/1" />}
@@ -50,14 +48,12 @@ export default function UserProfileCard({ id }) {
           <UserStudentId>{user.studentId.slice(0, 2)}학번</UserStudentId>
           <Partition>|</Partition>
           <UserDept>{user.department}</UserDept>
-          {/* {user.studentId}학번 <span>|</span> {user.department} */}
         </UserUnivInfo>
       ) : (
         <UserUnivInfo>
           <UserStudentId>비공개</UserStudentId>
           <Partition>|</Partition>
           <UserDept>{user.department}</UserDept>
-          {/* 비공개 <span>|</span> {user.department} */}
         </UserUnivInfo>
       )}
       <UserLocation>{user.location}</UserLocation>

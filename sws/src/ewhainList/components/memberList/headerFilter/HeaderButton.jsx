@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import GALLERY from '../../../../common/assets/icons/FilterIcon_SortGrid.svg?react';
-import INDEX from '../../../../common/assets/icons/icon_index.svg?react';
+import INDEX from '../../../../common/assets/icons/FilterIcon_SortList.svg?react';
 import SEARCH from '../../../../common/assets/icons/FilterIcon_SortKeyword.svg?react';
 import SEARCH_GREEN from '../../../../common/assets/icons/icon_searchgreen.svg?react';
 import FILTER from '../../../../common/assets/icons/FilterIcon_SortFilter.svg?react';
