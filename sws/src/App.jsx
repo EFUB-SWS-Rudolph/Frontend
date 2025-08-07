@@ -10,6 +10,8 @@ import GlobalSearchPage from './main/page/GlobalSearchPage';
 import AlarmPage from './main/page/AlarmPage';
 import LoginPage from './signIn/pages/SignIn';
 import RedirectPage from './signIn/pages/Redirect';
+import PrivateRoute from './routes/PrivateRoute';
+import OnboardingRoute from './routes/OnboardingRoute';
 import { LectureRoutes } from './routes/LectureRoutes';
 import { ChatRoutes } from './routes/ChatRoutes';
 import { MyPageRoutes } from './routes/MyPageRoutes';
@@ -22,42 +24,42 @@ function App() {
       <AlarmProvider>
         <FilterProvider>
           <Routes>
-            {/* 로그인 페이지를 "/" 경로로 */}
+            <Route element={<PrivateRoute />}>
+              <Route
+                path="/"
+                element={
+                  <Layout
+                    backgroundColor="#F7F6F3"
+                    headerBackgroundColor="#F7F6F3"
+                    contentBackgroundColor="#F7F6F3"
+                  >
+                    <MainHeaderContent />
+                  </Layout>
+                }
+              >
+                <Route index element={<Main />} />
+              </Route>
+
+              <Route
+                path="/global-search"
+                element={<Layout headerContent="검색" showFooter={false} />}
+              >
+                <Route index element={<GlobalSearchPage />} />
+              </Route>
+              <Route path="/alarm" element={<Layout headerContent="알림" showFooter={false} />}>
+                <Route index element={<AlarmPage />} />
+              </Route>
+              {MyPageRoutes}
+              {ChatRoutes}
+              {LectureRoutes}
+              {EwhainRoutes}
+            </Route>
+
             <Route element={<Layout showFooter={false} />}>
-              <Route index element={<LoginPage />} />
+              <Route path="/signin" element={<LoginPage />} />
               <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
             </Route>
-            
-            <Route
-              path="/main"
-              element={
-                <Layout
-                  backgroundColor="#F7F6F3"
-                  headerBackgroundColor="#F7F6F3"
-                  contentBackgroundColor="#F7F6F3"
-                >
-                  <MainHeaderContent />
-                </Layout>
-              }
-            >
-              <Route index element={<Main />} />
-            </Route>
-
-            <Route
-              path="/global-search"
-              element={<Layout headerContent="검색" showFooter={false} />}
-            >
-              <Route index element={<GlobalSearchPage />} />
-            </Route>
-            <Route path="/alarm" element={<Layout headerContent="알림" showFooter={false} />}>
-              <Route index element={<AlarmPage />} />
-            </Route>
-
-            {EwhainRoutes}
-            {SignUpRoutes()}
-            {MyPageRoutes}
-            {ChatRoutes}
-            {LectureRoutes}
+            <Route element={<OnboardingRoute />}>{SignUpRoutes}</Route>
 
             {/* 404 Not Found 라우트 */}
             <Route path="*" element={<div>페이지를 찾을 수 없습니다.</div>} />

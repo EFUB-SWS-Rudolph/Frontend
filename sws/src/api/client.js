@@ -77,7 +77,6 @@ client.interceptors.response.use(
       } catch (err) {
         processQueue(err, null);
         localStorage.removeItem('token');
-        window.location.href = '/signin';
         return Promise.reject(err);
       } finally {
         isRefreshing = false;
