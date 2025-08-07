@@ -12,7 +12,7 @@ import { useUserStore } from '../stores/useUserStore';
 
 export default function SetProfile() {
   const { nickname, setNickname, location, setLocation } = useUserStore();
-  const isValid = nickname !== '' && nickname.length > 2;
+  const isValid = nickname !== '' && nickname.length > 1;
   const isNextEnabled = isValid && location !== '';
   const navigate = useNavigate();
 
