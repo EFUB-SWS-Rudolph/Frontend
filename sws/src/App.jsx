@@ -31,7 +31,7 @@ function App() {
                   contentBackgroundColor="#F7F6F3"
                 >
                   <MainHeaderContent />
-                 </Layout>
+                </Layout>
               }
             >
               <Route index element={<Main />} />
@@ -39,14 +39,11 @@ function App() {
 
             <Route
               path="/global-search"
-              element={<Layout headerContent="검색" showFooter={false} />} 
+              element={<Layout headerContent="검색" showFooter={false} />}
             >
               <Route index element={<GlobalSearchPage />} />
             </Route>
-            <Route
-              path="/alarm"
-              element={<Layout headerContent="알림" showFooter={false} />} 
-            >
+            <Route path="/alarm" element={<Layout headerContent="알림" showFooter={false} />}>
               <Route index element={<AlarmPage />} />
             </Route>
             <Route element={<Layout showFooter={false} />}>
@@ -55,7 +52,7 @@ function App() {
             </Route>
 
             {EwhainRoutes}
-            {SignUpRoutes}
+            {SignUpRoutes()}
             {MyPageRoutes}
             {ChatRoutes}
             {LectureRoutes}
