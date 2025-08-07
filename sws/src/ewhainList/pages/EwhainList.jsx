@@ -114,7 +114,7 @@ export default function EwhainList() {
         <>
           <EwhainContainer $isgallery={isgallery}>
             {myMemberId && users
-              .filter(user => user.memberId !== myMemberId)
+              .filter(user => user.memberId.toString() !== myMemberId.toString())
               .map((user) => (
               <UserCard user={user} key={user.memberId} />
             ))}
