@@ -136,6 +136,7 @@ const EwhainContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  margin-bottom: 0.5rem;
 `;
 
 const NoResult = styled.div`
