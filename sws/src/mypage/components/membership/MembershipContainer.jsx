@@ -10,6 +10,7 @@ export default function MembershipContainer() {
   const handleLogout = async () => {
     try {
       await postLogout();
+      localStorage.removeItem('token');
       alert('로그아웃 성공');
       navigate('/signin');
     } catch (err) {
@@ -21,9 +22,10 @@ export default function MembershipContainer() {
     try {
       await deleteMember();
       alert('회원탈퇴가 완료되었습니다');
+      localStorage.removeItem('token');
       navigate('/signin');
     } catch (err) {
-      alert('회원탈퇴에 실패하였습니다')
+      alert('회원탈퇴에 실패하였습니다');
     }
   };
 
@@ -48,15 +50,15 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
   flex-shrink: 0;
-  border-bottom: 1px solid var(--Gray-300, #D9D9D9);
-  background: #FFF;
+  border-bottom: 1px solid var(--Gray-300, #d9d9d9);
+  background: #fff;
 `;
 
 const Text = styled.div`
   color: var(--Black, #222);
 
   /* Body/Large */
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 1rem;
   font-style: normal;
   font-weight: 500;
