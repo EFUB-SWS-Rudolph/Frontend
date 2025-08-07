@@ -38,7 +38,7 @@ export const getChatroomList = async (category) => {
   }
 };
 
-export const getMessageList = async (chatroomId, pageNum, size = 10) => {
+export const getMessageList = async (chatroomId, pageNum, size = 20) => {
   try {
     const res = await client.get(`/chat/${chatroomId}/messages?page=${pageNum}&size=${size}`);
     console.log(res.data);
