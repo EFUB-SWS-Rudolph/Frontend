@@ -20,7 +20,7 @@ export default function SelectMyTalentCategory() {
       <FilterContents>
         {CATEGORY.map((category) => (
           <MoveTagDetail key={category} select={category} detailroute={'/mypage/talenttag/detail'} />
-        ))};
+        ))}
       </FilterContents>
     </Wrapper>
   );

@@ -30,7 +30,7 @@ export default function SelectMyInterestDetail() {
       <FilterContents>
         {TAG_DETAIL.map((item) => (
           <TagChoice key={item} item={item} onChange={handleTagChoice} />
-        ))};
+        ))}
       </FilterContents>
     </Wrapper>
   )

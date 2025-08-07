@@ -29,11 +29,11 @@ const Wrapper = styled.div`
 
 const LoginPhraseContainer = styled.div`
   display: flex;
-  width: 8.25rem;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  margin: 18.5rem 8.06rem 16rem;
+  margin-top: 18.5rem;
   padding: 0;
 `;
 
@@ -55,8 +55,6 @@ const LoginBtnContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 50px;
   gap: 1rem;
   margin: auto 1.5rem 1.81rem;
-  padding: 0;
 `;

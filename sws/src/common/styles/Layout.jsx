@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 
-import LectureTabBar from '../components/LectureTabBar'; 
+import LectureTabBar from '../components/LectureTabBar';
 import { MainHeaderContent } from '../../main/components/MainHeaderContent';
 
 import IconHomeActiveURL from '../assets/icons/icon_home.svg';
@@ -32,10 +32,11 @@ export default function Layout({
   const navigate = useNavigate();
   const location = useLocation();
   const [mainActiveTab, setMainActiveTab] = useState('강의 조회');
-  const isHomePage = location.pathname === '/main';
-  const shouldShowLectureTabBar = location.pathname === '/lectures' ||
-                                  location.pathname === '/lectures/recommend' ||
-                                  location.pathname === '/lectures/my';
+  const isHomePage = location.pathname === '/';
+  const shouldShowLectureTabBar =
+    location.pathname === '/lectures' ||
+    location.pathname === '/lectures/recommend' ||
+    location.pathname === '/lectures/my';
 
   const isLecturePage = location.pathname.startsWith('/lectures');
   const isEwhaListPage = location.pathname.startsWith('/ewhainlist');
@@ -50,8 +51,8 @@ export default function Layout({
     navigate('/lectures');
     setMainActiveTab('강의 조회');
   };
-  
-return (
+
+  return (
     <AppContainer $backgroundColor={backgroundColor}>
        <Header
         header={headerContent}
