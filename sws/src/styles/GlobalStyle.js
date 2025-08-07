@@ -33,6 +33,10 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     cursor: pointer;
   }
+
+   ::placeholder {
+    font-family: 'Pretendard', sans-serif;
+  }
 `;
 
 export default GlobalStyle;

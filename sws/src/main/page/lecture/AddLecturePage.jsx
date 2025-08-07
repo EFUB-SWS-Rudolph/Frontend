@@ -20,7 +20,7 @@ const AddLecturePage = () => {
   const [detail, setDetail] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [description, setDescription] = useState();
+  const [description, setDescription] = useState('');
   const [lecture, setLecture] = useState('ART');
   const [location, setLocation] = useState('');
   const [showCalendar, setShowCalendar] = useState(false);
@@ -104,68 +104,69 @@ const AddLecturePage = () => {
   return (
     <Layout>
       <EwhainListHeader header="강의 등록" onClick={() => navigate('/lectures')} />
-      <ImageUploadArea>
-        {previewImage && <img className="preview" src={previewImage} alt="preview" />}
-        {!previewImage && <CAMERA width={24} height={24} />}
-        <input type="file" accept="image/*" multiple onChange={handleImageChange} />
-      </ImageUploadArea>
+      <ContentContainer>
+        <ImageUploadArea>
+          {previewImage && <img className="preview" src={previewImage} alt="preview" />}
+          {!previewImage && <CAMERA width={24} height={24} />}
+          <input type="file" accept="image/*" multiple onChange={handleImageChange} />
+        </ImageUploadArea>
 
-      <TopContainer>
-        <TextInput name="title" placeholder="제목" value={title} onChange={handleTitleChange} />
-        <TextInput
-          name="category"
-          placeholder="카테고리"
-          value={category}
-          onChange={handleCategoryChange}
-        />
-      </TopContainer>
-      <Fieldset>
-        <Legend>강의 방식</Legend>
-        <ButtonContainer>
-          <Button $active={type === 'DONATION'} onClick={() => setType('DONATION')}>
-            재능 공유
-          </Button>
-          <Button $active={type === 'EXCHANGE'} onClick={() => setType('EXCHANGE')}>
-            재능 교환
-          </Button>
-          <Button $active={type === 'TUTOR'} onClick={() => setType('TUTOR')}>
-            과외
-          </Button>
-        </ButtonContainer>
-      </Fieldset>
-      <Fieldset>
-        <Legend>강의 설명</Legend>
-        <Textarea
-          name="description"
-          placeholder="강의에 대한 설명을 자세히 작성해주세요..."
-          value={description}
-          onChange={handleDescriptionChange}
-        />
-      </Fieldset>
-      <Fieldset>
-        <Legend>강의 기간 선택</Legend>
-        <SelectBox>
-          <Text>
-            {startDate && endDate
-              ? `${format(new Date(startDate), 'yyyy.MM.dd')} ~ ${format(new Date(endDate), 'yyyy.MM.dd')}`
-              : '날짜'}
-          </Text>
+        <TopContainer>
+          <TextInput name="title" placeholder="제목" value={title} onChange={handleTitleChange} />
+          <TextInput
+            name="category"
+            placeholder="카테고리"
+            value={category}
+            onChange={handleCategoryChange}
+          />
+        </TopContainer>
+        <Fieldset>
+          <Legend>강의 방식</Legend>
+          <ButtonContainer>
+            <Button $active={type === 'DONATION'} onClick={() => setType('DONATION')}>
+              재능 공유
+            </Button>
+            <Button $active={type === 'EXCHANGE'} onClick={() => setType('EXCHANGE')}>
+              재능 교환
+            </Button>
+            <Button $active={type === 'TUTOR'} onClick={() => setType('TUTOR')}>
+              과외
+            </Button>
+          </ButtonContainer>
+        </Fieldset>
+        <Fieldset>
+          <Legend>강의 설명</Legend>
+          <Textarea
+            name="description"
+            placeholder="강의에 대한 설명을 자세히 작성해주세요..."
+            value={description}
+            onChange={handleDescriptionChange}
+          />
+        </Fieldset>
+        <Fieldset>
+          <Legend>강의 기간 선택</Legend>
+          <SelectBox>
+            <Text>
+              {startDate && endDate
+                ? `${format(new Date(startDate), 'yyyy.MM.dd')} ~ ${format(new Date(endDate), 'yyyy.MM.dd')}`
+                : '날짜'}
+            </Text>
 
-          <IconWrapper onClick={() => setShowCalendar(true)}>
-            <CALENDAR width={20} height={20} />
-          </IconWrapper>
-        </SelectBox>
+            <IconWrapper onClick={() => setShowCalendar(true)}>
+              <CALENDAR width={20} height={20} />
+            </IconWrapper>
+          </SelectBox>
 
-        {showCalendar && (
-          <CalendarModal onClick={() => setShowCalendar(false)}>
-            <CalendarBox onClick={(e) => e.stopPropagation()}>
-              <Calendar selectedRange={selectedRange} onSelect={handleCalendarSelect} />
-            </CalendarBox>
-          </CalendarModal>
-        )}
-      </Fieldset>
+          {showCalendar && (
+            <CalendarModal onClick={() => setShowCalendar(false)}>
+              <CalendarBox onClick={(e) => e.stopPropagation()}>
+                <Calendar selectedRange={selectedRange} onSelect={handleCalendarSelect} />
+              </CalendarBox>
+            </CalendarModal>
+          )}
+        </Fieldset>
 
-      {/* <Fieldset>
+        {/* <Fieldset>
         <Legend>교환 희망 강의</Legend>
         <SelectBox>
           <Text>{lecture || '카테고리'}</Text>
@@ -186,27 +187,27 @@ const AddLecturePage = () => {
           />
         </SelectBox>
       </Fieldset> */}
-      <Fieldset>
-        <Legend>강의 희망 지역</Legend>
-        <SelectBox>
-          <Text>{location || '위치 추가'}</Text>
-          <ARROW
-            width={16}
-            height={16}
-            onClick={() =>
-              navigate('/category', {
-                state: {
-                  categoryMap: koreaLocationCategoryMap,
-                  onSelectType: 'location',
-                  title: '희망 위치',
-                },
-              })
-            }
-          />
-        </SelectBox>
-      </Fieldset>
-      <NextBtn onClick={() => setShowConfirmModal(true)} />
-
+        <Fieldset>
+          <Legend>강의 희망 지역</Legend>
+          <SelectBox>
+            <Text>{location || '위치 추가'}</Text>
+            <ARROW
+              width={16}
+              height={16}
+              onClick={() =>
+                navigate('/category', {
+                  state: {
+                    categoryMap: koreaLocationCategoryMap,
+                    onSelectType: 'location',
+                    title: '희망 위치',
+                  },
+                })
+              }
+            />
+          </SelectBox>
+        </Fieldset>
+        <NextBtn onClick={() => setShowConfirmModal(true)} />
+      </ContentContainer>
       {showConfirmModal && (
         <ConfirmModalOverlay onClick={() => setShowConfirmModal(false)}>
           <ConfirmModalBox onClick={(e) => e.stopPropagation()}>
@@ -248,11 +249,15 @@ export default AddLecturePage;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0px 16px;
+
   width: 100%;
   margin: 0 auto;
 `;
 
+const ContentContainer = styled.div`
+  padding: 0px 16px;
+  width: 100%;
+`;
 const ImageUploadArea = styled.label`
   width: 64px;
   height: 64px;
@@ -296,6 +301,8 @@ const TextInput = styled.input`
   margin: 0px 10px 10px 0px;
   border-radius: 12px;
   border: 1px solid hsla(0, 0%, 85%, 1);
+  font-size: 14px;
+  font-weight: 600;
 `;
 
 const Fieldset = styled.fieldset`
@@ -318,9 +325,10 @@ const Button = styled.button`
   border-radius: 12px;
   border: 1px solid ${({ $active }) => ($active ? '#007A5C' : '#ccc')};
   background-color: ${({ $active }) => ($active ? '#007A5C' : '#fff')};
-  color: ${({ $active }) => ($active ? '#fff' : '#000')};
+  color: ${({ $active }) => ($active ? '#ffffff' : 'hsla(0, 0%, 50%, 1);')};
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
 `;
 const SelectBox = styled.div`
   width: 356px;
@@ -337,8 +345,9 @@ const SelectBox = styled.div`
 `;
 
 const Text = styled.span`
-  color: hsla(0, 0%, 50%, 1);
+  color: hsla(0, 0%, 50%, 1)
   font-size: 14px;
+  font-weight: 500;
 `;
 
 const Textarea = styled.textarea`
@@ -349,6 +358,8 @@ const Textarea = styled.textarea`
   padding: 12px;
   font-size: 14px;
   resize: none;
+  font-size: 14px;
+  font-weight: 600;
 `;
 const IconWrapper = styled.div`
   display: flex;
