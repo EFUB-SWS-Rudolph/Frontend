@@ -62,7 +62,7 @@ export const getRecommendedLectures = async (params = {}) => {
 };
 export const addBookmark = async (courseId) => {
   try {
-    const response = await client.post(`/course/bookmark/${courseId}`); // 🔴 POST 요청
+    const response = await client.post(`/course/bookmark/${courseId}`); 
     console.log(`🟢 강의 찜하기 성공 (ID: ${courseId}):`, response.data);
     return response.data;
   } catch (error) {
@@ -72,7 +72,7 @@ export const addBookmark = async (courseId) => {
 };
 export const removeBookmark = async (courseId) => {
   try {
-    const response = await client.delete(`/course/bookmark/${courseId}`); // 🔴 DELETE 요청
+    const response = await client.delete(`/course/bookmark/${courseId}`);
     console.log(`🟢 강의 찜 취소 성공 (ID: ${courseId}):`, response.data);
     return response.data;
   } catch (error) {

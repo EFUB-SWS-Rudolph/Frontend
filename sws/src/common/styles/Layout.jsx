@@ -12,23 +12,22 @@ import IconHomeInactiveURL from '../assets/icons/icon_home-inactive.svg';
 import IconLectureActiveURL from '../assets/icons/icon_lecture.svg';
 import IconLectureInactiveURL from '../assets/icons/icon_lecture-inactive.svg';
 import IconEwhalistActiveURL from '../assets/icons/icon_ewhalist-active.svg';
-import IconEwhalistInactiveURL from '../assets/icons/icon_ewhalist-inactive.svg';
+import IconEwhalistInactiveURL from '../assets/icons/icon_ewhalist-inactive.svg'; 
 import IconchatInactiveURL from '../assets/icons/icon_chat-inactive.svg';
 import IconMypageActiveURL from '../assets/icons/icon_mypage-active.svg';
 import IconMypageInactiveURL from '../assets/icons/icon_mypage-inactive.svg';
 
 export const LectureTabContext = createContext(); 
 
-
-
 // Layout 컴포넌트 정의
 export default function Layout({
   headerContent,
   backgroundColor,
-  headerBackgroundColor,
   contentBackgroundColor,
   showFooter = true,
   customFooterContent = null,
+  rightIcon,
+  onRightIconClick
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,16 +53,14 @@ export default function Layout({
   
 return (
     <AppContainer $backgroundColor={backgroundColor}>
-      {isHomePage ? (
-        <MainHeaderContent />
-      ) : (
-        <Header
-          header={headerContent}
-          onClick={() => navigate(-1)}
-        />
-      )}
+       <Header
+        header={headerContent}
+        rightIcon={rightIcon}
+        onRightIconClick={onRightIconClick}
+      />
+
       <ContentArea $contentBackgroundColor={contentBackgroundColor}>
-        <LectureTabProvider>
+        <LectureTabProvider value={{ mainActiveTab, setMainActiveTab }}>
           {shouldShowLectureTabBar && <LectureTabBar />}
           <Outlet />
         </LectureTabProvider>

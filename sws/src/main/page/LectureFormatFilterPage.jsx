@@ -144,7 +144,7 @@ export default function LectureFormatFilterPage() {
   };
 
   const handleResetFilters = () => {
-    updateSearchFilter('format', '전체'); // Context의 format을 '전체'로 초기화
+    updateSearchFilter('format', '전체'); 
     alert('필터가 초기화되었습니다.');
   };
 
