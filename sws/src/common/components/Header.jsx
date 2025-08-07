@@ -1,10 +1,13 @@
+// src/common/components/Header.jsx
+
 import styled from 'styled-components';
-import theme from '../../styles/theme';
+import theme from '../../styles/theme'; 
 import X from '../../common/assets/icons/icon_x.svg?react';
 import BACK_ARROW from '../../common/assets/icons/icon_back.svg?react';
-import BACK_ARROW_WHITE from '../../common/assets/icons/icon_back_white.svg?react';
 
-export default function Header({ header, onClick }) {
+export default function Header({ header, onClick }) { 
+  const showDefaultTitle = typeof header === 'string' && header.length > 0;
+
   if (header === 'ewhainlist') {
     return (
       <HeaderWrapper>
@@ -27,6 +30,7 @@ export default function Header({ header, onClick }) {
         />
       </HeaderWrapper>
     );
+  
   } else if (header === "교류 방식") {
     return (
       <HeaderWrapper>
@@ -43,7 +47,7 @@ export default function Header({ header, onClick }) {
         <HeaderContainer>{header}</HeaderContainer>
       </HeaderWrapper>
     );
-  } else {
+  } else if (showDefaultTitle)  {
     return (
       <HeaderWrapper>
         <BACK_ARROW
@@ -59,6 +63,8 @@ export default function Header({ header, onClick }) {
         <HeaderContainer>{header}</HeaderContainer>
       </HeaderWrapper>
     );
+  } else { 
+    return null;
   }
 }
 
@@ -75,6 +81,7 @@ const HeaderContainer = styled.div`
   width: 100%;
   color: #000;
   text-align: center;
+  flex-grow: 1;
   font-family: ${({ theme }) => theme.fonts.display.medium.fontFamily};
   font-size: ${({ theme }) => theme.fonts.display.medium.fontSize};
   font-style: ${({ theme }) => theme.fonts.display.medium.fontStyle};

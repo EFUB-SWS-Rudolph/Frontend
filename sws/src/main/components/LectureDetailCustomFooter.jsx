@@ -1,13 +1,8 @@
-import IconBookmarkActive from './common/assets/icons/icon_bookmark.svg';
+import React from 'react';
+import styled from 'styled-components';
 
-export const lectureDetailCustomFooter = (
-  <FooterBar>
-    <BookmarkButton>
-      <img src={IconBookmarkActive} alt="북마크" />
-    </BookmarkButton>
-    <ChatButton>채팅하기</ChatButton>
-  </FooterBar>
-);
+import IconBookmarkEmptyURL from '../../common/assets/icons/icon_bookmark.svg';
+import IconBookmarkFilledURL from '../../common/assets/icons/icon_bookmark_dis.svg';
 
 const FooterBar = styled.div`
   width: 24.375rem; /* 390px / 16 = 24.375rem */
@@ -56,3 +51,15 @@ const ChatButton = styled.button`
   align-items: center;
   justify-content: center;
 `;
+const LectureDetailCustomFooter = ({ isBookmarked, onBookmarkToggle, onApplyClick }) => {
+  return (
+    <FooterBar>
+      <BookmarkButton onClick={onBookmarkToggle}>
+        <img src={isBookmarked ? IconBookmarkFilledURL : IconBookmarkEmptyURL} alt="북마크" />
+      </BookmarkButton>
+      <ChatButton onClick={onApplyClick}>채팅하기</ChatButton>
+    </FooterBar>
+  );
+};
+
+export default LectureDetailCustomFooter;

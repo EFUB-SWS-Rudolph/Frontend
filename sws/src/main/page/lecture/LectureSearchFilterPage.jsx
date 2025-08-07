@@ -125,7 +125,7 @@ const FilterItem = ({ name, value, onClick , valueComponent}) => {
     <FilterItemContainer onClick={onClick}>
       <FilterName>{name}</FilterName>
       <FilterValueContainer>
-        {valueComponent ? valueComponent : <FilterValue>{value}</FilterValue>} 
+        {valueComponent ? valueComponent : <FilterValue>{value}</FilterValue>}
         {!valueComponent && <NextIcon><img src={IconNextURL} alt="다음" /></NextIcon>}
       </FilterValueContainer>
     </FilterItemContainer>
@@ -134,71 +134,73 @@ const FilterItem = ({ name, value, onClick , valueComponent}) => {
 export default function LectureSearchFilterPage() {
   const navigate = useNavigate();
   const { generalFilterParams, updateGeneralFilter, displayMode, setDisplayMode } = useFilter(); 
+  
   const getDisplayValue = (filterName) => {
-    switch (filterName) {
-      case '강의 방식':
-        switch (generalFilterParams.courseType) {
-          case 'DONATION': return '재능 기부';
-          case 'EXCHANGE': return '재능 교환';
-          case 'TUTOR': return '과외';
-          case 'COFFEECHAT': return '커피챗';
-          case null: return '전체'; 
-          default: return '전체'; // 기본값
-        }
-      case '지역':
-        switch (generalFilterParams.courseCity) {
-          case 'SEOUL': return '서울';
-          case 'BUSAN': return '부산';
-          case 'DAEJEON': return '대전';
-          case null: return '전체';
-          default: return '전체';
-        }
-      case '기간':
-        if (generalFilterParams.courseStartDate && generalFilterParams.courseEndDate) {
-          return `${generalFilterParams.courseStartDate} ~ ${generalFilterParams.courseEndDate}`;
-        } else if (generalFilterParams.courseStartDate) {
-          return `${generalFilterParams.courseStartDate} 이후`;
-        } else if (generalFilterParams.courseEndDate) {
-          return `${generalFilterParams.courseEndDate} 이전`;
-        }
-        return '전체';
-      case '정렬 기준':
-        switch (generalFilterParams.sort) {
-          case 'latest': return '최신 순';
-          case 'popular': return '인기 순';
-          default: return '최신 순'; 
-        }
-      default: return '전체';
+    if (filterName === '강의 방식') {
+      switch (generalFilterParams.courseType) {
+        case 'DONATION': return '재능 기부';
+        case 'EXCHANGE': return '재능 교환';
+        case 'TUTOR': return '과외';
+        case 'COFFEECHAT': return '커피챗';
+        case null: return '전체';
+        default: return '전체';
+      }
     }
+    if (filterName === '지역') {
+      switch (generalFilterParams.courseCity) {
+        case 'SEOUL': return '서울특별시';
+        case 'BUSAN': return '부산광역시';
+        case 'DAEJEON': return '대전광역시';
+        case 'ULSAN': return '울산광역시';
+        case 'INCHEON': return '인천광역시';
+        case 'GWANGJU': return '광주광역시';
+        case null: return '전체';
+        default: return '전체';
+      }
+    }
+    if (filterName === '기간') {
+      if (!generalFilterParams.courseStartDate && !generalFilterParams.courseEndDate) return '전체';
+      return `${generalFilterParams.courseStartDate || ''} ~ ${generalFilterParams.courseEndDate || ''}`;
+    }
+    if (filterName === '정렬 기준') {
+      switch (generalFilterParams.sort) {
+        case 'latest': return '최신 순';
+        case 'popular': return '인기 순';
+        case 'oldest': return '오래된 순';
+        default: return '최신 순';
+      }
+    }
+    if (filterName === '강의 상태') {
+        switch(generalFilterParams.status) {
+            case 'inProgress': return '수강 중';
+            case 'completed': return '수강 종료';
+            case 'all': return '전체';
+            case null: return '전체';
+            default: return '전체';
+        }
+    }
+    return '전체';
   };
-  const handleFilterClick = (filterType) => {
-  if (filterType === '강의 방식') {
-      navigate('/lectures/search/filter/format');
-    }
-    else if (filterType === '지역') {
-        navigate('/lectures/search/filter/location');
-    }
-    else if (filterType === '기간') {
-        navigate('/lectures/search/filter/date');
-    }
-    else if (filterType === '정렬 기준') {
-        navigate('/lectures/search/filter/sort');
-    }
-    else {
-      alert(`${filterType} 필터 설정 페이지 (미구현)`);
-    }
-};
-  const handleResetFilters = () => {
-    updateGeneralFilter('sort', 'latest');
-    updateGeneralFilter('courseType', null);
-    updateGeneralFilter('courseCity', null);
-    updateGeneralFilter('courseStartDate', null);
-    updateGeneralFilter('courseEndDate', null);
-    updateGeneralFilter('keyword', null); 
-    updateGeneralFilter('page', 0); 
+
+const handleFilterClick = (filterType) => {
+    if (filterType === '강의 방식') navigate('/lectures/search/filter/format');
+    else if (filterType === '지역') navigate('/lectures/search/filter/location');
+    else if (filterType === '기간') navigate('/lectures/search/filter/date');
+    else if (filterType === '정렬 기준') navigate('/lectures/search/filter/sort');
+    else if (filterType === '강의 상태') navigate('/lectures/search/filter/status');
+    else alert(`${filterType} 필터 설정 페이지 (미구현)`);
+  };  
+const handleResetFilters = () => {
+    updateGeneralFilter('sort', '최신 순'); 
+    updateGeneralFilter('courseType', '전체'); 
+    updateGeneralFilter('courseCity', '전체');
+    updateGeneralFilter('courseStartDate', '전체');
+    updateGeneralFilter('courseEndDate', '전체');
+    updateGeneralFilter('keyword', ''); 
+    updateGeneralFilter('status', '전체'); 
     setDisplayMode('grid'); 
     alert('필터가 초기화되었습니다.'); 
-  };
+  };  
   const handleApplyFilters = () => {
     alert('필터가 적용되었습니다!');
     navigate(-1); 
@@ -213,12 +215,12 @@ export default function LectureSearchFilterPage() {
       <FilterItem name="지역" value={getDisplayValue('지역')} onClick={() => handleFilterClick('지역')} />
       <FilterItem name="기간" value={getDisplayValue('기간')} onClick={() => handleFilterClick('기간')} />
       <FilterItem name="정렬 기준" value={getDisplayValue('정렬 기준')} onClick={() => handleFilterClick('정렬 기준')} />
-     <FilterItem
+      <FilterItem
         name="보기 방식"
-        onClick={handleToggleDisplayMode} 
-        valueComponent={ 
+        onClick={handleToggleDisplayMode}
+        valueComponent={
           <ViewModeIcon
-            src={displayMode === 'grid' ? SortGridIconURL : SortListIconURL} 
+            src={displayMode === 'grid' ? SortGridIconURL : SortListIconURL}
             alt={displayMode === 'grid' ? "그리드 정렬" : "목록 정렬"}
           />
         }
@@ -228,7 +230,7 @@ export default function LectureSearchFilterPage() {
                 <img src={IconInitializeURL} alt="초기화" style={{width: '1.25rem', height: '1.25rem' }}/>
                 초기화
             </ResetButton>
-            <ApplyFilterButton onClick={handleApplyFilters}>적용</ApplyFilterButton>    
+            <ApplyFilterButton onClick={handleApplyFilters}>적용</ApplyFilterButton>
         </FooterBar>
     </FilterPageContainer>
   );

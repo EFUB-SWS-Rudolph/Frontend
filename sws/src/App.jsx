@@ -26,11 +26,12 @@ function App() {
               path="/"
               element={
                 <Layout
-                  headerContent={<MainHeaderContent />}
                   backgroundColor="#F7F6F3"
                   headerBackgroundColor="#F7F6F3"
                   contentBackgroundColor="#F7F6F3"
-                />
+                >
+                  <MainHeaderContent />
+                 </Layout>
               }
             >
               <Route index element={<Main />} />
@@ -38,18 +39,13 @@ function App() {
 
             <Route
               path="/global-search"
-              element={<Layout headerContent={<GlobalSearchHeaderContent />} showFooter={false} />}
+              element={<Layout headerContent="검색" showFooter={false} />} 
             >
               <Route index element={<GlobalSearchPage />} />
             </Route>
             <Route
               path="/alarm"
-              element={
-                <Layout
-                  headerContent={<GlobalSearchHeaderContent title="알림" />}
-                  showFooter={false}
-                />
-              }
+              element={<Layout headerContent="알림" showFooter={false} />} 
             >
               <Route index element={<AlarmPage />} />
             </Route>

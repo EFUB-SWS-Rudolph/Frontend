@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CardContainer = styled.div`
   height: 15rem;
+  width: 10.5rem;
   border-radius: 0.8rem;
   border: 1px solid #e0e0e0;
   background-color: #ffffff;

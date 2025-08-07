@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useFilter } from '../../../common/contexts/FilterContext';
 
 import IconNextURL from '../../../common/assets/icons/icon_next.svg'; 
 import IconInitializeURL from '../../../common/assets/icons/icon_initialize.svg'; 
@@ -16,6 +17,7 @@ const FilterPageContainer = styled.div`
   box-sizing: border-box;
   padding: 0 2rem; 
 `;
+// [필터 컴포넌트 프레임] 
 const FilterItemContainer = styled.div`
   width: 100%;
   height:4.375rem;
@@ -23,7 +25,7 @@ const FilterItemContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  `;
+`;
 // [필터컴포넌트-필터이름]
 const FilterName = styled.span`
   font-family: Pretendard Variable;
@@ -60,12 +62,7 @@ const NextIcon = styled.div`
     object-fit: contain;
   }
 `;
-const ViewModeIcon = styled.img`
-  width: 2rem; 
-  height: 2rem; 
-  object-fit: contain;
-  margin-right:0.5rem;
-`;
+// [푸터 바]
 const FooterBar = styled.div`
   width:100% ; 
   height: 5.19rem;
@@ -117,8 +114,15 @@ const ApplyFilterButton = styled.button`
   justify-content: center;
   flex-shrink: 0; 
 `;
+
+const ViewModeIcon = styled.img`
+  width: 2rem; 
+  height: 2rem; 
+  object-fit: contain;
+  margin-right:0.5rem;
+`;
 // 필터 아이템 컴포넌트
-const FilterItem = ({ name, value, onClick, valueComponent }) => {
+const FilterItem = ({ name, value, onClick , valueComponent}) => {
   return (
     <FilterItemContainer onClick={onClick}>
       <FilterName>{name}</FilterName>
@@ -132,19 +136,30 @@ const FilterItem = ({ name, value, onClick, valueComponent }) => {
 
 export default function MyLectureFilterPage() {
   const navigate = useNavigate();
-
-  const [selectedStatus, setSelectedStatus] = useState('수강중'); 
-  const [displayMode, setDisplayMode] = useState('grid'); 
-  const handleFilterClick = (filterType) => {
-    if (filterType === '정렬 기준') {
-         navigate('/lectures/search/filter/status');
-    } else {
-        alert(`${filterType} 필터 설정 페이지 (미구현)`);
+  const { generalFilterParams, updateGeneralFilter, displayMode, setDisplayMode } = useFilter();
+ console.log("📍 MyLectureFilterPage: generalFilterParams current value", generalFilterParams);
+  const getDisplayValue = (filterName) => {
+    switch (filterName) {
+     
+      case '강의 상태': 
+        switch (generalFilterParams.status) {
+          case 'inProgress': return '수강 중';
+          case 'completed': return '수강 종료';
+          case 'all': return '전체';
+          case null: return '전체';
+          default: return '전체';
+        }
+      default: return '전체';
     }
   };
+  const handleFilterClick = (filterType) => {
+    if (filterType === '강의 상태') {
+         navigate('/lectures/my/filter/status');
+    } 
+  };
   const handleResetFilters = () => {
-    setSelectedStatus('수강중');
-    setDisplayMode('grid'); 
+    updateGeneralFilter('status', '전체'); 
+    setDisplayMode('grid');
     alert('필터가 초기화되었습니다.');
   };
   const handleApplyFilters = () => {
@@ -155,13 +170,14 @@ export default function MyLectureFilterPage() {
   const handleToggleDisplayMode = () => {
     setDisplayMode(prevMode => (prevMode === 'grid' ? 'list' : 'grid'));
   };
+
   return (
     <FilterPageContainer>
-      <FilterItem name="정렬 기준" value={selectedStatus} onClick={() => handleFilterClick('정렬 기준')} />
+      <FilterItem name="강의 상태" value={getDisplayValue('강의 상태')} onClick={() => handleFilterClick('강의 상태')} /> 
       <FilterItem
         name="보기 방식"
-        onClick={handleToggleDisplayMode} 
-        valueComponent={ 
+        onClick={handleToggleDisplayMode}
+        valueComponent={
           <ViewModeIcon
             src={displayMode === 'grid' ? SortGridIconURL : SortListIconURL}
             alt={displayMode === 'grid' ? "그리드 정렬" : "목록 정렬"}

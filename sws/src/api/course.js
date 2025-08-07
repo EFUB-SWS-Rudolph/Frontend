@@ -60,3 +60,23 @@ export const getRecommendedLectures = async (params = {}) => {
     throw error;
   }
 };
+export const addBookmark = async (courseId) => {
+  try {
+    const response = await client.post(`/course/bookmark/${courseId}`); // 🔴 POST 요청
+    console.log(`🟢 강의 찜하기 성공 (ID: ${courseId}):`, response.data);
+    return response.data;
+  } catch (error) {
+    console.error(`🔴 강의 찜하기 실패 (ID: ${courseId}):`, error.response?.data?.message || error.message || "알 수 없는 오류");
+    throw error;
+  }
+};
+export const removeBookmark = async (courseId) => {
+  try {
+    const response = await client.delete(`/course/bookmark/${courseId}`); // 🔴 DELETE 요청
+    console.log(`🟢 강의 찜 취소 성공 (ID: ${courseId}):`, response.data);
+    return response.data;
+  } catch (error) {
+    console.error(`🔴 강의 찜 취소 실패 (ID: ${courseId}):`, error.response?.data?.message || error.message || "알 수 없는 오류");
+    throw error;
+  }
+};

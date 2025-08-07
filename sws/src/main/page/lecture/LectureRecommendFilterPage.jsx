@@ -144,30 +144,26 @@ export default function LectureRecommendFilterPage() {
   const getDisplayValue = (filterName) => {
     switch (filterName) {
       case '정렬 기준':
-        // recommendFilterParams.sort (API 친화적 값: latest, popular 등)
         switch (recommendFilterParams.sort) {
           case 'latest': return '최신 순';
           case 'popular': return '인기 순';
-          // TODO: '오래된 순'이 있다면 여기에 추가
           default: return '최신 순'; // 기본값
         }
-      // TODO: 다른 필터 (강의 형태, 지역 등)도 추천 강의 필터에 포함된다면 여기에 추가
       default: return '전체';
     }
   };
 
   const handleFilterClick = (filterType) => {
     if (filterType === '정렬 기준') {
-      navigate('/lectures/search/filter/sort'); 
+      navigate('/lectures/recommend/filter/sort'); 
     }
     else {
       alert(`${filterType} 필터 설정 페이지 (미구현)`);
     }
   };
   const handleResetFilters = () => {
-    updateRecommendFilter('sort', '최신 순'); // '최신 순'은 Context 내부에서 'latest'로 변환됨
-    // TODO: 다른 필터도 초기화 (예: courseType: null, courseCity: null)
-    setDisplayMode('grid'); // 보기 방식 초기화
+    updateRecommendFilter('sort', '최신 순'); 
+    setDisplayMode('grid'); 
     alert('필터가 초기화되었습니다.');
   };
 
@@ -176,7 +172,6 @@ export default function LectureRecommendFilterPage() {
     navigate(-1);
   };
 
-  // 보기 방식 클릭 시 토글 함수 (그리드/리스트)
   const handleToggleDisplayMode = () => {
     setDisplayMode(prevMode => (prevMode === 'grid' ? 'list' : 'grid'));
   };
@@ -187,10 +182,10 @@ export default function LectureRecommendFilterPage() {
       
       <FilterItem
         name="보기 방식"
-        onClick={handleToggleDisplayMode} // 클릭 시 보기 방식 토글
-        valueComponent={ // value 대신 커스텀 컴포넌트 전달
+        onClick={handleToggleDisplayMode} 
+        valueComponent={ 
           <ViewModeIcon
-            src={displayMode === 'grid' ? SortGridIconURL : SortListIconURL} // 🔴 displayMode 사용
+            src={displayMode === 'grid' ? SortGridIconURL : SortListIconURL}
             alt={displayMode === 'grid' ? "그리드 정렬" : "목록 정렬"}
           />
         }

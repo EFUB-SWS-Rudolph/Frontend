@@ -4,11 +4,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-// 필요한 아이콘 URL 임포트
-import IconBackURL from '../../common/assets/icons/icon_back.svg'; // 뒤로가기 아이콘
-import IconInitializeURL from '../../common/assets/icons/icon_initialize.svg'; // 초기화 아이콘 (푸터바용)
+import IconBackURL from '../../common/assets/icons/icon_back.svg'; 
+import IconInitializeURL from '../../common/assets/icons/icon_initialize.svg'; 
 
-// 핵심! useFilter 훅 임포트 (Context 사용)
 import { useFilter } from '../../common/contexts/FilterContext';
 const PageContainer = styled.div`
   width: 100%;
@@ -135,10 +133,8 @@ const ApplyFilterButton = styled.button`
 `;
 export default function LectureDateFilterPage() {
   const navigate = useNavigate();
-  // Context에서 searchFilters와 updateSearchFilter를 가져옵니다.
   const { searchFilters, updateSearchFilter } = useFilter();
 
-  // 기간 옵션들
   const dateOptions = [
     { label: '전체', value: '전체' },
     { label: '1주 이내', value: '1week' },
@@ -146,24 +142,22 @@ export default function LectureDateFilterPage() {
     { label: '3개월 이내', value: '3month' },
     { label: '6개월 이내', value: '6month' },
     { label: '기간 무제한', value: 'unlimited' },
-    // 필요에 따라 더 많은 기간 옵션 추가
   ];
 
-  // 옵션 클릭 핸들러: Context의 searchFilters.date 업데이트
   const handleOptionClick = (value) => {
-    updateSearchFilter('date', value); // 'date' 필드만 업데이트
+    updateSearchFilter('date', value); 
   };
   
   // 초기화 버튼 핸들러
   const handleResetFilters = () => {
-      updateSearchFilter('date', '전체'); // Context의 date를 '전체'로 초기화
+      updateSearchFilter('date', '전체'); 
       alert('필터가 초기화되었습니다.');
   };
   
   // 적용 버튼 핸들러
   const handleApply = () => {
     alert(`선택된 기간: ${searchFilters.date}`); 
-    navigate(-1); // 이전 페이지(LectureSearchFilterPage)로 돌아갑니다.
+    navigate(-1); 
   };
 
   return (
@@ -180,7 +174,6 @@ export default function LectureDateFilterPage() {
           <FilterOptionItem 
             key={option.value} 
             onClick={() => handleOptionClick(option.value)}
-            // Context의 searchFilters.date와 비교하여 $isSelected 설정
             $isSelected={searchFilters.date === option.value} 
           >
             <OptionName>{option.label}</OptionName>

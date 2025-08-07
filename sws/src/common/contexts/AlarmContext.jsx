@@ -1,67 +1,93 @@
-// src/common/contexts/AlarmContext.jsx
+// src/common/contexts/AlarmContext.jsx 
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { getNotificationList, markNotificationAsRead as callMarkNotificationAsReadAPI } from '../../api/alarm'; 
 
 const AlarmContext = createContext(null);
 
 export const useAlarm = () => {
   const context = useContext(AlarmContext);
+  
+  console.log("DEBUG: useAlarm() hook useContext(AlarmContext) 반환값:", context);
+
   if (!context) {
+    console.error("오류: useAlarm 훅은 AlarmProvider 내에서 사용되어야 합니다. 현재 Context:", context);
     throw new Error('useAlarm must be used within an AlarmProvider');
   }
   return context;
 };
 
 export const AlarmProvider = ({ children }) => {
-  const [alarms, setAlarms] = useState([]); 
-  const [unreadAlarmCount, setUnreadAlarmCount] = useState(0); 
+  const [alarms, setAlarms] = useState([]);
+  const [unreadAlarmCount, setUnreadAlarmCount] = useState(0);
 
-  // 컴포넌트 마운트 시 알림 목록을 초기화하고, 미확인 알림 개수를 계산합니다.
-  const initializeAlarms = useCallback((initialData) => {
-    // ID 기준으로 최신순 정렬 (ID가 클수록 최근 알림이라고 가정)
-    const sortedData = [...initialData].sort((a, b) => b.id - a.id); 
-    setAlarms(sortedData);
-    const count = sortedData.filter(alarm => !alarm.isRead).length;
-    setUnreadAlarmCount(count);
-  }, []);
+  const initializeAlarms = useCallback(async () => {
+    try {
+      const data = await getNotificationList(); 
 
-  // 특정 알림을 읽음 상태로 변경
-  const markAlarmAsRead = useCallback((id) => {
-    setAlarms(prevAlarms => {
-      const updatedAlarms = prevAlarms.map(alarm =>
-        alarm.id === id ? { ...alarm, isRead: true } : alarm
-      );
-      // 읽지 않은 알림 개수 재계산 (최적화)
-      const newUnreadCount = updatedAlarms.filter(alarm => !alarm.isRead).length;
-      setUnreadAlarmCount(newUnreadCount);
-      return updatedAlarms;
-    });
-  }, []);
+      if (data && Array.isArray(data.notifications)) { 
+          const notifications = data.notifications;
+          const unreadCount = data.unreadCount;
 
-  // 모든 알림을 읽음 상태로 변경
-  const markAllAlarmsAsRead = useCallback(() => {
-    setAlarms(prevAlarms => {
-      const updatedAlarms = prevAlarms.map(alarm => ({ ...alarm, isRead: true }));
+          const sortedData = [...notifications].sort( (a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+          setAlarms(sortedData);
+          setUnreadAlarmCount(unreadCount); 
+
+          console.log("🟢 알림 목록 초기화 성공! 총 알림:", sortedData.length, "읽지 않은 알림:", unreadCount);
+
+      } else {
+          console.error("🔴 Context 알림 목록 초기화 실패: 예상치 못한 응답 형태. 받은 데이터:", data);
+          setAlarms([]);
+          setUnreadAlarmCount(0);
+      }
+
+    } catch (error) {
+      console.error("🔴 Context 알림 목록 API 호출 오류:", error.response?.data?.message || error.message || "네트워크 오류");
+      setAlarms([]);
       setUnreadAlarmCount(0);
-      return updatedAlarms;
+    }
+  }, []);
+
+  const markAlarmAsRead = useCallback(async (notificationId) => {
+    try {
+      await callMarkNotificationAsReadAPI(notificationId);
+      setAlarms( (prevAlarms) => {
+        const updatedAlarms = prevAlarms.map( (alarm) => alarm.notificationId === notificationId ? {
+            ...alarm,
+            read: true
+        } : alarm);
+        const newUnreadCount = updatedAlarms.filter( (alarm) => !alarm.read).length;
+        setUnreadAlarmCount(newUnreadCount);
+        console.log(`알림 (ID: ${notificationId}) 읽음 상태로 API 전송 성공`);
+        return updatedAlarms;
+      });
+    } catch (error) {
+      console.error(`알림 (ID: ${notificationId}) 읽음 처리 API 호출 실패:`, error.response?.data?.message || error.message || "네트워크 오류");
+    }
+  }, []);
+
+  const markAllAlarmsAsRead = useCallback( () => {
+    setAlarms( (prevAlarms) => {
+        const updatedAlarms = prevAlarms.map( (alarm) => ({
+            ...alarm,
+            read: true
+        }));
+        setUnreadAlarmCount(0);
+        return updatedAlarms;
     });
   }, []);
-  // 알림 개수 업데이트 함수
-  const setAlarmsChecked = (countReduction = 1) => {
-    setUnreadAlarmCount(prevCount => Math.max(0, prevCount - countReduction));
-  };
 
-  // 외부에서 알림 개수를 직접 설정할 수 있도록 (예: 로그인 후 서버 응답)
-  const initializeAlarmCount = (count) => {
-    setUnreadAlarmCount(count);
-  }
+  useEffect( () => {
+    initializeAlarms();
+  }, [initializeAlarms]);
 
   const value = {
-    alarms,               // 모든 알림 목록
-    unreadAlarmCount,     // 미확인 알림 개수
-    initializeAlarms,     // 초기 알림 설정 및 개수 계산
-    markAlarmAsRead,      // 특정 알림 읽음 처리
-    markAllAlarmsAsRead,  // 모든 알림 읽음 처리
+    alarms,
+    unreadAlarmCount,
+    initializeAlarms,
+    markAlarmAsRead,
+    markAllAlarmsAsRead
   };
 
   return (
