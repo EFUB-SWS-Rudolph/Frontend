@@ -20,7 +20,7 @@ export default function Redirect() {
         localStorage.setItem('token', JSON.stringify(token));
 
         if (res.isNew) {
-          navigate('/signup');
+          navigate('/signup/additional');
         } else {
           navigate('/');
         }
