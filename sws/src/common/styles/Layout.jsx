@@ -157,8 +157,7 @@ const AppContainer = styled.div`
 const ContentArea = styled.main`
   width: 100%;
   flex-grow: 1;
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: hidden;
 
   background-color: ${(props) => props.$contentBackgroundColor || '#FFF'};
   display: flex;

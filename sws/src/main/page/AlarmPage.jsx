@@ -120,9 +120,24 @@ export default function AlarmPage() {
         initializeAlarms();
     }, [initializeAlarms]);
 
-    const handleAlarmClick = (notificationId) => { 
-        markAlarmAsRead(notificationId);
-    };
+    const handleAlarmClick = useCallback((alarm) => {
+        markAlarmAsRead(alarm.notificationId);
+        let targetPath = '/alarm'; 
+
+        const title = alarm.title || '';
+        const content = alarm.content || '';
+
+        if (title.includes('채팅') || content.includes('새로운 메시지')) {
+            targetPath = '/chatlist'; 
+        } else if (title.includes('강의') && content.includes('성사되었어요')) {
+            targetPath = '/lectures/my'; 
+        } else if (title.includes('강의') && content.includes('취소를 요청')) {
+            targetPath = '/lectures/my'; 
+        }
+        if (targetPath) {
+            navigate(targetPath);
+        }
+    }, [navigate, markAlarmAsRead]);
 
     if (alarms.length === 0) return <NoAlarmMessage>새로운 소식이 없습니다</NoAlarmMessage>; 
 
