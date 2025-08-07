@@ -33,7 +33,7 @@ export default function Layout({
   const navigate = useNavigate();
   const location = useLocation();
   const [mainActiveTab, setMainActiveTab] = useState('강의 조회');
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === '/main';
   const shouldShowLectureTabBar = location.pathname === '/lectures' ||
                                   location.pathname === '/lectures/recommend' ||
                                   location.pathname === '/lectures/my';
