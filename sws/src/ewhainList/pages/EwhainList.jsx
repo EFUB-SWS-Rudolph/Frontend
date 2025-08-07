@@ -7,6 +7,7 @@ import UserCard from '../components/memberList/UserCard';
 import EMPTY from '../icons/icon_empty.svg?react';
 import { useFilterStore } from '../stores/FilterStore';
 import { getMemberList } from '../../api/members';
+import { getMemberProfile } from '../../api/myPage';
 import { univCategory } from '../../common/data/Category';
 
 export default function EwhainList() {
@@ -25,6 +26,7 @@ export default function EwhainList() {
   const isSort = period === '최신순' ? 'desc' : 'asc'; // sort 여부
   const { isgallery } = useFilterStore();
   const [users, setUsers] = useState([]);
+  const [myMemberId, setMyMemberId] = useState('');
 
   function makeParams(params) {
     const newParams = {};
@@ -77,6 +79,19 @@ export default function EwhainList() {
     }
   };
 
+  const readMyInfo = async () => {
+    try {
+      const res = await getMemberProfile();
+      setMyMemberId(res.memberId);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  useEffect(() => {
+    readMyInfo();
+  }, []);
+
   useEffect(() => {
     setIsExchange(exchange === '재능 교환');
     setIsDonation(exchange === '재능 기부');
@@ -94,7 +109,9 @@ export default function EwhainList() {
       {users.length !== 0 ? (
         <>
           <EwhainContainer $isgallery={isgallery}>
-            {users.map((user) => (
+            {myMemberId && users
+              .filter(user => user.memberId !== myMemberId)
+              .map((user) => (
               <UserCard user={user} key={user.memberId} />
             ))}
           </EwhainContainer>
