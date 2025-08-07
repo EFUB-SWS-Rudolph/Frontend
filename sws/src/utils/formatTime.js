@@ -6,7 +6,7 @@ dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 export const formatTime = (dateString) => {
-  const target = dayjs(dateString);
+  const target = dayjs(dateString).add(9, 'hour');
   const now = dayjs();
 
   if (now.diff(target, 'day') >= 30) {
