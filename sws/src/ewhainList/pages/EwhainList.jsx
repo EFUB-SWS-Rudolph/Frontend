@@ -90,6 +90,7 @@ export default function EwhainList() {
 
   useEffect(() => {
     readMyInfo();
+    console.log(myMemberId);
   }, []);
 
   useEffect(() => {
