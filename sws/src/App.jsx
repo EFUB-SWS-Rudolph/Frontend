@@ -22,8 +22,14 @@ function App() {
       <AlarmProvider>
         <FilterProvider>
           <Routes>
+            {/* 로그인 페이지를 "/" 경로로 */}
+            <Route element={<Layout showFooter={false} />}>
+              <Route index element={<LoginPage />} />
+              <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
+            </Route>
+            
             <Route
-              path="/"
+              path="/main"
               element={
                 <Layout
                   backgroundColor="#F7F6F3"
@@ -45,10 +51,6 @@ function App() {
             </Route>
             <Route path="/alarm" element={<Layout headerContent="알림" showFooter={false} />}>
               <Route index element={<AlarmPage />} />
-            </Route>
-            <Route element={<Layout showFooter={false} />}>
-              <Route path="/signin" element={<LoginPage />} />
-              <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
             </Route>
 
             {EwhainRoutes}
