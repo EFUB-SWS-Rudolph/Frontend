@@ -20,8 +20,7 @@ const Container = styled.div`
 
 const Text = styled.div`
   display: flex;
-  height: 2.25rem;
-  padding: 0.4375rem 0.75rem;
+  padding: 0.6rem 0.75rem;
   justify-content: center;
   align-items: center;
 
