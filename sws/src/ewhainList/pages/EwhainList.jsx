@@ -90,8 +90,11 @@ export default function EwhainList() {
 
   useEffect(() => {
     readMyInfo();
-    console.log(myMemberId);
   }, []);
+
+  useEffect(() => {
+    console.log(myMemberId);
+  }, [myMemberId]);
 
   useEffect(() => {
     setIsExchange(exchange === '재능 교환');
