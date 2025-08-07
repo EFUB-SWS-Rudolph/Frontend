@@ -10,7 +10,7 @@ export default function OnboardingRoute() {
     const fetchProfile = async () => {
       try {
         const res = await getMemberProfile();
-        setIsSignupDone(!!res.nickname); // true면 회원가입 완료
+        setIsSignupDone(!!res.studentId); // true면 회원가입 완료
       } catch (err) {
         console.error(err);
         setIsSignupDone(true);
