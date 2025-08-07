@@ -93,10 +93,6 @@ export default function EwhainList() {
   }, []);
 
   useEffect(() => {
-    console.log(myMemberId);
-  }, [myMemberId]);
-
-  useEffect(() => {
     setIsExchange(exchange === '재능 교환');
     setIsDonation(exchange === '재능 기부');
     setIsCoffeeChat(exchange === '커피챗');
