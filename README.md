@@ -1,7 +1,7 @@
 <div>
   <h1>Weevo</h1>
-  <img src="https://github.com/EFUB-SWS-Rudolph/Frontend/src/common/assets/images/weevoImg" alt="weevoImage" width="600" />
-  <a href="https://weevo.netlify.app">Weevo</a>
+  <img src="https://raw.githubusercontent.com/EFUB-SWS-Rudolph/Frontend/develop/sws/src/common/assets/images/weevolm.png" alt="weevoImage" width="600" />
+  <a href="https://weevo.netlify.app" style="color: black; text-decoration: none;">Weevo</a>
 </div>
 
 ## ✨ Weevo를 소개할게요! ✨
