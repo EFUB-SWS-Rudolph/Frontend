@@ -8,7 +8,8 @@ import SetProfile from '../signUp/pages/SetProfile';
 import SetInterest from '../signUp/pages/SetInterest';
 import SetTalent from '../signUp/pages/SetTalent';
 
-export const SignUpRoutes = (
+export const SignUpRoutes = () => {
+   return (
   <>
   <Route key="layout" element={<Layout showFooter={false} />}>
     <Route path="/signup/additional" element={<Certification />} />
@@ -19,3 +20,4 @@ export const SignUpRoutes = (
   </Route>
   </>
 );
+};

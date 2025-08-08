@@ -9,7 +9,8 @@ import SelectMyTalentDetail from '../mypage/page/SelectMyTalentDetail';
 import SelectMyInfo from '../mypage/page/SelectMyInfo';
 import WishList from '../mypage/page/WishList';
 
-export const MyPageRoutes = (
+export const MyPageRoutes = () => { // 🔴 함수형 컴포넌트로 변경
+  return (
   <>
     <Route element={<Layout />}>
       <Route path="/mypage" element={<MyPage />} />
@@ -25,3 +26,4 @@ export const MyPageRoutes = (
     </Route>
   </>
 );
+};
