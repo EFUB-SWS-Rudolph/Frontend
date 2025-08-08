@@ -15,6 +15,7 @@ import { Client } from '@stomp/stompjs';
 import { getUserIdFromToken } from '../../utils/getUserIdFromToken';
 import EditModalContainer from '../components/chatroom/modal/EditModalContainer';
 import { getEditModalChoices } from '../components/chatroom/modal/getEditModalChoices';
+import SelectionCheckModal from '../components/chatroom/modal/SelectionCheckModal';
 
 export default function ChatRoom() {
   const { setUser, clearUser, userId } = useChatStore();
@@ -60,7 +61,6 @@ export default function ChatRoom() {
         if (page == 0) {
           setUser(res.opponent);
           setCourse(res.course);
-          updateUserRoleAndRegistration(res.course.courseId);
         }
 
         if (res.messages.length === 0) {
@@ -69,6 +69,8 @@ export default function ChatRoom() {
           setMessageList((prev) => [...res.messages, ...prev]);
           setPageNum(page);
         }
+        console.log("이전대화:", res.messages);  // 대화내역 확인
+        updateUserRoleAndRegistration(res.course.courseId);
       } catch (err) {
         if (err.status == 400) {
           alert(err.response.data.message);
