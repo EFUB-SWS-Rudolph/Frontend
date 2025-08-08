@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getMemberProfile } from '../../api/myPage';
 import { getLectureList, getMyCourses, getRecommendedLectures } from '../../api/course';
 import { getFilteredSeniorList,getMemberList } from '../../api/members';
-import MainHeaderContent from '../components/MainHeaderContent'; 
+import {MainHeaderContent} from '../components/MainHeaderContent'; 
 
 import IconGiveURL from '../../common/assets/icons/icon_give.svg';
 import IconExchangeURL from '../../common/assets/icons/icon_exchange.svg';
