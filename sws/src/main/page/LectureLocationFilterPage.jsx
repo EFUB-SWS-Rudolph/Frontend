@@ -7,6 +7,7 @@ import IconBackURL from '../../common/assets/icons/icon_back.svg';
 import IconInitializeURL from '../../common/assets/icons/icon_initialize.svg'; 
 
 import { useFilter } from '../../common/contexts/FilterContext';
+import { getKoreanCityName } from '../../../utils/filterMappings'; 
 const PageContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -132,8 +133,7 @@ const ApplyFilterButton = styled.button`
 `;
 export default function LectureLocationFilterPage() {
   const navigate = useNavigate();
-  const { searchFilters, updateSearchFilter } = useFilter();
-  // 지역 옵션들
+  const { generalFilterParams, updateGeneralFilter } = useFilter();
   const locationOptions = [
     { label: '전체', value: '전체' },
     { label: '서울특별시', value: '서울특별시' },
@@ -145,12 +145,17 @@ export default function LectureLocationFilterPage() {
     { label: '울산광역시', value: '울산광역시' },
   ];
 
-  const handleOptionClick = (value) => {
-    updateSearchFilter('location', value);
-  };
-  
+  const initialSelectedApiValue = generalFilterParams.courseCity; 
+  const initialSelectedKoreanLabel = getKoreanCityName(initialSelectedApiValue); 
+  const [selectedLocation, setSelectedLocation] = useState(initialSelectedKoreanLabel); 
+
+const handleOptionClick = (locationLabel) => {
+    setSelectedLocation(locationLabel);
+    updateGeneralFilter('courseCity', locationLabel); 
+    alert(`필터가 '${locationLabel}'(으)로 선택되었습니다.`);
+  };  
   const handleResetFilters = () => {
-      updateSearchFilter('location', '전체'); 
+      updateGeneralFilter('location', '전체'); 
       alert('필터가 초기화되었습니다.');
   };
   
@@ -173,9 +178,10 @@ export default function LectureLocationFilterPage() {
           <FilterOptionItem 
             key={option.value} 
             onClick={() => handleOptionClick(option.value)}
-            $isSelected={searchFilters.location === option.value} 
+            $isSelected={selectedLocation === option.value} 
           >
             <OptionName>{option.label}</OptionName>
+            {selectedLocation === option.value && <img src={IconCheckURL} alt="선택됨" style={{width: '1.2rem', height: '1.2rem'}} />}
           </FilterOptionItem>
         ))}
       </FilterOptionsContainer>

@@ -5,7 +5,6 @@ import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useLectureTab } from '../styles/Layout'; 
 
-// --- 스타일드 컴포넌트 정의 ---
 const TabBarContainer = styled.div`
   display: flex;
   justify-content: space-around;
@@ -43,7 +42,6 @@ const TabItem = styled.div`
   `}
 `;
 
-// --- LectureTabBar 함수 컴포넌트 정의 ---
 export default function LectureTabBar() {
   const navigate = useNavigate();
   const { mainActiveTab, setMainActiveTab } = useLectureTab();

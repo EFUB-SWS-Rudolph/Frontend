@@ -1,64 +1,68 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import IconBookmarkEmptyURL from '../../common/assets/icons/icon_bookmark.svg';
-import IconBookmarkFilledURL from '../../common/assets/icons/icon_bookmark_dis.svg';
+import IconBookmarkActive from '../../common/assets/icons/icon_bookmark.svg';
+import IconBookmarkDis from '../../common/assets/icons/icon_bookmark_dis.svg';
 
 const FooterBar = styled.div`
-  width: 24.375rem; /* 390px / 16 = 24.375rem */
-  height: 8.5rem; /* 136px / 16 = 8.5rem */
+ width: auto;
+  height: 5.19rem;
   background: #ffffff;
-  box-shadow: 0rem 0.25rem 1.25rem 0rem rgba(0, 0, 0, 0.25); /* 0 4px 20px 0 rgba(0, 0, 0, 0.25) */
+  box-shadow: 0rem 0.25rem 1.25rem 0rem rgba(0, 0, 0, 0.25);
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  padding: 1rem;
+  gap: 1.2rem;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0rem 1.5rem; /* 0 24px / 16 = 0 1.5rem */
   box-sizing: border-box;
-`;
+  z-index: 1000;`;
 
 const BookmarkButton = styled.button`
-  width: 3rem; /* 48px / 16 = 3rem */
-  height: 3rem; /* 48px / 16 = 3rem */
-  border-radius: 1.875rem; /* 30px / 16 = 1.875rem (원형에 가깝게) */
-  border: 0.0625rem solid #e0e0e0; /* 1px / 16 = 0.0625rem */
+  width: 2.75rem;
+  height: 2.75rem;
   background: transparent;
+  border: none;
   cursor: pointer;
-  display: flex;
   align-items: center;
-  justify-content: center;
   flex-shrink: 0;
-  margin-right: 1rem; /* 16px / 16 = 1rem */
+  margin-top: 0.75rem;
+  padding: 0;
 
   & > img {
-    width: 1.5rem; /* 24px / 16 = 1.5rem */
-    height: 1.5rem; /* 24px / 16 = 1.5rem */
+    
     object-fit: contain;
   }
 `;
 
 const ChatButton = styled.button`
   flex-grow: 1;
-  height: 3.5rem; /* 56px / 16 = 3.5rem */
-  border-radius: 0.75rem; /* 12px / 16 = 0.75rem */
+  width: 18.625rem;
+  height: 3.5rem;
+  border-radius: 0.75rem;
   background: #00664f;
   color: white;
   font-family: Pretendard Variable;
   font-weight: 600;
-  font-size: 1.125rem; /* 18px / 16 = 1.125rem */
+  font-size: 1.125rem;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 0.38rem;
 `;
-const LectureDetailCustomFooter = ({ isBookmarked, onBookmarkToggle, onApplyClick }) => {
+const LectureDetailCustomFooter = ({ isBookmarked, onBookmarkToggle, onApplyClick }) => { // 🔴 props 이름도 통일
   return (
     <FooterBar>
-      <BookmarkButton onClick={onBookmarkToggle}>
-        <img src={isBookmarked ? IconBookmarkFilledURL : IconBookmarkEmptyURL} alt="북마크" />
-      </BookmarkButton>
-      <ChatButton onClick={onApplyClick}>채팅하기</ChatButton>
-    </FooterBar>
+        <BookmarkButton onClick={onBookmarkToggle}> 
+          <img src={isBookmarked ? IconBookmarkActive : IconBookmarkDis } alt="북마크" />
+        </BookmarkButton>
+        <ChatButton onClick={onApplyClick}>채팅하기</ChatButton> 
+      </FooterBar>
   );
 };
 

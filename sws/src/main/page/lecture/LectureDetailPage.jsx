@@ -8,17 +8,16 @@ import { getLectureDetail , addBookmark, removeBookmark } from '../../../api/cou
 import 'swiper/css';
 import 'swiper/css/pagination';
 // 필요한 아이콘 URL
-import IconBookmarkActive from '../../../common/assets/icons/icon_bookmark.svg';
-import IconBookmarkDis from '../../../common/assets/icons/icon_bookmark_dis.svg';
 import IconBackURL from '../../../common/assets/icons/icon_back.svg';
 import IconExportURL from '../../../common/assets/icons/icon_export.svg';
+import ProfileDefaultImage from '../../../common/assets/images/profile_ex1.jpg';
+import LectureDefaultImage from '../../../common/assets/images/lecture_default.jpg';
 import { getChatroomExists } from '../../../api/chat';
 
 import IconCoffeeChatURL from '../../../common/assets/icons/icon_coffeechat.svg'; // 강사 재능 아이콘
 import IconExchangeURL from '../../../common/assets/icons/icon_exchange.svg'; // 강사 재능 아이콘
 import IconGiftURL from '../../../common/assets/icons/icon_give.svg'; // 강사 재능 아이콘
 
-import ProfileExampleImage from '../../../common/assets/images/profile_ex1.jpg';
 import LectureDetailCustomFooter from '../../components/LectureDetailCustomFooter';
 // styled-components 정의
 const DetailPageContainer = styled.div`
@@ -168,7 +167,7 @@ const InstructorProfileFrame = styled.div`
   height: 3.25rem;
   display: flex;
   align-items: center;
-  gap: 1.31rem;
+  gap: 0.5rem;
 `;
 // (강의자 프로필 이미지)
 const InstructorProfileImage = styled.img`
@@ -200,6 +199,18 @@ const InstructorInfoTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+`;
+const StyledMainListIconFrame = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-shrink: 0;
+`;
+
+const EwhainIcon = styled.img`
+  width: 1.5rem; 
+  height: 1.5rem;
+  object-fit: contain;
 `;
 // <강의 타이틀>
 const LectureTitleText = styled.h3`
@@ -536,7 +547,13 @@ export default function LectureDetailPage() {
     return <NoResultsMessage>해당 강의 정보를 찾을 수 없습니다.</NoResultsMessage>;
   }
 
+  const teacherInfo = lectureDetail.teacher;
+  const imagesToDisplay = (lectureDetail.images && lectureDetail.images.length > 0)
+    ? lectureDetail.images
+    : [LectureDefaultImage];
+
   return (
+    <div>
     <DetailPageContainer>
       <TopButtonsContainer>
         <BackButton onClick={handleBackClick}>
@@ -563,9 +580,9 @@ export default function LectureDetailPage() {
           grabCursor={true}
           style={{ width: '100%', height: '100%' }}
         >
-          {lectureDetail.images && lectureDetail.images.map((imgSrc, index) => (
+          {imagesToDisplay.map((imgSrc, index) => (
             <SwiperSlide key={index}>
-              <LectureActualImage src={imgSrc} alt={`${lectureDetail.courseTitle} 이미지 ${index + 1}`} />
+              <LectureActualImage src={imgSrc || LectureDefaultImage} alt={`${lectureDetail.courseTitle} 이미지 ${index + 1}`} />
             </SwiperSlide>
           ))}
             <div className="swiper-pagination"></div> 
@@ -576,9 +593,14 @@ export default function LectureDetailPage() {
         {/* 강의자 프로필 프레임 */}
        <InstructorProfileFrame>
             <InstructorProfileImage
-            src={lectureDetail.teacher.profileImage} 
-            alt={lectureDetail.teacher?.nickname}
+            src={teacherInfo?.profileImage || ProfileDefaultImage} 
+            alt={teacherInfo?.nickname || "강사 프로필"}
           />
+           <StyledMainListIconFrame>
+              {teacherInfo?.coffeeChat && <EwhainIcon src={IconCoffeeChatURL} alt="커피챗" />}
+              {teacherInfo?.exchange && <EwhainIcon src={IconExchangeURL} alt="재능교환" />}
+              {teacherInfo?.donation && <EwhainIcon src={IconGiftURL} alt="재능기부" />}
+          </StyledMainListIconFrame>
           <InstructorInfoTextContainer>
             <InstructorNickname>{lectureDetail.teacher?.nickname}</InstructorNickname>
             <InstructorDepartment>{lectureDetail.teacher?.department || lectureDetail.teacher?.college}</InstructorDepartment>
@@ -607,12 +629,12 @@ export default function LectureDetailPage() {
         <LectureFullDescription>{lectureDetail.description}</LectureFullDescription>
       </LectureDetailFrame>
 
-      <FooterBar>
-        <BookmarkButton onClick={handleBookmarkToggle}>
-          <img src={isBookmarked ? IconBookmarkActive : IconBookmarkDis} alt="북마크" />
-        </BookmarkButton>
-        <ChatButton onClick={handleApplyClick}>채팅하기</ChatButton>
-      </FooterBar>
+      {/* 🔴 하단 푸터 컴포넌트 호출 (LectureDetailCustomFooter.jsx에서 처리) 🔴 */}
+      <LectureDetailCustomFooter
+        isBookmarked={isBookmarked}
+        onBookmarkToggle={handleBookmarkToggle}
+        onApplyClick={handleApplyClick}
+      />      
       {/* 팝업창 렌더링 - showApplyPopup이 true일 때만 표시 */}
       {showApplyPopup && (
         <ApplyPopupOverlay>
@@ -633,5 +655,6 @@ export default function LectureDetailPage() {
         </ApplyPopupOverlay>
       )}
     </DetailPageContainer>
+    </div>
   );
 }

@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.5;
     max-width: 390px;
     margin: 0 auto;
+    overflow-x: hidden;
   }
 
   a {

@@ -51,6 +51,16 @@ export default function LectureLocationFilterPage() {
     { label: '광주광역시', value: '광주광역시' },
     { label: '대전광역시', value: '대전광역시' },
     { label: '울산광역시', value: '울산광역시' },
+    { label: '세종특별자치시', value: '세종특별자치시' },
+    { label: '경기도', value: '경기도' },
+    { label: '강원특별자치도', value: '강원특별자치도' },
+    { label: '충청북도', value: '충청북도' },
+    { label: '충청남도', value: '충청남도' },
+    { label: '전북특별자치도', value: '전북특별자치도' },
+    { label: '전라남도', value: '전라남도' },
+    { label: '경상북도', value: '경상북도' },
+    { label: '경상남도', value: '경상남도' },
+    { label: '제주특별자치도', value: '제주특별자치도' },
   ];
   const getInitialSelectedLocation = () => {
       const currentApiValue = generalFilterParams.courseCity; 
@@ -63,6 +73,16 @@ export default function LectureLocationFilterPage() {
               case '광주광역시': return currentApiValue === 'GWANGJU';
               case '대전광역시': return currentApiValue === 'DAEJEON';
               case '울산광역시': return currentApiValue === 'ULSAN';
+              case '세종특별자치시': return currentApiValue === 'SEJONG';
+              case '경기도': return currentApiValue === 'GYEONGGI';
+              case '강원특별자치도': return currentApiValue === 'GANGWON';
+              case '충청북도': return currentApiValue === 'CHUNGBUK';
+              case '충청남도': return currentApiValue === 'CHUNGNAM';
+              case '전북특별자치도': return currentApiValue === 'JEONBUK';
+              case '전라남도': return currentApiValue === 'JEONNAM';
+              case '경상북도': return currentApiValue === 'GYEONGBUK';
+              case '경상남도': return currentApiValue === 'GYEONGNAM';
+              case '제주특별자치도': return currentApiValue === 'JEJU';
               case '전체': return currentApiValue === null;
               default: return false;
           }

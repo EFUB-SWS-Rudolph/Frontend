@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import LectureDefaultImage from '../assets/images/lecture_default.jpg'; 
 
 const CardContainer = styled.div`
   height: 15rem;
@@ -84,7 +85,7 @@ const LectureCard = ({ lecture }) => {
 
   return (
     <CardContainer onClick={handleClick}>
-      <CardImage src={lecture.thumbnailUrl|| null} alt={lecture.title} />
+      <CardImage src={lecture.thumbnailUrl|| LectureDefaultImage} alt={lecture.title|| "강의 이미지"} />
       <CardGrad /> 
       <CardInfo>
         <CardNickname>{lecture.instructor}</CardNickname>
