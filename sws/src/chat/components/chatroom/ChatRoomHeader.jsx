@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useChatStore } from '../../stores/useChatStore';
 
 import { getEditModalChoices } from './modal/getEditModalChoices';
-import EditModalContainer from './EditModalContianer';
+import EditModalContainer from './EditModalContainer';
 import SelectionCheckModal from './SelectionCheckModal';
 import { useState } from 'react';
 
