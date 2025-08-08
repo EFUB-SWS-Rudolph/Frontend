@@ -17,7 +17,7 @@ import AddLecturePage from '../main/page/lecture/AddLecturePage';
 import LectureRecommendSortFilterPage from '../main/page/lecture/LectureRecommendSortFilterPage';
 import LectureMyStatusFilterPage from '../main/page/lecture/LectureMyStatusFilterPage';
 
-import AddButtonIcon from '../common/assets/icons/btn_add.svg';
+import AddButtonIcon from '../common/assets/icons/btn_add.svg?react';
 import CategorySelectWrapper from '../common/components/CategorySelectWrapper';
 
 export const LectureRoutes = () => { 
