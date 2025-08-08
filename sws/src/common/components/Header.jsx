@@ -30,7 +30,7 @@ export default function Header({ header, onClick, rightIcon, onRightIconClick })
         />
       </HeaderWrapper>
     );
-  } else if (header === '교류 방식') {
+  } else if (header === '교류 방식' || '강의 등록') {
     return (
       <HeaderWrapper>
         <BACK_ARROW
@@ -38,13 +38,25 @@ export default function Header({ header, onClick, rightIcon, onRightIconClick })
             color: theme.colors.black,
             position: 'absolute',
             top: '50%',
-            left: '2.3rem',
+            left: '1.5rem',
             transform: 'translateY(-50%)',
           }}
           onClick={onClick}
         />
         <HeaderContainer>{header}</HeaderContainer>
       </HeaderWrapper>
+    );
+  } else if (header === '검색' || '알림') {
+    return (
+      <HeaderWrapperBig>
+        <BACK_ARROW
+          style={{
+            color: theme.colors.black,
+          }}
+          onClick={onClick}
+        />
+        <HeaderContainerBig>{header}</HeaderContainerBig>
+      </HeaderWrapperBig>
     );
   } else if (showDefaultTitle) {
     if (header === '강의') {
@@ -116,4 +128,16 @@ const HeaderContainer = styled.div`
   font-style: ${({ theme }) => theme.fonts.display.medium.fontStyle};
   font-weight: ${({ theme }) => theme.fonts.display.medium.fontWeight};
   line-height: ${({ theme }) => theme.fonts.display.medium.lineHeight};
+`;
+
+const HeaderWrapperBig = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 1.12rem 0px 1.06rem;
+`;
+const HeaderContainerBig = styled(HeaderContainer)`
+  font-size: 24px;
+  text-align: left;
+  padding-left: 20px;
 `;

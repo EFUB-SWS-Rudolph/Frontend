@@ -94,6 +94,7 @@ const AddLecturePage = () => {
       console.log('123', formData);
 
       await postLecture(formData);
+      navigate('/lectures');
       console.log('postLecture response:', formData);
     } catch (err) {
       console.error('postLecture 실패:', err);
@@ -225,12 +226,12 @@ const AddLecturePage = () => {
 
                   const response = await createLecture();
 
-                  if (response?.data?.code === '200') {
-                    alert('강의가 등록되었습니다!');
-                    navigate('/home');
-                  } else {
-                    alert('등록에 실패했습니다.');
-                  }
+                  // if (response?.data?.code === '200') {
+                  //   alert('강의가 등록되었습니다!');
+                  //   navigate('/lectures');
+                  // } else {
+                  //   alert('등록에 실패했습니다.');
+                  // }
 
                   setShowConfirmModal(false);
                 }}

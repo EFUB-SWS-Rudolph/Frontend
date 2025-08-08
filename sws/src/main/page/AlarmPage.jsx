@@ -1,45 +1,50 @@
 // src/main/pages/AlarmPage.jsx
-import React , { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAlarm } from '../../common/contexts/AlarmContext';
 import { useNavigate } from 'react-router-dom';
-
+import { useCallback } from 'react';
 import IconGiveURL from '../../common/assets/icons/icon_give.svg';
 import IconExchangeURL from '../../common/assets/icons/icon_exchange.svg';
 import IconCoffeeChatURL from '../../common/assets/icons/icon_coffeechat.svg';
-//  styled-components 정의
-const AlarmPageContainer = styled.div`
-  width: 100%; 
-  height: 100%; 
+import Header from '../../common/components/Header';
+
+const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap:0.5rem; 
-  overflow-y: auto; 
+`;
+const AlarmPageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding:1rem 0 0 0;
+  padding: 1rem 0 0 0;
 `;
 
 const AlarmItemWrapper = styled.div`
-  width: 100% ; 
-  padding: 1.25rem 1.5rem 1rem 1.5rem; 
-  background-color: ${props => props.$isRead ? '#FFFFFF' : '#E0FCEF'}; 
+  width: 100%;
+  padding: 1.25rem 1.5rem 1rem 1.5rem;
+  background-color: ${(props) => (props.$isRead ? '#FFFFFF' : '#E0FCEF')};
   border: none;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; 
+  gap: 0.5rem;
   cursor: pointer;
- padding: 1.25rem 1.5rem 1rem 1.5rem; 
+  padding: 1.25rem 1.5rem 1rem 1.5rem;
 `;
 
 const AlarmCategoryIcon = styled.div`
-  width: 1rem; 
-  height: 1rem; 
+  width: 1rem;
+  height: 1rem;
   flex-shrink: 0;
-  aspect-ratio: 1/1; 
-  display: inline-flex; 
+  aspect-ratio: 1/1;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-right:1rem;
+  margin-right: 1rem;
   & > img {
     width: 100%;
     height: 100%;
@@ -49,54 +54,58 @@ const AlarmCategoryIcon = styled.div`
 
 const AlarmTitle = styled.div`
   color: var(--Black, #222);
-  font-family: "Pretendard Variable";
-  font-size: 1rem; 
-  font-style: normal;
-  font-weight: 600; 
-  line-height: normal;
-  align-items: center; 
-  display: flex;
-`;
-
-const AlarmContent = styled.p` 
-  color: var(--Black, #222);
-  font-family: "Pretendard Variable";
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 500; 
-  line-height: 150%; 
-  margin-left: calc(1rem + 1rem); 
-`;
-
-const AlarmTime = styled.span` 
-  color: var(--Gray-500, #999);
-  font-family: "Pretendard Variable";
-  font-size: 0.625rem; 
+  font-family: 'Pretendard Variable';
+  font-size: 1rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-left: auto; 
+  align-items: center;
+  display: flex;
 `;
 
-const NoAlarmMessage = styled.div` 
+const AlarmContent = styled.p`
+  color: var(--Black, #222);
+  font-family: 'Pretendard Variable';
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+  margin-left: calc(1rem + 1rem);
+`;
+
+const AlarmTime = styled.span`
   color: var(--Gray-500, #999);
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: auto;
+`;
+
+const NoAlarmMessage = styled.div`
+  color: var(--Gray-500, #999);
+  font-family: 'Pretendard Variable';
   font-size: 1rem;
-  font-style: normal; 
-  font-weight: 600; 
-  line-height: normal; 
-  letter-spacing: 0rem; 
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0rem;
   width: 100%;
-  text-align: center; 
-  margin: auto; 
+  text-align: center;
+  margin: auto;
 `;
 const AlarmItem = ({ alarm, onRead }) => {
   const getAlarmIcon = (category) => {
     switch (category) {
-      case 'GIVE': return IconGiveURL; 
-      case 'EXCHANGE': return IconExchangeURL;
-      case 'COFFEECHAT': return IconCoffeeChatURL;
-      default: return IconGiveURL; 
+      case 'GIVE':
+        return IconGiveURL;
+      case 'EXCHANGE':
+        return IconExchangeURL;
+      case 'COFFEECHAT':
+        return IconCoffeeChatURL;
+      default:
+        return IconGiveURL;
     }
   };
   return (
@@ -114,38 +123,44 @@ const AlarmItem = ({ alarm, onRead }) => {
 };
 
 export default function AlarmPage() {
-    const { alarms, unreadAlarmCount, initializeAlarms, markAlarmAsRead } = useAlarm(); 
-    const navigate = useNavigate();
-    useEffect(() => {
-        initializeAlarms();
-    }, [initializeAlarms]);
+  const { alarms, unreadAlarmCount, initializeAlarms, markAlarmAsRead } = useAlarm();
+  const navigate = useNavigate();
+  useEffect(() => {
+    initializeAlarms();
+  }, [initializeAlarms]);
 
-    const handleAlarmClick = useCallback((alarm) => {
-        markAlarmAsRead(alarm.notificationId);
-        let targetPath = '/alarm'; 
+  const handleAlarmClick = useCallback(
+    (alarm) => {
+      markAlarmAsRead(alarm.notificationId);
+      let targetPath = '/alarm';
 
-        const title = alarm.title || '';
-        const content = alarm.content || '';
+      const title = alarm.title || '';
+      const content = alarm.content || '';
 
-        if (title.includes('채팅') || content.includes('새로운 메시지')) {
-            targetPath = '/chatlist'; 
-        } else if (title.includes('강의') && content.includes('성사되었어요')) {
-            targetPath = '/lectures/my'; 
-        } else if (title.includes('강의') && content.includes('취소를 요청')) {
-            targetPath = '/lectures/my'; 
-        }
-        if (targetPath) {
-            navigate(targetPath);
-        }
-    }, [navigate, markAlarmAsRead]);
+      if (title.includes('채팅') || content.includes('새로운 메시지')) {
+        targetPath = '/chatlist';
+      } else if (title.includes('강의') && content.includes('성사되었어요')) {
+        targetPath = '/lectures/my';
+      } else if (title.includes('강의') && content.includes('취소를 요청')) {
+        targetPath = '/lectures/my';
+      }
+      if (targetPath) {
+        navigate(targetPath);
+      }
+    },
+    [navigate, markAlarmAsRead]
+  );
 
-    if (alarms.length === 0) return <NoAlarmMessage>새로운 소식이 없습니다</NoAlarmMessage>; 
+  if (alarms.length === 0) return <NoAlarmMessage>새로운 소식이 없습니다</NoAlarmMessage>;
 
-    return (
-        <AlarmPageContainer>
-            {alarms.map(alarm => (
-                <AlarmItem key={alarm.notificationId} alarm={alarm} onRead={handleAlarmClick} />
-            ))}
-        </AlarmPageContainer>
-    );
+  return (
+    <Layout>
+      <Header header="알림" onClick={() => navigate(-1)} />
+      <AlarmPageContainer>
+        {alarms.map((alarm) => (
+          <AlarmItem key={alarm.notificationId} alarm={alarm} onRead={handleAlarmClick} />
+        ))}
+      </AlarmPageContainer>
+    </Layout>
+  );
 }

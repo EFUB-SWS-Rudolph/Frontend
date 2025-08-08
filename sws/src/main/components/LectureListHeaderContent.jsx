@@ -9,7 +9,9 @@ export const LectureListHeaderContent = () => {
   return (
     <LecturePageHeaderContainer>
       <LecturePageTitleArea>
-        <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+        <div
+          style={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
           <LectureTitle>강의</LectureTitle>
         </div>
         <AddButton onClick={() => navigate('/add/lecture')}>
@@ -103,6 +105,7 @@ const LecturePageHeaderContainer = styled.div`
 // 강의 페이지 헤더의 타이틀 및 추가 버튼 섹션
 const LecturePageTitleArea = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
