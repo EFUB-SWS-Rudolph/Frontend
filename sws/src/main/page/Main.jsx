@@ -10,7 +10,8 @@ import IconGiveURL from '../../common/assets/icons/icon_give.svg';
 import IconExchangeURL from '../../common/assets/icons/icon_exchange.svg';
 import IconCoffeeChatURL from '../../common/assets/icons/icon_coffeechat.svg';
 import IconRightURL from '../../common/assets/icons/icon_right.svg';
-import ProfileDefaultImage from '../../common/assets/images/profile_ex1.jpg'; 
+const DEFAULT_PROFILE_IMAGE_PATH = '/images/profile_ex1.jpg'; 
+const DEFAULT_DEPARTMENT = "컴퓨터공학과"; 
 import LectureCard from '../../common/components/LectureCard';
 
 const MainPageContainer = styled.div`
@@ -548,8 +549,8 @@ const MainEwhainProfile = styled.div`
 `;
 
 const EwhainProfileImage = styled.img`
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid #ddd;
@@ -659,7 +660,7 @@ export default function Main() {
   
   const [userProfile, setUserProfile] = useState({
     nickname: '사용자',
-    profileImageUrl: ProfileDefaultImage,
+    profileImageUrl: DEFAULT_PROFILE_IMAGE_PATH,
     ongoingLectures: [],
     ongoingLectureCount: 0,
     department: null,
@@ -676,7 +677,7 @@ export default function Main() {
 
   const defaultProfile = {
     nickname: '오류 사용자',
-    profileImageUrl: ProfileDefaultImage,
+    profileImageUrl: DEFAULT_PROFILE_IMAGE_PATH,
     ongoingLectures: [],
     ongoingLectureCount: 0,
     department: null,
@@ -687,24 +688,20 @@ export default function Main() {
     const fetchUserProfileAndLectures = async () => {
       setLoading(true);
       setError(null);
-
       try {
-        const [profileResponseData, myCoursesResponse] = await Promise.all([
-          getMemberProfile(),
-          getMyCourses()
-        ]);
-
-        let extractedDepartment = profileResponseData.dept; 
-        const tempDepartment = "컴퓨터공학과";
-
-        setUserProfile(prevState => ({
+      const [profileResponse, myCoursesResponse] = await Promise.all([ // 🔴 profileResponseData 대신 profileResponse로 변수명 변경 (오해 방지)
+        getMemberProfile(),
+        getMyCourses()
+      ]);
+      console.log("🟢 getMemberProfile API 응답 객체:", profileResponse);
+      setUserProfile(prevState =>( {
           ...prevState,
-          nickname: profileResponseData.nickname || '이름 없음',
-          profileImageUrl: profileResponseData.profileImg || ProfileDefaultImage,
-          department: profileResponseData.dept || tempDepartment, 
-          memberId: profileResponseData.memberId || null, 
+          nickname: profileResponse.nickname || '이름 없음', 
+          profileImageUrl: profileResponse.profileImage || DEFAULT_PROFILE_IMAGE_PATH,
+          department: profileResponse.dept || DEFAULT_DEPARTMENT, 
+          memberId: profileResponse.memberId || null, 
         }));
-        console.log("🟢 메인페이지: 사용자 프로필 정보 조회 성공", profileResponseData)
+        console.log("🟢 메인페이지: 사용자 프로필 정보 조회 성공", profileResponse); 
 
         if (myCoursesResponse.isSuccess && myCoursesResponse.payload) {
           const teaching = myCoursesResponse.payload.teachingCourses || [];
@@ -729,7 +726,14 @@ export default function Main() {
         console.error("🔴 메인페이지: 통합 정보 조회 오류 발생:", err); 
         setError(new Error(errorMessage)); 
         
-        setUserProfile(defaultProfile); 
+         setUserProfile({
+            nickname: '사용자',
+            profileImageUrl: DEFAULT_PROFILE_IMAGE_PATH,
+            ongoingLectures: [],
+            ongoingLectureCount: 0,
+            department: null,
+            memberId: null, 
+            });
       } finally {
         setLoading(false);
       }
@@ -977,13 +981,16 @@ useEffect(() => {
         {!seniorListLoading && !seniorListError && seniorList.length > 0 ? (
             seniorList.map((senior, index) => (
               <React.Fragment key={senior.memberId}>
+                {console.log("🔴 [Main.jsx -> MainSNR] senior 객체:", senior)}
+    {console.log("🔴 [Main.jsx -> MainSNR] senior.profileImage 값:", senior.profileImage)}
+
                 <MainSNR senior={{
                     id: senior.memberId,
                     name: senior.nickName, 
                     major: senior.department, 
                     talents: senior.talentTags || [], 
                     location: senior.location,
-                    profileImage: senior.profileImage || ProfileDefaultImage, 
+                    profileImage: senior.profileImage || senior.profileImg || DEFAULT_PROFILE_IMAGE_PATH,
                     coffeeChat: senior.coffeeChat,
                 }} />
                 {index < seniorList.length - 1 && <Divider />}
@@ -1016,7 +1023,7 @@ useEffect(() => {
                   talents: ewhain.talentTags || [], 
                   interests: ewhain.interestTags || [],
                   location: ewhain.location,
-                  profileImage: ewhain.profileImage || ProfileDefaultImage,
+                  profileImage: ewhain.profileImage ||DEFAULT_PROFILE_IMAGE_PATH,
                   coffeeChat: ewhain.coffeeChat,
                   exchange: ewhain.exchange,
                   donation: ewhain.donation,

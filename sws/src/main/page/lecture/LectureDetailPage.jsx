@@ -10,7 +10,6 @@ import 'swiper/css/pagination';
 // 필요한 아이콘 URL
 import IconBackURL from '../../../common/assets/icons/icon_back.svg';
 import IconExportURL from '../../../common/assets/icons/icon_export.svg';
-import ProfileDefaultImage from '../../../common/assets/images/profile_ex1.jpg';
 import LectureDefaultImage from '../../../common/assets/images/lecture_default.jpg';
 import { getChatroomExists } from '../../../api/chat';
 
@@ -446,6 +445,7 @@ export default function LectureDetailPage() {
 
        try {
         const response = await getLectureDetail(lectureId); 
+        console.log("강의 상세 정보 API 응답:", response);
         if (response.isSuccess && response.payload) {
           setLectureDetail(response.payload);
           setIsBookmarked(response.payload.bookmarked || false);
@@ -593,7 +593,7 @@ export default function LectureDetailPage() {
         {/* 강의자 프로필 프레임 */}
        <InstructorProfileFrame>
             <InstructorProfileImage
-            src={teacherInfo?.profileImage || ProfileDefaultImage} 
+            src={teacherInfo?.profileImage || '/profile_ex1.jpg'} 
             alt={teacherInfo?.nickname || "강사 프로필"}
           />
            <StyledMainListIconFrame>
