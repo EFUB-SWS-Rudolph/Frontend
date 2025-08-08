@@ -81,9 +81,9 @@ export const removeBookmark = async (courseId) => {
   }
 };
 
-export const postCourseRegister = async (courseId, studentId) => {
+export const postCourseRegister = async (courseId) => {
   try {
-    const res = await client.post(`/course/confirm/${courseId}/${studentId}`);
+    const res = await client.post(`/course/confirm/${courseId}`);
     return res.data;
   } catch (err) {
     throw err;
