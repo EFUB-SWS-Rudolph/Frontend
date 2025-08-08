@@ -4,14 +4,17 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 import X from '../../common/assets/icons/icon_x.svg?react';
 import BACK_ARROW from '../../common/assets/icons/icon_back.svg?react';
+import MainHeaderContent from '../../main/components/MainHeaderContent'; 
 
-<<<<<<< HEAD
-export default function Header({ header, onClick, rightIcon, onRightIconClick }) {
-=======
-export default function Header({ header, onClick, rightIcon: RightIconComponent, onRightIconClick }) { 
->>>>>>> 4e29aab (fix:LectureRoutes.jsx수정)
+export default function Header({ header, onClick, rightIcon, onRightIconClick, isHomePage }) {
   const showDefaultTitle = typeof header === 'string' && header.length > 0;
-
+  if (isHomePage) {
+    return (
+      <HeaderWrapper>
+        <MainHeaderContent /> 
+      </HeaderWrapper>
+    );
+  }
   if (header === 'ewhainlist') {
     return (
       <HeaderWrapper>
@@ -34,7 +37,7 @@ export default function Header({ header, onClick, rightIcon: RightIconComponent,
         />
       </HeaderWrapper>
     );
-  } else if (header === '교류 방식' || '강의 등록') {
+  } else if (header === '교류 방식' || header === '강의 등록') {
     return (
       <HeaderWrapper>
         <BACK_ARROW
@@ -50,7 +53,7 @@ export default function Header({ header, onClick, rightIcon: RightIconComponent,
         <HeaderContainer>{header}</HeaderContainer>
       </HeaderWrapper>
     );
-  } else if (header === '검색' || '알림') {
+  } else if (header === '검색' || header === '알림') {
     return (
       <HeaderWrapperBig>
         <BACK_ARROW
