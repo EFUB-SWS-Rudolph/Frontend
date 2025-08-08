@@ -5,7 +5,7 @@
  * @param {boolean} isMine - 내 강의에 등록된 상태인지
  * @returns array
  */
-import LECTURE from '../../../../common/assets/icons/icon_lecture-inactive';
+import LECTURE from '../../../../common/assets/icons/icon_lecture-inactive.svg?react';
 import EXIT from '../../../assets/out_button.svg?react';
 
 export function getEditModalChoices({ isRegistered, isOwner, isMine, callbacks }) {
