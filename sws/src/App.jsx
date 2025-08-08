@@ -22,7 +22,7 @@ function App() {
     <BrowserRouter>
       <AlarmProvider>
         <FilterProvider>
-<Layout>
+          <Layout>
             <Routes>
               <Route path="/signin" element={<LoginPage />} />
               <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
@@ -32,20 +32,21 @@ function App() {
               </Route>
 
               <Route element={<PrivateRoute />}>
-                <Route path="/" element={<Main/>} />
+                <Route path="/" element={<Main />} />
                 <Route path="/global-search" element={<GlobalSearchPage />} />
                 <Route path="/alarm" element={<AlarmPage />} />
 
                 {EwhainRoutes()}
                 {MyPageRoutes()}
                 {ChatRoutes()}
-                {LectureRoutes()} 
+                {LectureRoutes()}
               </Route>
               
               {/* --- 404 Not Found Route --- */}
               <Route path="*" element={<h2>페이지를 찾을 수 없습니다.</h2>} />
             </Routes>
-          </Layout>        </FilterProvider>
+          </Layout>        
+        </FilterProvider>
       </AlarmProvider>
     </BrowserRouter>
   );
