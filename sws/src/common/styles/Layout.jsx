@@ -13,6 +13,7 @@ import IconEwhalistInactiveURL from '../assets/icons/icon_ewhalist-inactive.svg'
 import IconchatInactiveURL from '../assets/icons/icon_chat-inactive.svg';
 import IconMypageInactiveURL from '../assets/icons/icon_mypage-inactive.svg';
 
+import HeaderComponent from '../components/Header'; 
 // Layout 컴포넌트 정의
 export default function Layout({
   headerContent,
@@ -42,7 +43,13 @@ export default function Layout({
   };
   return (
     <AppContainer $backgroundColor={backgroundColor}>
-      <Header $headerBackgroundColor={headerBackgroundColor}>{headerContent}</Header>
+      <HeaderComponent // 이제 HeaderComponent는 React 컴포넌트 Header입니다.
+        $headerBackgroundColor={headerBackgroundColor} // 배경색 prop은 그대로 전달
+        header={headerContent} // 🔴 headerContent를 'header' prop으로 전달
+        onClick={() => navigate(-1)} // 뒤로가기 버튼 기본 동작 (header prop에 따라 달라짐)
+        // Header.jsx 컴포넌트에 필요한 다른 props (예: rightIcon, onRightIconClick, isHomePage)도 Layout에서 받아서 전달해 줍니다.
+        isHomePage={isHomePage} 
+      />
       <ContentArea $contentBackgroundColor={contentBackgroundColor}>
         <LectureTabProvider>
           <Outlet />

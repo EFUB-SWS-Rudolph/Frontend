@@ -2,23 +2,24 @@
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
+import { searchAll } from '../../api/search';
 // 필요한 SVG 아이콘 URL 임포트
 import SearchIconURL from '../../common/assets/icons/icon_search_white.svg';
 import DeleteIconURL from '../../common/assets/icons/icon_delete.svg';
 
 import { getLecturesByKeyword, getEwhainsByKeyword } from '../../api/search';
 import LectureCard from '../../common/components/LectureCard';
-
+import UserCard from '../../ewhainList/components/memberList/UserCard';
 import Header from '../../common/components/Header';
 import { useNavigate } from 'react-router-dom';
+
 
 // styled-components 정의
 const GlobalSearchContainer = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 1rem;
+  padding: 0 1rem  1rem   1rem
 `;
 // 상단 검색 바 섹션
 const SearchBarSection = styled.div`
@@ -30,7 +31,6 @@ const SearchBarSection = styled.div`
   width: 17.75rem;
   height: 3.25rem;
   padding: 1rem 1.625rem;
-  margin-top: 0.6rem;
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
@@ -211,6 +211,7 @@ export default function GlobalSearchPage() {
   const [error, setError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
   const navigate = useNavigate();
+
   const performSearch = async (keyword) => {
     console.log('🟢 performSearch 호출됨. 검색 키워드:', keyword);
     if (keyword.trim() === '') {
@@ -226,44 +227,30 @@ export default function GlobalSearchPage() {
     setHasSearched(true);
 
     try {
-      console.log('🟢 performSearch: API 호출 시작. 키워드:', keyword);
+      const response = await searchAll(keyword.trim()); // 🔴 searchAll API 호출
 
-      const [lectureResult, ewhainResult] = await Promise.all([
-        getLecturesByKeyword(keyword.trim()),
-        getEwhainsByKeyword(keyword.trim()),
-      ]);
-
-      console.log(
-        '🟢 performSearch: API 응답 수신. 강의 결과:',
-        lectureResult,
-        '이화인 결과:',
-        ewhainResult
-      );
-
-      if (lectureResult.isSuccess && ewhainResult.isSuccess) {
+      if (response.isSuccess) {
         setSearchResults({
-          lectures: lectureResult.payload?.lectures || [],
-          users: ewhainResult.payload?.users || [],
+          lectures: response.payload?.courses || [],
+          users: [
+            ...(response.payload?.membersByNickname || []),
+            ...(response.payload?.membersByDept || [])
+          ],
         });
-        console.log('🟢 performSearch: 검색 결과 상태 업데이트 성공.');
+        console.log('🟢 searchAll: 검색 결과 상태 업데이트 성공.', response.payload);
       } else {
-        setError(
-          new Error(
-            (lectureResult.message || '') + (ewhainResult.message || '') || '검색 결과가 없습니다.'
-          )
-        );
+        setError(new Error(response.message || '검색 결과가 없습니다.'));
         setSearchResults({ lectures: [], users: [] });
-        console.log('🟠 performSearch: API 응답 isSuccess false 또는 메시지 없음. 결과 없음 처리.');
       }
     } catch (err) {
-      console.error('🔴 performSearch: API 호출 중 치명적인 오류 발생:', err);
+      console.error('🔴 searchAll: API 호출 중 오류 발생:', err);
       setError(new Error(`검색 중 오류가 발생했습니다: ${err.message}`));
       setSearchResults({ lectures: [], users: [] });
     } finally {
       setLoading(false);
-      console.log('🟢 performSearch: 로딩 완료.');
     }
   };
+
 
   const handleSearchSubmit = () => {
     console.log('🟢 handleSearchSubmit 호출됨. 현재 검색 키워드:', searchQuery);
@@ -299,11 +286,10 @@ export default function GlobalSearchPage() {
     }
   };
 
-  const hasAnyResults = searchResults.lectures.length > 0 || searchResults.users.length > 0;
-
+const hasAnyResults = searchResults.lectures.length > 0 || searchResults.users.length > 0;
   return (
     <GlobalSearchContainer>
-      <Header header="검색" onClick={() => navigate(-1)} />
+      
       <SearchBarSection>
         <SearchInput
           type="text"
@@ -340,24 +326,18 @@ export default function GlobalSearchPage() {
       ) : null}
 
       <SearchResultsDisplayArea>
-        {loading && <NoResultsMessage>검색 중입니다...</NoResultsMessage>}
-        {error && <NoResultsMessage>오류: {error.message}</NoResultsMessage>}
-        {!loading && !error && hasSearched && !hasAnyResults && (
-          <NoResultsMessage>'{searchQuery}'에 대한 검색 결과가 없습니다.</NoResultsMessage>
-        )}
-
         {!loading && searchResults.lectures.length > 0 && (
           <>
             <SectionTitle>강의 검색 결과 ({searchResults.lectures.length}개)</SectionTitle>
             <ResultsGrid>
               {searchResults.lectures.map((lecture) => (
-                <LectureCard key={lecture.id} lecture={lecture} />
+                <LectureCard key={lecture.courseId} lecture={lecture} /> 
               ))}
             </ResultsGrid>
           </>
         )}
         {!loading && hasSearched && searchResults.lectures.length === 0 && (
-          <NoTypeResults>검색 결과가 없습니다.</NoTypeResults>
+          <NoTypeResults>강의 검색 결과가 없습니다.</NoTypeResults>
         )}
 
         {!loading && searchResults.users.length > 0 && (
@@ -365,13 +345,13 @@ export default function GlobalSearchPage() {
             <SectionTitle>이화인 검색 결과 ({searchResults.users.length}개)</SectionTitle>
             <ResultsGrid>
               {searchResults.users.map((user) => (
-                <UserCard key={user.id} user={user} />
+                <UserCard key={user.memberId} user={user} />
               ))}
             </ResultsGrid>
           </>
         )}
         {!loading && hasSearched && searchResults.users.length === 0 && (
-          <NoTypeResults>검색 결과가 없습니다.</NoTypeResults>
+          <NoTypeResults>이화인 검색 결과가 없습니다.</NoTypeResults>
         )}
       </SearchResultsDisplayArea>
     </GlobalSearchContainer>

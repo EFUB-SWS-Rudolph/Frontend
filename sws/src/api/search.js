@@ -1,7 +1,7 @@
 // src/api/search.js
 
 import { client } from './client';
-
+import api from './api'; 
 export const getLecturesByKeyword = async (keyword, page = 0, size = 10) => {
   try {
     console.log(`🟢 API: getLecturesByKeyword 요청 - 키워드: ${keyword}`);
@@ -23,5 +23,23 @@ export const getEwhainsByKeyword = async (keyword, page = 0, size = 10) => {
   } catch (error) {
     console.error(`🔴 API: getEwhainsByKeyword 실패 - 키워드: ${keyword}, 오류:`, error.response?.data || error.message);
     throw error;
+  }
+};
+
+export const searchAll = async (keyword) => {
+  try {
+    const response = await api.get(`/search`, {
+      params: { keyword: keyword },
+      headers: {
+      },
+    });
+    return response.data; 
+  } catch (error) {
+    console.error("전체 검색 API 호출 중 오류:", error);
+    return {
+      isSuccess: false,
+      message: error.response?.data?.message || '검색 중 오류가 발생했습니다.',
+      payload: { courses: [], membersByNickname: [], membersByDept: [] }
+    };
   }
 };

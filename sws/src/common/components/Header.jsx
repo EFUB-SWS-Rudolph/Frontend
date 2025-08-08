@@ -1,12 +1,14 @@
 // src/common/components/Header.jsx
-
+import React from 'react'; 
+import { useNavigate } from 'react-router-dom'; 
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import X from '../../common/assets/icons/icon_x.svg?react';
 import BACK_ARROW from '../../common/assets/icons/icon_back.svg?react';
 import MainHeaderContent from '../../main/components/MainHeaderContent'; 
 
-export default function Header({ header, onClick, rightIcon, onRightIconClick, isHomePage }) {
+export default function Header({ header, onClick, rightIcon, onRightIconClick, isHomePage , hideTitle = false }) {
+  const navigate = useNavigate();
   const showDefaultTitle = typeof header === 'string' && header.length > 0;
   if (isHomePage) {
     return (
@@ -15,16 +17,10 @@ export default function Header({ header, onClick, rightIcon, onRightIconClick, i
       </HeaderWrapper>
     );
   }
-  if (header === 'ewhainlist') {
+  if (header === 'filter' || header === '정렬 기준') { 
     return (
-      <HeaderWrapper>
-        <HeaderContainer>이화인 목록</HeaderContainer>
-      </HeaderWrapper>
-    );
-  } else if (header === 'filter') {
-    return (
-      <HeaderWrapper>
-        <HeaderContainer>필터 설정</HeaderContainer>
+      <HeaderWrapperBig>
+        {!hideTitle && <HeaderContainer>{header}</HeaderContainer>} 
         <X
           style={{
             position: 'absolute',
@@ -35,69 +31,92 @@ export default function Header({ header, onClick, rightIcon, onRightIconClick, i
           }}
           onClick={onClick}
         />
-      </HeaderWrapper>
-    );
-  } else if (header === '교류 방식' || header === '강의 등록') {
-    return (
-      <HeaderWrapper>
-        <BACK_ARROW
-          style={{
-            color: theme.colors.black,
-            position: 'absolute',
-            top: '50%',
-            left: '1.5rem',
-            transform: 'translateY(-50%)',
-          }}
-          onClick={onClick}
-        />
-        <HeaderContainer>{header}</HeaderContainer>
-      </HeaderWrapper>
-    );
-  } else if (header === '검색' || header === '알림') {
-    return (
-      <HeaderWrapperBig>
-        <BACK_ARROW
-          style={{
-            color: theme.colors.black,
-          }}
-          onClick={onClick}
-        />
-        <HeaderContainerBig>{header}</HeaderContainerBig>
       </HeaderWrapperBig>
     );
-  } else if (showDefaultTitle) {
-    if (header === '강의') {
-      return (
-        <HeaderWrapper>
-          <HeaderContainer>
-            {typeof header === 'string' ? <Title>{header}</Title> : header || null}
-          </HeaderContainer>
-          {rightIcon && (
-            <RightIconWrapper type="button" onClick={onRightIconClick}>
-              {typeof rightIcon === 'string' ? <img src={rightIcon} alt="action" /> : rightIcon}
-            </RightIconWrapper>
-          )}
-        </HeaderWrapper>
-      );
-    }
+  } 
+if (React.isValidElement(header)) {
     return (
       <HeaderWrapper>
-        <BACK_ARROW
-          style={{
-            color: theme.colors.black,
-            position: 'absolute',
-            top: '50%',
-            left: '1.7rem',
-            transform: 'translateY(-50%)',
-          }}
-          onClick={onClick}
-        />
-        <HeaderContainer>{header}</HeaderContainer>
+        {header} 
+        {rightIcon && ( 
+            <RightIconWrapper type="button" onClick={onRightIconClick}>
+                {typeof rightIcon === 'string' ? <img src={rightIcon} alt="action" /> : rightIcon}
+            </RightIconWrapper>
+        )}
       </HeaderWrapper>
     );
-  } else {
-    return null;
   }
+
+  if (typeof header === 'string' && header.length > 0) {
+    if (header === '교류 방식' || header === '강의 등록') { 
+        return (
+            <HeaderWrapper>
+                <BACK_ARROW
+                    style={{
+                        color: theme.colors.black,
+                        position: 'absolute',
+                        top: '50%',
+                        left: '1.5rem',
+                        transform: 'translateY(-50%)',
+                    }}
+                    onClick={onClick}
+                />
+                {!hideTitle && <HeaderContainer>{header}</HeaderContainer>} 
+            </HeaderWrapper>
+        );
+    } else if (header === '검색' || header === '알림') { 
+        return (
+            <HeaderWrapperBig>
+                <BACK_ARROW
+                    style={{
+                        color: theme.colors.black,
+                        left: '1.5rem',
+                    }}
+                    onClick={onClick}
+                />
+                {!hideTitle && <HeaderContainerBig>{header}</HeaderContainerBig>} 
+            </HeaderWrapperBig>
+        );
+    }  else if (header === 'ewhainlist') {
+    return (
+      <HeaderWrapperBig>
+        <HeaderContainer>이화인 목록</HeaderContainer>
+      </HeaderWrapperBig>
+    );
+  }else if (header === '강의' ) { 
+        return (
+            <HeaderWrapper>
+                {!hideTitle && <HeaderContainer> 
+                    {typeof header === 'string' ? <Title>{header}</Title> : header || null}
+                </HeaderContainer>}
+                {rightIcon && (
+                    <RightIconWrapper type="button" onClick={onRightIconClick}>
+                        {typeof rightIcon === 'string' ? <img src={rightIcon} alt="action" /> : rightIcon}
+                    </RightIconWrapper>
+                )}
+            </HeaderWrapper>
+        );
+    } else { 
+        return (
+            <HeaderWrapper>
+                <BACK_ARROW
+                    style={{
+                        color: theme.colors.black,
+                        position: 'absolute',
+                        top: '50%',
+                        left: '1.7rem',
+                        transform: 'translateY(-50%)',
+                    }}
+                    onClick={onClick || (() => navigate(-1))} 
+                />
+                {!hideTitle && <HeaderContainer>{header}</HeaderContainer>}
+            </HeaderWrapper>
+        );
+    }
+  }
+
+  // 5. 헤더 내용이 없는 경우
+  return null;
 }
 const RightIconWrapper = styled.div`
   position: absolute;
@@ -110,6 +129,7 @@ const RightIconWrapper = styled.div`
   justify-content: center;
   width: 2.5rem; /* 클릭 영역 확보 */
   height: 2.5rem; /* 클릭 영역 확보 */
+  padding:1rem;
   & > svg {
     /* SVG 아이콘 자체의 크기 조절 */
     width: 1.5rem;
@@ -122,7 +142,6 @@ const HeaderWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 1.12rem 0px 1.06rem;
 `;
 
 const HeaderContainer = styled.div`
@@ -141,7 +160,7 @@ const HeaderWrapperBig = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1.12rem 0px 1.06rem;
+  padding:1rem;
 `;
 const HeaderContainerBig = styled(HeaderContainer)`
   font-size: 24px;
