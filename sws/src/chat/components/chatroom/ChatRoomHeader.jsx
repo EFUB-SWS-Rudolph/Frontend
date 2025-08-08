@@ -6,7 +6,7 @@ import { useChatStore } from '../../stores/useChatStore';
 
 import { getEditModalChoices } from './modal/getEditModalChoices';
 import EditModalContainer from './modal/EditModalContainer';
-import SelectionCheckModal from './SelectionCheckModal';
+import SelectionCheckModal from './modal/SelectionCheckModal';
 import { useState } from 'react';
 
 export default function ChatRoomHeader({ modalHandler, newUser = null, showEditModal, choicesProps }) {
