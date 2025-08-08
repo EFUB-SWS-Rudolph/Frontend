@@ -1,15 +1,16 @@
 <div>
   <h1>Weevo</h1>
   <img src="https://github.com/EFUB-SWS-Rudolph/Frontend/blob/b75afe13e17af5302514e2b89d6d6b5feba1386b/sws/src/common/assets/images/weevoImg.png" alt="weevoImage" width="600" />
+  <br />
+
+  <a href="https://weevo.netlify.app">Weevo Link</a>
 </div>
 
-<br />
-[**Weevo Link**](https://weevo.netlify.app)
 <br />
 
 ## ✨ Weevo를 소개할게요! ✨
 
-📍Weevo는 '직조하다' 라는 뜻의 <span>weave</span>에서 출발한 이릅입니다.
+📍Weevo는 '직조하다' 라는 뜻의 _weave_에서 출발한 이릅입니다.
 
 서로 다른 재능이 실처럼 얽히고 교차하면서, 학생들 사이의 배움과 교류가 하나의 직조물처럼 완성되기를 바라는 마음을 담았습니다. 이름 속 ‘we’는 함께 배우고, 함께 성장하는 우리를 의미하며, Weevo = We + Evolve라는 해석 또한 가능해 우리의 배움과 변화, 진화를 함축하는 의미도 동시에 담고 있습니다.
 
