@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import Layout from '../common/styles/Layout';
 
@@ -8,9 +7,7 @@ import SetProfile from '../signUp/pages/SetProfile';
 import SetInterest from '../signUp/pages/SetInterest';
 import SetTalent from '../signUp/pages/SetTalent';
 
-export const SignUpRoutes = () => {
-   return (
-  <>
+export const SignUpRoutes = (
   <Route key="layout" element={<Layout showFooter={false} />}>
     <Route path="/signup/additional" element={<Certification />} />
     <Route path="/signup/univ" element={<UnivInfo />} />
@@ -18,6 +15,4 @@ export const SignUpRoutes = () => {
     <Route path="/signup/interest" element={<SetInterest />} />
     <Route path="/signup/talent" element={<SetTalent />} />
   </Route>
-  </>
 );
-};
