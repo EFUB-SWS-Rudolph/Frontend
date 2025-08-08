@@ -3,7 +3,6 @@ import Layout from './common/styles/Layout';
 import GlobalSearchHeaderContent from './main/components/GlobalSearchHeaderContent';
 import { FilterProvider } from './common/contexts/FilterContext';
 import { AlarmProvider } from './common/contexts/AlarmContext';
-import { Main } from './main/components/MainHeaderContent';
 
 import Main from './main/page/Main';
 import GlobalSearchPage from './main/page/GlobalSearchPage';
@@ -33,7 +32,7 @@ function App() {
               </Route>
 
               <Route element={<PrivateRoute />}>
-                <Route path="/" element={<Main />} />
+                <Route path="/" element={<Main/>} />
                 <Route path="/global-search" element={<GlobalSearchPage />} />
                 <Route path="/alarm" element={<AlarmPage />} />
 
