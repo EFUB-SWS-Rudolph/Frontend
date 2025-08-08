@@ -463,6 +463,7 @@ export default function LectureDetailPage() {
     };
     fetchLectureDetail(); 
   }, [lectureId]);
+  
   const handleBackClick = () => {
     navigate(-1);
   };

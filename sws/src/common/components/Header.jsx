@@ -98,19 +98,19 @@ if (React.isValidElement(header)) {
         );
     } else { 
         return (
-            <HeaderWrapper>
+            <HeaderWrapperBig>
                 <BACK_ARROW
                     style={{
                         color: theme.colors.black,
                         position: 'absolute',
-                        top: '50%',
-                        left: '1.7rem',
+                        //top: '50%',
+                        //left: '1.7rem',
                         transform: 'translateY(-50%)',
                     }}
                     onClick={onClick || (() => navigate(-1))} 
                 />
                 {!hideTitle && <HeaderContainer>{header}</HeaderContainer>}
-            </HeaderWrapper>
+            </HeaderWrapperBig>
         );
     }
   }

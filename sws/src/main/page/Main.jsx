@@ -133,11 +133,10 @@ const NoLectureMessage = styled.div`
   padding: 2rem 0;
 `;
 
-
-const MyLectureItem = ({ lecture }) => {
+const MyLectureItem = ({ lecture, onClick }) => { 
   console.log("MyLectureItem 렌더링 시도. lecture 객체:", lecture);
   return (
-    <MyLectureItemWrapper> 
+    <MyLectureItemWrapper onClick={onClick}>  
       <LectureName>{lecture.name || lecture.courseTitle || '강의 제목 없음'}</LectureName> 
     </MyLectureItemWrapper>
   );
@@ -150,6 +149,7 @@ const MyLectureItemWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  cursor: pointer;
   flex-shrink: 0;
 `;
 //강의 이름텍스트 스타일
@@ -295,11 +295,11 @@ const IconCoffeeChat = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
 `;
-const MainSNR = ({ senior }) => {
+const MainSNR = ({ senior, onClick }) => { 
   return (
-    <StyledMainSNR>
+    <StyledMainSNR onClick={onClick}> 
       <MainSNRProfile>
-        <ProfileImageSmall src={senior.profileImage || ProfileDefaultImage} alt="프로필 이미지"/>
+        <ProfileImageSmall src={senior.profileImage || DEFAULT_PROFILE_IMAGE_PATH} alt="프로필 이미지"/>
         <MainSNRInfo>
           <MainSNRFrameTop>
             <SNRNickname>{senior.name}</SNRNickname> 
@@ -324,7 +324,6 @@ const MainSNR = ({ senior }) => {
   );
 };
 
-
 // MainSNR의 스타일을 정의하는 styled-component 
 const StyledMainSNR = styled.div`
   width: 100%; 
@@ -335,6 +334,7 @@ const StyledMainSNR = styled.div`
   align-items: center;
   gap: 5.5rem;
   align-self: stretch;
+  cursor: pointer;
 `;
 // (main_snr_profile)
 const MainSNRProfile = styled.div`
@@ -482,9 +482,9 @@ const MoreEwhainButton = styled.button`
   font-weight: 600;
   line-height: normal;
 `;
-const MainEwhain = ({ ewhain }) => {
+const MainEwhain = ({ ewhain, onClick }) => {
   return (
-    <StyledMainEwhain>
+    <StyledMainEwhain onClick={onClick}> 
       <MainEwhainProfile>
         <EwhainProfileImage src={ewhain.profileImage || ProfileDefaultImage} alt="프로필 이미지"/>
         <MainEwhainInfo>
@@ -536,7 +536,7 @@ const StyledMainEwhain = styled.div`
   align-items: center;
   gap: 2.5rem;
   align-self: stretch;
-
+   cursor: pointer;
 `;
 
 const MainEwhainProfile = styled.div`
@@ -650,6 +650,14 @@ export default function Main() {
   const handleMoreEwhainClick = () => {
     navigate('/ewhainlist'); 
   };
+  const handleMyLectureItemClick = useCallback((courseId) => {
+    navigate(`/lectures/detail/${courseId}`);
+  }, [navigate]);
+
+  const handleSeniorClick = useCallback((memberId) => {
+    navigate(`/ewhainlist/${memberId}`); 
+  }, [navigate]);
+
   const [recommendedLectures, setRecommendedLectures] = useState([]);
   const [recommendedLecturesLoading, setRecommendedLecturesLoading] = useState(false);
   const [recommendedLecturesError, setRecommendedLecturesError] = useState(null);  
@@ -920,7 +928,11 @@ useEffect(() => {
         <LectureGrid>
           {userProfile.ongoingLectures.map((lecture, index) => (
             <React.Fragment key={lecture.courseId}>
-              <MyLectureItem lecture={lecture} /> 
+             <MyLectureItem
+            onClick={() => handleMyLectureItemClick(lecture.courseId)}
+            key={lecture.courseId}
+            lecture={lecture}
+          />
               {index < userProfile.ongoingLectures.length - 1 && <Divider />} 
             </React.Fragment>
           ))}
@@ -981,17 +993,16 @@ useEffect(() => {
         {!seniorListLoading && !seniorListError && seniorList.length > 0 ? (
             seniorList.map((senior, index) => (
               <React.Fragment key={senior.memberId}>
-                {console.log("🔴 [Main.jsx -> MainSNR] senior 객체:", senior)}
-    {console.log("🔴 [Main.jsx -> MainSNR] senior.profileImage 값:", senior.profileImage)}
 
-                <MainSNR senior={{
-                    id: senior.memberId,
-                    name: senior.nickName, 
-                    major: senior.department, 
-                    talents: senior.talentTags || [], 
-                    location: senior.location,
-                    profileImage: senior.profileImage || senior.profileImg || DEFAULT_PROFILE_IMAGE_PATH,
-                    coffeeChat: senior.coffeeChat,
+                <MainSNR onClick={() => handleSeniorClick(senior.memberId)}
+              senior={{
+                  id: senior.memberId,
+                  name: senior.nickName, 
+                  major: senior.department, 
+                  talents: senior.talentTags || [], 
+                  location: senior.location,
+                  profileImage: senior.profileImage || senior.profileImg || DEFAULT_PROFILE_IMAGE_PATH,
+                  coffeeChat: senior.coffeeChat,
                 }} />
                 {index < seniorList.length - 1 && <Divider />}
               </React.Fragment>
@@ -1016,7 +1027,9 @@ useEffect(() => {
         ) : ( 
           ewhainList.map((ewhain, index) => (
             <React.Fragment key={ewhain.memberId}> 
-              <MainEwhain ewhain={{
+              <MainEwhain 
+              onClick={() => handleSeniorClick(ewhain.memberId)}
+              ewhain={{
                   id: ewhain.memberId,
                   name: ewhain.nickName,
                   major: ewhain.department,
