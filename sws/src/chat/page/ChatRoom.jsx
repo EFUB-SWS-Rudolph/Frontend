@@ -273,11 +273,18 @@ export default function ChatRoom() {
 
   // 각 모달내 확인 버튼 클릭 시 API/상태 처리 핸들러
   const handleConfirmAction = async () => {
+    const myId = getUserIdFromToken();
     try {
       if (checkModalType === "register" && course) {
-        const res = await postCourseRegister(course.courseId, checkModalData.studentId);
-        alert(res.message || "강의가 성사되었습니다.");
-        setIsRegistered(true);
+        if (userRole === "student") {
+          const res = await postCourseRegister(course.courseId, userId);
+          alert(res.message || "강의가 성사되었습니다.");
+          setIsRegistered(true);
+        } else {
+          const res = await postCourseRegister(course.courseId, myId);
+          alert(res.message || "강의가 성사되었습니다.");
+          setIsRegistered(true);
+        }
       } else if (checkModalType === "cancel" && course && checkModalData?.studentId) {
         // 강의 취소 신청 요청
         const res = await postCourseCancel(course.courseId, checkModalData.studentId);
