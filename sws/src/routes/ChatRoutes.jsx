@@ -5,7 +5,8 @@ import ChatListPage from '../chat/page/ChatLists';
 import ChatRoomPage from '../chat/page/ChatRoom';
 import NewChatRoomPage from '../chat/page/NewChatRoom';
 
-export const ChatRoutes = (
+export const ChatRoutes = () => { 
+  return (  
   <>
     <Route path="/chatlist" element={<Layout />}>
       <Route index element={<ChatListPage />} />
@@ -20,3 +21,4 @@ export const ChatRoutes = (
     </Route>
   </>
 );
+};

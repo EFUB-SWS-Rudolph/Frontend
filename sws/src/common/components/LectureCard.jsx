@@ -37,6 +37,7 @@ const CardInfo = styled.div`
   display: flex;
   flex-direction: column; 
   gap: 0.25rem; 
+   z-index: 2;
 `;
 const CardTitle = styled.span`
   heignt:1.2rem;

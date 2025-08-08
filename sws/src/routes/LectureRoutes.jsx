@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom'; // 
 import Layout from '../common/styles/Layout';
 
 import LectureFormatFilterPage from '../main/page/lecture/LectureFormatFilterPage';
