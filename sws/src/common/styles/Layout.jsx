@@ -26,8 +26,8 @@ export default function Layout({
   contentBackgroundColor,
   showFooter = true,
   customFooterContent = null,
-  rightIcon,
-  onRightIconClick
+  rightIcon, // Route로부터 전달받은 우측 아이콘 컴포넌트
+  onRightIconClick // Route로부터 전달받은 우측 아이콘 클릭 핸들러
 }) {
   const navigate = useNavigate();
   const location = useLocation();

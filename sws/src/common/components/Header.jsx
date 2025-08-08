@@ -5,7 +5,7 @@ import theme from '../../styles/theme';
 import X from '../../common/assets/icons/icon_x.svg?react';
 import BACK_ARROW from '../../common/assets/icons/icon_back.svg?react';
 
-export default function Header({ header, onClick , rightIcon: RightIconComponent, onRightIconClick}) { 
+export default function Header({ header, onClick, rightIcon: RightIconComponent, onRightIconClick }) { 
   const showDefaultTitle = typeof header === 'string' && header.length > 0;
 
   if (header === 'ewhainlist') {

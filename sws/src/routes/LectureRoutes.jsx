@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom'; // 
 import Layout from '../common/styles/Layout';
 
 import LectureFormatFilterPage from '../main/page/lecture/LectureFormatFilterPage';
@@ -23,72 +23,43 @@ import CategorySelectWrapper from '../common/components/CategorySelectWrapper';
 export const LectureRoutes = () => { 
   const navigate = useNavigate();
   const handleAddLectureClick = () => {
-    navigate('/add/lecture'); // /add/lecture는 AddLecturePage가 렌더링되는 경로
+    navigate('/add/lecture'); 
   };
 
   return (
 <>
-   <Route path="/lectures/search/filter/format" element={<Layout headerContent="강의 방식" showFooter={false} />}>
-        <Route index element={<LectureFormatFilterPage />} />
-    </Route>
-    <Route path="/lectures/search/filter/location" element={<Layout headerContent="지역" showFooter={false} />}>
-        <Route index element={<LectureLocationFilterPage />} />
-    </Route>
-    <Route path="/lectures/search/filter/date" element={<Layout headerContent="기간" showFooter={false} />}>
-        <Route index element={<LectureDateFilterPage />} />
-    </Route>
-    <Route path="/lectures/search/filter/sort" element={<Layout headerContent="정렬 기준" showFooter={false} />}>
-        <Route index element={<LectureSortFilterPage />} />
-    </Route>
-    
-    <Route
-      path="/lectures/search/filter"
-      element={<Layout headerContent="필터" showFooter={false} />}
-    >
-      <Route index element={<LectureSearchFilterPage />} />
-    </Route>
-    
-    <Route
-        path="/lectures/recommend/filter"
-        element={<Layout headerContent="필터" showFooter={false} />}
-      >
-    <Route index element={<LectureRecommendFilterPage />} />
+   <Route path="/lectures/search/filter/format" element={<Layout headerContent="강의 방식" showFooter={false}><LectureFormatFilterPage /></Layout>} />
+      <Route path="/lectures/search/filter/location" element={<Layout headerContent="지역" showFooter={false}><LectureLocationFilterPage /></Layout>} />
+      <Route path="/lectures/search/filter/date" element={<Layout headerContent="기간" showFooter={false}><LectureDateFilterPage /></Layout>} />
+      <Route path="/lectures/search/filter/sort" element={<Layout headerContent="정렬 기준" showFooter={false}><LectureSortFilterPage /></Layout>} />
 
-     <Route path="sort" element={<LectureRecommendSortFilterPage />} />
-    </Route>
-    
-    <Route
-      path="/lectures/my/filter"
-      element={<Layout headerContent="필터" showFooter={false} />}
-    >
-      <Route index element={<MyLectureFilterPage />} />
-    <Route path="status" element={<LectureMyStatusFilterPage />} />
-    </Route>
+      <Route path="/lectures/search/filter" element={<Layout headerContent="필터" showFooter={false}><LectureSearchFilterPage /></Layout>} />
 
-    <Route
-      path="/lectures/detail/:lectureId"
-      element={<Layout headerContent={null} showFooter={false} />} 
-    >
-      <Route index element={<LectureDetailPage />} />
-    </Route>
+      <Route path="/lectures/recommend/filter" element={<Layout headerContent="필터" showFooter={false}><LectureRecommendFilterPage /></Layout>} />
+      <Route path="/lectures/recommend/filter/sort" element={<Layout headerContent="정렬" showFooter={false}><LectureRecommendSortFilterPage /></Layout>} />
+
+      <Route path="/lectures/my/filter" element={<Layout headerContent="필터" showFooter={false}><MyLectureFilterPage /></Layout>} />
+      <Route path="/lectures/my/filter/status" element={<Layout headerContent="내 강의 상태" showFooter={false}><LectureMyStatusFilterPage /></Layout>} />
+
+      <Route path="/lectures/detail/:lectureId" element={<Layout headerContent={null} showFooter={false}><LectureDetailPage /></Layout>} />
 
       <Route path="/lectures" element={
-        <Layout 
-          headerContent="강의" 
-          rightIcon={AddButtonIcon} 
-          onRightIconClick={handleAddLectureClick} 
+        <Layout
+          headerContent="강의"
+          rightIcon={AddButtonIcon}
+          onRightIconClick={handleAddLectureClick}
         />
       }>
         <Route index element={<LectureListPage />} />
+
         <Route path="search" element={<LectureListPage />} />
         <Route path="recommend" element={<LectureRecommendPage />} />
         <Route path="my" element={<MyLecturePage />} />
       </Route>
 
-    <Route path="/add/lecture" element={<Layout showFooter={false} />}>
-      <Route index element={<AddLecturePage />} />
-    </Route>
-    <Route path="/category" element={<CategorySelectWrapper />} />
-   </>
+      <Route path="/add/lecture" element={<Layout headerContent="강의 등록" showFooter={false}><AddLecturePage /></Layout>} />
+
+      <Route path="/category" element={<Layout headerContent="카테고리" showFooter={false}><CategorySelectWrapper /></Layout>} />
+    </>
   );
 };

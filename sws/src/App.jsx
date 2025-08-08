@@ -22,20 +22,18 @@ function App() {
     <BrowserRouter>
       <AlarmProvider>
         <FilterProvider>
-          <Layout>
             <Routes>
-              <Route path="/signin" element={<LoginPage />} />
-              <Route path="/login/oauth2/code/:provider" element={<RedirectPage />} />
+              <Route path="/signin" element={<Layout showFooter={false}><LoginPage /></Layout>} />
+              <Route path="/login/oauth2/code/:provider" element={<Layout showFooter={false}><RedirectPage /></Layout>} />
 
               <Route element={<OnboardingRoute />}>
                 {SignUpRoutes()} 
               </Route>
 
               <Route element={<PrivateRoute />}>
-                <Route path="/" element={<Main />} />
-                <Route path="/global-search" element={<GlobalSearchPage />} />
-                <Route path="/alarm" element={<AlarmPage />} />
-
+              <Route path="/" element={<Layout headerContent={null} backgroundColor="#F7F6F3" contentBackgroundColor="#F7F6F3"><Main /></Layout>} />
+              <Route path="/global-search" element={<Layout headerContent="검색" showFooter={false}><GlobalSearchPage /></Layout>} />
+              <Route path="/alarm" element={<Layout headerContent="알림" showFooter={false}><AlarmPage /></Layout>} />
                 {EwhainRoutes()}
                 {MyPageRoutes()}
                 {ChatRoutes()}
@@ -43,9 +41,7 @@ function App() {
               </Route>
               
               {/* --- 404 Not Found Route --- */}
-              <Route path="*" element={<h2>페이지를 찾을 수 없습니다.</h2>} />
-            </Routes>
-          </Layout>        
+              <Route path="*" element={<Layout><h2 style={{textAlign: 'center', padding: '2rem'}}>페이지를 찾을 수 없습니다.</h2></Layout>} />            </Routes>
         </FilterProvider>
       </AlarmProvider>
     </BrowserRouter>
