@@ -69,6 +69,11 @@ const ModalContainer = styled.div`
   border-radius: 1.25rem;
   background: #FFF;
   padding: 1.06rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 `;
 
 const ModalInfo = styled.div`

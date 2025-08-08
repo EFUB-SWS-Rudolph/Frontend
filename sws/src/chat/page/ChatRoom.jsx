@@ -275,7 +275,7 @@ export default function ChatRoom() {
   const handleConfirmAction = async () => {
     try {
       if (checkModalType === "register" && course) {
-        const res = await postCourseRegister(course.courseId);
+        const res = await postCourseRegister(course.courseId, checkModalData.studentId);
         alert(res.message || "강의가 성사되었습니다.");
         setIsRegistered(true);
       } else if (checkModalType === "cancel" && course && checkModalData?.studentId) {

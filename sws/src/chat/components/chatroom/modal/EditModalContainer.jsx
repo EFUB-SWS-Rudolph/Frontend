@@ -1,18 +1,22 @@
 import styled from 'styled-components';
 import ModalChoice from './ModalChoice';
+import ModalCancelBtn from './ModalCancelBtn';
 
 export default function EditModalContainer({ choices, onClose }) {
   return(
     <Wrapper onClick={onClose}>
       <Container onClick={(e) => e.stopPropagation()}>
-        {choices.map(choice => (
-          <ModalChoice
-            key={choice.text}
-            icon={choice.icon}
-            text={choice.text}
-            onClick={choice.onClick}
-          />
-        ))}
+        <Choices>
+          {choices.map(choice => (
+            <ModalChoice
+              key={choice.text}
+              icon={choice.icon}
+              text={choice.text}
+              onClick={choice.onClick}
+            />
+          ))}
+        </Choices>
+        <ModalCancelBtn onClick={onClose} />
       </Container>
     </Wrapper>
   );
@@ -39,7 +43,14 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.25rem;
+  gap: 1rem;
   border-radius: 1.25rem 1.25rem 0 0;
   background: var(--White, #FFF);
+`;
+
+const Choices = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;

@@ -9,6 +9,9 @@ export default function ModalButton({ type, onClick }) {
 }
 
 const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 8.25rem;
   height: 2.75rem;
   flex-shrink: 0;
