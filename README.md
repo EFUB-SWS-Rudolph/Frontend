@@ -2,8 +2,9 @@
   <h1>Weevo</h1>
   <img src="https://github.com/EFUB-SWS-Rudolph/Frontend/blob/b75afe13e17af5302514e2b89d6d6b5feba1386b/sws/src/common/assets/images/weevoImg.png" alt="weevoImage" width="600" />
   <br />
-  <a href="https://weevo.netlify.app" style="color: black; text-decoration: none;">Weevo Link</a>
+  [**Weevo Link**](https://weevo.netlify.app)
 </div>
+<br />
 
 ## ✨ Weevo를 소개할게요! ✨
 
@@ -13,11 +14,15 @@
 
 이화인들이 가진 재능과 역량을 바탕으로 재능 교환, 재능 공유, 과외, 커피챗 등의 유연한 형식으로 연결되며, 지식과 경험이 ‘일방적 전달’보다 ‘함께 엮는 과정’이 되도록 합니다.
 
+<br />
+
 ## 🪄 주요 기능
 - 내가 교환/기부 하고 싶은 강의 개설하기✏️
 - 내가 원하는 강의 신청 및 찜하기❤️
 - 우리 학과 혹은 궁금한 학과 선배와의 커피챗☕
 - 나만의 프로필 및 나의 재능/관심 분야 태그 설정하기🎨
+
+<br />
 
 ## 👩‍💻 기술 스택
 
@@ -51,6 +56,7 @@
   </tr>
 </table>
 
+<br />
 
 ## 📂 디렉토리 구조
 
