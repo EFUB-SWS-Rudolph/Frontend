@@ -118,13 +118,12 @@ const MyLecFrame = styled.div`
 `;
 const MyLectureListContainer = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
 `;
 const LectureGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+display: flex;
+flex-direction: column; 
   gap: 1rem;
+  width: 100%;
 `;
 
 const NoLectureMessage = styled.div`
@@ -135,25 +134,27 @@ const NoLectureMessage = styled.div`
 
 
 const MyLectureItem = ({ lecture }) => {
+  console.log("MyLectureItem 렌더링 시도. lecture 객체:", lecture);
   return (
     <MyLectureItemWrapper> 
-      <LectureName>{lecture.name}</LectureName>
+      <LectureName>{lecture.name || lecture.courseTitle || '강의 제목 없음'}</LectureName> 
     </MyLectureItemWrapper>
   );
 };
 const MyLectureItemWrapper = styled.div`
-  width: 20.5rem;
-  height: 0.75rem;
+  width: 100%;
+  height: auto;
+  min-hight:2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
   flex-shrink: 0;
 `;
-//강의 이름과 진도율 텍스트 스타일
+//강의 이름텍스트 스타일
 const LectureName = styled.span`
   font-weight: 600;
-  font-size:0.75rem;
+  font-size:0.78rem;
   color: #222222; 
   line-height:100%;
   letter-spacing:0px;
@@ -428,8 +429,8 @@ const SNRInterest = styled.span`
 // 구분선
 const Divider = styled.div`
   border-bottom: 1px solid #D9D9D9;
-  margin: 0 1rem;
-  width: 20.5rem;
+  
+  width: 100%;
   height: 0.0625rem;
 `;
 // EwhainFrame 관련
@@ -897,8 +898,11 @@ useEffect(() => {
             <MyLectureListContainer>
               {userProfile.ongoingLectures.length > 0 ? (
         <LectureGrid>
-          {userProfile.ongoingLectures.map(lecture => (
-            <MyLectureItem key={lecture.courseId} lecture={lecture} /> 
+          {userProfile.ongoingLectures.map((lecture, index) => (
+            <React.Fragment key={lecture.courseId}>
+              <MyLectureItem lecture={lecture} /> 
+              {index < userProfile.ongoingLectures.length - 1 && <Divider />} 
+            </React.Fragment>
           ))}
         </LectureGrid>
       ) : (

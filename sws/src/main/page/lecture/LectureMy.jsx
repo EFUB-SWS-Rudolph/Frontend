@@ -296,11 +296,13 @@ useEffect(() => {
 
       try {
         const response = await getMyCourses(params);
+        console.log("API 응답 (getMyCourses):", response);
         if (response.isSuccess) {
           const combinedMyCourses = [
             ...(response.payload?.teachingCourses || []),
             ...(response.payload?.enrolledCourses || [])
           ];
+          console.log("처리된 내 강의 데이터 (MyLecturePage or Main):", combinedMyCourses);
           setOriginalLectures(combinedMyCourses); // 원본 저장
         } else {
           setError(new Error(response.message || "내 강의 목록을 불러오지 못했습니다."));
@@ -423,22 +425,32 @@ useEffect(() => {
           <NoResultsMessage>현재 표시할 내 강의가 없습니다.</NoResultsMessage>
         ) : (
           <LectureListDisplayArea>
-            <LectureCardsGrid $displayMode={displayMode}>
-              {lectures.map(lecture => (
-                displayMode === 'grid' ? (
-                  <LectureCard
-                    key={lecture.courseId || lecture.id}
-                    lecture={lecture}
-                  />
-                ) : (
-                  <LectureListItem
-                    key={lecture.courseId || lecture.id}
-                    lecture={lecture}
-                  />
-                )
-              ))}
-            </LectureCardsGrid>
-        </LectureListDisplayArea>
+<LectureCardsGrid $displayMode={displayMode}>
+            {lectures.map(lecture => { 
+              const transformedLecture = {
+                courseId: lecture.courseId,
+                title: lecture.courseTitle, 
+                instructor: lecture.teacherNickname, 
+                period: {
+                  start: lecture.courseStartDate,
+                  end: lecture.courseEndDate,
+                },
+                thumbnailUrl: lecture.thumbnailUrl, 
+              };
+              console.log("MyLecturePage.jsx: LectureCard에 넘겨줄 transformedLecture:", transformedLecture);
+              return displayMode === 'grid' ? (
+                <LectureCard
+                  key={transformedLecture.courseId} 
+                  lecture={transformedLecture}    
+                />
+              ) : (
+                <LectureListItem
+                  key={transformedLecture.courseId}
+                  lecture={transformedLecture}
+                />
+              );
+            })}
+          </LectureCardsGrid>        </LectureListDisplayArea>
       )}
     </MyLecturePageContainer>
   );
