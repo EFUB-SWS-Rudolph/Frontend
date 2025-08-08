@@ -92,7 +92,7 @@ export const postCourseRegister = async (courseId) => {
 
 export const deleteCourseCancel = async (courseId, studentId) => {
   try {
-    const res = await client.post(`/course/cancel/${courseId}/${studentId}`);
+    const res = await client.delete(`/course/cancel/${courseId}/${studentId}`);
     return res.data;
   } catch (err) {
     throw err;
