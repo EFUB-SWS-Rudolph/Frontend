@@ -12,7 +12,7 @@ export default function ModalChoice({ icon: Icon, text, onClick }) {
 const Container = styled.div`
   display: flex;
   width: 24.375rem;
-  padding: 0.96875rem 16.75rem 0.96875rem 1.8125rem;
+  padding: 0.96875rem 14rem 0.96875rem 1.8125rem;
   align-items: flex-start;
   gap: 0.5rem;
 `;
