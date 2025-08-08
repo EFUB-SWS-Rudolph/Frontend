@@ -11,27 +11,42 @@ import EXIT from '../../../assets/out_button.svg?react';
 export function getEditModalChoices({ isRegistered, isOwner, isMine, callbacks }) {
   const choices = [];
 
-  if (!isRegistered) {
-    if (!isOwner && !isMine) {
-      choices.push({
-        icon: LECTURE,
-        text: "강의 성사",
-        onClick: callbacks.onClickRegisterLecture,
-      });
-      choices.push({
-        icon: EXIT,
-        text: "채팅방 나가기",
-        onClick: callbacks.onClickExit,
-      });
-    } else if (isOwner) {
-      choices.push({
-        icon: EXIT,
-        text: "채팅방 나가기",
-        onClick: callbacks.onClickExit,
-      });
-    }
+  if (isOwner) {
+    // 개설자: 강의 취소 + 채팅방 나가기만 노출
+    choices.push({
+      icon: LECTURE,
+      text: "강의 취소",
+      onClick: callbacks.onClickCancelLecture,
+    });
+    choices.push({
+      icon: EXIT,
+      text: "채팅방 나가기",
+      onClick: callbacks.onClickExit,
+    });
   } else {
-    if (!isOwner) {
+    // 개설자 아니면 기존 조건 적용
+    if (!isRegistered) {
+      if (!isMine) {
+        choices.push({
+          icon: LECTURE,
+          text: "강의 성사",
+          onClick: callbacks.onClickRegisterLecture,
+        });
+        choices.push({
+          icon: EXIT,
+          text: "채팅방 나가기",
+          onClick: callbacks.onClickExit,
+        });
+      } else {
+        // 내 강의인 경우(개설자 아님)
+        choices.push({
+          icon: EXIT,
+          text: "채팅방 나가기",
+          onClick: callbacks.onClickExit,
+        });
+      }
+    } else {
+      // 강의 성사 상태이고 개설자가 아닐 때
       choices.push({
         icon: LECTURE,
         text: "강의 취소",
@@ -42,14 +57,8 @@ export function getEditModalChoices({ isRegistered, isOwner, isMine, callbacks }
         text: "채팅방 나가기",
         onClick: callbacks.onClickExit,
       });
-    } else {
-      choices.push({
-        icon: EXIT,
-        text: "채팅방 나가기",
-        onClick: callbacks.onClickExit,
-      });
     }
   }
 
   return choices;
-};
+}
