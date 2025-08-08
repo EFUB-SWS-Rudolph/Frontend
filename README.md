@@ -1,6 +1,6 @@
 <div>
   <h1>Weevo</h1>
-  <img src="[https://raw.githubusercontent.com/EFUB-SWS-Rudolph/Frontend/develop/sws/src/common/assets/images/weevolm.png](https://github.com/EFUB-SWS-Rudolph/Frontend/blob/b75afe13e17af5302514e2b89d6d6b5feba1386b/sws/src/common/assets/images/weevoImg.png)" alt="weevoImage" width="600" />
+  <img src="https://github.com/EFUB-SWS-Rudolph/Frontend/blob/b75afe13e17af5302514e2b89d6d6b5feba1386b/sws/src/common/assets/images/weevoImg.png" alt="weevoImage" width="600" />
   <br />
   <a href="https://weevo.netlify.app" style="color: black; text-decoration: none;">Weevo Link</a>
 </div>
