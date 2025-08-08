@@ -4,9 +4,15 @@ import MORE_BUTTON from '../../assets/more_button.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useChatStore } from '../../stores/useChatStore';
 
-export default function ChatRoomHeader({ modalHandler, newUser = null }) {
+import { getEditModalChoices } from './modal/getEditModalChoices';
+import EditModalContainer from './modal/EditModalContainer';
+import SelectionCheckModal from './modal/SelectionCheckModal';
+import { useState } from 'react';
+
+export default function ChatRoomHeader({ modalHandler, newUser = null, showEditModal, choicesProps }) {
   const navigate = useNavigate();
   const { name } = useChatStore();
+
   return (
     <HeaderWrapper>
       <ButtonWrapper onClick={() => navigate('/chatlist')}>
@@ -14,7 +20,7 @@ export default function ChatRoomHeader({ modalHandler, newUser = null }) {
       </ButtonWrapper>
       <HeaderContainer>{newUser ? newUser : name}</HeaderContainer>
       <ButtonWrapper>
-        <MORE_BUTTON onClick={() => modalHandler((prev) => !prev)} />
+        <MORE_BUTTON onClick={() => modalHandler(true)} />
       </ButtonWrapper>
     </HeaderWrapper>
   );

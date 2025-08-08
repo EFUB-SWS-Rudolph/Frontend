@@ -6,12 +6,16 @@ import ChatInput from '../components/chatroom/InputContainer';
 import { ChatModal } from '../components/chatroom/ChatModal';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { deleteChatroom, getMessageList, patchMessageRead } from '../../api/chat';
+import { postCourseRegister, postCourseCancel, getMyCourses } from '../../api/course';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useChatStore } from '../stores/useChatStore';
 import { formatDate } from '../../utils/formatTime';
 
 import { Client } from '@stomp/stompjs';
 import { getUserIdFromToken } from '../../utils/getUserIdFromToken';
+import EditModalContainer from '../components/chatroom/modal/EditModalContainer';
+import { getEditModalChoices } from '../components/chatroom/modal/getEditModalChoices';
+import SelectionCheckModal from '../components/chatroom/modal/SelectionCheckModal';
 
 export default function ChatRoom() {
   const { setUser, clearUser, userId } = useChatStore();
@@ -31,6 +35,17 @@ export default function ChatRoom() {
   const topRef = useRef(); //스크롤 맨 위
   const bottomRef = useRef(); //스크롤 맨 아래
   const isFetchingRef = useRef(false); //불러오기 중인지 여부
+
+  // Role & 강의 성사 상태
+  const [userRole, setUserRole] = useState(null); // "owner" or "student"
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [isMine, setIsMine] = useState(false);
+
+  // 모달 상태 (Header로 전달)
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showCheckModal, setShowCheckModal] = useState(false);
+  const [checkModalType, setCheckModalType] = useState(""); // "register" | "cancel" | "agreeCancel" | "exit"
+  const [checkModalData, setCheckModalData] = useState(null); // 모달에서 참조용 데이터
 
   const handleMessageList = useCallback(
     //메시지 불러오는 함수
@@ -54,6 +69,8 @@ export default function ChatRoom() {
           setMessageList((prev) => [...res.messages, ...prev]);
           setPageNum(page);
         }
+        console.log("이전대화:", res.messages);  // 대화내역 확인
+        updateUserRoleAndRegistration(res.course.courseId);
       } catch (err) {
         if (err.status == 400) {
           alert(err.response.data.message);
@@ -210,9 +227,114 @@ export default function ChatRoom() {
     return scrollRef.current?.scrollHeight || 0;
   };
 
+  // 2) 내 강의 목록 조회 후 강의 성사 여부, 내 강의 포함 여부 및 역할("owner"/"student") 판별
+  const updateUserRoleAndRegistration = async (courseId) => {
+    // 강의 성사 여부 => 수강생의 enrolled에 있는지 course.courseId랑 비교
+    // owner/studnet 여부 => 메세지 목록의 courseId가 getMyCourses의 teachingCourses/enrolledCourses에 있는지
+    try {
+      // owner/student 여부
+      const myCoursesData = await getMyCourses();
+      const teachingCourses = myCoursesData.payload.teachingCourses || [];  // 개설자인지 학생인지 판별
+      const teachingCourseIds = teachingCourses.map(c => c.courseId);  // 내가 개설한 강의 목록
+      const owner = teachingCourseIds.includes(courseId);
+      setUserRole(owner ? "owner" : "student");
+      
+      const enrolledCourses = myCoursesData.payload.enrolledCourses || [];  // 강의 성사가 됐는지
+      // 강의 성사 여부 -> owner면 상관 없음 / 수강생이면 구분
+      const enrolledCourseIds = enrolledCourses.map(c => c.courseId);
+      
+
+      const registered = !owner && enrolledCourseIds.includes(courseId);
+      setIsRegistered(registered);
+      setIsMine(owner || registered);
+
+    } catch (err) {
+      console.error('내 강의 정보 조회 실패', err);
+    }
+  };
+
+  useEffect(() => {
+    handleMessageList(0);
+  }, [handleMessageList]);
+
+  //////////////////////////////////////////////////////////////////
+
+  // 점 세개 모달 열기/닫기
+  const handleEditModalOpen = () => setShowEditModal(true);  // 점 세개 모달 열기
+  const handleEditModalClose = () => setShowEditModal(false);  // 모달 닫기
+
+  // 확인 모달 열기/닫기
+  const handleCheckModalOpen = (type, data = null) => {
+    setCheckModalType(type);
+    setCheckModalData(data);
+    setShowCheckModal(true);
+  };
+  const handleCheckModalClose = () => setShowCheckModal(false);
+
+  // 각 모달내 확인 버튼 클릭 시 API/상태 처리 핸들러
+  const handleConfirmAction = async () => {
+    try {
+      if (checkModalType === "register" && course) {
+        const res = await postCourseRegister(course.courseId);
+        alert(res.message || "강의가 성사되었습니다.");
+        setIsRegistered(true);
+      } else if (checkModalType === "cancel" && course && checkModalData?.studentId) {
+        // 강의 취소 신청 요청
+        const res = await postCourseCancel(course.courseId, checkModalData.studentId);
+        alert(res.message || "성사 취소 신청 완료되었습니다.");
+        // 필요시 상태 업데이트
+      } else if (checkModalType === "agreeCancel") {
+        // 개설자가 취소 신청 확인 API 호출 (동일 api인지, 별도 api인지 서버 확인 필요)
+        // 여기서는 강의취소 api 호출로 대체
+        if (course && checkModalData?.studentId) {
+          const res = await postCourseCancel(course.courseId, checkModalData.studentId);
+          alert(res.message || "성사 취소 완료되었습니다.");
+          setIsRegistered(false);
+          setIsMine(false);
+        }
+      } else if (checkModalType === "exit") {
+        onClickLeftButton();
+        // 채팅방 나가기 처리 (api 또는 router 이동)
+        alert("채팅방을 나갑니다.");
+        // 예: navigate('/chatlist');
+      }
+    } catch (err) {
+      alert("요청 처리 중 오류가 발생했습니다");
+      console.error(err);
+    } finally {
+      handleCheckModalClose();
+    }
+  };
+//////////////////////////////////////////////////////////////////////
+  // 콜백 객체 (Header 에 전달)
+  const modalCallbacks = {
+    onClickRegisterLecture: () => {
+      handleEditModalClose();
+      handleCheckModalOpen("register");
+    },
+    onClickCancelLecture: () => {
+      handleEditModalClose();
+      // 취소 요청 할 학생 정보 필요 (로그인 유저 id 가 수강자 id라 가정)
+      if (userRole === "student") {
+        const myId = getUserIdFromToken();
+        handleCheckModalOpen("cancel", { studentId: myId });
+      } else {
+        handleCheckModalOpen("cancel", { studentId: userId });
+      }
+    },
+    onClickExit: () => {
+      handleEditModalClose();
+      handleCheckModalOpen("exit");
+    }
+  };
+
   return (
     <Wrapper>
-      <ChatRoomHeader modalHandler={setIsModalOpen} />
+      <ChatRoomHeader 
+        modalHandler={setShowEditModal} 
+        showEditModal={showEditModal} 
+        choicesProps={{ course, userRole, isRegistered, isMine, callbacks: modalCallbacks }}
+      />
       {course && (
         <AboutRoom
           thumbnail={course.courseImageUrl}
@@ -228,7 +350,24 @@ export default function ChatRoom() {
         scrollRef={scrollRef}
       />
       <ChatInput message={message} setMessage={setMessage} onClickButton={sendMessage} />
-      {isModalOpen && <ChatModal modalHandler={setIsModalOpen} onClick={onClickLeftButton} />}
+      {showEditModal && (
+        <EditModalContainer
+          choices={getEditModalChoices({
+            isRegistered,
+            isOwner: userRole === "owner",
+            isMine,
+            callbacks: modalCallbacks
+          })}
+          onClose={handleEditModalClose}
+        />
+      )}
+      {showCheckModal && (
+        <SelectionCheckModal
+          type={checkModalType}
+          onClose={handleCheckModalClose}
+          onConfirm={handleConfirmAction}
+        />
+      )}
     </Wrapper>
   );
 }

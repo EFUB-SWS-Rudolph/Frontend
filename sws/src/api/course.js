@@ -80,3 +80,21 @@ export const removeBookmark = async (courseId) => {
     throw error;
   }
 };
+
+export const postCourseRegister = async (courseId) => {
+  try {
+    const res = await client.post(`/course/confirm/${courseId}`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const postCourseCancel = async (courseId, studentId) => {
+  try {
+    const res = await client.post(`/course/cancel/${courseId}/${studentId}`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
