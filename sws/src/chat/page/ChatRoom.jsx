@@ -6,7 +6,7 @@ import ChatInput from '../components/chatroom/InputContainer';
 import { ChatModal } from '../components/chatroom/ChatModal';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { deleteChatroom, getMessageList, patchMessageRead } from '../../api/chat';
-import { postCourseRegister, postCourseCancel, getMyCourses } from '../../api/course';
+import { postCourseRegister, deleteCourseCancel, getMyCourses } from '../../api/course';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useChatStore } from '../stores/useChatStore';
 import { formatDate } from '../../utils/formatTime';
@@ -281,14 +281,14 @@ export default function ChatRoom() {
         setIsRegistered(true);
       } else if (checkModalType === "cancel" && course && checkModalData?.studentId) {
         // 강의 취소 신청 요청
-        const res = await postCourseCancel(course.courseId, checkModalData.studentId);
+        const res = await deleteCourseCancel(course.courseId, checkModalData.studentId);
         alert(res.message || "성사 취소 신청 완료되었습니다.");
         // 필요시 상태 업데이트
       } else if (checkModalType === "agreeCancel") {
         // 개설자가 취소 신청 확인 API 호출 (동일 api인지, 별도 api인지 서버 확인 필요)
         // 여기서는 강의취소 api 호출로 대체
         if (course && checkModalData?.studentId) {
-          const res = await postCourseCancel(course.courseId, checkModalData.studentId);
+          const res = await deleteCourseCancel(course.courseId, checkModalData.studentId);
           alert(res.message || "성사 취소 완료되었습니다.");
           setIsRegistered(false);
           setIsMine(false);

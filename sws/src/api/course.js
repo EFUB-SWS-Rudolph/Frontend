@@ -90,7 +90,7 @@ export const postCourseRegister = async (courseId) => {
   }
 };
 
-export const postCourseCancel = async (courseId, studentId) => {
+export const deleteCourseCancel = async (courseId, studentId) => {
   try {
     const res = await client.post(`/course/cancel/${courseId}/${studentId}`);
     return res.data;
