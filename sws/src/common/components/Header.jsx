@@ -5,7 +5,11 @@ import theme from '../../styles/theme';
 import X from '../../common/assets/icons/icon_x.svg?react';
 import BACK_ARROW from '../../common/assets/icons/icon_back.svg?react';
 
+<<<<<<< HEAD
 export default function Header({ header, onClick, rightIcon, onRightIconClick }) {
+=======
+export default function Header({ header, onClick, rightIcon: RightIconComponent, onRightIconClick }) { 
+>>>>>>> 4e29aab (fix:LectureRoutes.jsx수정)
   const showDefaultTitle = typeof header === 'string' && header.length > 0;
 
   if (header === 'ewhainlist') {
