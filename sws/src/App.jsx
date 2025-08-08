@@ -3,7 +3,7 @@ import Layout from './common/styles/Layout';
 import GlobalSearchHeaderContent from './main/components/GlobalSearchHeaderContent';
 import { FilterProvider } from './common/contexts/FilterContext';
 import { AlarmProvider } from './common/contexts/AlarmContext';
-import { MainHeaderContent } from './main/components/MainHeaderContent';
+import MainHeaderContent from './main/components/MainHeaderContent';
 
 import Main from './main/page/Main';
 import GlobalSearchPage from './main/page/GlobalSearchPage';
@@ -29,12 +29,11 @@ function App() {
                 path="/"
                 element={
                   <Layout
+                    headerContent={<MainHeaderContent />}
                     backgroundColor="#F7F6F3"
                     headerBackgroundColor="#F7F6F3"
                     contentBackgroundColor="#F7F6F3"
-                  >
-                    <MainHeaderContent />
-                  </Layout>
+                  ></Layout>
                 }
               >
                 <Route index element={<Main />} />

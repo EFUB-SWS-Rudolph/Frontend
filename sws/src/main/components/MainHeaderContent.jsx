@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import { useAlarm } from '../../common/contexts/AlarmContext';
 
 // 헤더 컴포넌트
-export const MainHeaderContent = () => {
+const MainHeaderContent = () => {
   const navigate = useNavigate();
   const alarmContextValue = useAlarm();
-  console.log("MainHeaderContent의 useAlarm() 훅 반환값:", alarmContextValue);
+  console.log('MainHeaderContent의 useAlarm() 훅 반환값:', alarmContextValue);
   const { unreadAlarmCount } = useAlarm();
 
   return (
-   <MainHeaderContainer>
+    <MainHeaderContainer>
       <WeevoLogo>
         <img src={WeevoLogoURL} alt="Weevo Logo" style={{ width: '103.86px', height: '21.73px' }} />
       </WeevoLogo>
@@ -33,22 +33,26 @@ export const MainHeaderContent = () => {
     </MainHeaderContainer>
   );
 };
+
+export default MainHeaderContent;
+
 const MainHeaderContainer = styled.div`
   width: 100%;
-  height: 3.44rem; 
+  height: 3.44rem;
   display: flex;
   justify-content: space-between;
-  box-sizing: border-box; 
-  position: relative; 
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
   flex-shrink: 0;
-  padding: 0 1.5rem; 
+  padding: 0 1.5rem;
 `;
 
 const WeevoLogo = styled.div`
   width: 6.49156rem;
   height: 1.358rem;
-  margin-top: 1.06rem; 
-  
+  margin-top: 1.06rem;
+
   flex-shrink: 0;
 `;
 const HeaderRightIcons = styled.div`
@@ -61,7 +65,7 @@ const SearchIcon = styled.div`
   width: 1.25rem;
   height: 1.25rem;
   cursor: pointer;
-  margin-left: 10rem; 
+  margin-left: 10rem;
   flex-shrink: 0;
 `;
 const AlarmIcon = styled.div`
@@ -69,7 +73,7 @@ const AlarmIcon = styled.div`
   display: flex;
   width: 1.25rem;
   height: 1.25rem;
-  
+
   flex-shrink: 0;
-  aspect-ratio: 1/1;  
-  `;
+  aspect-ratio: 1/1;
+`;

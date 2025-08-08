@@ -1,11 +1,11 @@
 // src/common/components/Header.jsx
 
 import styled from 'styled-components';
-import theme from '../../styles/theme'; 
+import theme from '../../styles/theme';
 import X from '../../common/assets/icons/icon_x.svg?react';
 import BACK_ARROW from '../../common/assets/icons/icon_back.svg?react';
 
-export default function Header({ header, onClick , rightIcon: RightIconComponent, onRightIconClick}) { 
+export default function Header({ header, onClick, rightIcon, onRightIconClick }) {
   const showDefaultTitle = typeof header === 'string' && header.length > 0;
 
   if (header === 'ewhainlist') {
@@ -30,53 +30,53 @@ export default function Header({ header, onClick , rightIcon: RightIconComponent
         />
       </HeaderWrapper>
     );
-  
-  } else if (header === "교류 방식") {
+  } else if (header === '교류 방식') {
     return (
       <HeaderWrapper>
         <BACK_ARROW
           style={{
             color: theme.colors.black,
-            position: "absolute",
-            top: "50%",
-            left: "2.3rem",
-            transform: "translateY(-50%)"
+            position: 'absolute',
+            top: '50%',
+            left: '2.3rem',
+            transform: 'translateY(-50%)',
           }}
           onClick={onClick}
         />
         <HeaderContainer>{header}</HeaderContainer>
       </HeaderWrapper>
     );
-  } else if (showDefaultTitle)  {
-     if (header === "강의") {
+  } else if (showDefaultTitle) {
+    if (header === '강의') {
       return (
         <HeaderWrapper>
-          <HeaderContainer>{header}</HeaderContainer>
-          {RightIconComponent && (
-            <RightIconWrapper onClick={onRightIconClick}>
-              <RightIconComponent /> 
+          <HeaderContainer>
+            {typeof header === 'string' ? <Title>{header}</Title> : header || null}
+          </HeaderContainer>
+          {rightIcon && (
+            <RightIconWrapper type="button" onClick={onRightIconClick}>
+              {typeof rightIcon === 'string' ? <img src={rightIcon} alt="action" /> : rightIcon}
             </RightIconWrapper>
           )}
         </HeaderWrapper>
       );
     }
     return (
-      
       <HeaderWrapper>
         <BACK_ARROW
           style={{
             color: theme.colors.black,
-            position: "absolute",
-            top: "50%",
-            left: "1.7rem",
-            transform: "translateY(-50%)"
+            position: 'absolute',
+            top: '50%',
+            left: '1.7rem',
+            transform: 'translateY(-50%)',
           }}
           onClick={onClick}
         />
         <HeaderContainer>{header}</HeaderContainer>
       </HeaderWrapper>
     );
-  } else { 
+  } else {
     return null;
   }
 }
@@ -91,7 +91,8 @@ const RightIconWrapper = styled.div`
   justify-content: center;
   width: 2.5rem; /* 클릭 영역 확보 */
   height: 2.5rem; /* 클릭 영역 확보 */
-  & > svg { /* SVG 아이콘 자체의 크기 조절 */
+  & > svg {
+    /* SVG 아이콘 자체의 크기 조절 */
     width: 1.5rem;
     height: 1.5rem;
   }
@@ -102,7 +103,7 @@ const HeaderWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 1.12rem 0px 1.06rem ;
+  margin: 1.12rem 0px 1.06rem;
 `;
 
 const HeaderContainer = styled.div`

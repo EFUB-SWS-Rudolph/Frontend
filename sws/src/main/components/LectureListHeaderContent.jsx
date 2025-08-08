@@ -38,13 +38,21 @@ export const LectureListHeaderContent = () => {
   );
 };
 
+// [강의네비게이션바] (MainLectureTabsContainer)
+const MainLectureTabsContainer = styled.div`
+  display: flex;
+  width: 22.313rem;
+  height: 3.125rem;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  position: absolute;
+`;
 // 강의 목록 페이지 헤더 관련 요소들
 const LectureTitle = styled.h2`
-  font-family: 'Pretendard Variable', sans-serif;
   font-weight: 600;
   font-size: 1.25rem;
-  line-height: 100%;
-  letter-spacing: 0rem;
   color: #222222;
   margin: 0;
   position: absolute;
@@ -63,20 +71,7 @@ const AddButton = styled.div`
   top: 0.94rem;
   left: 21.85rem;
 `;
-// [강의네비게이션바] (MainLectureTabsContainer)
-const MainLectureTabsContainer = styled.div`
-  width: 22.313rem;
-  height: 3.125rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  gap: 0.063rem;
-  background-color: #ffffff;
-  position: absolute;
-  top: 3.5rem;
-  left: 1rem;
-`;
+
 const MainLectureTab = styled(Link)`
   flex: 1;
   padding: 0.625rem 0;
@@ -99,7 +94,6 @@ const LecturePageHeaderContainer = styled.div`
   width: 100%;
   height: 6.62rem;
   background: #ffffff;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -108,11 +102,7 @@ const LecturePageHeaderContainer = styled.div`
 `;
 // 강의 페이지 헤더의 타이틀 및 추가 버튼 섹션
 const LecturePageTitleArea = styled.div`
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem;
-  height: 6.375rem;
-  box-sizing: border-box;
 `;

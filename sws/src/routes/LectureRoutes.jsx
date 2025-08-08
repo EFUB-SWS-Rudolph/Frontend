@@ -16,79 +16,81 @@ import MyLecturePage from '../main/page/lecture/LectureMy';
 import AddLecturePage from '../main/page/lecture/AddLecturePage';
 import LectureRecommendSortFilterPage from '../main/page/lecture/LectureRecommendSortFilterPage';
 import LectureMyStatusFilterPage from '../main/page/lecture/LectureMyStatusFilterPage';
+import { LectureListHeaderContent } from '../main/components/LectureListHeaderContent';
 
 import AddButtonIcon from '../common/assets/icons/btn_add.svg';
 import CategorySelectWrapper from '../common/components/CategorySelectWrapper';
 
-export const LectureRoutes = () => { 
-  const navigate = useNavigate();
-  const handleAddLectureClick = () => {
-    navigate('/add/lecture'); // /add/lecture는 AddLecturePage가 렌더링되는 경로
-  };
+export const LectureRoutes = (
+  // const navigate = useNavigate();
+  // const handleAddLectureClick = () => {
+  //   navigate('/add/lecture'); // /add/lecture는 AddLecturePage가 렌더링되는 경로
+  // };
 
-  return (
-<>
-   <Route path="/lectures/search/filter/format" element={<Layout headerContent="강의 방식" showFooter={false} />}>
-        <Route index element={<LectureFormatFilterPage />} />
+  <>
+    <Route
+      path="/lectures/search/filter/format"
+      element={<Layout headerContent="강의 방식" showFooter={false} />}
+    >
+      <Route index element={<LectureFormatFilterPage />} />
     </Route>
-    <Route path="/lectures/search/filter/location" element={<Layout headerContent="지역" showFooter={false} />}>
-        <Route index element={<LectureLocationFilterPage />} />
+    <Route
+      path="/lectures/search/filter/location"
+      element={<Layout headerContent="지역" showFooter={false} />}
+    >
+      <Route index element={<LectureLocationFilterPage />} />
     </Route>
-    <Route path="/lectures/search/filter/date" element={<Layout headerContent="기간" showFooter={false} />}>
-        <Route index element={<LectureDateFilterPage />} />
+    <Route
+      path="/lectures/search/filter/date"
+      element={<Layout headerContent="기간" showFooter={false} />}
+    >
+      <Route index element={<LectureDateFilterPage />} />
     </Route>
-    <Route path="/lectures/search/filter/sort" element={<Layout headerContent="정렬 기준" showFooter={false} />}>
-        <Route index element={<LectureSortFilterPage />} />
+    <Route
+      path="/lectures/search/filter/sort"
+      element={<Layout headerContent="정렬 기준" showFooter={false} />}
+    >
+      <Route index element={<LectureSortFilterPage />} />
     </Route>
-    
+
     <Route
       path="/lectures/search/filter"
       element={<Layout headerContent="필터" showFooter={false} />}
     >
       <Route index element={<LectureSearchFilterPage />} />
     </Route>
-    
-    <Route
-        path="/lectures/recommend/filter"
-        element={<Layout headerContent="필터" showFooter={false} />}
-      >
-    <Route index element={<LectureRecommendFilterPage />} />
 
-     <Route path="sort" element={<LectureRecommendSortFilterPage />} />
-    </Route>
-    
     <Route
-      path="/lectures/my/filter"
+      path="/lectures/recommend/filter"
       element={<Layout headerContent="필터" showFooter={false} />}
     >
+      <Route index element={<LectureRecommendFilterPage />} />
+
+      <Route path="sort" element={<LectureRecommendSortFilterPage />} />
+    </Route>
+
+    <Route path="/lectures/my/filter" element={<Layout headerContent="필터" showFooter={false} />}>
       <Route index element={<MyLectureFilterPage />} />
-    <Route path="status" element={<LectureMyStatusFilterPage />} />
+      <Route path="status" element={<LectureMyStatusFilterPage />} />
     </Route>
 
     <Route
       path="/lectures/detail/:lectureId"
-      element={<Layout headerContent={null} showFooter={false} />} 
+      element={<Layout headerContent={null} showFooter={false} />}
     >
       <Route index element={<LectureDetailPage />} />
     </Route>
 
-      <Route path="/lectures" element={
-        <Layout 
-          headerContent="강의" 
-          rightIcon={AddButtonIcon} 
-          onRightIconClick={handleAddLectureClick} 
-        />
-      }>
-        <Route index element={<LectureListPage />} />
-        <Route path="search" element={<LectureListPage />} />
-        <Route path="recommend" element={<LectureRecommendPage />} />
-        <Route path="my" element={<MyLecturePage />} />
-      </Route>
+    <Route path="/lectures/*" element={<Layout headerContent={<LectureListHeaderContent />} />}>
+      <Route index element={<LectureListPage />} />
+      <Route path="search" element={<LectureListPage />} />
+      <Route path="recommend" element={<LectureRecommendPage />} />
+      <Route path="my" element={<MyLecturePage />} />
+    </Route>
 
     <Route path="/add/lecture" element={<Layout showFooter={false} />}>
       <Route index element={<AddLecturePage />} />
     </Route>
     <Route path="/category" element={<CategorySelectWrapper />} />
-   </>
-  );
-};
+  </>
+);

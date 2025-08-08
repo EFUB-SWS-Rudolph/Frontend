@@ -2,67 +2,49 @@
 import React, { useState, createContext, useContext } from 'react';
 import styled from 'styled-components';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import Header from '../components/Header';
 
-import LectureTabBar from '../components/LectureTabBar';
-import { MainHeaderContent } from '../../main/components/MainHeaderContent';
+const LectureTabContext = createContext();
 
 import IconHomeActiveURL from '../assets/icons/icon_home.svg';
 import IconHomeInactiveURL from '../assets/icons/icon_home-inactive.svg';
 import IconLectureActiveURL from '../assets/icons/icon_lecture.svg';
 import IconLectureInactiveURL from '../assets/icons/icon_lecture-inactive.svg';
-import IconEwhalistActiveURL from '../assets/icons/icon_ewhalist-active.svg';
-import IconEwhalistInactiveURL from '../assets/icons/icon_ewhalist-inactive.svg'; 
+import IconEwhalistInactiveURL from '../assets/icons/icon_ewhalist-inactive.svg';
 import IconchatInactiveURL from '../assets/icons/icon_chat-inactive.svg';
-import IconMypageActiveURL from '../assets/icons/icon_mypage-active.svg';
 import IconMypageInactiveURL from '../assets/icons/icon_mypage-inactive.svg';
-
-export const LectureTabContext = createContext(); 
 
 // Layout 컴포넌트 정의
 export default function Layout({
   headerContent,
   backgroundColor,
+  headerBackgroundColor,
   contentBackgroundColor,
   showFooter = true,
   customFooterContent = null,
-  rightIcon,
-  onRightIconClick
 }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [mainActiveTab, setMainActiveTab] = useState('강의 조회');
   const isHomePage = location.pathname === '/';
-  const shouldShowLectureTabBar =
-    location.pathname === '/lectures' ||
-    location.pathname === '/lectures/recommend' ||
-    location.pathname === '/lectures/my';
-
   const isLecturePage = location.pathname.startsWith('/lectures');
-  const isEwhaListPage = location.pathname.startsWith('/ewhainlist');
+  //이화인 목록, 채팅, 마이페이지 활성화 여부 변수
+  const isEwhaListPage = location.pathname.startsWith('/ewhalist');
   const isChatPage = location.pathname.startsWith('/chat');
   const isMypage = location.pathname.startsWith('/mypage');
-  const LectureTabProvider = ({ children: providerChildren }) => (
+  const LectureTabProvider = ({ children }) => (
     <LectureTabContext.Provider value={{ mainActiveTab, setMainActiveTab }}>
-      {providerChildren}
+      {children}
     </LectureTabContext.Provider>
   );
   const handleNavigateToLectures = () => {
     navigate('/lectures');
     setMainActiveTab('강의 조회');
   };
-
   return (
     <AppContainer $backgroundColor={backgroundColor}>
-       <Header
-        header={headerContent}
-        rightIcon={rightIcon}
-        onRightIconClick={onRightIconClick}
-      />
-
+      <Header $headerBackgroundColor={headerBackgroundColor}>{headerContent}</Header>
       <ContentArea $contentBackgroundColor={contentBackgroundColor}>
-        <LectureTabProvider value={{ mainActiveTab, setMainActiveTab }}>
-          {shouldShowLectureTabBar && <LectureTabBar />}
+        <LectureTabProvider>
           <Outlet />
         </LectureTabProvider>
       </ContentArea>
@@ -96,7 +78,7 @@ export default function Layout({
                 <NavItem onClick={() => navigate('/ewhainlist')}>
                   <EwhaListIcon>
                     <img
-                      src={isEwhaListPage ? IconEwhalistActiveURL : IconEwhalistInactiveURL}
+                      src={isEwhaListPage ? IconEwhalistInactiveURL : IconEwhalistInactiveURL}
                       alt="이화인 목록"
                       style={{ width: '100%', height: '100%' }}
                     />
@@ -118,7 +100,7 @@ export default function Layout({
                 <NavItem onClick={() => navigate('/mypage')}>
                   <MypageIcon>
                     <img
-                      src={isMypage ? IconMypageActiveURL : IconMypageInactiveURL}
+                      src={isMypage ? IconMypageInactiveURL : IconMypageInactiveURL}
                       alt="마이페이지"
                       style={{ width: '100%', height: '100%' }}
                     />
@@ -142,9 +124,8 @@ export const useLectureTab = () => {
 
 // 전체 앱 화면 컨테이너 (AppContainer)
 const AppContainer = styled.div`
-  width: 100%;
-  max-width: 400px;
-  height: 100%;
+  width: 24.375rem;
+  height: 100svh;
   margin: 0 auto;
   border: 0.063rem solid #ddd;
   box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
@@ -153,16 +134,28 @@ const AppContainer = styled.div`
   overflow: hidden;
   background-color: ${(props) => props.$backgroundColor || '#FFF'};
 `;
+// 상단바 스타일 (Header)
+const Header = styled.header`
+  width: 100%;
+  height: auto;
+  background-color: ${(props) => props.$headerBackgroundColor || '#FFF'};
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  flex-shrink: 0;
+`;
 // 콘텐츠 영역 스타일 (ContentArea)
 const ContentArea = styled.main`
   width: 100%;
   flex-grow: 1;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   background-color: ${(props) => props.$contentBackgroundColor || '#FFF'};
   display: flex;
   flex-direction: column;
-  gap: 0rem;
+  gap: 1.438rem;
   &::-webkit-scrollbar {
     display: none;
     width: 0;

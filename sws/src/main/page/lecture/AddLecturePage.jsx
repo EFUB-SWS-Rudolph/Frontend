@@ -205,7 +205,9 @@ const AddLecturePage = () => {
           />
         </SelectBox>
       </Fieldset>
-      <NextBtn onClick={() => setShowConfirmModal(true)} />
+      <ButtonWrapper>
+        <NextBtn onClick={() => setShowConfirmModal(true)} />
+      </ButtonWrapper>
 
       {showConfirmModal && (
         <ConfirmModalOverlay onClick={() => setShowConfirmModal(false)}>
@@ -248,7 +250,6 @@ export default AddLecturePage;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0px 16px;
   width: 100%;
   margin: 0 auto;
 `;
@@ -261,7 +262,7 @@ const ImageUploadArea = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 16px 0;
+  margin: 16px 16px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -293,7 +294,7 @@ const TextInput = styled.input`
   width: 356px;
   height: 44px;
   padding: 14px;
-  margin: 0px 10px 10px 0px;
+  margin: 0px 10px 10px 16px;
   border-radius: 12px;
   border: 1px solid hsla(0, 0%, 85%, 1);
 `;
@@ -301,6 +302,7 @@ const TextInput = styled.input`
 const Fieldset = styled.fieldset`
   padding: 10px 0px 20px 0px;
   align-self: flex-start;
+  margin: 0px 16px;
 `;
 
 const Legend = styled.legend`
@@ -349,6 +351,10 @@ const Textarea = styled.textarea`
   padding: 12px;
   font-size: 14px;
   resize: none;
+`;
+
+const ButtonWrapper = styled.div`
+  margin: 0px 16px;
 `;
 const IconWrapper = styled.div`
   display: flex;

@@ -1,11 +1,12 @@
 // src/main/pages/LectureList.jsx
 import React, { useState, useEffect } from 'react';
-import styled , { css } from 'styled-components';
-import { useLectureTab } from '../../../common/styles/Layout'; 
+import styled, { css } from 'styled-components';
+import { useLectureTab } from '../../../common/styles/Layout';
 import { useNavigate } from 'react-router-dom';
 import { getLectureList, getRecommendedLectures, getMyCourses } from '../../../api/course';
 import { useFilter } from '../../../common/contexts/FilterContext';
 
+//import LectureHeader from '../../components/LectureHeader';
 import SortGridIconURL from '../../../common/assets/icons/FilterIcon_SortGrid.svg';
 import SortListIconURL from '../../../common/assets/icons/FilterIcon_SortList.svg';
 import SortKeywordIconURL from '../../../common/assets/icons/FilterIcon_SortKeyword.svg';
@@ -18,8 +19,8 @@ const LectureListContainer = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; 
-  padding:1rem;
+  gap: 1.25rem;
+  padding: 1rem;
 `;
 
 const SearchFilterSection = styled.div`
@@ -28,10 +29,10 @@ const SearchFilterSection = styled.div`
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
-  width: 100%; 
+  width: 100%;
   box-sizing: border-box;
   border-radius: 0.75rem;
-  background: var(--Gray-100, #F5F5F5);
+  background: var(--Gray-100, #f5f5f5);
 `;
 
 const SearchBar = styled.input`
@@ -61,15 +62,15 @@ const FilterButton = styled.button`
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 1rem;
-  background: transparent; 
+  background: transparent;
   border: none;
   cursor: pointer;
-  display: flex; 
+  display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0; 
+  flex-shrink: 0;
 `;
-const FilterButtonIcon=styled.div`
+const FilterButtonIcon = styled.div`
   width: 1rem;
   height: 1rem;
   display: flex;
@@ -78,12 +79,12 @@ const FilterButtonIcon=styled.div`
   & > img {
     width: 100%;
     height: 100%;
-    object-fit: contain; 
+    object-fit: contain;
   }
 `;
 const FilterIconBase = styled.div`
-  min-width: fit-content; 
-  height: 2.25rem; 
+  min-width: fit-content;
+  height: 2.25rem;
   font-family: Pretendard Variable;
   border-radius: 0.5rem;
   display: flex;
@@ -93,12 +94,14 @@ const FilterIconBase = styled.div`
   flex-shrink: 0;
   font-weight: 500;
   gap: 0.25rem;
-  padding: 0 0.75rem; 
-  transition: background 0.2s ease, color 0.2s ease; 
+  padding: 0 0.75rem;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 `;
 
 const FilterBarItem = styled.div`
-   min-width: fit-content;
+  min-width: fit-content;
   border-radius: 0.5rem;
   background: transparent; /* 배경색은 이제 내부 아이콘이 가집니다 */
   display: flex;
@@ -113,10 +116,12 @@ const LectureFilterBar = styled.div`
   width: 100%;
   height: 2.25rem;
   display: flex;
-  gap: 8px; 
+  gap: 8px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  &::-webkit-scrollbar { display: none; }
+  &::-webkit-scrollbar {
+    display: none;
+  }
   -ms-overflow-style: none;
   scrollbar-width: none;
   align-items: center;
@@ -126,43 +131,54 @@ const LectureFilterBar = styled.div`
 const SortListIcon = styled(FilterIconBase)`
   width: 2.25rem;
   height: 2.25rem;
-  background: ${props => props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
-  & > img { width: 100%; height: 100%; }
+  background: ${(props) =>
+    props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
+  & > img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 const SortKeywordIcon = styled(FilterIconBase)`
-  width: 2.25rem; 
+  width: 2.25rem;
   height: 2.25rem;
-  background: ${props => props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
-  color: ${props => props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)'};
-  & > img { width: 100%; height: 100%; }
+  background: ${(props) =>
+    props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
+  color: ${(props) => (props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)')};
+  & > img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 const SortFilterIcon = styled(FilterIconBase)`
   height: 2.25rem;
-  background: ${props => props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
-  color: ${props => props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)'};
+  background: ${(props) =>
+    props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
+  color: ${(props) => (props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)')};
 `;
 const SortTypeIcon = styled(FilterIconBase)`
   height: 2.25rem;
-  background: ${props => props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
-  color: ${props => props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)'};
+  background: ${(props) =>
+    props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
+  color: ${(props) => (props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)')};
 `;
 const SortRegionIcon = styled(FilterIconBase)`
   height: 2.25rem;
-  background: ${props => props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
-  color: ${props => props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)'};
+  background: ${(props) =>
+    props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
+  color: ${(props) => (props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)')};
 `;
 const SortDateIcon = styled(FilterIconBase)`
   height: 2.25rem;
-  background: ${props => props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
-  color: ${props => props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)'};
-
+  background: ${(props) =>
+    props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
+  color: ${(props) => (props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)')};
 `;
 const SortRecentIcon = styled(FilterIconBase)`
   height: 2.25rem;
-  background: ${props => props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
-  color: ${props => props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)'};
+  background: ${(props) =>
+    props.$isActive ? 'var(--primary-color-light, #E0FCEF)' : 'var(--Gray-100, #F5F5F5)'};
+  color: ${(props) => (props.$isActive ? 'var(--primary-color, #00664F)' : 'var(--Black, #222)')};
 `;
-
 
 const GridDisplayWrapper = styled.div`
   display: grid;
@@ -184,7 +200,9 @@ const LectureListItem = ({ lecture }) => {
       <LectureListItemInfo>
         <LectureListItemInstructor>{lecture.instructor}</LectureListItemInstructor>
         <LectureListItemTitle>{lecture.title}</LectureListItemTitle>
-        <LectureListItemDate>{lecture.period.start} ~ {lecture.period.end}</LectureListItemDate>
+        <LectureListItemDate>
+          {lecture.period.start} ~ {lecture.period.end}
+        </LectureListItemDate>
       </LectureListItemInfo>
     </StyledLectureListItem>
   );
@@ -193,13 +211,13 @@ const LectureListItem = ({ lecture }) => {
 const StyledLectureListItem = styled.div`
   display: flex;
   height: 5rem;
-  width:100%;
+  width: 100%;
   padding: 0.75rem 4.8125rem 0.75rem 0.75rem;
   align-items: flex-start;
   gap: 0.75rem;
   align-self: stretch;
   border-radius: 1rem;
-  border: 1px solid var(--Gray-300, #D9D9D9);
+  border: 1px solid var(--Gray-300, #d9d9d9);
   box-sizing: border-box;
 `;
 
@@ -265,14 +283,19 @@ const LectureListDisplayArea = styled.div`
   gap: 1rem;
 `;
 const NoResultsMessage = styled.div`
-  width: 100%; text-align: center; padding: 4rem;  color: #888; font-size: 1rem;
+  width: 100%;
+  text-align: center;
+  padding: 4rem;
+  color: #888;
+  font-size: 1rem;
 `;
 
 //LectureListPage 함수 컴포넌트 정의
-function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 렌더링 시작!");
-  const { mainActiveTab, setMainActiveTab } = useLectureTab(); 
+function LectureListContent() {
+  console.log('✅ LectureListContent 컴포넌트 렌더링 시작!');
+  const { mainActiveTab, setMainActiveTab } = useLectureTab();
   const navigate = useNavigate();
-  const { generalFilterParams, updateGeneralFilter, displayMode, setDisplayMode } = useFilter(); 
+  const { generalFilterParams, updateGeneralFilter, displayMode, setDisplayMode } = useFilter();
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [lectures, setLectures] = useState([]);
@@ -283,55 +306,78 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
     let result;
     switch (filterName) {
       case '강의 형태':
-        switch (generalFilterParams.courseType) { 
-          case 'DONATION': return '재능 기부';
-          case 'EXCHANGE': return '재능 교환';
-          case 'TUTOR': return '과외';
-          case 'COFFEECHAT': return '커피챗';
-          case null: return '강의 형태'; 
-          default: return '강의 형태';
+        switch (generalFilterParams.courseType) {
+          case 'DONATION':
+            return '재능 기부';
+          case 'EXCHANGE':
+            return '재능 교환';
+          case 'TUTOR':
+            return '과외';
+          case 'COFFEECHAT':
+            return '커피챗';
+          case null:
+            return '강의 형태';
+          default:
+            return '강의 형태';
         }
       case '지역':
         switch (generalFilterParams.courseCity) {
-          case 'SEOUL': return '서울특별시';
-          case 'BUSAN': return '부산광역시';
-          case 'DAEJEON': return '대전광역시';
-          case 'ULSAN': return '울산광역시';
-          case 'INCHEON': return '인천광역시';
-          case 'GWANGJU': return '광주광역시';
-          case null: return '지역';
-          default: return '지역';
+          case 'SEOUL':
+            return '서울특별시';
+          case 'BUSAN':
+            return '부산광역시';
+          case 'DAEJEON':
+            return '대전광역시';
+          case 'ULSAN':
+            return '울산광역시';
+          case 'INCHEON':
+            return '인천광역시';
+          case 'GWANGJU':
+            return '광주광역시';
+          case null:
+            return '지역';
+          default:
+            return '지역';
         }
       case '기간':
-      if (generalFilterParams.courseStartDate && generalFilterParams.courseEndDate) {
-        return `${generalFilterParams.courseStartDate.substring(5)}~${generalFilterParams.courseEndDate.substring(5)}`;
-      } else if (generalFilterParams.courseStartDate) {
-        return `${generalFilterParams.courseStartDate.substring(5)} 이후`;
-      } else if (generalFilterParams.courseEndDate) {
-        return `${generalFilterParams.courseEndDate.substring(5)} 이전`;
-      }
-      return '기간';
+        if (generalFilterParams.courseStartDate && generalFilterParams.courseEndDate) {
+          return `${generalFilterParams.courseStartDate.substring(5)}~${generalFilterParams.courseEndDate.substring(5)}`;
+        } else if (generalFilterParams.courseStartDate) {
+          return `${generalFilterParams.courseStartDate.substring(5)} 이후`;
+        } else if (generalFilterParams.courseEndDate) {
+          return `${generalFilterParams.courseEndDate.substring(5)} 이전`;
+        }
+        return '기간';
       case '정렬 기준':
         switch (generalFilterParams.sort) {
-          case 'latest': return '최신 순';
-          case 'popular': return '인기 순';
-          default: return '정렬 기준';
+          case 'latest':
+            return '최신 순';
+          case 'popular':
+            return '인기 순';
+          default:
+            return '정렬 기준';
         }
-      case '상태': 
+      case '상태':
         if (mainActiveTab === '내 강의') {
           switch (generalFilterParams.status) {
-            case 'inProgress': return '수강 중';
-            case 'completed': return '수강 종료';
-            case 'all': return '상태';
-            case null: return '상태';
-            default: return '상태';
+            case 'inProgress':
+              return '수강 중';
+            case 'completed':
+              return '수강 종료';
+            case 'all':
+              return '상태';
+            case null:
+              return '상태';
+            default:
+              return '상태';
           }
         }
-        return '전체'; 
-      default: return '전체';
+        return '전체';
+      default:
+        return '전체';
     }
   };
- 
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -341,8 +387,8 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
       let apiCallFunction;
       let params = { ...generalFilterParams };
 
-      if (params.status) { 
-          delete params.status; 
+      if (params.status) {
+        delete params.status;
       }
 
       if (searchQuery.trim() !== '') {
@@ -364,40 +410,43 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
         const response = await apiCallFunction(params);
         if (response.isSuccess) {
           if (mainActiveTab === '내 강의') {
-              const combinedMyCourses = [
-                  ...(response.payload?.teachingCourses || []),
-                  ...(response.payload?.enrolledCourses || [])
-              ];
-              let filteredByStatusAndSearch = combinedMyCourses;
+            const combinedMyCourses = [
+              ...(response.payload?.teachingCourses || []),
+              ...(response.payload?.enrolledCourses || []),
+            ];
+            let filteredByStatusAndSearch = combinedMyCourses;
 
-              if (searchQuery.trim() !== '') {
-                const lowercasedQuery = searchQuery.toLowerCase();
-                filteredByStatusAndSearch = filteredByStatusAndSearch.filter(lecture =>
-                  (lecture.courseTitle && lecture.courseTitle.toLowerCase().includes(lowercasedQuery)) ||
-                  (lecture.teacherNickname && lecture.teacherNickname.toLowerCase().includes(lowercasedQuery))
-                );
-              }
+            if (searchQuery.trim() !== '') {
+              const lowercasedQuery = searchQuery.toLowerCase();
+              filteredByStatusAndSearch = filteredByStatusAndSearch.filter(
+                (lecture) =>
+                  (lecture.courseTitle &&
+                    lecture.courseTitle.toLowerCase().includes(lowercasedQuery)) ||
+                  (lecture.teacherNickname &&
+                    lecture.teacherNickname.toLowerCase().includes(lowercasedQuery))
+              );
+            }
 
-              if (generalFilterParams.status === 'inProgress') {
-                  filteredByStatusAndSearch = filteredByStatusAndSearch.filter(lecture => {
-                      const now = new Date();
-                      const startDate = new Date(lecture.courseStartDate);
-                      const endDate = new Date(lecture.courseEndDate);
-                      return now >= startDate && now <= endDate;
-                  });
-              } else if (generalFilterParams.status === 'completed') {
-                  filteredByStatusAndSearch = filteredByStatusAndSearch.filter(lecture => {
-                      const now = new Date();
-                      const endDate = new Date(lecture.courseEndDate);
-                      return now > endDate;
-                  });
-              }
-              setLectures(filteredByStatusAndSearch);
+            if (generalFilterParams.status === 'inProgress') {
+              filteredByStatusAndSearch = filteredByStatusAndSearch.filter((lecture) => {
+                const now = new Date();
+                const startDate = new Date(lecture.courseStartDate);
+                const endDate = new Date(lecture.courseEndDate);
+                return now >= startDate && now <= endDate;
+              });
+            } else if (generalFilterParams.status === 'completed') {
+              filteredByStatusAndSearch = filteredByStatusAndSearch.filter((lecture) => {
+                const now = new Date();
+                const endDate = new Date(lecture.courseEndDate);
+                return now > endDate;
+              });
+            }
+            setLectures(filteredByStatusAndSearch);
           } else {
-              setLectures(response.payload?.courses || []);
+            setLectures(response.payload?.courses || []);
           }
         } else {
-          setError(new Error(response.message || "강의 목록을 불러오지 못했습니다."));
+          setError(new Error(response.message || '강의 목록을 불러오지 못했습니다.'));
         }
       } catch (err) {
         console.error(`[${mainActiveTab}] 강의 목록 로드 중 오류 발생:`, err);
@@ -412,29 +461,29 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
 
   const handleSearchInputChange = (event) => {
     const newSearchQuery = event.target.value;
-    setSearchQuery(newSearchQuery); 
+    setSearchQuery(newSearchQuery);
     updateGeneralFilter('keyword', newSearchQuery);
   };
   const handleToggleDisplayMode = () => {
-    setDisplayMode(prevMode => prevMode === 'grid' ? 'list' : 'grid');
+    setDisplayMode((prevMode) => (prevMode === 'grid' ? 'list' : 'grid'));
   };
   const handleToggleSearchBar = () => {
-    setShowSearchBar(prev => !prev);
+    setShowSearchBar((prev) => !prev);
     setSearchQuery('');
   };
   const handleFilterClick = () => {
     navigate('/lectures/search/filter');
   };
-  const handleFormatFilterClick=()=>{
+  const handleFormatFilterClick = () => {
     navigate('/lectures/search/filter/format');
   };
-  const handleRegionFilterClick=()=>{
+  const handleRegionFilterClick = () => {
     navigate('/lectures/search/filter/location');
   };
-  const handleDateFilterClick=()=>{
+  const handleDateFilterClick = () => {
     navigate('/lectures/search/filter/date');
   };
-  const handleSortFilterClick=()=>{ 
+  const handleSortFilterClick = () => {
     navigate('/lectures/search/filter/sort');
   };
   return (
@@ -442,86 +491,152 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
       {mainActiveTab === '강의 조회' && (
         <>
           <LectureFilterBar>
-        <FilterBarItem onClick={handleToggleDisplayMode}>
-            <SortListIcon $isActive={displayMode === 'list'}> {/* 🔴 $isActive prop 전달 */}
+            <FilterBarItem onClick={handleToggleDisplayMode}>
+              <SortListIcon $isActive={displayMode === 'list'}>
+                {' '}
+                {/* 🔴 $isActive prop 전달 */}
                 <img
                   src={displayMode === 'grid' ? SortListIconURL : SortGridIconURL}
-                  alt={displayMode === 'grid' ? "목록 정렬" : "갤러리 정렬"}
+                  alt={displayMode === 'grid' ? '목록 정렬' : '갤러리 정렬'}
                   style={{ width: '1rem', height: '1rem' }}
                 />
-            </SortListIcon>
-        </FilterBarItem>
-        <FilterBarItem onClick={handleToggleSearchBar}>
-          <SortKeywordIcon $isActive={showSearchBar}> {/* 🔴 $isActive prop 전달 */}
-            <img src={SortKeywordIconURL}style={{ width: '1rem', height: '1rem' }}/>
-          </SortKeywordIcon>
-        </FilterBarItem>
-        <FilterBarItem onClick={handleFilterClick}>
-          <SortFilterIcon $isActive={ // 🔴 어떤 필터라도 '전체'가 아니면 활성화
-              generalFilterParams.courseType !== null ||
-              generalFilterParams.courseCity !== null ||
-              generalFilterParams.courseStartDate !== null ||
-              generalFilterParams.courseEndDate !== null ||
-              generalFilterParams.sort !== 'latest' ||
-              (generalFilterParams.keyword && generalFilterParams.keyword.trim() !== '') ||
-              (generalFilterParams.status && generalFilterParams.status !== 'all')
-          }>
-            필터
-            <img src={SortFilterIconURL} style={{ width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem' }}/>
-          </SortFilterIcon>
-        </FilterBarItem>
-        <FilterBarItem onClick={handleFormatFilterClick}>
-          <SortTypeIcon $isActive={generalFilterParams.courseType !== null}>
-            {getDisplayValueForFilterBar('강의 형태')}
-            {generalFilterParams.courseType !== null && <img src={IconCheckURL} alt="선택됨" style={{width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem'}} />}
-            {generalFilterParams.courseType === null && <img src={IconDownURL} style={{width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem'}}/>} {/* 🔴 설정 안 됐을 때 다운 아이콘 */}
-          </SortTypeIcon>
-        </FilterBarItem>
+              </SortListIcon>
+            </FilterBarItem>
+            <FilterBarItem onClick={handleToggleSearchBar}>
+              <SortKeywordIcon $isActive={showSearchBar}>
+                {' '}
+                {/* 🔴 $isActive prop 전달 */}
+                <img src={SortKeywordIconURL} style={{ width: '1rem', height: '1rem' }} />
+              </SortKeywordIcon>
+            </FilterBarItem>
+            <FilterBarItem onClick={handleFilterClick}>
+              <SortFilterIcon
+                $isActive={
+                  // 🔴 어떤 필터라도 '전체'가 아니면 활성화
+                  generalFilterParams.courseType !== null ||
+                  generalFilterParams.courseCity !== null ||
+                  generalFilterParams.courseStartDate !== null ||
+                  generalFilterParams.courseEndDate !== null ||
+                  generalFilterParams.sort !== 'latest' ||
+                  (generalFilterParams.keyword && generalFilterParams.keyword.trim() !== '') ||
+                  (generalFilterParams.status && generalFilterParams.status !== 'all')
+                }
+              >
+                필터
+                <img
+                  src={SortFilterIconURL}
+                  style={{ width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem' }}
+                />
+              </SortFilterIcon>
+            </FilterBarItem>
+            <FilterBarItem onClick={handleFormatFilterClick}>
+              <SortTypeIcon $isActive={generalFilterParams.courseType !== null}>
+                {getDisplayValueForFilterBar('강의 형태')}
+                {generalFilterParams.courseType !== null && (
+                  <img
+                    src={IconCheckURL}
+                    alt="선택됨"
+                    style={{ width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem' }}
+                  />
+                )}
+                {generalFilterParams.courseType === null && (
+                  <img
+                    src={IconDownURL}
+                    style={{ width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem' }}
+                  />
+                )}{' '}
+                {/* 🔴 설정 안 됐을 때 다운 아이콘 */}
+              </SortTypeIcon>
+            </FilterBarItem>
             <FilterBarItem onClick={handleRegionFilterClick}>
-          <SortRegionIcon $isActive={generalFilterParams.courseCity !== null}>
-            {getDisplayValueForFilterBar('지역')}
-            {generalFilterParams.courseCity !== null && <img src={IconCheckURL} alt="선택됨" style={{width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem'}} />}
-            {generalFilterParams.courseCity === null && <img src={IconDownURL} style={{width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem'}}/>}
-          </SortRegionIcon>
-        </FilterBarItem>
+              <SortRegionIcon $isActive={generalFilterParams.courseCity !== null}>
+                {getDisplayValueForFilterBar('지역')}
+                {generalFilterParams.courseCity !== null && (
+                  <img
+                    src={IconCheckURL}
+                    alt="선택됨"
+                    style={{ width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem' }}
+                  />
+                )}
+                {generalFilterParams.courseCity === null && (
+                  <img
+                    src={IconDownURL}
+                    style={{ width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem' }}
+                  />
+                )}
+              </SortRegionIcon>
+            </FilterBarItem>
             <FilterBarItem onClick={handleDateFilterClick}>
-          <SortDateIcon $isActive={generalFilterParams.courseStartDate !== null || generalFilterParams.courseEndDate !== null}>
-            {getDisplayValueForFilterBar('기간')}
-            {(generalFilterParams.courseStartDate !== null && generalFilterParams.courseEndDate !== null) && <img src={IconCheckURL} alt="선택됨" style={{width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem'}} />}
-            {(generalFilterParams.courseStartDate == null || generalFilterParams.courseEndDate == null) && <img src={IconDownURL} style={{width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem'}}/>}
-          </SortDateIcon>
-        </FilterBarItem>
-             <FilterBarItem onClick={handleSortFilterClick}>
-          <SortRecentIcon $isActive={generalFilterParams.sort !== 'latest'}>
-            {getDisplayValueForFilterBar('정렬 기준')}
-            {generalFilterParams.sort !== 'latest' && <img src={IconCheckURL} alt="선택됨" style={{width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem'}} />}
-            {generalFilterParams.sort === 'latest' && <img src={IconDownURL} style={{width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem'}}/>}
-          </SortRecentIcon>
-        </FilterBarItem>
+              <SortDateIcon
+                $isActive={
+                  generalFilterParams.courseStartDate !== null ||
+                  generalFilterParams.courseEndDate !== null
+                }
+              >
+                {getDisplayValueForFilterBar('기간')}
+                {generalFilterParams.courseStartDate !== null &&
+                  generalFilterParams.courseEndDate !== null && (
+                    <img
+                      src={IconCheckURL}
+                      alt="선택됨"
+                      style={{ width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem' }}
+                    />
+                  )}
+                {(generalFilterParams.courseStartDate == null ||
+                  generalFilterParams.courseEndDate == null) && (
+                  <img
+                    src={IconDownURL}
+                    style={{ width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem' }}
+                  />
+                )}
+              </SortDateIcon>
+            </FilterBarItem>
+            <FilterBarItem onClick={handleSortFilterClick}>
+              <SortRecentIcon $isActive={generalFilterParams.sort !== 'latest'}>
+                {getDisplayValueForFilterBar('정렬 기준')}
+                {generalFilterParams.sort !== 'latest' && (
+                  <img
+                    src={IconCheckURL}
+                    alt="선택됨"
+                    style={{ width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem' }}
+                  />
+                )}
+                {generalFilterParams.sort === 'latest' && (
+                  <img
+                    src={IconDownURL}
+                    style={{ width: '0.8rem', height: '0.8rem', marginLeft: '0.25rem' }}
+                  />
+                )}
+              </SortRecentIcon>
+            </FilterBarItem>
           </LectureFilterBar>
 
           {showSearchBar && (
             <SearchFilterSection>
-              <SearchBar placeholder="강의명 또는 키워드 입력" value={searchQuery} onChange={handleSearchInputChange} /> 
+              <SearchBar
+                placeholder="강의명 또는 키워드 입력"
+                value={searchQuery}
+                onChange={handleSearchInputChange}
+              />
               <FilterButton>
                 <FilterButtonIcon>
-                 <img src={SortKeywordIconURL}/>
+                  <img src={SortKeywordIconURL} />
                 </FilterButtonIcon>
               </FilterButton>
             </SearchFilterSection>
           )}
-          {loading && <div>강의 목록 불러오는 중...</div>} 
-          {error && <div>오류 발생: {error.message}</div>}    
-          {!loading && !error && lectures.length === 0 ? (  
-            <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage> 
+          {loading && <div>강의 목록 불러오는 중...</div>}
+          {error && <div>오류 발생: {error.message}</div>}
+          {!loading && !error && lectures.length === 0 ? (
+            <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
           ) : (
-       <LectureListDisplayArea>
-            {displayMode === 'grid' ? ( 
-              <GridDisplayWrapper> 
-                {lectures.map(lecture => (
-                  <LectureCard 
-                    key={lecture.courseId}
-                      lecture={ { 
+            <LectureListDisplayArea>
+              {displayMode === 'grid' ? (
+                <GridDisplayWrapper>
+                  {lectures.map((lecture) => (
+                    <LectureCard
+                      key={lecture.courseId}
+                      lecture={{
                         id: lecture.courseId || lecture.id,
                         courseId: lecture.courseId,
                         title: lecture.courseTitle || lecture.title,
@@ -531,16 +646,16 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
                         thumbnailUrl: lecture.thumbnailUrl,
                         category: lecture.courseCategory,
                         bookmarkCount: lecture.bookmarkCount,
-                      } }
+                      }}
                     />
-                    ))}
-              </GridDisplayWrapper>
+                  ))}
+                </GridDisplayWrapper>
               ) : (
-                 <ListDisplayWrapper> 
-                {lectures.map(lecture => (
-                  <LectureListItem 
-                    key={lecture.courseId}
-                      lecture={ {
+                <ListDisplayWrapper>
+                  {lectures.map((lecture) => (
+                    <LectureListItem
+                      key={lecture.courseId}
+                      lecture={{
                         id: lecture.courseId || lecture.id,
                         courseId: lecture.courseId,
                         title: lecture.courseTitle || lecture.title,
@@ -550,22 +665,18 @@ function LectureListContent() {console.log("✅ LectureListContent 컴포넌트 
                         thumbnailUrl: lecture.thumbnailUrl,
                         category: lecture.courseCategory,
                         bookmarkCount: lecture.bookmarkCount,
-                      } }
+                      }}
                     />
-                 ))}
-              </ListDisplayWrapper>
-            )}
-          </LectureListDisplayArea>
+                  ))}
+                </ListDisplayWrapper>
+              )}
+            </LectureListDisplayArea>
           )}
-          </>)}
-      
-       {mainActiveTab === '강의 조회' && (
-        <>
-          
         </>
       )}
 
-      
+      {mainActiveTab === '강의 조회' && <></>}
     </LectureListContainer>
-  )};
-export default LectureListContent; 
+  );
+}
+export default LectureListContent;
