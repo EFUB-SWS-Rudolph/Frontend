@@ -9,8 +9,8 @@ import PeriodFilter from '../ewhainList/pages/PeriodFilter';
 import DeptFilter from '../ewhainList/pages/DeptFilter';
 import IndividualInquiry from '../ewhainList/pages/IndividualInquiry';
 
-export const EwhainRoutes = (
-  <>
+export const EwhainRoutes = () => { 
+  return (  <>
     {/* Layout with default footer */}
     <Route element={<Layout />}>
       <Route path="/ewhainlist" element={<EwhainList />} />
@@ -27,3 +27,4 @@ export const EwhainRoutes = (
     </Route>
   </>
 );
+};
