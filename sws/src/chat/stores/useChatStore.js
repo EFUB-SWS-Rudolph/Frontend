@@ -10,3 +10,10 @@ export const useChatStore = create(
     clearUser: () => set({ userId: null, name: '', profileImageUrl: '' }),
   }))
 );
+// 수정 부분
+export const useModalStore = create(
+  devtools((set) => ({
+    isRegistered: false,
+    setIsRegistered: (flag) => set(({ isRegistered: flag })),
+  }))
+);
