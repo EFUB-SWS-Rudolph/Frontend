@@ -739,34 +739,49 @@ export default function Main() {
   }, []);
 
   // 2번째 useEffect: 선배 목록 로딩
-  useEffect(() => {
-    if (userProfile.department && userProfile.memberId) { 
-       console.log(`🟡 선배 목록 API 호출 조건 만족: 학과=${userProfile.department}, ID=${userProfile.memberId}`);
-      const fetchSeniorList = async () => {
-        setSeniorListLoading(true);
-        setSeniorListError(null);
-        try {
-          const filteredSenors = await getFilteredSeniorList(userProfile.department, userProfile.memberId);
-          setSeniorList(filteredSenors);
-          console.log("🟢 메인페이지: 선배 목록 조회 성공. 총:", filteredSenors.length, "개");
-        } catch (err) {
-          console.error("🔴 메인페이지: 선배 목록 조회 오류:", err.response?.data?.message || err.message || "알 수 없는 오류");
-          setSeniorListError(new Error("선배 목록을 불러오는 데 실패했습니다."));
-          setSeniorList([]);
-        } finally {
-          setSeniorListLoading(false);
-        }
-      };
+useEffect(() => {
+  if (userProfile.department && userProfile.memberId) {
+    console.log(`🟡 선배 목록 API 호출 조건 만족: 학과=${userProfile.department}, ID=${userProfile.memberId}`);
+    const fetchSeniorList = async () => {
+    setSeniorListLoading(true);
+    setSeniorListError(null); 
 
-      fetchSeniorList();
-    } else {
-        console.log("🟡 선배 목록 API 호출 조건 미충족:", userProfile.department, userProfile.memberId);
-        setSeniorList([]); // 초기화
-        setSeniorListLoading(false); // 로딩 끝
-        setSeniorListError(null); // 에러 없음
+    try {
+      const seniorListResponse = await getFilteredSeniorList(userProfile.department, userProfile.memberId); 
+      console.log("🟢 getFilteredSeniorList API 응답 (선배 목록):", seniorListResponse);
+
+      if (Array.isArray(seniorListResponse) && seniorListResponse.length > 0) { 
+        const currentLoggedInMemberId = userProfile.memberId;
+        const filteredSeniorList = seniorListResponse.filter( 
+          senior => senior.memberId !== currentLoggedInMemberId
+        );
+           
+        setSeniorList(filteredSeniorList);
+        console.log("🟢 메인페이지: 선배 목록 조회 성공. 총 (자기 자신 제외):", filteredSeniorList.length, "개");
+        setSeniorListError(null); 
+
+      } else { 
+        console.error("🔴 메인페이지: 선배 목록 조회 실패 (응답이 비어있거나 유효한 배열 아님):", seniorListResponse);
+        setSeniorListError(new Error("선배 목록을 불러오지 못했습니다.")); 
+        setSeniorList([]);
+      }
+    } catch (err) { 
+      console.error("🔴 메인페이지: 선배 목록 API 호출 중 예외 발생:", err.response?.data?.message || err.message || "알 수 없는 오류");
+      setSeniorListError(new Error(err.response?.data?.message || err.message || "알 수 없는 오류가 발생했습니다.")); 
+      setSeniorList([]);
+    } finally {
+      setSeniorListLoading(false); 
     }
-  }, [userProfile.department, userProfile.memberId]);
+  };
 
+  fetchSeniorList();
+  } else {
+    console.log("🟡 선배 목록 API 호출 조건 미충족:", userProfile.department, userProfile.memberId);
+    setSeniorList([]);
+    setSeniorListLoading(false);
+    setSeniorListError(null);
+  }
+}, [userProfile.department, userProfile.memberId]); // 의존성 배열 유지
   // 번째 useEffect: 이화인 목록 로딩 
   useEffect(() => {
     const fetchEwhainList = async () => {
