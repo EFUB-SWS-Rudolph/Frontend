@@ -1,12 +1,15 @@
-import { getNotifications, markNotificationRead } from '../api/notification'; // 🔴 API 함수들 임포트
+// src/hooks/useAlarm.js (최종 수정)
+
+import { useState, useEffect, useCallback } from 'react';
+import { getNotifications, markNotificationRead } from '../api/notification'; 
 
 export const useAlarm = () => {
   const [alarms, setAlarms] = useState([]);
   const [unreadAlarmCount, setUnreadAlarmCount] = useState(0);
+
   const fetchAlarms = useCallback(async () => {
     try {
-      const data = await getNotifications(); // 🔴 API 함수 호출
-      
+      const data = await getNotifications(); 
       setAlarms(data.notifications || []); 
       setUnreadAlarmCount(data.unreadCount || 0); 
 
@@ -18,14 +21,14 @@ export const useAlarm = () => {
     }
   }, []); 
 
-  const markAlarmAsRead = useCallback(async (alarmId) => {
+  const markAlarmAsRead = useCallback(async (notificationId) => {
     try {
-      await markNotificationRead(alarmId); // 🔴 API 함수 호출
+      await markNotificationRead(notificationId); 
       fetchAlarms(); 
+      console.log(`🟢 알림 ${notificationId} 읽음 처리 성공 및 새로고침!`);
     } catch (error) {
-        console.error("🔴 useAlarm 훅: 알림 읽기 가져오기 실패:", error);
+        console.error("🔴 useAlarm 훅: 알림 읽음 처리 실패:", error.response?.data?.message || error.message || "알 수 없는 오류");
     }
   }, [fetchAlarms]);
-
-  return { alarms, unreadAlarmCount, initializeAlarms, markAlarmAsRead, fetchAlarms };
+  return { alarms, unreadAlarmCount, markAlarmAsRead, fetchAlarms };
 };

@@ -1,7 +1,8 @@
 // src/api/search.js
 
-import { client } from './client';
-import api from './api'; 
+import { client } from './client'; 
+
+
 export const getLecturesByKeyword = async (keyword, page = 0, size = 10) => {
   try {
     console.log(`🟢 API: getLecturesByKeyword 요청 - 키워드: ${keyword}`);
@@ -17,7 +18,7 @@ export const getLecturesByKeyword = async (keyword, page = 0, size = 10) => {
 export const getEwhainsByKeyword = async (keyword, page = 0, size = 10) => {
   try {
     console.log(`🟢 API: getEwhainsByKeyword 요청 - 키워드: ${keyword}`);
-    const response = await client.get('/ewhainlist', { params: { keyword: keyword, page: page, size: size } });
+    const response = await client.get('/members', { params: { keyword: keyword, page: page, size: size } }); // 🔴 /ewhainlist 대신 /members가 맞다면 수정!
     console.log(`🟢 API: getEwhainsByKeyword 응답 - 키워드: ${keyword}, 데이터:`, response.data);
     return response.data;
   } catch (error) {
@@ -28,14 +29,13 @@ export const getEwhainsByKeyword = async (keyword, page = 0, size = 10) => {
 
 export const searchAll = async (keyword) => {
   try {
-    const response = await api.get(`/search`, {
+    const response = await client.get(`/search`, { 
       params: { keyword: keyword },
-      headers: {
-      },
     });
+    console.log('🟢 API: searchAll 응답:', response.data); 
     return response.data; 
   } catch (error) {
-    console.error("전체 검색 API 호출 중 오류:", error);
+    console.error("🔴 전체 검색 API 호출 중 오류:", error.response?.data || error.message); // 오류 로깅 강
     return {
       isSuccess: false,
       message: error.response?.data?.message || '검색 중 오류가 발생했습니다.',
