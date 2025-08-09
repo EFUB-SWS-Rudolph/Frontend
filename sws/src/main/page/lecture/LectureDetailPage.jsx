@@ -595,7 +595,7 @@ export default function LectureDetailPage() {
         {/* 강의자 프로필 프레임 */}
        <InstructorProfileFrame>
             <InstructorProfileImage 
-            src={teacherInfo?.profileImage || DEFAULT_PROFILE_IMAGE_PATH} 
+            src={DEFAULT_PROFILE_IMAGE_PATH} 
             alt={teacherInfo?.nickname || "강사 프로필"}
           />
            <StyledMainListIconFrame>
