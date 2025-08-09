@@ -252,7 +252,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 0 auto;
+  margin: 20px 0px 60px 0px;
 `;
 
 const ImageUploadArea = styled.label`
@@ -263,7 +263,7 @@ const ImageUploadArea = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 16px 16px;
+  margin: 30px 16px 20px 16px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
