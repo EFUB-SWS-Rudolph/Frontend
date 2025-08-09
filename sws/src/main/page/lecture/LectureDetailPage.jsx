@@ -16,6 +16,7 @@ import { getChatroomExists } from '../../../api/chat';
 import IconCoffeeChatURL from '../../../common/assets/icons/icon_coffeechat.svg'; // 강사 재능 아이콘
 import IconExchangeURL from '../../../common/assets/icons/icon_exchange.svg'; // 강사 재능 아이콘
 import IconGiftURL from '../../../common/assets/icons/icon_give.svg'; // 강사 재능 아이콘
+const DEFAULT_PROFILE_IMAGE_PATH = '../../../images/profile_ex1.jpg'; 
 
 import LectureDetailCustomFooter from '../../components/LectureDetailCustomFooter';
 // styled-components 정의
@@ -463,7 +464,7 @@ export default function LectureDetailPage() {
     };
     fetchLectureDetail(); 
   }, [lectureId]);
-  
+
   const handleBackClick = () => {
     navigate(-1);
   };
@@ -593,8 +594,8 @@ export default function LectureDetailPage() {
       <LectureDetailFrame>
         {/* 강의자 프로필 프레임 */}
        <InstructorProfileFrame>
-            <InstructorProfileImage
-            src={teacherInfo?.profileImage || '/profile_ex1.jpg'} 
+            <InstructorProfileImage 
+            src={teacherInfo?.profileImage || DEFAULT_PROFILE_IMAGE_PATH} 
             alt={teacherInfo?.nickname || "강사 프로필"}
           />
            <StyledMainListIconFrame>

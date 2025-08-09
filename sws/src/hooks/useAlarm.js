@@ -1,7 +1,7 @@
 // src/hooks/useAlarm.js (최종 수정)
 
 import { useState, useEffect, useCallback } from 'react';
-import { getNotifications, markNotificationRead } from '../api/notification'; 
+import { getNotifications, markNotificationRead } from '../api/alarm'; 
 
 export const useAlarm = () => {
   const [alarms, setAlarms] = useState([]);
