@@ -1,10 +1,11 @@
-// src/api/notification.js (수정)
+// src/api/notification.js
 
-import api from './api'; 
+import { client } from './client'; 
+
 
 export const getNotifications = async () => {
   try {
-    const response = await api.get('/notification'); 
+    const response = await client.get('/notification'); 
     console.log('🟢 API: 알림 목록 조회 성공:', response.data);
     return response.data;
   } catch (error) {
@@ -15,7 +16,7 @@ export const getNotifications = async () => {
 
 export const markNotificationRead = async (notificationId) => {
   try {
-    const response = await api.patch(`/notification/${notificationId}/read`); 
+    const response = await client.patch(`/notification/${notificationId}/read`); 
     console.log(`🟢 API: 알림 ${notificationId} 읽음 처리 성공:`, response.data);
     return response.data;
   } catch (error) {
