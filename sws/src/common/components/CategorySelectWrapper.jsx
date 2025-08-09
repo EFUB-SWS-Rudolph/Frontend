@@ -23,6 +23,7 @@ const CategorySelectWrapper = () => {
   const handleSelect = (selected) => {
     const onSelectType = location.state?.onSelectType;
     const categoryMap = location.state?.categoryMap;
+    const draft = location.state?.draft || {};
 
     let selectedValue = selected;
 
@@ -32,8 +33,9 @@ const CategorySelectWrapper = () => {
 
     navigate('/add/lecture', {
       state: {
-        lecture: onSelectType === 'lecture' ? selected : location.state?.lecture,
-        location: onSelectType === 'location' ? selectedValue : location.state?.location,
+        ...draft,
+        lecture: onSelectType === 'lecture' ? selected : draft.lecture,
+        location: onSelectType === 'location' ? selectedValue : draft.location,
       },
     });
   };

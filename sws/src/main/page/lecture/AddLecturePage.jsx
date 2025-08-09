@@ -35,8 +35,17 @@ const AddLecturePage = () => {
   const state = useLocation().state;
 
   useEffect(() => {
-    if (state?.lecture) setLecture(state.lecture);
-    if (state?.location) setLocation(state.location);
+    if (!state) return;
+    if (state.title !== undefined) setTitle(state.title);
+    if (state.type !== undefined) setType(state.type);
+    if (state.detail !== undefined) setDetail(state.detail);
+    if (state.description !== undefined) setDescription(state.description);
+    if (state.startDate !== undefined) setStartDate(state.startDate);
+    if (state.endDate !== undefined) setEndDate(state.endDate);
+    if (state.category !== undefined) setCategory(state.category);
+    if (state.lecture !== undefined) setLecture(state.lecture);
+    if (state.location !== undefined) setLocation(state.location);
+    if (state.images !== undefined) setImages(state.images);
   }, [state]);
 
   const handleTitleChange = (e) => {
@@ -200,6 +209,18 @@ const AddLecturePage = () => {
                   categoryMap: koreaLocationCategoryMap,
                   onSelectType: 'location',
                   title: '희망 위치',
+                  draft: {
+                    title,
+                    type,
+                    detail,
+                    description,
+                    startDate,
+                    endDate,
+                    category,
+                    lecture,
+                    location,
+                    images,
+                  },
                 },
               })
             }
