@@ -123,11 +123,8 @@ const AlarmItem = ({ alarm, onRead }) => {
 };
 
 export default function AlarmPage() {
-  const { alarms, unreadAlarmCount, initializeAlarms, markAlarmAsRead } = useAlarm();
+  const { alarms, unreadAlarmCount, markAlarmAsRead } = useAlarm();
   const navigate = useNavigate();
-  useEffect(() => {
-    initializeAlarms();
-  }, [initializeAlarms]);
 
   const handleAlarmClick = useCallback(
     (alarm) => {
@@ -155,7 +152,6 @@ export default function AlarmPage() {
 
   return (
     <Layout>
-      <Header header="알림" onClick={() => navigate(-1)} />
       <AlarmPageContainer>
         {alarms.map((alarm) => (
           <AlarmItem key={alarm.notificationId} alarm={alarm} onRead={handleAlarmClick} />
