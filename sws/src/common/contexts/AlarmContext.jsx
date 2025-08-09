@@ -1,6 +1,6 @@
 // src/common/contexts/AlarmContext.jsx (수정)
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { useEffect,createContext, useContext, useState, useCallback } from 'react';
 import { getNotifications, markNotificationRead } from '../../api/alarm';
 
 const AlarmContext = createContext(null);
@@ -9,12 +9,13 @@ export const AlarmProvider = ({ children }) => {
   const [alarms, setAlarms] = useState([]);
   const [unreadAlarmCount, setUnreadAlarmCount] = useState(0);
 
-  const initializeAlarms = useCallback(async () => {
-    try {
+  useEffect(()=>{
+    const fetchNotifications=async ()=>{
+      try{  
       const response = await getNotifications();
-      if (response.code === '200' && response.notifications) {
+      if (response) {
         setAlarms(response.notifications);
-        setUnreadAlarmCount(response.unreadCount || 0);
+        //setUnreadAlarmCount(response.unreadCount || 0);
         console.log(
           '🟢 알림 목록 초기화 성공! 총 알림:',
           response.notifications.length,
@@ -27,6 +28,9 @@ export const AlarmProvider = ({ children }) => {
     } catch (error) {
       console.error('🔴 Context 알림 목록 API 호출 오류:', error.message || error);
     }
+    };
+    fetchNotifications();
+
   }, []);
 
   const markAlarmAsRead = useCallback(async (notificationId) => {
@@ -51,7 +55,6 @@ export const AlarmProvider = ({ children }) => {
   const value = {
     alarms,
     unreadAlarmCount,
-    initializeAlarms,
     markAlarmAsRead,
   };
 
